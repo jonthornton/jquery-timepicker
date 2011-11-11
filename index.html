@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Timepicker for jQuery</title>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="jquery.timepicker.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="jquery.timepicker.css" />
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css" />
+
+	<style type="text/css">
+		body { background: #fff; color: #333; font-family: helvetica, arial, sans-serif; margin: 30px; font-size: 15px; }
+		h1, h2, h3 { color: #000; }
+		h2, h3 { margin: 30px 0 10px 0; }
+		p { margin: 10px 0 20px 0; }
+		input.time { font-size: 13px; }
+		input.time { width: 80px; }
+	</style>
+
+	<script>
+		$(function() {
+			$('#basicExample').timepicker();
+
+			$('#durationExample').timepicker({ 'minTime': '2:00pm', 'showDuration': true });
+
+			$('#onselectExample').timepicker({
+				'onSelect': function() {
+					$('#onselectTarget').text($(this).val());
+				}
+			});
+
+			$('#stepExample1').timepicker({ 'step': 15 });
+			$('#stepExample2').timepicker({ 'step': 60 });
+
+			$('#timeformatExample1').timepicker({ 'timeFormat': 'H:i:s' });
+			$('#timeformatExample2').timepicker({ 'timeFormat': 'h:i A' });
+		});
+	</script>
+</head>
+
+<body>
+
+	<h1>Timepicker Plugin for jQuery</h1>
+
+	<p>For more information, please see <a href="#">jquery.timepicker on GitHub</a>.</p>
+
+	<h3>Basic Example</h3>
+	<p><input id="basicExample" type="text" class="time" /></p>
+
+	<h3>Duration Example</h3>
+	<p><input id="durationExample" type="text" class="time" /></p>
+
+	<h3>onSelect Example</h3>
+	<p>
+		<input id="onselectExample" type="text" class="time" />
+		<span id="onselectTarget" style="margin-left: 30px;"></span>
+	</p>
+
+	<h3>timeFormat Example</h3>
+	<p>timepicker.jquery uses the time portion of <a href="http://php.net/manual/en/function.date.php">PHP's date formatting commands</a>.</p>
+	<p><input id="timeformatExample1" type="text" class="time" /> <input id="timeformatExample2" type="text" class="time" /></p>
+
+	<h3>Step Example</h3>
+	<p><input id="stepExample1" type="text" class="time" /> <input id="stepExample2" type="text" class="time" /></p>
+
+</body>
+
+
+</html>
