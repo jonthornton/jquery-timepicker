@@ -2,7 +2,7 @@
 {
 	var _tzOffset = new Date().getTimezoneOffset();
 	var _defaults =	{
-		cssName: "default",
+		className: null,
 		minTime: null,
 		step: 30,
 		showDuration: false,
@@ -177,6 +177,9 @@
 		list = $('<ul />');
 		list.attr('tabindex', -1);
 		list.addClass('ui-timepicker-list');
+		if (settings.className) {
+			list.addClass(settings.className);
+		}
 
 		var zIndex = self.css('zIndex');
 		zIndex = (zIndex+0 == zIndex) ? zIndex+1 : 2;
