@@ -1,72 +1,169 @@
 <!DOCTYPE html>
-
 <html>
 <head>
-	<title>Timepicker for jQuery</title>
+  <meta charset='utf-8'>
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="jquery.timepicker.js"></script>
+  <title>Timepicker for jQuery</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script type="text/javascript" src="jquery.timepicker.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="jquery.timepicker.css" />
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css" />
+  <link rel="stylesheet" type="text/css" href="jquery.timepicker.css" />
 
-	<style type="text/css">
-		body { background: #fff; color: #333; font-family: helvetica, arial, sans-serif; margin: 30px; font-size: 15px; }
-		h1, h2, h3 { color: #000; }
-		h2, h3 { margin: 30px 0 10px 0; }
-		p { margin: 10px 0 20px 0; }
-		input.time { font-size: 13px; }
-		input.time { width: 80px; }
-	</style>
+  <!-- for future demo
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css" /> -->
 
-	<script>
-		$(function() {
-			$('#basicExample').timepicker();
+  <style type="text/css">
+    body { background: #fff; color: #333; font-family: helvetica, arial, sans-serif; margin: 30px; font-size: 15px; }
+    h1, h2, h3 { color: #000; }
+    h2, h3 { margin: 30px 0 10px 0; }
+    p { margin: 10px 0 20px 0; }
+    input.time { font-size: 13px; }
+    input.time { width: 80px; }
+    a { color: #00f; }
+    h1 a { color: #000; }
 
-			$('#durationExample').timepicker({ 'minTime': '2:00pm', 'showDuration': true });
+    #container { margin: 0 auto; width: 700px; }
+    h1 { font-size: 3.8em; color: #000; margin-bottom: 3px; }
+    h1 .small { font-size: 0.4em; }
+    h1 a { text-decoration: none }
+    h2 { font-size: 1.5em; color: #000; }
+    .byline { font-size: 1.5em; font-weight: bold; margin: 20px 0 0 0; }
+    .byline a { text-decoration: none; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    .download { float: right; }
+    pre { background: #000; color: #fff; padding: 15px;}
+    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+  </style>
 
-			$('#onselectExample').timepicker({
-				'onSelect': function() {
-					$('#onselectTarget').text($(this).val());
-				}
-			});
+  <script>
+    $(function() {
+      $('#basicExample').timepicker();
 
-			$('#stepExample1').timepicker({ 'step': 15 });
-			$('#stepExample2').timepicker({ 'step': 60 });
+      $('#durationExample').timepicker({ 'minTime': '2:00pm', 'showDuration': true });
 
-			$('#timeformatExample1').timepicker({ 'timeFormat': 'H:i:s' });
-			$('#timeformatExample2').timepicker({ 'timeFormat': 'h:i A' });
-		});
-	</script>
+      $('#onselectExample').timepicker({
+        'onSelect': function() {
+          $('#onselectTarget').text($(this).val());
+        }
+      });
+
+      $('#stepExample1').timepicker({ 'step': 15 });
+      $('#stepExample2').timepicker({ 'step': 60 });
+
+      $('#timeformatExample1').timepicker({ 'timeFormat': 'H:i:s' });
+      $('#timeformatExample2').timepicker({ 'timeFormat': 'h:i A' });
+
+      $('#selectButton').click(function(e) {
+      	e.preventDefault();
+      	$('#selectExample').timepicker();
+      	$(this).hide();
+      });
+    });
+  </script>
 </head>
 
 <body>
+  <a href="https://github.com/jonthornton/jquery.timepicker"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-	<h1>Timepicker Plugin for jQuery</h1>
+  <div id="container">
 
-	<p>For more information, please see <a href="#">jquery.timepicker on GitHub</a>.</p>
+    <div class="download">
+      <a href="https://github.com/jonthornton/jquery.timepicker/zipball/master">
+        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
+      <a href="https://github.com/jonthornton/jquery.timepicker/tarball/master">
+        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
+    </div>
 
-	<h3>Basic Example</h3>
-	<p><input id="basicExample" type="text" class="time" /></p>
+    <h1><a href="https://github.com/jonthornton/jquery.timepicker">jquery.timepicker</a></h1>
+    <div class="byline">by <a href="https://github.com/jonthornton">jonthornton</a></span></div>
 
-	<h3>Duration Example</h3>
-	<p><input id="durationExample" type="text" class="time" /></p>
+    <div class="description">
+      A jQuery timepicker plugin inspired by Google Calendar.
+    </div>
 
-	<h3>onSelect Example</h3>
-	<p>
-		<input id="onselectExample" type="text" class="time" />
-		<span id="onselectTarget" style="margin-left: 30px;"></span>
-	</p>
+    <h3>Basic Example</h3>
+    <p><input id="basicExample" type="text" class="time" /></p>
 
-	<h3>timeFormat Example</h3>
-	<p>timepicker.jquery uses the time portion of <a href="http://php.net/manual/en/function.date.php">PHP's date formatting commands</a>.</p>
-	<p><input id="timeformatExample1" type="text" class="time" /> <input id="timeformatExample2" type="text" class="time" /></p>
+    <h3>Duration Example</h3>
+    <p><input id="durationExample" type="text" class="time" /></p>
 
-	<h3>Step Example</h3>
-	<p><input id="stepExample1" type="text" class="time" /> <input id="stepExample2" type="text" class="time" /></p>
+    <h3>onSelect Example</h3>
+    <p>
+      <input id="onselectExample" type="text" class="time" />
+      <span id="onselectTarget" style="margin-left: 30px;"></span>
+    </p>
+
+    <h3>timeFormat Example</h3>
+    <p>timepicker.jquery uses the time portion of <a href="http://php.net/manual/en/function.date.php">PHP's date formatting commands</a>.</p>
+    <p><input id="timeformatExample1" type="text" class="time" /> <input id="timeformatExample2" type="text" class="time" /></p>
+
+    <h3>Step Example</h3>
+    <p><input id="stepExample1" type="text" class="time" /> <input id="stepExample2" type="text" class="time" /></p>
+
+    <h3>Select Example</h3>
+    <p><select id="selectExample" class="time">
+	    	<option value="12:00am">12:00am</option>
+	    	<option value="1:00am">1:00am</option>
+	    	<option value="2:00am">2:00am</option>
+	    	<option value="3:00am">3:00am</option>
+	    	<option value="4:00am">4:00am</option>
+	    	<option value="5:00am">5:00am</option>
+	    	<option value="6:00am">6:00am</option>
+	    	<option value="7:00am">7:00am</option>
+	    	<option value="8:00am">8:00am</option>
+	    	<option value="9:00am">9:00am</option>
+	    	<option value="10:00am">10:00am</option>
+	    	<option value="11:00am">11:00am</option>
+	    	<option value="12:00pm">12:00pm</option>
+	    	<option value="1:00pm">1:00pm</option>
+	    	<option value="2:00pm">2:00pm</option>
+	    	<option value="3:00pm">3:00pm</option>
+	    	<option value="4:00pm">4:00pm</option>
+	    	<option value="5:00pm">5:00pm</option>
+	    	<option value="6:00pm">6:00pm</option>
+	    	<option value="7:00pm">7:00pm</option>
+	    	<option value="8:00pm">8:00pm</option>
+	    	<option value="9:00pm">9:00pm</option>
+	    	<option value="10:00pm">10:00pm</option>
+	    	<option value="11:00pm">11:00pm</option>
+	    </select> <button id="selectButton">Convert to timepicker</button></p>
+
+      <h2>Contact</h2>
+      <p>Jon Thornton ([lastname].[firstname]@gmail.com)</p>
+
+
+    <h2>Download</h2>
+    <p>
+      You can download this project in either
+      <a href="https://github.com/jonthornton/jquery.timepicker/zipball/master">zip</a> or
+      <a href="https://github.com/jonthornton/jquery.timepicker/tarball/master">tar formats.
+    </p>
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      by running:
+      <pre>$ git clone git://github.com/jonthornton/jquery.timepicker</pre>
+    </p>
+
+    <div class="footer">
+      get the source code on GitHub : <a href="https://github.com/jonthornton/jquery.timepicker">jonthornton/jquery.timepicker</a>
+    </div>
+
+  </div>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-15605525-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 
 </body>
-
-
 </html>

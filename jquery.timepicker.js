@@ -1,4 +1,3 @@
-
 (function($)
 {
 	var _tzOffset = new Date().getTimezoneOffset();
@@ -97,7 +96,7 @@
 				list = self.siblings('.ui-timepicker-list');
 			}
 
-			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height()) {
+			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
 				// position the dropdown on top
 				list.css({"top":self.position().top - list.outerHeight()});
 			} else {
