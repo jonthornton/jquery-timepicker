@@ -10,4 +10,4 @@ jquery.timepicker is a timepicker plugin for jQuery inspired by Google Calendar.
 
 - - -
 
-This software is made available under the open source MIT License. &copy; 2011 [Jon Thornton](http://www.jonthornton.com)
+This software is made available under the open source MIT License. &copy; 2011 [Jon Thornton](http://www.jonthornton.com), contributions from [Anthony Fojas](https://github.com/fojas)
