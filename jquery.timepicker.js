@@ -137,7 +137,7 @@ requires jQuery 1.6+
 			if (typeof key == 'object') {
 				settings = $.extend(settings, key);
 
-			} else if (typeof key == 'string' && value) {
+			} else if (typeof key == 'string' && typeof value != 'undefined') {
 				settings[key] = value;
 
 			} else if (typeof key == 'string') {
