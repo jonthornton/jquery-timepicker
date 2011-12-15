@@ -68,7 +68,6 @@ requires jQuery 1.6+
 				$("body").attr("tabindex", -1).focusin(function(e) {
 					if ($(e.target).closest('.ui-timepicker-container').length == 0) {
 						methods.hide();
-						e.stopPropagation();
 					}
 				});
 
@@ -77,10 +76,6 @@ requires jQuery 1.6+
 
 		show: function(e)
 		{
-			if (e) {
-				e.stopPropagation();
-			}
-
 			var self = $(this);
 			var list = self.siblings('.ui-timepicker-list');
 
