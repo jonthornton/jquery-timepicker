@@ -1,3 +1,11 @@
+/************************
+jquery-timepicker
+http://jonthornton.github.com/jquery-timepicker/
+
+requires jQuery 1.6+
+************************/
+
+
 (function($)
 {
 	var _tzOffset = new Date().getTimezoneOffset();
