@@ -12,6 +12,7 @@ requires jQuery 1.6+
 	var _defaults =	{
 		className: null,
 		minTime: null,
+		maxTime: null,
 		step: 30,
 		showDuration: false,
 		timeFormat: 'g:ia',
@@ -50,6 +51,10 @@ requires jQuery 1.6+
 
 				if (settings.minTime) {
 					settings.minTime = _time2int(settings.minTime);
+				}
+				
+				if (settings.maxTime) {
+					settings.maxTime = _time2int(settings.maxTime);
 				}
 
 				self.data("settings", settings);
@@ -155,6 +160,10 @@ requires jQuery 1.6+
 			if (settings.minTime) {
 				settings.minTime = _time2int(settings.minTime);
 			}
+			
+			if (settings.maxTime) {
+				settings.maxTime = _time2int(settings.maxTime);
+			}
 
 			self.data("settings", settings);
 			list.remove();
@@ -201,8 +210,9 @@ requires jQuery 1.6+
 		}
 
 		var start = (settings.minTime !== null) ? settings.minTime : 0;
+		var end = (settings.maxTime !== null) ? settings.maxTime : start+86340;
 
-		for (var i=start; i < start+86400; i += settings.step*60) {
+		for (var i=start; i <= end; i += settings.step*60) {
 			var timeInt = i%86400;
 			var row = $('<li />');
 			row.data('time', timeInt)
