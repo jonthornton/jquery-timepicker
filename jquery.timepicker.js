@@ -15,6 +15,7 @@ requires jQuery 1.6+
 		step: 30,
 		showDuration: false,
 		timeFormat: 'g:ia',
+		scrollDefaultNow: false,
 		onSelect: function() { }
 	};
 
@@ -109,9 +110,16 @@ requires jQuery 1.6+
 
 			list.show();
 
+			var settings = self.data("settings");
 			// position scrolling
 			var selected = list.find('.ui-timepicker-selected');
-			if (selected.length) {
+
+			if (!selected.length && settings.scrollDefaultNow) {
+				var nowTime = _time2int(new Date());
+				selected = _findRow(self, list, nowTime);
+			}
+
+			if (selected && selected.length) {
 				var topOffset = list.scrollTop() + selected.position().top - selected.outerHeight();
 				list.scrollTop(topOffset);
 			}
@@ -225,19 +233,34 @@ requires jQuery 1.6+
 		});
 	};
 
+	function _findRow(self, list, value)
+	{
+		if (!value && value !== 0) {
+			return false;
+		}
+
+		var settings = self.data("settings");
+		var out = false;
+
+		// loop through the menu items
+		list.find('li').each(function(i, obj) {
+			var jObj = $(obj);
+
+			if (Math.abs(jObj.data('time') - value) < settings.step*60) {
+				out = jObj;
+				return false;
+			}
+		});
+
+		return out;
+	}
+
 	function _setSelected(self, list)
 	{
 		var timeValue = _time2int(self.val());
 
-		// loop through the menu items and apply selected class if we find a match
-		list.find('li').each(function(i, obj) {
-			var jObj = $(obj);
-
-			if (jObj.data('time') === timeValue) {
-				jObj.addClass('ui-timepicker-selected');
-				return false;
-			}
-		});
+		var selected = _findRow(self, list, timeValue);
+		if (selected) selected.addClass('ui-timepicker-selected')
 	}
 
 	function _keyhandler(e)
@@ -342,6 +365,7 @@ requires jQuery 1.6+
 		}
 
 		settings.onSelect.call(self);
+		self.trigger('change');
 	};
 
 	function _int2duration(seconds)
@@ -422,6 +446,10 @@ requires jQuery 1.6+
 	{
 		if (timeString == '') return null;
 		if (timeString+0 == timeString) return timeString;
+
+		if (typeof(timeString) == 'object') {
+			timeString = timeString.getHours()+':'+timeString.getMinutes();
+		}
 
 		var d = new Date(0);
 		var time = timeString.toLowerCase().match(/(\d+)(?::(\d\d))?\s*([pa]?)/);

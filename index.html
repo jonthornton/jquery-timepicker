@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +6,7 @@
 
   <title>Timepicker for jQuery</title>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-  <script type="text/javascript" src="jquery.timepicker.js"></script>
+  <script type="text/javascript" src="jquery.timepicker.min.js"></script>
 
   <link rel="stylesheet" type="text/css" href="jquery.timepicker.css" />
 
@@ -13,9 +14,10 @@
   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/smoothness/jquery-ui.css" />
 
   <style type="text/css">
-	body { background: #fff; color: #333; font-family: helvetica, arial, sans-serif; margin: 30px; font-size: 15px; }
+	body { background: #fff; color: #333; font-family: helvetica, arial, sans-serif; margin: 30px; font-size: 15px; line-height: 145%; }
 	h1, h2, h3 { color: #000; }
 	h2, h3 { margin: 30px 0 10px 0; }
+	h2:first-child, h3:first-child { margin-top: 0; }
 	p, .p { margin: 10px 0 20px 0; }
 	input.time, input.date { font-size: 13px; }
 	input.time { width: 80px; }
@@ -24,19 +26,21 @@
 	h1 a { color: #000; }
 	image { border: 0; }
 
-	.example { border: 1px solid #ddd; background: #f4f4f4; padding: 10px; margin: 10px 0 20px 0; }
+	.example { border: 1px solid #ddd; background: #f4f4f4; padding: 10px; margin: 10px 0 30px 0; }
 	.example h3 { margin: 0 0 10px 0; }
 	.example p { margin: 20px 0 0 0; }
 
+	.code { font-family: Consolas, Monaco, "Courier New", Courier; background: #fff; color: #888; }
+
 	#container { margin: 0 auto; width: 700px; }
-	h1 { font-size: 3.8em; color: #000; margin-bottom: 3px; }
+	h1 { font-size: 3.8em; color: #000; margin: 0 0 3px 0; }
 	h1 .small { font-size: 0.4em; }
 	h1 a { text-decoration: none }
 	h2 { font-size: 1.5em; color: #000; }
 	.byline { font-size: 1.5em; font-weight: bold; margin: 20px 0 0 0; }
 	.byline a { text-decoration: none; }
-	.description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-	.download { float: right; }
+	.description { font-size: 1.2em; margin: 20px 0 40px 0; font-style: italic;}
+	#download { float: right; padding-top: 20px; }
 	pre { background: #000; color: #fff; padding: 15px;}
 	hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
 	.footer { text-align:center; padding-top:30px; font-style: italic; }
@@ -47,23 +51,19 @@
 </head>
 
 <body>
-  <a href="https://github.com/jonthornton/jquery-timepicker"><img style="position: absolute; top: 0; right: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
   <div id="container">
 
-	<div class="download">
-	  <a href="https://github.com/jonthornton/jquery.timepicker/zipball/master">
-		<img width="90" src="https://github.com/images/modules/download/zip.png" alt="download zip" /></a>
-	  <a href="https://github.com/jonthornton/jquery.timepicker/tarball/master">
-		<img  width="90" src="https://github.com/images/modules/download/tar.png" alt="download tar" /></a>
+	<div id="download">
+	  <a href="https://github.com/jonthornton/jquery-timepicker">View source on GitHub</a><br /> or download below
 	</div>
 
 	<h1><a href="https://github.com/jonthornton/jquery-timepicker">jquery.timepicker</a></h1>
-	<div class="byline">by <a href="https://github.com/jonthornton">jonthornton</a></div>
-
 	<div class="description">
 	  A jQuery timepicker plugin inspired by Google Calendar.
 	</div>
+
+
 
 
 	<div class="example">
@@ -75,7 +75,31 @@
 
 		<h3>Basic Example</h3>
 		<p><input id="basicExample" type="text" class="time" /></p>
+
+		<pre class="code">$('#basicExample').timepicker();</pre>
 	</div>
+
+
+
+
+
+	<div class="example">
+		<script>
+		  $(function() {
+			$('#defaultValueExample').timepicker({ 'scrollDefaultNow': true });
+		  });
+		</script>
+
+		<h3>Scroll Default Example</h3>
+		<p>Set the scroll position to local time if no value selected.</p>
+		<p><input id="defaultValueExample" type="text" class="time" /></p>
+
+		<pre class="code">$('#defaultValueExample').timepicker({ 'scrollDefaultNow': true });</pre>
+	</div>
+
+
+
+
 
 	<div class="example">
 		<script>
@@ -85,8 +109,17 @@
 		</script>
 
 		<h3>Duration Example</h3>
+		<p>Set a starting time and see duration from that starting time.</p>
 		<p><input id="durationExample" type="text" class="time" /></p>
+
+		<pre class="code">$('#durationExample').timepicker({
+	'minTime': '2:00pm',
+	'showDuration': true
+});</pre>
 	</div>
+
+
+
 
 	<div class="example">
 		<script>
@@ -100,11 +133,22 @@
 		</script>
 
 		<h3>onSelect Example</h3>
+		<p>Trigger an event after selecting a value. Fires before the input onchange event.</p>
 		<p>
 		  <input id="onselectExample" type="text" class="time" />
 		  <span id="onselectTarget" style="margin-left: 30px;"></span>
 		</p>
+
+		<pre class="code">$('#onselectExample').timepicker({
+  'onSelect': function() {
+	$('#onselectTarget').text($(this).val());
+  }
+});</pre>
 	</div>
+
+
+
+
 
 	<div class="example">
 		<script>
@@ -117,19 +161,34 @@
 		<h3>timeFormat Example</h3>
 		<p>timepicker.jquery uses the time portion of <a href="http://php.net/manual/en/function.date.php">PHP's date formatting commands</a>.</p>
 		<p><input id="timeformatExample1" type="text" class="time" /> <input id="timeformatExample2" type="text" class="time" /></p>
+
+		<pre class="code">$('#timeformatExample1').timepicker({ 'timeFormat': 'H:i:s' });
+$('#timeformatExample2').timepicker({ 'timeFormat': 'h:i A' });</pre>
 	</div>
+
+
+
+
 
 	<div class="example">
 		<script>
 		  $(function() {
 			$('#stepExample1').timepicker({ 'step': 15 });
-			$('#stepExample2').timepicker({ 'step': 60, 'className': 'foobar' });
+			$('#stepExample2').timepicker({ 'step': 60 });
 		  });
 		</script>
 
 		<h3>Step Example</h3>
+		<p>Generate drop-down options with varying levels of precision.</p>
 		<p><input id="stepExample1" type="text" class="time" /> <input id="stepExample2" type="text" class="time" /></p>
+
+		<pre class="code">$('#stepExample1').timepicker({ 'step': 15 });
+$('#stepExample2').timepicker({ 'step': 60 });</pre>
 	</div>
+
+
+
+
 
 	<div class="example">
 		<script>
@@ -143,6 +202,7 @@
 		</script>
 
 		<h3>Select Example</h3>
+		<p>Use jquery-timepicker with &lt;select&gt; elements too.</p>
 		<p><select id="selectExample" class="time">
 				<option value="12:00am">12:00am</option>
 				<option value="1:00am">1:00am</option>
@@ -171,6 +231,10 @@
 			</select> <button id="selectButton">Convert to timepicker</button></p>
 	</div>
 
+
+
+
+
 	<div class="example">
 		<script src="datepair.js"></script>
 		<h3>Datepair Example</h3>
@@ -181,10 +245,26 @@
 			<input type="text" class="time end" />
 			<input type="text" class="date end" />
 		</p>
+
+		<p>Datepair source available <a href="http://jonthornton.github.com/jquery-timepicker/datepair.js">here</a>.</p>
+	</div>
+
+
+
+
+
+	<div class="example" style="background: #ffd;">
+		<h2>Want to get paid to work on stuff like this?</h2>
+
+		<p>Shameless plug: <a href="http://www.parkwhiz.com">ParkWhiz</a> is looking for talented
+			<a href="http://www.parkwhiz.com/about/jobs/designer/">designers</a>
+			and <a href="http://www.parkwhiz.com/about/jobs/developer/">developers</a> to help us drag the parking industry
+			out of the Stone Age. Visit ParkWhiz's <a href="http://www.parkwhiz.com/about/jobs/">jobs page</a> or email
+			<a href="mailto:jobs@parkwhiz.com">jobs@parkwhiz.com</a> and introduce yourself!</p>
 	</div>
 
 	<h2>Contact</h2>
-	<p><a href="http://tumblr.jonthornton.com">Jon Thornton</a> ([lastname].[firstname]@gmail.com)</p>
+	<p><a href="http://jonthornton.com">Jon Thornton</a> &mdash; [lastname].[firstname]@gmail.com</p>
 
 
 	<h2>Download</h2>
@@ -200,7 +280,7 @@
 	</div>
 
 	<div class="footer">
-	  &copy; 2011 Jon Thornton
+	  &copy; 2011 <a href="http://jonthornton.com">Jon Thornton</a>
 	</div>
 
   </div>
