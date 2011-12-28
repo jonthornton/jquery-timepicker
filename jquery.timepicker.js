@@ -246,7 +246,8 @@ requires jQuery 1.6+
 		list.find('li').each(function(i, obj) {
 			var jObj = $(obj);
 
-			if (Math.abs(jObj.data('time') - value) < settings.step*60) {
+			// check if the value is less than half a step from each row
+			if (Math.abs(jObj.data('time') - value) <= settings.step*30) {
 				out = jObj;
 				return false;
 			}
