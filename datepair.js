@@ -1,4 +1,5 @@
 $(function() {
+
 	$('.datepair input.date').each(function(){
 		var $this = $(this);
 		var opts = {};
@@ -37,8 +38,9 @@ $(function() {
 		var dateDelta = 0;
 
 		if (startDateInput.length && endDateInput.length) {
-			var startDate = new Date(startDateInput.val());
-			var endDate =  new Date(endDateInput.val());
+			var startDate = new Date(startDateInput.datepicker( "getDate" ));
+			var endDate =  new Date(endDateInput.datepicker( "getDate" ));
+
 			dateDelta = endDate.getTime() - startDate.getTime();
 
 			container.data('dateDelta', dateDelta);
@@ -81,9 +83,9 @@ $(function() {
 			return;
 		}
 
-		var startDate = new Date(start.val());
-		var endDate =  new Date(end.val());
-
+		var startDate = new Date(start.datepicker( "getDate" ));
+		var endDate =  new Date(end.datepicker( "getDate" ));
+                
 		var oldDelta = container.data('dateDelta');
 
 		if (oldDelta && target.hasClass('start')) {
@@ -179,7 +181,7 @@ $(function() {
 
 		if (endDateAdvance != 0) {
 			if (dateDelta || dateDelta === 0) {
-				var endDate =  new Date(endInput.val());
+				var endDate =  new Date(endInput.datepicker( "getDate" ));
 				var newEnd = new Date(endDate.getTime() + endDateAdvance);
 
 				endInput.datepicker('setDate', newEnd);
