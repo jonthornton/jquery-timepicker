@@ -104,16 +104,17 @@
 	<div class="example">
 		<script>
 		  $(function() {
-			$('#durationExample').timepicker({ 'minTime': '2:00pm', 'showDuration': true });
+			$('#durationExample').timepicker({ 'minTime': '2:00pm', 'maxTime': '11:30pm', 'showDuration': true });
 		  });
 		</script>
 
 		<h3>Duration Example</h3>
-		<p>Set a starting time and see duration from that starting time.</p>
+		<p>Set a starting time and see duration from that starting time. You can optionally set an maxTime as well.</p>
 		<p><input id="durationExample" type="text" class="time" /></p>
 
 		<pre class="code">$('#durationExample').timepicker({
 	'minTime': '2:00pm',
+	'maxTime': '11:30pm',
 	'showDuration': true
 });</pre>
 	</div>

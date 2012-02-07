@@ -52,7 +52,7 @@ requires jQuery 1.6+
 				if (settings.minTime) {
 					settings.minTime = _time2int(settings.minTime);
 				}
-				
+
 				if (settings.maxTime) {
 					settings.maxTime = _time2int(settings.maxTime);
 				}
@@ -127,6 +127,8 @@ requires jQuery 1.6+
 			if (selected && selected.length) {
 				var topOffset = list.scrollTop() + selected.position().top - selected.outerHeight();
 				list.scrollTop(topOffset);
+			} else {
+				list.scrollTop(0);
 			}
 		},
 
@@ -160,7 +162,7 @@ requires jQuery 1.6+
 			if (settings.minTime) {
 				settings.minTime = _time2int(settings.minTime);
 			}
-			
+
 			if (settings.maxTime) {
 				settings.maxTime = _time2int(settings.maxTime);
 			}
@@ -210,7 +212,12 @@ requires jQuery 1.6+
 		}
 
 		var start = (settings.minTime !== null) ? settings.minTime : 0;
-		var end = (settings.maxTime !== null) ? settings.maxTime : start+86340;
+		var end = (settings.maxTime !== null) ? settings.maxTime : start+84600;
+
+		if (end <= start) {
+			// make sure the end time is greater than start time, otherwise there will be no list to show
+			end += 86400;
+		}
 
 		for (var i=start; i <= end; i += settings.step*60) {
 			var timeInt = i%86400;
