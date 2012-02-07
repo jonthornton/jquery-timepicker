@@ -119,7 +119,7 @@ requires jQuery 1.6+
 			// position scrolling
 			var selected = list.find('.ui-timepicker-selected');
 
-			if (!selected.length && settings.scrollDefaultNow) {
+			if (!selected.length && settings.minTime === null && settings.scrollDefaultNow) {
 				var nowTime = _time2int(new Date());
 				selected = _findRow(self, list, nowTime);
 			}

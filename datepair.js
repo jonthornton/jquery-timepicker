@@ -2,7 +2,7 @@ $(function() {
 
 	$('.datepair input.date').each(function(){
 		var $this = $(this);
-		var opts = {};
+		var opts = { 'dateFormat': 'm/d/yy' };
 
 		if ($this.hasClass('future')) {
 			opts.minDate = new Date();
@@ -17,7 +17,7 @@ $(function() {
 
 	$('.datepair input.time').each(function() {
 		var $this = $(this);
-		var opts = { 'showDuration': true, 'timeFormat': 'g:ia' };
+		var opts = { 'showDuration': true, 'timeFormat': 'g:ia', 'scrollDefaultNow': true };
 
 		if ($this.hasClass('start') || $this.hasClass('end')) {
 			opts.onSelect = doDatepair;
@@ -85,7 +85,7 @@ $(function() {
 
 		var startDate = new Date(start.datepicker( "getDate" ));
 		var endDate =  new Date(end.datepicker( "getDate" ));
-                
+
 		var oldDelta = container.data('dateDelta');
 
 		if (oldDelta && target.hasClass('start')) {
