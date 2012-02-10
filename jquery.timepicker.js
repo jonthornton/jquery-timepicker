@@ -57,7 +57,7 @@ requires jQuery 1.6+
 				if (settings.maxTime) {
 					settings.maxTime = _time2int(settings.maxTime);
 				}
-				
+
 				if (settings.durationTime) {
 					settings.durationTime = _time2int(settings.durationTime);
 				}
@@ -171,11 +171,11 @@ requires jQuery 1.6+
 			if (settings.maxTime) {
 				settings.maxTime = _time2int(settings.maxTime);
 			}
-			
+
 			if (settings.durationTime) {
 				settings.durationTime = _time2int(settings.durationTime);
 			}
-			
+
 			self.data("settings", settings);
 			list.remove();
 		},
@@ -235,13 +235,13 @@ requires jQuery 1.6+
 			row.text(_int2time(timeInt, settings.timeFormat));
 
 			if (settings.minTime !== null && settings.showDuration) {
-			    
+
 			    if (settings.durationTime !== null) {
 			        durStart = settings.durationTime
 			    } else  {
 			        durStart = settings.minTime
 			    };
-			    
+
 				var duration = $('<span />');
 				duration.addClass('ui-timepicker-duration');
 				duration.text(' ('+_int2duration(i - durStart)+')');
@@ -302,6 +302,14 @@ requires jQuery 1.6+
 		var self = $(this);
 		var list = self.siblings('.ui-timepicker-list');
 
+		if (!list.is(':visible')) {
+			if (e.keyCode == 40) {
+				self.focus();
+			} else {
+				return true;
+			}
+		};
+
 		switch (e.keyCode) {
 
 			case 13: // return
@@ -314,7 +322,17 @@ requires jQuery 1.6+
 			case 38: // up
 				var selected = list.find('.ui-timepicker-selected');
 
-				if (selected.length && !selected.is(':first-child')) {
+				if (!selected.length) {
+					var selected;
+					list.children().each(function(i, obj) {
+						if ($(obj).position().top > 0) {
+							selected = $(obj);
+							return false;
+						}
+					});
+					selected.addClass('ui-timepicker-selected');
+
+				} else if (!selected.is(':first-child')) {
 					selected.removeClass('ui-timepicker-selected');
 					selected.prev().addClass('ui-timepicker-selected');
 
@@ -326,22 +344,24 @@ requires jQuery 1.6+
 				break;
 
 			case 40: // down
-
-				if (!list.is(':visible')) {
-					self.focus();
-				}
-
 				var selected = list.find('.ui-timepicker-selected');
 
 				if (selected.length == 0) {
-					list.children().first().addClass('ui-timepicker-selected');
+					var selected;
+					list.children().each(function(i, obj) {
+						if ($(obj).position().top > 0) {
+							selected = $(obj);
+							return false;
+						}
+					});
+
+					selected.addClass('ui-timepicker-selected');
 				} else if (!selected.is(':last-child')) {
 					selected.removeClass('ui-timepicker-selected');
 					selected.next().addClass('ui-timepicker-selected');
 
 					if (selected.next().position().top + 2*selected.outerHeight() > list.outerHeight()) {
 						list.scrollTop(list.scrollTop() + selected.outerHeight());
-					} else {
 					}
 				}
 
