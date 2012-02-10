@@ -220,6 +220,7 @@ requires jQuery 1.6+
 			list.addClass('ui-timepicker-with-duration');
 		}
 
+		var durStart = (settings.durationTime !== null) ? settings.durationTime : settings.minTime;
 		var start = (settings.minTime !== null) ? settings.minTime : 0;
 		var end = (settings.maxTime !== null) ? settings.maxTime : start+84600;
 
@@ -235,9 +236,6 @@ requires jQuery 1.6+
 			row.text(_int2time(timeInt, settings.timeFormat));
 
 			if (settings.minTime !== null && settings.showDuration) {
-				
-				var durStart = (settings.durationTime !== null) ? settings.durationTime : settings.minTime;
-				
 				var duration = $('<span />');
 				duration.addClass('ui-timepicker-duration');
 				duration.text(' ('+_int2duration(i - durStart)+')');
