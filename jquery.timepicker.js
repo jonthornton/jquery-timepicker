@@ -13,6 +13,7 @@ requires jQuery 1.6+
 		className: null,
 		minTime: null,
 		maxTime: null,
+		durationTime: null,
 		step: 30,
 		showDuration: false,
 		timeFormat: 'g:ia',
@@ -55,6 +56,10 @@ requires jQuery 1.6+
 
 				if (settings.maxTime) {
 					settings.maxTime = _time2int(settings.maxTime);
+				}
+				
+				if (settings.durationTime) {
+					settings.durationTime = _time2int(settings.durationTime);
 				}
 
 				self.data("settings", settings);
@@ -166,7 +171,11 @@ requires jQuery 1.6+
 			if (settings.maxTime) {
 				settings.maxTime = _time2int(settings.maxTime);
 			}
-
+			
+			if (settings.durationTime) {
+				settings.durationTime = _time2int(settings.durationTime);
+			}
+			
 			self.data("settings", settings);
 			list.remove();
 		},
@@ -226,9 +235,16 @@ requires jQuery 1.6+
 			row.text(_int2time(timeInt, settings.timeFormat));
 
 			if (settings.minTime !== null && settings.showDuration) {
+			    
+			    if (settings.durationTime !== null) {
+			        durStart = settings.durationTime
+			    } else  {
+			        durStart = settings.minTime
+			    };
+			    
 				var duration = $('<span />');
 				duration.addClass('ui-timepicker-duration');
-				duration.text(' ('+_int2duration(i - settings.minTime)+')');
+				duration.text(' ('+_int2duration(i - durStart)+')');
 				row.append(duration)
 			}
 
