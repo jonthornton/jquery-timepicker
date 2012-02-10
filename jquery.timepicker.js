@@ -259,6 +259,7 @@ requires jQuery 1.6+
 			$(this).addClass('ui-timepicker-selected');
 
 			_selectValue(self);
+			list.hide();
 		});
 	};
 
