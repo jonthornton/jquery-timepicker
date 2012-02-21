@@ -9,6 +9,7 @@ requires jQuery 1.6+
 (function($)
 {
 	var _tzOffset = new Date().getTimezoneOffset();
+	var _ONE_DAY = 86400;
 	var _defaults =	{
 		className: null,
 		minTime: null,
@@ -222,15 +223,15 @@ requires jQuery 1.6+
 
 		var durStart = (settings.durationTime !== null) ? settings.durationTime : settings.minTime;
 		var start = (settings.minTime !== null) ? settings.minTime : 0;
-		var end = (settings.maxTime !== null) ? settings.maxTime : start+84600;
+		var end = (settings.maxTime !== null) ? settings.maxTime : (start + _ONE_DAY - 1);
 
 		if (end <= start) {
 			// make sure the end time is greater than start time, otherwise there will be no list to show
-			end += 86400;
+			end += _ONE_DAY;
 		}
 
 		for (var i=start; i <= end; i += settings.step*60) {
-			var timeInt = i%86400;
+			var timeInt = i%_ONE_DAY;
 			var row = $('<li />');
 			row.data('time', timeInt)
 			row.text(_int2time(timeInt, settings.timeFormat));
