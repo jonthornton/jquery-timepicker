@@ -1,4 +1,4 @@
-.ui-timepicker-list { overflow-y: auto; height: 150px; width: 6.5em; background: #fff; border: 1px solid #ddd; margin: 0; padding: 0; }
+.ui-timepicker-list { overflow-y: auto; height: 150px; width: 6.5em; background: #fff; border: 1px solid #ddd; margin: 0; padding: 0; list-style: none; }
 .ui-timepicker-list.ui-timepicker-with-duration { width: 11em; }
 .ui-timepicker-duration { margin-left: 5px; color: #888; }
 .ui-timepicker-list:hover .ui-timepicker-duration { color: #888; }
