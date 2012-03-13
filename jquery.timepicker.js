@@ -8,7 +8,7 @@ requires jQuery 1.6+
 
 (function($)
 {
-	var _tzOffset = new Date().getTimezoneOffset();
+	var _baseDate = new Date(); _baseDate.setHours(0); _baseDate.setMinutes(0);
 	var _ONE_DAY = 86400;
 	var _defaults =	{
 		className: null,
@@ -434,7 +434,7 @@ requires jQuery 1.6+
 
 	function _int2time(seconds, format)
 	{
-		var time = new Date((seconds + _tzOffset*60)*1000);
+		var time = new Date(_baseDate.valueOf() + (seconds*1000));
 		var output = '';
 
 		for (var i=0; i<format.length; i++) {
