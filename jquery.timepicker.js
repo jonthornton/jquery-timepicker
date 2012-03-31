@@ -214,7 +214,7 @@ requires jQuery 1.6+
 		}
 
 		var zIndex = self.css('zIndex');
-		zIndex = (zIndex+0 == zIndex) ? zIndex+1 : 2;
+		zIndex = (zIndex+0 == zIndex) ? zIndex+2 : 2;
 		list.css({'display':'none', 'position': 'absolute', "left":(self.position().left), 'zIndex': zIndex });
 
 		if (settings.minTime !== null && settings.showDuration) {
