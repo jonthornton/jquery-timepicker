@@ -116,7 +116,7 @@ requires jQuery 1.6+
 				list.css({"top":self.position().top - list.outerHeight()});
 			} else {
 				// put it under the input
-				list.css({"top":self.position().top+self.outerHeight(true)});
+				list.css({"top":self.position().top+self.outerHeight()});
 			}
 
 			list.show();
