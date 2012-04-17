@@ -1,7 +1,7 @@
 Timepicker Plugin for jQuery
 ========================
 
-[<img src="http://jonthornton.github.com/jquery-timepicker/screenshot.png" alt="timepicker screenshot" />](http://jonthornton.github.com/jquery-timepicker)
+[<img src="http://jonthornton.github.com/jquery-timepicker/lib/screenshot.png" alt="timepicker screenshot" />](http://jonthornton.github.com/jquery-timepicker)
 
 [See a demo and examples here](http://jonthornton.github.com/jquery-timepicker)
 
