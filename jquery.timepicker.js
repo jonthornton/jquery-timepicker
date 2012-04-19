@@ -125,9 +125,12 @@ requires jQuery 1.6+
 			// position scrolling
 			var selected = list.find('.ui-timepicker-selected');
 
-			if (!selected.length && settings.minTime === null && settings.scrollDefaultNow) {
-				var nowTime = _time2int(new Date());
-				selected = _findRow(self, list, nowTime);
+			if (!selected.length) {
+				if (self.val()) {
+					selected = _findRow(self, list, _time2int(self.val()));
+				} else if (settings.minTime === null && settings.scrollDefaultNow) {
+					selected = _findRow(self, list, _time2int(new Date()));
+				}
 			}
 
 			if (selected && selected.length) {
@@ -290,7 +293,7 @@ requires jQuery 1.6+
 		var timeValue = _time2int(self.val());
 
 		var selected = _findRow(self, list, timeValue);
-		if (selected) selected.addClass('ui-timepicker-selected')
+		if (selected && selected.data('time') == timeValue) selected.addClass('ui-timepicker-selected')
 	}
 
 	function _keyhandler(e)
