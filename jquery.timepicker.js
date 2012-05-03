@@ -19,6 +19,7 @@ requires jQuery 1.6+
 		showDuration: false,
 		timeFormat: 'g:ia',
 		scrollDefaultNow: false,
+		scrollDefaultTime: false,
 		onSelect: function() { }
 	};
 
@@ -130,6 +131,8 @@ requires jQuery 1.6+
 					selected = _findRow(self, list, _time2int(self.val()));
 				} else if (settings.minTime === null && settings.scrollDefaultNow) {
 					selected = _findRow(self, list, _time2int(new Date()));
+				} else if (settings.scrollDefaultTime !== false) {
+				  selected = _findRow(self, list, _time2int(settings.scrollDefaultTime));
 				}
 			}
 
