@@ -8,7 +8,7 @@ requires jQuery 1.6+
 
 !(function($)
 {
-	var _baseDate = new Date(); _baseDate.setHours(0); _baseDate.setMinutes(0);
+	var _baseDate = new Date(); _baseDate.setHours(0); _baseDate.setMinutes(0); _baseDate.setSeconds(0);
 	var _ONE_DAY = 86400;
 	var _defaults =	{
 		className: null,
@@ -142,6 +142,8 @@ requires jQuery 1.6+
 			} else {
 				list.scrollTop(0);
 			}
+
+			self.trigger('showTimepicker');
 		},
 
 		hide: function(e)
@@ -152,6 +154,7 @@ requires jQuery 1.6+
 				_selectValue(self);
 
 				list.hide();
+				self.trigger('hideTimepicker');
 			});
 		},
 
@@ -190,6 +193,11 @@ requires jQuery 1.6+
 		getSecondsFromMidnight: function()
 		{
 			return _time2int($(this).val());
+		},
+
+		getTime: function()
+		{
+			return new Date(_baseDate.valueOf() + (_time2int($(this).val())*1000));
 		},
 
 		setTime: function(value)

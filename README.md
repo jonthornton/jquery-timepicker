@@ -58,20 +58,40 @@ If no time value is selected, set the dropdown scroll position to show the curre
 Methods
 -------
 
+- **getTime**
+Get the time using a Javascript Date object, relative to today's date.
+
+	```javascript
+	$('#getTimeExample').timepicker('getTime');
+	```
+
+	You can get the time as a string using jQuery's built-in ```val()``` function:
+
+	```javascript
+	$('#getTimeExample').val();
+	```
+
+- **getSecondsFromMidnight**
+Get the time as an integer, expressed as seconds from 12am.
+
+	```javascript
+	$('#getTimeExample').timepicker('getSecondsFromMidnight');
+	```
+
 - **setTime**
 Set the time using a Javascript Date object.
 
-```javascript
-$('#setTimeExample').timepicker('setTime', new Date());
-```
+	```javascript
+	$('#setTimeExample').timepicker('setTime', new Date());
+	```
 
 Events
 ------
 
-- **show**
+- **showTimepicker**
 Called when the timepicker is shown.
 
-- **hide**
+- **hideTimepicker**
 Called when the timepicker is closed.
 
 - **changeTime**

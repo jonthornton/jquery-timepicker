@@ -51,7 +51,7 @@
 	<div class="example">
 		<script>
 		  $(function() {
-			$('#defaultValueExample').timepicker({ 'scrollDefaultNow': true });
+			$('#defaultValueExample').timepicker({ 'scrollDefaultNow': true })
 		  });
 		</script>
 
@@ -70,7 +70,7 @@
 		<script>
 		  $(function() {
 			$('#setTimeExample').timepicker();
-		  	$('#setTimeButton').bind('click', function (){
+		  	$('#setTimeButton').on('click', function (){
 		  	  $('#setTimeExample').timepicker('setTime', new Date());
 		  	});
 		  });
@@ -84,7 +84,7 @@
 		</p>
 
 		<pre class="code" data-language="javascript">$('#setTimeExample').timepicker();
-$('#setTimeButton').bind('click', function (){
+$('#setTimeButton').on('click', function (){
 	$('#setTimeExample').timepicker('setTime', new Date());
 });</pre>
 	</div>
