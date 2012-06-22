@@ -6,7 +6,7 @@ requires jQuery 1.6+
 ************************/
 
 
-(function($)
+!(function($)
 {
 	var _baseDate = new Date(); _baseDate.setHours(0); _baseDate.setMinutes(0);
 	var _ONE_DAY = 86400;
@@ -19,8 +19,7 @@ requires jQuery 1.6+
 		showDuration: false,
 		timeFormat: 'g:ia',
 		scrollDefaultNow: false,
-		scrollDefaultTime: false,
-		onSelect: function() { }
+		scrollDefaultTime: false
 	};
 
 	var methods =
@@ -112,12 +111,13 @@ requires jQuery 1.6+
 				list = self.siblings('.ui-timepicker-list');
 			}
 
+			var topMargin = parseInt(self.css('marginTop').slice(0, -2));
 			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
 				// position the dropdown on top
-				list.css({"top":self.position().top - list.outerHeight()});
+				list.css({ "top": self.position().top + topMargin - list.outerHeight() });
 			} else {
 				// put it under the input
-				list.css({"top":self.position().top+self.outerHeight()});
+				list.css({ "top": self.position().top + topMargin + self.outerHeight() });
 			}
 
 			list.show();
@@ -420,8 +420,7 @@ requires jQuery 1.6+
 			self.attr('value', timeString);
 		}
 
-		settings.onSelect.call(self);
-		self.trigger('change');
+		self.trigger('change').trigger('changeTime');
 	};
 
 	function _int2duration(seconds)

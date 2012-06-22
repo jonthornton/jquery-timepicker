@@ -6,7 +6,7 @@
   <title>Timepicker for jQuery</title>
   <meta name="description" content="A jQuery timepicker plugin inspired by Google Calendar." />
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  
+
   <script type="text/javascript" src="jquery.timepicker.js"></script>
   <link rel="stylesheet" type="text/css" href="jquery.timepicker.css" />
 
@@ -117,25 +117,23 @@ $('#setTimeButton').bind('click', function (){
 	<div class="example">
 		<script>
 		  $(function() {
-			$('#onselectExample').timepicker({
-			  'onSelect': function() {
+			$('#onselectExample').timepicker();
+			$('#onselectExample').on('changeTime', function() {
 				$('#onselectTarget').text($(this).val());
-			  }
-			});
+			  });
 		  });
 		</script>
 
-		<h3>onSelect Example</h3>
+		<h3>Event Example</h3>
 		<p>Trigger an event after selecting a value. Fires before the input onchange event.</p>
 		<p>
 		  <input id="onselectExample" type="text" class="time" />
 		  <span id="onselectTarget" style="margin-left: 30px;"></span>
 		</p>
 
-		<pre class="code" data-language="javascript">$('#onselectExample').timepicker({
-  'onSelect': function() {
+		<pre class="code" data-language="javascript">$('#onselectExample').timepicker();
+$('#onselectExample').on('changeTime', function() {
 	$('#onselectTarget').text($(this).val());
-  }
 });</pre>
 	</div>
 
