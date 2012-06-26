@@ -91,6 +91,10 @@ requires jQuery 1.6+
 			var self = $(this);
 			var list = self.siblings('.ui-timepicker-list');
 
+			//Update List
+			list.find('li').removeClass('ui-timepicker-selected');
+			_selectValue(self);
+
 			// check if a flag was set to close this picker
 			if (self.hasClass('ui-timepicker-hideme')) {
 				self.removeClass('ui-timepicker-hideme');
