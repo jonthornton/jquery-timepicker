@@ -98,6 +98,27 @@ Called when the timepicker is closed.
 Called when a time value is selected.
 *default: null*
 
+Theming
+-------
+
+Sample markup with class names:
+
+```html
+<span class="ui-timepicker-container">
+	<input value="5:00pm" class="ui-timepicker-input" type="text">
+	<ul class="ui-timepicker-list optional-custom-classname" tabindex="-1">
+		<li>12:00am</li>
+		<li>12:30am</li>
+		...
+		<li>4:30pm</li>
+		<li class="ui-timepicker-selected">5:00pm</li>
+		<li>5:30pm</li>
+		...
+		<li>11:30pm</li>
+	</ul>
+</span>
+```
+
 
 - - -
 
