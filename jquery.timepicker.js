@@ -151,7 +151,7 @@ requires jQuery 1.6+
 			$('.ui-timepicker-list:visible').each(function() {
 				var list = $(this);
 				var self = list.siblings('.ui-timepicker-input');
-				_selectValue(self);
+				//_selectValue(self);
 
 				list.hide();
 				self.trigger('hideTimepicker');
@@ -304,7 +304,7 @@ requires jQuery 1.6+
 		var timeValue = _time2int(self.val());
 
 		var selected = _findRow(self, list, timeValue);
-		if (selected && selected.data('time') == timeValue) selected.addClass('ui-timepicker-selected')
+		if (selected) selected.addClass('ui-timepicker-selected');
 	}
 
 	function _keyhandler(e)
@@ -377,7 +377,7 @@ requires jQuery 1.6+
 
 				break;
 
-			case 27:
+			case 27: // escape
 				list.find('li').removeClass('ui-timepicker-selected');
 				list.hide();
 				break;
