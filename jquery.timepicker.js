@@ -21,6 +21,12 @@ requires jQuery 1.6+
 		scrollDefaultNow: false,
 		scrollDefaultTime: false
 	};
+	var _lang = {
+		decimal: '.',
+		mins: 'mins',
+		hr: 'hr',
+		hrs: 'hrs'
+	};
 
 	var methods =
 	{
@@ -61,6 +67,10 @@ requires jQuery 1.6+
 
 				if (settings.durationTime) {
 					settings.durationTime = _time2int(settings.durationTime);
+				}
+
+				if (settings.lang) {
+					_lang = $.extend(_lang, settings.lang);
 				}
 
 				self.data("settings", settings);
@@ -434,15 +444,19 @@ requires jQuery 1.6+
 	function _int2duration(seconds)
 	{
 		var minutes = Math.round(seconds/60);
+		var duration;
 
 		if (minutes < 60) {
-			return minutes+' mins'
+			duration = [minutes, _lang.mins];
 		} else if (minutes == 60) {
-			return '1 hr';
+			duration = ['1', _lang.hr];
 		} else {
-			var hours = minutes/60
-			return hours.toFixed(1)+' hrs';
+			var hours = (minutes/60).toFixed(1);
+			if (_lang.decimal != '.') hours = hours.replace('.', _lang.decimal);
+			duration = [hours, _lang.hrs];
 		}
+
+		return duration.join(' ');
 	};
 
 	function _int2time(seconds, format)
