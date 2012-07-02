@@ -55,6 +55,17 @@ How times should be displayed in the list and input element. Uses [PHP's date() 
 If no time value is selected, set the dropdown scroll position to show the current time.
 *default: false*
 
+- **lang**
+Language constants used in the timepicker. Can override the defaults by passing an object with one or more of the following properties: decimal, mins, hr, hrs.
+*default:* ```{
+	decimal: '.',
+	mins: 'mins',
+	hr: 'hr',
+	hrs: 'hrs'
+}```
+
+
+
 Methods
 -------
 
@@ -122,4 +133,4 @@ Sample markup with class names:
 
 - - -
 
-This software is made available under the open source MIT License. &copy; 2012 [Jon Thornton](http://www.jonthornton.com), contributions from [Anthony Fojas](https://github.com/fojas), [Vince Mi](https://github.com/vinc3m1), [Nikita Korotaev](https://github.com/websirnik), [Spoon88](https://github.com/Spoon88), [elarkin](https://github.com/elarkin)
+This software is made available under the open source MIT License. &copy; 2012 [Jon Thornton](http://www.jonthornton.com), contributions from [Anthony Fojas](https://github.com/fojas), [Vince Mi](https://github.com/vinc3m1), [Nikita Korotaev](https://github.com/websirnik), [Spoon88](https://github.com/Spoon88), [elarkin](https://github.com/elarkin), [lodewijk](https://github.com/lodewijk)
