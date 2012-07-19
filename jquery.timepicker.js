@@ -75,7 +75,7 @@ requires jQuery 1.6+
 
 				self.data("settings", settings);
 				self.attr('autocomplete', 'off');
-				self.click(methods.show).focus(methods.show).keydown(_keyhandler);
+				self.click(methods.show).focus(methods.show).keydown(_keyhandler).blur(_blurhandler);
 				self.addClass('ui-timepicker-input');
 
 				if (self.val()) {
@@ -316,6 +316,16 @@ requires jQuery 1.6+
 		var selected = _findRow(self, list, timeValue);
 		if (selected) selected.addClass('ui-timepicker-selected');
 	}
+
+    function _blurhandler(e)
+    {
+        var self = $(this);
+		var list = self.siblings('.ui-timepicker-list');
+
+        _selectValue(self);
+
+        return false;
+    }
 
 	function _keyhandler(e)
 	{
