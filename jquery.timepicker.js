@@ -19,7 +19,8 @@ requires jQuery 1.6+
 		showDuration: false,
 		timeFormat: 'g:ia',
 		scrollDefaultNow: false,
-		scrollDefaultTime: false
+		scrollDefaultTime: false,
+		selectOnBlur: false
 	};
 	var _lang = {
 		decimal: '.',
@@ -161,7 +162,10 @@ requires jQuery 1.6+
 			$('.ui-timepicker-list:visible').each(function() {
 				var list = $(this);
 				var self = list.siblings('.ui-timepicker-input');
-				//_selectValue(self);
+				var settings = self.data("settings");
+				if (settings.selectOnBlur) {
+					_selectValue(self);
+				}
 
 				list.hide();
 				self.trigger('hideTimepicker');
