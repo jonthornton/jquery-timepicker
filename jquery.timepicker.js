@@ -335,6 +335,11 @@ requires jQuery 1.6+
 		};
 
 		switch (e.keyCode) {
+			
+			case 9: // tab
+				_selectValue(self);
+				methods.hide.apply(this);
+				break;
 
 			case 13: // return
 				_selectValue(self);
