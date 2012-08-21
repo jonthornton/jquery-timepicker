@@ -76,7 +76,7 @@ requires jQuery 1.6+
 
 				self.data("settings", settings);
 				self.attr('autocomplete', 'off');
-				self.click(methods.show).focus(methods.show).keydown(_keyhandler);
+				self.click(methods.show).focus(methods.show).blur(_formatValue).keydown(_keyhandler);
 				self.addClass('ui-timepicker-input');
 
 				if (self.val()) {
@@ -319,6 +319,18 @@ requires jQuery 1.6+
 
 		var selected = _findRow(self, list, timeValue);
 		if (selected) selected.addClass('ui-timepicker-selected');
+	}
+
+
+	function _formatValue()
+	{
+		if (this.value == '') {
+			return;
+		}
+
+		var self = $(this);
+		var prettyTime = _int2time(_time2int(this.value), self.data('settings').timeFormat);
+		self.val(prettyTime);
 	}
 
 	function _keyhandler(e)
