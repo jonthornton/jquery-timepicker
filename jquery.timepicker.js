@@ -74,7 +74,7 @@ requires jQuery 1.6+
 					_lang = $.extend(_lang, settings.lang);
 				}
 
-				self.data("settings", settings);
+				self.data('timepicker-settings', settings);
 				self.attr('autocomplete', 'off');
 				self.click(methods.show).focus(methods.show).blur(_formatValue).keydown(_keyhandler);
 				self.addClass('ui-timepicker-input');
@@ -84,12 +84,9 @@ requires jQuery 1.6+
 					self.val(prettyTime);
 				}
 
-				var container = $('<span class="ui-timepicker-container" />');
-				self.wrap(container);
-
 				// close the dropdown when container loses focus
 				$("body").attr("tabindex", -1).focusin(function(e) {
-					if ($(e.target).closest('.ui-timepicker-container').length == 0) {
+					if ($(e.target).closest('.ui-timepicker-input').length == 0 && $(e.target).closest('.ui-timepicker-list').length == 0) {
 						methods.hide();
 					}
 				});
@@ -100,7 +97,13 @@ requires jQuery 1.6+
 		show: function(e)
 		{
 			var self = $(this);
-			var list = self.siblings('.ui-timepicker-list');
+			var list = self.data('timepicker-list');
+
+			// check if list needs to be rendered
+			if (!list || list.length == 0) {
+				_render(self);
+				list = self.data('timepicker-list');
+			}
 
 			// check if a flag was set to close this picker
 			if (self.hasClass('ui-timepicker-hideme')) {
@@ -116,24 +119,21 @@ requires jQuery 1.6+
 			// make sure other pickers are hidden
 			methods.hide();
 
-			// check if list needs to be rendered
-			if (list.length == 0) {
-				_render(self);
-				list = self.siblings('.ui-timepicker-list');
-			}
 
 			var topMargin = parseInt(self.css('marginTop').slice(0, -2));
 			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
 				// position the dropdown on top
-				list.css({ "top": self.position().top + topMargin - list.outerHeight() });
+				list.css({ "top": self.offset().top + topMargin - list.outerHeight() });
 			} else {
 				// put it under the input
-				list.css({ "top": self.position().top + topMargin + self.outerHeight() });
+				list.css({ "top": self.offset().top + topMargin + self.outerHeight() });
 			}
+
+			list.css('left', self.offset().left);
 
 			list.show();
 
-			var settings = self.data("settings");
+			var settings = self.data('timepicker-settings');
 			// position scrolling
 			var selected = list.find('.ui-timepicker-selected');
 
@@ -161,8 +161,8 @@ requires jQuery 1.6+
 		{
 			$('.ui-timepicker-list:visible').each(function() {
 				var list = $(this);
-				var self = list.siblings('.ui-timepicker-input');
-				var settings = self.data("settings");
+				var self = list.data('timepicker-input');
+				var settings = self.data('timepicker-settings');
 				if (settings.selectOnBlur) {
 					_selectValue(self);
 				}
@@ -175,8 +175,8 @@ requires jQuery 1.6+
 		option: function(key, value)
 		{
 			var self = $(this);
-			var settings = self.data("settings");
-			var list = self.siblings('.ui-timepicker-list');
+			var settings = self.data('timepicker-settings');
+			var list = self.data('timepicker-list');
 
 			if (typeof key == 'object') {
 				settings = $.extend(settings, key);
@@ -200,8 +200,13 @@ requires jQuery 1.6+
 				settings.durationTime = _time2int(settings.durationTime);
 			}
 
-			self.data("settings", settings);
-			list.remove();
+			self.data('timepicker-settings', settings);
+
+			if (list) {
+				list.remove();
+				self.data('timepicker-list', false);
+			}
+
 		},
 
 		getSecondsFromMidnight: function()
@@ -217,7 +222,7 @@ requires jQuery 1.6+
 		setTime: function(value)
 		{
 			var self = $(this);
-			var prettyTime = _int2time(_time2int(value), self.data('settings').timeFormat);
+			var prettyTime = _int2time(_time2int(value), self.data('timepicker-settings').timeFormat);
 			self.val(prettyTime);
 		}
 
@@ -227,11 +232,12 @@ requires jQuery 1.6+
 
 	function _render(self)
 	{
-		var settings = self.data("settings");
-		var list = self.siblings('.ui-timepicker-list');
+		var settings = self.data('timepicker-settings');
+		var list = self.data('timepicker-list');
 
 		if (list && list.length) {
 			list.remove();
+			self.data('timepicker-list', false);
 		}
 
 		list = $('<ul />');
@@ -241,9 +247,7 @@ requires jQuery 1.6+
 			list.addClass(settings.className);
 		}
 
-		var zIndex = self.css('zIndex');
-		zIndex = (zIndex+0 == zIndex) ? zIndex+2 : 2;
-		list.css({'display':'none', 'position': 'absolute', "left":(self.position().left), 'zIndex': zIndex });
+		list.css({'display':'none', 'position': 'absolute', 'zIndex': 10001 });
 
 		if (settings.minTime !== null && settings.showDuration) {
 			list.addClass('ui-timepicker-with-duration');
@@ -274,7 +278,10 @@ requires jQuery 1.6+
 			list.append(row);
 		}
 
-		self.after(list);
+		list.data('timepicker-input', self);
+		self.data('timepicker-list', list);
+
+		$('body').append(list);
 		_setSelected(self, list);
 
 		list.delegate('li', 'click', { 'timepicker': self }, function(e) {
@@ -296,7 +303,7 @@ requires jQuery 1.6+
 			return false;
 		}
 
-		var settings = self.data("settings");
+		var settings = self.data('timepicker-settings');
 		var out = false;
 
 		// loop through the menu items
@@ -329,14 +336,14 @@ requires jQuery 1.6+
 		}
 
 		var self = $(this);
-		var prettyTime = _int2time(_time2int(this.value), self.data('settings').timeFormat);
+		var prettyTime = _int2time(_time2int(this.value), self.data('timepicker-settings').timeFormat);
 		self.val(prettyTime);
 	}
 
 	function _keyhandler(e)
 	{
 		var self = $(this);
-		var list = self.siblings('.ui-timepicker-list');
+		var list = self.data('timepicker-list');
 
 		if (!list.is(':visible')) {
 			if (e.keyCode == 40) {
@@ -431,8 +438,8 @@ requires jQuery 1.6+
 
 	function _selectValue(self)
 	{
-		var settings = self.data('settings')
-		var list = self.siblings('.ui-timepicker-list');
+		var settings = self.data('timepicker-settings')
+		var list = self.data('timepicker-list');
 		var timeValue = null;
 
 		var cursor = list.find('.ui-timepicker-selected');
