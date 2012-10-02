@@ -100,6 +100,14 @@ Set the time using a Javascript Date object.
 	$('#setTimeExample').timepicker('setTime', new Date());
 	```
 
+- **option**
+Change the settings of an existing timepicker.
+
+	```javascript
+	$('#optionExample').timepicker({ 'timeFormat': 'g:ia' });
+	$('#optionExample').timepicker({ 'option', 'minTime': '2:00am' });
+	$('#optionExample').timepicker({ 'option', { 'minTime': '4:00am', 'timeFormat': 'H:i' } });
+
 Events
 ------
 
