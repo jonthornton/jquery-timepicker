@@ -121,12 +121,14 @@ requires jQuery 1.6+
 
 
 			var topMargin = parseInt(self.css('marginTop').slice(0, -2));
+			if (!topMargin) topMargin = 0; // correct for IE returning "auto"
+
 			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
 				// position the dropdown on top
-				list.css({ "top": self.offset().top + topMargin - list.outerHeight() });
+				list.css({ "left":(self.position().left), "top": self.position().top + topMargin - list.outerHeight() });
 			} else {
 				// put it under the input
-				list.css({ "top": self.offset().top + topMargin + self.outerHeight() });
+				list.css({ "left":(self.position().left), "top": self.position().top + topMargin + self.outerHeight() });
 			}
 
 			list.css('left', self.offset().left);
@@ -247,7 +249,10 @@ requires jQuery 1.6+
 			list.addClass(settings.className);
 		}
 
-		list.css({'display':'none', 'position': 'absolute', 'zIndex': 10001 });
+
+		var zIndex = self.css('zIndex');
+		zIndex = (zIndex+0 == zIndex) ? zIndex+2 : 2;
+		list.css({'display':'none', 'position': 'absolute', 'zIndex': zIndex });
 
 		if (settings.minTime !== null && settings.showDuration) {
 			list.addClass('ui-timepicker-with-duration');
