@@ -28,6 +28,7 @@ requires jQuery 1.6+
 		hr: 'hr',
 		hrs: 'hrs'
 	};
+	var globalInit = false;
 
 	var methods =
 	{
@@ -84,13 +85,15 @@ requires jQuery 1.6+
 					self.val(prettyTime);
 				}
 
-				// close the dropdown when container loses focus
-				$("body").attr("tabindex", -1).focusin(function(e) {
-					if ($(e.target).closest('.ui-timepicker-input').length == 0 && $(e.target).closest('.ui-timepicker-list').length == 0) {
-						methods.hide();
-					}
-				});
-
+				if (!globalInit) {
+					// close the dropdown when container loses focus
+					$('body').on('click', function(e) {
+						if ($(e.target).closest('.ui-timepicker-input').length == 0 && $(e.target).closest('.ui-timepicker-list').length == 0) {
+							methods.hide();
+						}
+					});
+					globalInit = true;
+				}
 			});
 		},
 
@@ -118,7 +121,6 @@ requires jQuery 1.6+
 
 			// make sure other pickers are hidden
 			methods.hide();
-
 
 			var topMargin = parseInt(self.css('marginTop').slice(0, -2));
 			if (!topMargin) topMargin = 0; // correct for IE returning "auto"
@@ -284,7 +286,7 @@ requires jQuery 1.6+
 		$('body').append(list);
 		_setSelected(self, list);
 
-		list.delegate('li', 'click', { 'timepicker': self }, function(e) {
+		list.on('click', 'li', function(e) {
 			self.addClass('ui-timepicker-hideme');
 			self[0].focus();
 
@@ -415,7 +417,10 @@ requires jQuery 1.6+
 				list.hide();
 				break;
 
-			case 9:
+			case 9: //tab
+				methods.hide();
+				break;
+
 			case 16:
 			case 17:
 			case 18:
