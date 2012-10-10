@@ -557,7 +557,7 @@ requires jQuery 1.6+
 		}
 
 		var d = new Date(0);
-		var time = timeString.toLowerCase().match(/(\d+)(?::(\d\d))?\s*([pa]?)/);
+		var time = timeString.toLowerCase().match(/(\d+)(?::(\d\d?))?\s*([pa]?)/);
 
 		if (!time) {
 			return null;
