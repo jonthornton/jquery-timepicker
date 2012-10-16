@@ -102,6 +102,11 @@ requires jQuery 1.6+
 			var self = $(this);
 			var list = self.data('timepicker-list');
 
+			// check if input is readonly
+			if (self.attr('readonly')) {
+				return;
+			}
+
 			// check if list needs to be rendered
 			if (!list || list.length == 0) {
 				_render(self);
