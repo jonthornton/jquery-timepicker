@@ -80,10 +80,7 @@ requires jQuery 1.6+
 				self.click(methods.show).focus(methods.show).blur(_formatValue).keydown(_keyhandler);
 				self.addClass('ui-timepicker-input');
 
-				if (self.val()) {
-					var prettyTime = _int2time(_time2int(self.val()), settings.timeFormat);
-					self.val(prettyTime);
-				}
+				_formatValue.call(self.get(0));
 
 				if (!globalInit) {
 					// close the dropdown when container loses focus
@@ -170,6 +167,7 @@ requires jQuery 1.6+
 				var list = $(this);
 				var self = list.data('timepicker-input');
 				var settings = self.data('timepicker-settings');
+
 				if (settings.selectOnBlur) {
 					_selectValue(self);
 				}
@@ -343,7 +341,14 @@ requires jQuery 1.6+
 		}
 
 		var self = $(this);
-		var prettyTime = _int2time(_time2int(this.value), self.data('timepicker-settings').timeFormat);
+		var timeInt = _time2int(this.value);
+
+		if (timeInt === null) {
+			self.trigger('timeFormatError');
+			return;
+		}
+
+		var prettyTime = _int2time(timeInt, self.data('timepicker-settings').timeFormat);
 		self.val(prettyTime);
 	}
 
@@ -494,6 +499,10 @@ requires jQuery 1.6+
 
 	function _int2time(seconds, format)
 	{
+		if (seconds === null) {
+			return;
+		}
+
 		var time = new Date(_baseDate.valueOf() + (seconds*1000));
 		var output = '';
 

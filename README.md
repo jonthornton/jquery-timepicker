@@ -119,7 +119,9 @@ Called when the timepicker is closed.
 
 - **changeTime**
 Called when a time value is selected.
-*default: null*
+
+- **timeFormatError**
+Called if an unparseable time string is manually entered into the timepicker input.
 
 Theming
 -------
