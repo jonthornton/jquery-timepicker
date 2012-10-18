@@ -168,7 +168,7 @@ requires jQuery 1.6+
 				var self = list.data('timepicker-input');
 				var settings = self.data('timepicker-settings');
 
-				if (settings.selectOnBlur) {
+				if (settings && settings.selectOnBlur) {
 					_selectValue(self);
 				}
 
