@@ -252,7 +252,10 @@ requires jQuery 1.6+
 			list.addClass(settings.className);
 		}
 
-		list.css({'display':'none', 'position': 'absolute' });
+		var zIndex = parseInt(self.parents().filter(function() {
+			return $(this).css('z-index') != 'auto';
+		}).first().css('z-index'))+10;
+		list.css({'display':'none', 'position': 'absolute', 'zIndex': zIndex });
 
 		if (settings.minTime !== null && settings.showDuration) {
 			list.addClass('ui-timepicker-with-duration');
