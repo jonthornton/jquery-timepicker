@@ -567,11 +567,11 @@ requires jQuery 1.6+
 		if (timeString+0 == timeString) return timeString;
 
 		if (typeof(timeString) == 'object') {
-			timeString = timeString.getHours()+':'+timeString.getMinutes();
+			timeString = timeString.getHours()+':'+timeString.getMinutes()+':'+timeString.getSeconds();
 		}
 
 		var d = new Date(0);
-		var time = timeString.toLowerCase().match(/(\d+)(?::(\d\d?))?\s*([pa]?)/);
+		var time = timeString.toLowerCase().match(/(\d{1,2})(?::(\d{2}))?(?::(\d{2}))?\s*([pa]?)/);
 
 		if (!time) {
 			return null;
@@ -579,11 +579,11 @@ requires jQuery 1.6+
 
 		var hour = parseInt(time[1]*1);
 
-		if (time[3]) {
+		if (time[4]) {
 			if (hour == 12) {
-				var hours = (time[3] == 'p') ? 12 : 0;
+				var hours = (time[4] == 'p') ? 12 : 0;
 			} else {
-				var hours = (hour + (time[3] == 'p' ? 12 : 0));
+				var hours = (hour + (time[4] == 'p' ? 12 : 0));
 			}
 
 		} else {
@@ -591,7 +591,8 @@ requires jQuery 1.6+
 		}
 
 		var minutes = ( time[2]*1 || 0 );
-		return hours*3600 + minutes*60;
+		var seconds = ( time[3]*1 || 0 );
+		return hours*3600 + minutes*60 + seconds;
 	};
 
 	// Plugin entry
