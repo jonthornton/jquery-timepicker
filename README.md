@@ -9,7 +9,7 @@ jquery.timepicker is a lightweight timepicker plugin for jQuery inspired by Goog
 
 Requirements
 ------------
-* [jQuery](http://jquery.com/) (>= 1.6 recommended; jquery-timepicker has not been tested on 1.5)
+* [jQuery](http://jquery.com/) (>= 1.7)
 
 Usage
 -----
