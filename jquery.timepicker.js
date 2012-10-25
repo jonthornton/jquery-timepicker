@@ -77,7 +77,9 @@ requires jQuery 1.6+
 
 				self.data('timepicker-settings', settings);
 				self.attr('autocomplete', 'off');
-				self.click(methods.show).focus(methods.show).blur(_formatValue).keydown(_keyhandler);
+				self.on('click.timepicker focus.timepicker', methods.show);
+				self.on('blur.timepicker', _formatValue);
+				self.on('keydown.timepicker', _keyhandler);
 				self.addClass('ui-timepicker-input');
 
 				_formatValue.call(self.get(0));
@@ -231,12 +233,27 @@ requires jQuery 1.6+
 			self.val(prettyTime);
 		},
 
-		remove: function() {
-            		if ($(this).data('timepicker-list')) {
-                		$(this).data('timepicker-list').remove();
-            		}
-        	}
+		remove: function()
+		{
+			var self = $(this);
 
+			// check if this element is a timepicker
+			if (!self.hasClass('ui-timepicker-input')) {
+				return;
+			}
+
+			self.removeAttr('autocomplete', 'off');
+			self.removeClass('ui-timepicker-input');
+			self.removeData('timepicker-settings');
+			self.off('.timepicker');
+
+			// timepicker-list won't be present unless the user has interacted with this timepicker
+			if (self.data('timepicker-list')) {
+				self.data('timepicker-list').remove();
+			}
+
+			self.removeData('timepicker-list');
+		}
 	};
 
 	// private methods
