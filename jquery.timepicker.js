@@ -229,7 +229,13 @@ requires jQuery 1.6+
 			var self = $(this);
 			var prettyTime = _int2time(_time2int(value), self.data('timepicker-settings').timeFormat);
 			self.val(prettyTime);
-		}
+		},
+
+		remove: function() {
+            		if ($(this).data('timepicker-list')) {
+                		$(this).data('timepicker-list').remove();
+            		}
+        	}
 
 	};
 
