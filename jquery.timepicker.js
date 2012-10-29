@@ -8,7 +8,8 @@ requires jQuery 1.6+
 
 !(function($)
 {
-	var _baseDate = new Date(); _baseDate.setHours(0); _baseDate.setMinutes(0); _baseDate.setSeconds(0);
+
+	var _baseDate = _generateBaseDate();
 	var _ONE_DAY = 86400;
 	var _defaults =	{
 		className: null,
@@ -324,6 +325,16 @@ requires jQuery 1.6+
 			list.hide();
 		});
 	};
+
+	function _generateBaseDate()
+	{
+		var _baseDate = new Date();
+		var _currentTimezoneOffset = _baseDate.getTimezoneOffset()*60000;
+		_baseDate.setHours(0); _baseDate.setMinutes(0); _baseDate.setSeconds(0);
+		var _baseDateTimezoneOffset = _baseDate.getTimezoneOffset()*60000;
+
+		return new Date(_baseDate.valueOf() - _baseDateTimezoneOffset + _currentTimezoneOffset);
+	}
 
 	function _findRow(self, list, value)
 	{
