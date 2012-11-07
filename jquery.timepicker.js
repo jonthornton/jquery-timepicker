@@ -2,7 +2,7 @@
 jquery-timepicker
 http://jonthornton.github.com/jquery-timepicker/
 
-requires jQuery 1.6+
+requires jQuery 1.7+
 ************************/
 
 
@@ -605,7 +605,7 @@ requires jQuery 1.6+
 		}
 
 		var d = new Date(0);
-		var time = timeString.toLowerCase().match(/(\d{1,2})(?::(\d{2}))?(?::(\d{2}))?\s*([pa]?)/);
+		var time = timeString.toLowerCase().match(/(\d{1,2})(?::(\d{1,2}))?(?::(\d{2}))?\s*([pa]?)/);
 
 		if (!time) {
 			return null;
