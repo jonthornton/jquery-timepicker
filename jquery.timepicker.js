@@ -87,7 +87,7 @@ requires jQuery 1.6+
 
 				if (!globalInit) {
 					// close the dropdown when container loses focus
-					$('body').on('click', function(e) {
+					$('body').on('mousedown', function(e) {
 						if ($(e.target).closest('.ui-timepicker-input').length == 0 && $(e.target).closest('.ui-timepicker-list').length == 0) {
 							methods.hide();
 						}
