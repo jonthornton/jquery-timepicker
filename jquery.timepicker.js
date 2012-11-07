@@ -147,7 +147,7 @@ requires jQuery 1.7+
 			if (!selected.length) {
 				if (self.val()) {
 					selected = _findRow(self, list, _time2int(self.val()));
-				} else if (settings.minTime === null && settings.scrollDefaultNow) {
+				} else if (settings.scrollDefaultNow) {
 					selected = _findRow(self, list, _time2int(new Date()));
 				} else if (settings.scrollDefaultTime !== false) {
 				  selected = _findRow(self, list, _time2int(settings.scrollDefaultTime));
