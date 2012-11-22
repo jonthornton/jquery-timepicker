@@ -5,6 +5,8 @@ module.exports = function(grunt) {
         },
         jshint: {
             options: {
+                immed: false,
+                latedef: false,
                 browser: true,
                 eqeqeq: false
             }
