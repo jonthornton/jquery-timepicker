@@ -59,6 +59,11 @@ If no time value is selected, set the dropdown scroll position to show the curre
 Update the input with the currently highlighted time value when the timepicker loses focus.
 *default: false*
 
+- **appendTo**
+Override where the dropdown is appended.
+Takes either a `string` to use as a selector, a `function` that gets passed the clicked input element as argument or a jquery `object` to use directly
+*default: "body"*
+
 - **lang**
 Language constants used in the timepicker. Can override the defaults by passing an object with one or more of the following properties: decimal, mins, hr, hrs.
 *default:* ```{
