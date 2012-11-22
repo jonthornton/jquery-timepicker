@@ -21,7 +21,8 @@ requires jQuery 1.7+
 		timeFormat: 'g:ia',
 		scrollDefaultNow: false,
 		scrollDefaultTime: false,
-		selectOnBlur: false
+		selectOnBlur: false,
+		appendTo: 'body'
 	};
 	var _lang = {
 		decimal: '.',
@@ -307,7 +308,13 @@ requires jQuery 1.7+
 		list.data('timepicker-input', self);
 		self.data('timepicker-list', list);
 
-		$('body').append(list);
+		var appendTo = settings.appendTo;
+		if (typeof appendTo === 'string') {
+			appendTo = $(appendTo);
+		} else if (typeof appendTo === 'function') {
+			appendTo = appendTo(self);
+		}
+		appendTo.append(list);
 		_setSelected(self, list);
 
 		list.on('click', 'li', function(e) {
