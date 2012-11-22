@@ -152,7 +152,12 @@ Sample markup with class names:
 </span>
 ```
 
+Development guidelines
+----------------------
+
+1. Install dependencies (jquery + grunt) `npm install`
+2. For sanity checks and minification run `grunt`, or just `grunt lint` to have the code linted
 
 - - -
 
-This software is made available under the open source MIT License. &copy; 2012 [Jon Thornton](http://www.jonthornton.com), contributions from [Anthony Fojas](https://github.com/fojas), [Vince Mi](https://github.com/vinc3m1), [Nikita Korotaev](https://github.com/websirnik), [Spoon88](https://github.com/Spoon88), [elarkin](https://github.com/elarkin), [lodewijk](https://github.com/lodewijk), [jayzawrotny](https://github.com/jayzawrotny), [David Mazza](https://github.com/dmzza), [Matt Jurik](https://github.com/exabytes18), [Phil Freo](https://github.com/philfreo), [orloffv](https://github.com/orloffv), [patdenice](https://github.com/patdenice)
+This software is made available under the open source MIT License. &copy; 2012 [Jon Thornton](http://www.jonthornton.com), contributions from [Anthony Fojas](https://github.com/fojas), [Vince Mi](https://github.com/vinc3m1), [Nikita Korotaev](https://github.com/websirnik), [Spoon88](https://github.com/Spoon88), [elarkin](https://github.com/elarkin), [lodewijk](https://github.com/lodewijk), [jayzawrotny](https://github.com/jayzawrotny), [David Mazza](https://github.com/dmzza), [Matt Jurik](https://github.com/exabytes18), [Phil Freo](https://github.com/philfreo), [orloffv](https://github.com/orloffv), [patdenice](https://github.com/patdenice), [Raymond Julin](https://github.com/nervetattoo)
