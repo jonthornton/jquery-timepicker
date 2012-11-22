@@ -6,8 +6,15 @@ requires jQuery 1.7+
 ************************/
 
 
-(function($)
-{
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
 	var _baseDate = _generateBaseDate();
 	var _ONE_DAY = 86400;
 	var _defaults =	{
@@ -638,4 +645,4 @@ requires jQuery 1.7+
 		else if(typeof method === "object" || !method) { return methods.init.apply(this, arguments); }
 		else { $.error("Method "+ method + " does not exist on jQuery.timepicker"); }
 	};
-}(jQuery));
+}));
