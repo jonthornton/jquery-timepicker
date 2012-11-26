@@ -17,6 +17,7 @@ requires jQuery 1.7+
 }(function ($) {
 	var _baseDate = _generateBaseDate();
 	var _ONE_DAY = 86400;
+	var _closeEvent = 'ontouchstart' in document ? 'touchstart' : 'mousedown';
 	var _defaults =	{
 		className: null,
 		minTime: null,
@@ -94,9 +95,13 @@ requires jQuery 1.7+
 
 				if (!globalInit) {
 					// close the dropdown when container loses focus
-					$('body').on('mousedown', function(e) {
-						if ($(e.target).closest('.ui-timepicker-input').length === 0 && $(e.target).closest('.ui-timepicker-list').length === 0) {
+					$('body').on(_closeEvent, function(e) {
+						var target = $(e.target);
+						var input = target.closest('.ui-timepicker-input');
+						if (input.length === 0 && target.closest('.ui-timepicker-list').length === 0) {
 							methods.hide();
+							// needs to blur the active element to remove keyboard on touch devices
+							document.activeElement.blur();
 						}
 					});
 					globalInit = true;
