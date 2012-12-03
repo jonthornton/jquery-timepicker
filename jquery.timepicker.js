@@ -100,8 +100,6 @@ requires jQuery 1.7+
 						var input = target.closest('.ui-timepicker-input');
 						if (input.length === 0 && target.closest('.ui-timepicker-list').length === 0) {
 							methods.hide();
-							// needs to blur the active element to remove keyboard on touch devices
-							document.activeElement.blur();
 						}
 					});
 					globalInit = true;
@@ -112,6 +110,12 @@ requires jQuery 1.7+
 		show: function(e)
 		{
 			var self = $(this);
+
+			if ('ontouchstart' in document) {
+				// block the keyboard on mobile devices
+				self.blur();
+			}
+
 			var list = self.data('timepicker-list');
 
 			// check if input is readonly
