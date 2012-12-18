@@ -29,6 +29,7 @@ requires jQuery 1.7+
 		scrollDefaultNow: false,
 		scrollDefaultTime: false,
 		selectOnBlur: false,
+		forceRoundTime: false,
 		appendTo: 'body'
 	};
 	var _lang = {
@@ -394,14 +395,28 @@ requires jQuery 1.7+
 		}
 
 		var self = $(this);
-		var timeInt = _time2int(this.value);
+		var seconds = _time2int(this.value);
 
-		if (timeInt === null) {
+		if (seconds === null) {
 			self.trigger('timeFormatError');
 			return;
 		}
 
-		var prettyTime = _int2time(timeInt, self.data('timepicker-settings').timeFormat);
+		var settings = self.data('timepicker-settings');
+
+		if (settings.forceRoundTime) {
+			var offset = seconds % (settings.step*60); // step is in minutes
+
+			if (offset >= settings.step*30) {
+				// if offset is larger than a half step, round up
+				seconds += (settings.step*60) - offset;
+			} else {
+				// round down
+				seconds -= offset;
+			}
+		}
+
+		var prettyTime = _int2time(seconds, settings.timeFormat);
 		self.val(prettyTime);
 	}
 
