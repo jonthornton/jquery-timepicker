@@ -364,13 +364,16 @@ requires jQuery 1.7+
 
 		var settings = self.data('timepicker-settings');
 		var out = false;
+		var halfStep = settings.step*30;
 
 		// loop through the menu items
 		list.find('li').each(function(i, obj) {
 			var jObj = $(obj);
 
+			var offset = jObj.data('time') - value;
+
 			// check if the value is less than half a step from each row
-			if (Math.abs(jObj.data('time') - value) <= settings.step*30) {
+			if (Math.abs(offset) < halfStep || offset == halfStep) {
 				out = jObj;
 				return false;
 			}
