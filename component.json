@@ -1,0 +1,16 @@
+{
+    "name"         : "timepicker",
+    "version"      : "1.0.1",
+    "description"  : "A jQuery timepicker plugin inspired by Google Calendar.",
+    "homepage"     : "http://jonthornton.github.com/jquery-timepicker",
+    "main"         : [ "./jquery.timepicker.js", "./jquery.timepicker.min.js", "./jquery.timepicker.css" ],
+    "dependencies" : {
+        "jquery" : ">= 1.7.x"
+    },
+    "keywords"     : [ "time", "picker", "google calendar" ],
+    "author" : {
+		"name" : "Jon Thornton",
+		"web"  : "https://github.com/jonthornton"
+    },
+    "license": "http://opensource.org/licenses/MIT"
+}
