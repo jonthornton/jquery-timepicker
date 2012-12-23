@@ -292,7 +292,7 @@ requires jQuery 1.7+
 
 		list.css({'display':'none', 'position': 'absolute' });
 
-		if (settings.minTime !== null && settings.showDuration) {
+		if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
 			list.addClass('ui-timepicker-with-duration');
 		}
 
@@ -311,7 +311,7 @@ requires jQuery 1.7+
 			row.data('time', timeInt);
 			row.text(_int2time(timeInt, settings.timeFormat));
 
-			if (settings.minTime !== null && settings.showDuration) {
+			if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
 				var duration = $('<span />');
 				duration.addClass('ui-timepicker-duration');
 				duration.text(' ('+_int2duration(i - durStart)+')');
