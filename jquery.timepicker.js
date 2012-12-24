@@ -552,7 +552,7 @@ requires jQuery 1.7+
 		var minutes = Math.round(seconds/60);
 		var duration;
 
-		if (minutes < 60) {
+		if (Math.abs(minutes) < 60) {
 			duration = [minutes, _lang.mins];
 		} else if (minutes == 60) {
 			duration = ['1', _lang.hr];
