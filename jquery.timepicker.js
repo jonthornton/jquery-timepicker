@@ -640,14 +640,24 @@ requires jQuery 1.7+
 		}
 
 		var d = new Date(0);
-		var time = timeString.toLowerCase().match(/(\d{1,2})(?::(\d{1,2}))?(?::(\d{2}))?\s*([pa]?)/);
+
+		var time;
+		if (timeString.indexOf(":") !== -1) {
+			//colon-delimited version
+			console.log('colon-delimited version');
+			time = timeString.toLowerCase().match(/(\d{1,2})(?::(\d{1,2}))?(?::(\d{2}))?\s*([pa]?)/);
+		} else {
+			//zero-required, fixed-position version
+			console.log('fixed-position version');
+			time = timeString.toLowerCase().match(/^([0-2][0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)$/);
+		}
 
 		if (!time) {
 			return null;
 		}
 
 		var hour = parseInt(time[1]*1, 10);
-        var hours;
+		var hours;
 
 		if (time[4]) {
 			if (hour == 12) {
