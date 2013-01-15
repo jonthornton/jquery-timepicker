@@ -17,7 +17,7 @@ requires jQuery 1.7+
 }(function ($) {
 	var _baseDate = _generateBaseDate();
 	var _ONE_DAY = 86400;
-	var _closeEvent = 'ontouchstart' in document ? 'touchstart' : 'mousedown';
+	var _closeEvent = 'ontouchstart' in document ? 'touchstart' : 'mousedown DOMMouseScroll mousewheel';
 	var _defaults =	{
 		className: null,
 		minTime: null,
