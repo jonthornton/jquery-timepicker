@@ -552,7 +552,7 @@ requires jQuery 1.7+
 
 		if (timeValue !== null) {
 			var timeString = _int2time(timeValue, settings.timeFormat);
-			self.attr('value', timeString);
+			self.val(timeString);
 		}
 
 		self.trigger('change').trigger('changeTime');
