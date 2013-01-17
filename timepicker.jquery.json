@@ -16,7 +16,7 @@
 	"dependencies": {
 		"jquery": ">=1.7"
 	},
-	"keywords": [ "timepicker", "time", "picker", "ui", "google calendar" ],
+	"keywords": [ "timepicker", "time", "picker", "ui", "calendar" ],
 	"homepage": "http://jonthornton.github.com/jquery-timepicker/",
 	"bugs": {
 		"url": "https://github.com/jonthornton/jquery-timepicker/issues"
