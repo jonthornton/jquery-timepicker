@@ -1,6 +1,6 @@
 {
 	"name": "timepicker",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"title": "jquery-timepicker",
 	"description": "A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.",
 	"author": {
