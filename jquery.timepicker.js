@@ -48,7 +48,6 @@ requires jQuery 1.7+
 
 				// convert dropdowns to text input
 				if (self[0].tagName == 'SELECT') {
-					var input = $('<input />');
 					var attrs = { 'type': 'text', 'value': self.val() };
 					var raw_attrs = self[0].attributes;
 
@@ -56,7 +55,7 @@ requires jQuery 1.7+
 						attrs[raw_attrs[i].nodeName] = raw_attrs[i].nodeValue;
 					}
 
-					input.attr(attrs);
+					var input = $('<input />', attrs);
 					self.replaceWith(input);
 					self = input;
 				}
@@ -84,7 +83,7 @@ requires jQuery 1.7+
 				}
 
 				self.data('timepicker-settings', settings);
-				self.attr('autocomplete', 'off');
+				self.prop('autocomplete', 'off');
 				self.on('click.timepicker focus.timepicker', methods.show);
 				self.on('blur.timepicker', _formatValue);
 				self.on('keydown.timepicker', _keyhandler);
@@ -106,7 +105,7 @@ requires jQuery 1.7+
 			var list = self.data('timepicker-list');
 
 			// check if input is readonly
-			if (self.attr('readonly')) {
+			if (self.prop('readonly')) {
 				return;
 			}
 
@@ -271,9 +270,11 @@ requires jQuery 1.7+
 			self.data('timepicker-list', false);
 		}
 
-		list = $('<ul />');
-		list.attr('tabindex', -1);
-		list.addClass('ui-timepicker-list');
+		list = $('<ul />', {
+			'tabindex': -1,
+			'class': 'ui-timepicker-list'
+		});
+
 		if (settings.className) {
 			list.addClass(settings.className);
 		}
