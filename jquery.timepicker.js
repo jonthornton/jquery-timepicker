@@ -131,12 +131,20 @@ requires jQuery 1.7+
 			// make sure other pickers are hidden
 			methods.hide();
 
+			var settings = self.data('timepicker-settings');
+
+			settings.appendTo = $(settings.appendTo);
+			var parentOffset = {
+				top: settings.appendTo.offset().top - settings.appendTo.scrollTop(),
+				left: settings.appendTo.offset().left - settings.appendTo.scrollLeft(),
+			};
+
 			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
 				// position the dropdown on top
-				list.css({ 'left':(self.offset().left), 'top': self.offset().top - list.outerHeight() });
+				list.css({ 'left':(self.offset().left - parentOffset.left), 'top': self.offset().top - list.outerHeight() - parentOffset.top });
 			} else {
 				// put it under the input
-				list.css({ 'left':(self.offset().left), 'top': self.offset().top + self.outerHeight() });
+				list.css({ 'left':(self.offset().left - parentOffset.left), 'top': self.offset().top + self.outerHeight() - parentOffset.top });
 			}
 
 			list.show();
