@@ -48,7 +48,7 @@ requires jQuery 1.7+
 
 				// convert dropdowns to text input
 				if (self[0].tagName == 'SELECT') {
-					var attrs = { 'type': 'text', 'value': self.val() };
+					var attrs = { 'type': 'text', 'placeholder': self.val() };
 					var raw_attrs = self[0].attributes;
 
 					for (var i=0; i < raw_attrs.length; i++) {
