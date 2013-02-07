@@ -433,6 +433,11 @@ requires jQuery 1.7+
 
 		var prettyTime = _int2time(seconds, settings.timeFormat);
 		self.val(prettyTime);
+
+		// if select on blur enabled, ensure we close the selections after any text edit
+        if (settings.selectOnBlur) {
+            methods.hide.apply(this);
+        }
 	}
 
 	function _keyhandler(e)
