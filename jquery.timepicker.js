@@ -87,6 +87,7 @@ requires jQuery 1.7+
 				self.on('click.timepicker focus.timepicker', methods.show);
 				self.on('blur.timepicker', _formatValue);
 				self.on('keydown.timepicker', _keyhandler);
+				self.on('change', function (){self.trigger('changeTime');});
 				self.addClass('ui-timepicker-input');
 
 				_formatValue.call(self.get(0));
