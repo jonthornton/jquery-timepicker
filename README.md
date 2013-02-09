@@ -55,6 +55,10 @@ How times should be displayed in the list and input element. Uses [PHP's date() 
 If no time value is selected, set the dropdown scroll position to show the current time.
 *default: false*
 
+- **scrollDefaultTime**
+If no time value is selected, set the dropdown scroll position to show the time provided, e.g. "09:00".
+*default: false*
+
 - **selectOnBlur**
 Update the input with the currently highlighted time value when the timepicker loses focus.
 *default: false*
