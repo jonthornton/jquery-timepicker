@@ -28,6 +28,7 @@ requires jQuery 1.7+
 		scrollDefaultNow: false,
 		scrollDefaultTime: false,
 		selectOnBlur: false,
+		blockMobileKeyboard: false,
 		forceRoundTime: false,
 		appendTo: 'body'
 	};
@@ -96,8 +97,9 @@ requires jQuery 1.7+
 		show: function(e)
 		{
 			var self = $(this);
+			var settings = self.data('timepicker-settings');
 
-			if ('ontouchstart' in document) {
+			if ('ontouchstart' in document && settings.blockMobileKeyboard) {
 				// block the keyboard on mobile devices
 				self.blur();
 			}
@@ -139,7 +141,6 @@ requires jQuery 1.7+
 
 			list.show();
 
-			var settings = self.data('timepicker-settings');
 			// position scrolling
 			var selected = list.find('.ui-timepicker-selected');
 
