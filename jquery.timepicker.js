@@ -654,16 +654,16 @@ requires jQuery 1.7+
 
 		var d = new Date(0);
 
-		var time;
+		var timeRegex;
 		if (timeString.indexOf(":") !== -1) {
 			//colon-delimited version
-			console.log('colon-delimited version');
-			time = timeString.toLowerCase().match(/(\d{1,2})(?::(\d{1,2}))?(?::(\d{2}))?\s*([pa]?)/);
+			timeRegex = /(\d{1,2})(?::(\d{1,2}))?(?::(\d{2}))?\s*([pa]?)/;
 		} else {
 			//zero-required, fixed-position version
-			console.log('fixed-position version');
-			time = timeString.toLowerCase().match(/^([0-2][0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)$/);
+			timeRegex = /^([0-2][0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)$/;
 		}
+
+		var time = timeString.toLowerCase().match(timeRegex);
 
 		if (!time) {
 			return null;
