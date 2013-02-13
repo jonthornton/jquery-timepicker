@@ -28,7 +28,7 @@ requires jQuery 1.7+
 		scrollDefaultNow: false,
 		scrollDefaultTime: false,
 		selectOnBlur: false,
-		blockMobileKeyboard: false,
+		disableTouchKeyboard: true,
 		forceRoundTime: false,
 		appendTo: 'body'
 	};
@@ -99,7 +99,7 @@ requires jQuery 1.7+
 			var self = $(this);
 			var settings = self.data('timepicker-settings');
 
-			if ('ontouchstart' in document && settings.blockMobileKeyboard) {
+			if ('ontouchstart' in document && settings.disableTouchKeyboard) {
 				// block the keyboard on mobile devices
 				self.blur();
 			}
