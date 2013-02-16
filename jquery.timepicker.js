@@ -363,10 +363,9 @@ requires jQuery 1.7+
 		var input = target.closest('.ui-timepicker-input');
 		if (input.length === 0 && target.closest('.ui-timepicker-list').length === 0) {
 			methods.hide();
+			$('body').unbind('.ui-timepicker');
+			$(window).unbind('.ui-timepicker');
 		}
-
-		$('body').unbind('.ui-timepicker');
-		$(window).unbind('.ui-timepicker');
 	}
 
 	function _findRow(self, list, value)
