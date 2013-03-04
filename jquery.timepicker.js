@@ -656,7 +656,7 @@ requires jQuery 1.7+
 		var timeRegex;
 		if (timeString.indexOf(":") !== -1) {
 			//colon-delimited version
-			timeRegex = /(\d{1,2})(?::(\d{1,2}))?(?::(\d{2}))?\s*([pa]?)/;
+			timeRegex = /(\d{1,2})(?::(\d{1,2}))?(?::(\d{1,2}))?\s*([pa]?)/;
 		} else {
 			//zero-required, fixed-position version
 			timeRegex = /^([0-2][0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)$/;
