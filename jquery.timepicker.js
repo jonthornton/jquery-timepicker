@@ -30,7 +30,8 @@ requires jQuery 1.7+
 		selectOnBlur: false,
 		disableTouchKeyboard: true,
 		forceRoundTime: false,
-		appendTo: 'body'
+		appendTo: 'body',
+		closeOnWindowScroll: true
 	};
 	var _lang = {
 		decimal: '.',
@@ -161,7 +162,7 @@ requires jQuery 1.7+
 				list.scrollTop(0);
 			}
 
-			_attachCloseHandler();
+			_attachCloseHandler(settings);
 
 			self.trigger('showTimepicker');
 		},
@@ -346,13 +347,15 @@ requires jQuery 1.7+
 		return new Date(_baseDate.valueOf() - _baseDateTimezoneOffset + _currentTimezoneOffset);
 	}
 
-	function _attachCloseHandler()
+	function _attachCloseHandler(settings)
 	{
 		if ('ontouchstart' in document) {
 			$('body').on('touchstart.ui-timepicker', _closeHandler);
 		} else {
 			$('body').on('mousedown.ui-timepicker', _closeHandler);
-			$(window).on('scroll.ui-timepicker', _closeHandler);
+			if (settings.closeOnWindowScroll) {
+				$(window).on('scroll.ui-timepicker', _closeHandler);
+			}
 		}
 	}
 
