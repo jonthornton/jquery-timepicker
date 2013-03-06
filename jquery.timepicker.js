@@ -443,7 +443,7 @@ requires jQuery 1.7+
 		var self = $(this);
 		var list = self.data('timepicker-list');
 
-		if (!list.is(':visible')) {
+		if (!list || !list.is(':visible')) {
 			if (e.keyCode == 40) {
 				self.focus();
 			} else {
