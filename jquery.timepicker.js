@@ -30,7 +30,8 @@ requires jQuery 1.7+
 		selectOnBlur: false,
 		disableTouchKeyboard: true,
 		forceRoundTime: false,
-		appendTo: 'body'
+		appendTo: 'body',
+		closeOnWindowScroll: true
 	};
 	var _lang = {
 		decimal: '.',
@@ -131,15 +132,15 @@ requires jQuery 1.7+
 			// make sure other pickers are hidden
 			methods.hide();
 
+			list.show();
+
 			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
 				// position the dropdown on top
-				list.css({ 'left':(self.offset().left), 'top': self.offset().top - list.outerHeight() });
+				list.offset({ 'left':(self.offset().left), 'top': self.offset().top - list.outerHeight() });
 			} else {
 				// put it under the input
-				list.css({ 'left':(self.offset().left), 'top': self.offset().top + self.outerHeight() });
+				list.offset({ 'left':(self.offset().left), 'top': self.offset().top + self.outerHeight() });
 			}
-
-			list.show();
 
 			// position scrolling
 			var selected = list.find('.ui-timepicker-selected');
@@ -161,7 +162,7 @@ requires jQuery 1.7+
 				list.scrollTop(0);
 			}
 
-			_attachCloseHandler();
+			_attachCloseHandler(settings);
 
 			self.trigger('showTimepicker');
 		},
@@ -346,13 +347,15 @@ requires jQuery 1.7+
 		return new Date(_baseDate.valueOf() - _baseDateTimezoneOffset + _currentTimezoneOffset);
 	}
 
-	function _attachCloseHandler()
+	function _attachCloseHandler(settings)
 	{
 		if ('ontouchstart' in document) {
 			$('body').on('touchstart.ui-timepicker', _closeHandler);
 		} else {
 			$('body').on('mousedown.ui-timepicker', _closeHandler);
-			$(window).on('scroll.ui-timepicker', _closeHandler);
+			if (settings.closeOnWindowScroll) {
+				$(window).on('scroll.ui-timepicker', _closeHandler);
+			}
 		}
 	}
 
@@ -440,7 +443,7 @@ requires jQuery 1.7+
 		var self = $(this);
 		var list = self.data('timepicker-list');
 
-		if (!list.is(':visible')) {
+		if (!list || !list.is(':visible')) {
 			if (e.keyCode == 40) {
 				self.focus();
 			} else {
