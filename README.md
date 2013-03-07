@@ -65,11 +65,15 @@ Update the input with the currently highlighted time value when the timepicker l
 
 - **appendTo**
 Override where the dropdown is appended.
-Takes either a `string` to use as a selector, a `function` that gets passed the clicked input element as argument or a jquery `object` to use directly
+Takes either a `string` to use as a selector, a `function` that gets passed the clicked input element as argument or a jquery `object` to use directly.
 *default: "body"*
 
 - **disableTouchKeyboard**
 Disable the onscreen keyboard for touch devices.
+*default: true*
+
+- **closeOnWindowScroll**
+Close the timepicker when the window is scrolled. (Replicates ```<select>``` behavior.)
 *default: true*
 
 - **lang**
@@ -173,4 +177,4 @@ Development guidelines
 
 - - -
 
-This software is made available under the open source MIT License. &copy; 2012 [Jon Thornton](http://www.jonthornton.com), contributions from [Anthony Fojas](https://github.com/fojas), [Vince Mi](https://github.com/vinc3m1), [Nikita Korotaev](https://github.com/websirnik), [Spoon88](https://github.com/Spoon88), [elarkin](https://github.com/elarkin), [lodewijk](https://github.com/lodewijk), [jayzawrotny](https://github.com/jayzawrotny), [David Mazza](https://github.com/dmzza), [Matt Jurik](https://github.com/exabytes18), [Phil Freo](https://github.com/philfreo), [orloffv](https://github.com/orloffv), [patdenice](https://github.com/patdenice), [Raymond Julin](https://github.com/nervetattoo), [Gavin Ballard](https://github.com/gavinballard), [Steven Schmid](https://github.com/stevschmid)
+This software is made available under the open source MIT License. &copy; 2012 [Jon Thornton](http://www.jonthornton.com), contributions from [Anthony Fojas](https://github.com/fojas), [Vince Mi](https://github.com/vinc3m1), [Nikita Korotaev](https://github.com/websirnik), [Spoon88](https://github.com/Spoon88), [elarkin](https://github.com/elarkin), [lodewijk](https://github.com/lodewijk), [jayzawrotny](https://github.com/jayzawrotny), [David Mazza](https://github.com/dmzza), [Matt Jurik](https://github.com/exabytes18), [Phil Freo](https://github.com/philfreo), [orloffv](https://github.com/orloffv), [patdenice](https://github.com/patdenice), [Raymond Julin](https://github.com/nervetattoo), [Gavin Ballard](https://github.com/gavinballard), [Steven Schmid](https://github.com/stevschmid), [ddaanet](https://github.com/ddaanet)
