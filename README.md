@@ -148,6 +148,9 @@ Called when a time value is selected.
 - **timeFormatError**
 Called if an unparseable time string is manually entered into the timepicker input.
 
+- **timeRangeError**
+Called if an maxTime or minTime is set and an invalid time is manually entered into the timepicker input.
+
 Theming
 -------
 

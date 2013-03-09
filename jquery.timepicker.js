@@ -422,6 +422,13 @@ requires jQuery 1.7+
 
 		var settings = self.data('timepicker-settings');
 
+		// check that the time in within bounds
+		if (settings.minTime !== null && seconds < settings.minTime) {
+			self.trigger('timeRangeError');
+		} else if (settings.maxTime !== null && seconds > settings.maxTime) {
+			self.trigger('timeRangeError');
+		}
+
 		if (settings.forceRoundTime) {
 			var offset = seconds % (settings.step*60); // step is in minutes
 
