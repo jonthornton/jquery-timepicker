@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.0.8
+jquery-timepicker v1.0.9
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -664,12 +664,12 @@ requires jQuery 1.7+
 		var d = new Date(0);
 
 		var timeRegex;
-		if (timeString.indexOf(":") !== -1) {
-			//colon-delimited version
-			timeRegex = /(\d{1,2})(?::(\d{1,2}))?(?::(\d{1,2}))?\s*([pa]?)/;
-		} else {
+		if (timeString.indexOf(":") === -1 && $.isNumeric(timeString.charAt(1))) {
 			//zero-required, fixed-position version
-			timeRegex = /^([0-2][0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)$/;
+			timeRegex = /^([0-2][0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)/;
+		} else {
+			//colon-delimited version
+			timeRegex = /^(\d{1,2})(?::(\d{1,2}))?(?::(\d{1,2}))?\s*([pa]?)/;
 		}
 
 		var time = timeString.toLowerCase().match(timeRegex);
