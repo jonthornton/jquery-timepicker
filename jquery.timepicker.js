@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.0.9
+jquery-timepicker v1.0.10
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -339,7 +339,7 @@ requires jQuery 1.7+
 
 	function _generateBaseDate()
 	{
-		var _baseDate = new Date();
+		var _baseDate = new Date(0);
 		var _currentTimezoneOffset = _baseDate.getTimezoneOffset()*60000;
 		_baseDate.setHours(0); _baseDate.setMinutes(0); _baseDate.setSeconds(0);
 		var _baseDateTimezoneOffset = _baseDate.getTimezoneOffset()*60000;
