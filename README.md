@@ -172,6 +172,11 @@ Sample markup with class names:
 </span>
 ```
 
+Help
+----
+
+Submit a [GitHub Issues request](https://github.com/jonthornton/jquery-timepicker/issues/new).
+
 Development guidelines
 ----------------------
 
