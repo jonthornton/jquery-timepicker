@@ -1,5 +1,5 @@
 
-body { background: #fff; color: #333; font-family: helvetica, arial, sans-serif; margin: 30px; font-size: 15px; line-height: 145%; }
+body { background: #fff; color: #383838; font-family: helvetica, arial, sans-serif; font-size: 15px; line-height: 145%; }
 h1, h2, h3 { color: #000; }
 h2, h3 { margin: 30px 0 10px 0; }
 h2:first-child, h3:first-child { margin-top: 0; }
@@ -7,7 +7,8 @@ p, .p { margin: 10px 0 20px 0; }
 input.time, input.date { font-size: 13px; }
 input.time { width: 80px; }
 input.date { width: 90px; }
-a { color: #00f; }
+a { color: #06c; text-decoration: none; }
+a:hover { text-decoration: underline; }
 h1 a { color: #000; }
 image { border: 0; }
 
@@ -15,9 +16,11 @@ image { border: 0; }
 .example h3 { margin: 0 0 10px 0; }
 .example p { margin: 20px 0 0 0; }
 
+.big { font-size: 2em; line-height: 2em; }
+
 .code { font-family: Consolas, Monaco, "Courier New", Courier; margin: 20px 0 0 0; background: #333; }
 
-#container { margin: 0 auto; width: 700px; }
+#container { margin: 50px auto; width: 700px; }
 h1 { font-size: 3.8em; color: #000; margin: 0 0 35px 0; }
 h1 .small { font-size: 0.4em; }
 h1 a { text-decoration: none }
