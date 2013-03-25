@@ -76,6 +76,10 @@ Disable the onscreen keyboard for touch devices.
 Close the timepicker when the window is scrolled. (Replicates ```<select>``` behavior.)
 *default: true*
 
+- **disabledTimeRanges**
+Disable selection of certain time ranges. Input is an array of time pairs, like ```[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]``
+*default: []*
+
 - **lang**
 Language constants used in the timepicker. Can override the defaults by passing an object with one or more of the following properties: decimal, mins, hr, hrs.
 *default:* ```{

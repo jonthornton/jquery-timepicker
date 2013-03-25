@@ -41,11 +41,23 @@
 
 li.ui-timepicker-selected,
 .ui-timepicker-list li:hover,
-.ui-timepicker-list:hover .ui-timepicker-selected:hover {
+.ui-timepicker-list .ui-timepicker-selected:hover {
 	background: #1980EC; color: #fff;
 }
 
 li.ui-timepicker-selected .ui-timepicker-duration,
 .ui-timepicker-list li:hover .ui-timepicker-duration {
 	color: #ccc;
+}
+
+.ui-timepicker-list li.ui-timepicker-disabled,
+.ui-timepicker-list li.ui-timepicker-disabled:hover,
+.ui-timepicker-list li.ui-timepicker-selected.ui-timepicker-disabled {
+	color: #888;
+	cursor: default;
+}
+
+.ui-timepicker-list li.ui-timepicker-disabled:hover,
+.ui-timepicker-list li.ui-timepicker-selected.ui-timepicker-disabled {
+	background: #f2f2f2;
 }
