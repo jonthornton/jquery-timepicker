@@ -81,7 +81,7 @@ requires jQuery 1.7+
 				self.on('blur.timepicker', _formatValue);
 				self.on('keydown.timepicker', _keyhandler);
 				self.addClass('ui-timepicker-input');
-
+				self.trigger('initTimepicker');
 				_formatValue.call(self.get(0));
 			});
 		},
