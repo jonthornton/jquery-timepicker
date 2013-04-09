@@ -23,33 +23,47 @@ $('.some-time-inputs').timepicker(options);
 Options
 -------
 
+- **appendTo**
+Override where the dropdown is appended.
+Takes either a `string` to use as a selector, a `function` that gets passed the clicked input element as argument or a jquery `object` to use directly.
+*default: "body"*
+
 - **className**
 A class name to apply to the HTML element that contains the timepicker dropdown.
 *default: null*
 
-- **minTime**
-The time that should appear first in the dropdown list.
-*default: 12:00am*
+- **closeOnWindowScroll**
+Close the timepicker when the window is scrolled. (Replicates ```<select>``` behavior.)
+*default: true*
 
-- **maxTime**
-The time that should appear last in the dropdown list. Can be used to limit the range of time options.
-*default: 24 hours after minTime*
+- **disabledTimeRanges**
+Disable selection of certain time ranges. Input is an array of time pairs, like ```[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]``
+*default: []*
 
-- **showDuration**
-Shows the relative time for each item in the dropdown. ```minTime``` or ```durationTime``` must be set.
-*default: false*
+- **disableTouchKeyboard**
+Disable the onscreen keyboard for touch devices.
+*default: true*
 
 - **durationTime**
 The time against which ```showDuration``` will compute relative times.
 *default: minTime*
 
-- **step**
-The amount of time, in minutes, between each item in the dropdown.
-*default: 30*
+- **lang**
+Language constants used in the timepicker. Can override the defaults by passing an object with one or more of the following properties: decimal, mins, hr, hrs.
+*default:* ```{
+	decimal: '.',
+	mins: 'mins',
+	hr: 'hr',
+	hrs: 'hrs'
+}```
 
-- **timeFormat**
-How times should be displayed in the list and input element. Uses [PHP's date() formatting syntax](http://php.net/manual/en/function.date.php).
-*default: 'g:ia'*
+- **maxTime**
+The time that should appear last in the dropdown list. Can be used to limit the range of time options.
+*default: 24 hours after minTime*
+
+- **minTime**
+The time that should appear first in the dropdown list.
+*default: 12:00am*
 
 - **scrollDefaultNow**
 If no time value is selected, set the dropdown scroll position to show the current time.
@@ -63,36 +77,27 @@ If no time value is selected, set the dropdown scroll position to show the time 
 Update the input with the currently highlighted time value when the timepicker loses focus.
 *default: false*
 
-- **appendTo**
-Override where the dropdown is appended.
-Takes either a `string` to use as a selector, a `function` that gets passed the clicked input element as argument or a jquery `object` to use directly.
-*default: "body"*
+- **showDuration**
+Shows the relative time for each item in the dropdown. ```minTime``` or ```durationTime``` must be set.
+*default: false*
 
-- **disableTouchKeyboard**
-Disable the onscreen keyboard for touch devices.
-*default: true*
+- **step**
+The amount of time, in minutes, between each item in the dropdown.
+*default: 30*
 
-- **closeOnWindowScroll**
-Close the timepicker when the window is scrolled. (Replicates ```<select>``` behavior.)
-*default: true*
-
-- **disabledTimeRanges**
-Disable selection of certain time ranges. Input is an array of time pairs, like ```[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]``
-*default: []*
-
-- **lang**
-Language constants used in the timepicker. Can override the defaults by passing an object with one or more of the following properties: decimal, mins, hr, hrs.
-*default:* ```{
-	decimal: '.',
-	mins: 'mins',
-	hr: 'hr',
-	hrs: 'hrs'
-}```
-
-
+- **timeFormat**
+How times should be displayed in the list and input element. Uses [PHP's date() formatting syntax](http://php.net/manual/en/function.date.php).
+*default: 'g:ia'*
 
 Methods
 -------
+
+- **getSecondsFromMidnight**
+Get the time as an integer, expressed as seconds from 12am.
+
+	```javascript
+	$('#getTimeExample').timepicker('getSecondsFromMidnight');
+	```
 
 - **getTime**
 Get the time using a Javascript Date object, relative to today's date.
@@ -107,18 +112,11 @@ Get the time using a Javascript Date object, relative to today's date.
 	$('#getTimeExample').val();
 	```
 
-- **getSecondsFromMidnight**
-Get the time as an integer, expressed as seconds from 12am.
+- **hide**
+Close the timepicker dropdown.
 
 	```javascript
-	$('#getTimeExample').timepicker('getSecondsFromMidnight');
-	```
-
-- **setTime**
-Set the time using a Javascript Date object.
-
-	```javascript
-	$('#setTimeExample').timepicker('setTime', new Date());
+	$('#hideExample').timepicker('hide');
 	```
 
 - **option**
@@ -137,17 +135,31 @@ Unbind an existing timepicker element.
 	$('#removeExample').timepicker('remove');
 	```
 
+- **setTime**
+Set the time using a Javascript Date object.
+
+	```javascript
+	$('#setTimeExample').timepicker('setTime', new Date());
+	```
+
+- **show**
+Display the timepicker dropdown.
+
+	```javascript
+	$('#showExample').timepicker('show');
+	```
+
 Events
 ------
 
-- **showTimepicker**
-Called when the timepicker is shown.
+- **changeTime**
+Called when a time value is selected.
 
 - **hideTimepicker**
 Called when the timepicker is closed.
 
-- **changeTime**
-Called when a time value is selected.
+- **showTimepicker**
+Called when the timepicker is shown.
 
 - **timeFormatError**
 Called if an unparseable time string is manually entered into the timepicker input.
@@ -161,19 +173,18 @@ Theming
 Sample markup with class names:
 
 ```html
-<span class="ui-timepicker-container">
-	<input value="5:00pm" class="ui-timepicker-input" type="text">
-	<ul class="ui-timepicker-list optional-custom-classname" tabindex="-1">
-		<li>12:00am</li>
-		<li>12:30am</li>
-		...
-		<li>4:30pm</li>
-		<li class="ui-timepicker-selected">5:00pm</li>
-		<li>5:30pm</li>
-		...
-		<li>11:30pm</li>
-	</ul>
-</span>
+<input value="5:00pm" class="ui-timepicker-input" type="text">
+...
+<ul class="ui-timepicker-list optional-custom-classname" tabindex="-1">
+	<li>12:00am</li>
+	<li>12:30am</li>
+	...
+	<li>4:30pm</li>
+	<li class="ui-timepicker-selected">5:00pm</li>
+	<li>5:30pm</li>
+	...
+	<li>11:30pm</li>
+</ul>
 ```
 
 Help
