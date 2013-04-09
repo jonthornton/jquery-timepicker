@@ -7,13 +7,13 @@ requires jQuery 1.7+
 
 
 (function (factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['jquery'], factory);
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define(['jquery'], factory);
+	} else {
+		// Browser globals
+		factory(jQuery);
+	}
 }(function ($) {
 	var _baseDate = _generateBaseDate();
 	var _ONE_DAY = 86400;
@@ -130,13 +130,13 @@ requires jQuery 1.7+
 			var selected = list.find('.ui-timepicker-selected');
 
 			if (!selected.length) {
-                if (_getTimeValue(self)) {
-                    selected = _findRow(self, list, _time2int(_getTimeValue(self)));
-                } else if (settings.scrollDefaultNow) {
-                    selected = _findRow(self, list, _time2int(new Date()));
-                } else if (settings.scrollDefaultTime !== false) {
-                    selected = _findRow(self, list, _time2int(settings.scrollDefaultTime));
-                }
+				if (_getTimeValue(self)) {
+					selected = _findRow(self, list, _time2int(_getTimeValue(self)));
+				} else if (settings.scrollDefaultNow) {
+					selected = _findRow(self, list, _time2int(new Date()));
+				} else if (settings.scrollDefaultTime !== false) {
+					selected = _findRow(self, list, _time2int(settings.scrollDefaultTime));
+				}
 			}
 
 			if (selected && selected.length) {
@@ -201,9 +201,10 @@ requires jQuery 1.7+
 
 		getTime: function()
 		{
+			var self = $(this);
 			var today = new Date();
 			today.setHours(0, 0, 0, 0);
-			return new Date(today.valueOf() + (_time2int(_getTimeValue($(this))*1000)));
+			return new Date(today.valueOf() + (_time2int(_getTimeValue(self))*1000));
 		},
 
 		setTime: function(value)
@@ -462,21 +463,21 @@ requires jQuery 1.7+
 
 	function _getTimeValue(self)
 	{
-		if (self.attr('type') != 'text') {
+		if (self.is('input')) {
+			return self.val();
+		} else {
 			// use the element's data attributes to store values
 			return self.data('ui-timepicker-value');
-		} else {
-			return self.val();
 		}
 	}
 
 	function _setTimeValue(self, value)
 	{
-		if (self.attr('type') != 'text') {
+		if (self.is('input')) {
+			self.val(value);
+		} else {
 			// use the element's data attributes to store values
 			self.data('ui-timepicker-value', value);
-		} else {
-			return self.val(value);
 		}
 	}
 
