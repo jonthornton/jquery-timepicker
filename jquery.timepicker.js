@@ -7,13 +7,13 @@ requires jQuery 1.7+
 
 
 (function (factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['jquery'], factory);
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define(['jquery'], factory);
+	} else {
+		// Browser globals
+		factory(jQuery);
+	}
 }(function ($) {
 	var _baseDate = _generateBaseDate();
 	var _ONE_DAY = 86400;
@@ -130,13 +130,13 @@ requires jQuery 1.7+
 			var selected = list.find('.ui-timepicker-selected');
 
 			if (!selected.length) {
-                if (_getTimeValue(self)) {
-                    selected = _findRow(self, list, _time2int(_getTimeValue(self)));
-                } else if (settings.scrollDefaultNow) {
-                    selected = _findRow(self, list, _time2int(new Date()));
-                } else if (settings.scrollDefaultTime !== false) {
-                    selected = _findRow(self, list, _time2int(settings.scrollDefaultTime));
-                }
+				if (_getTimeValue(self)) {
+					selected = _findRow(self, list, _time2int(_getTimeValue(self)));
+				} else if (settings.scrollDefaultNow) {
+					selected = _findRow(self, list, _time2int(new Date()));
+				} else if (settings.scrollDefaultTime !== false) {
+					selected = _findRow(self, list, _time2int(settings.scrollDefaultTime));
+				}
 			}
 
 			if (selected && selected.length) {
