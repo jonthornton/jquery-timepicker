@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1
+jquery-timepicker v1.1.1
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -109,13 +109,6 @@ requires jQuery 1.7+
 				list = self.data('timepicker-list');
 			}
 
-			// check if a flag was set to close this picker
-			if (self.hasClass('ui-timepicker-hideme')) {
-				self.removeClass('ui-timepicker-hideme');
-				list.hide();
-				return;
-			}
-
 			if (list.is(':visible')) {
 				return;
 			}
@@ -137,8 +130,8 @@ requires jQuery 1.7+
 			var selected = list.find('.ui-timepicker-selected');
 
 			if (!selected.length) {
-                if (self.val()) {
-                    selected = _findRow(self, list, _time2int(self.val()));
+                if (_getTimeValue(self)) {
+                    selected = _findRow(self, list, _time2int(_getTimeValue(self)));
                 } else if (settings.scrollDefaultNow) {
                     selected = _findRow(self, list, _time2int(new Date()));
                 } else if (settings.scrollDefaultTime !== false) {
@@ -203,21 +196,21 @@ requires jQuery 1.7+
 
 		getSecondsFromMidnight: function()
 		{
-			return _time2int($(this).val());
+			return _time2int(_getTimeValue($(this)));
 		},
 
 		getTime: function()
 		{
 			var today = new Date();
 			today.setHours(0, 0, 0, 0);
-			return new Date(today.valueOf() + (_time2int($(this).val())*1000));
+			return new Date(today.valueOf() + (_time2int(_getTimeValue($(this))*1000)));
 		},
 
 		setTime: function(value)
 		{
 			var self = $(this);
 			var prettyTime = _int2time(_time2int(value), self.data('timepicker-settings').timeFormat);
-			self.val(prettyTime);
+			_setTimeValue(self, prettyTime);
 		},
 
 		remove: function()
@@ -359,7 +352,6 @@ requires jQuery 1.7+
 			$(this).addClass('ui-timepicker-selected');
 
 			if (_selectValue(self)) {
-				self.addClass('ui-timepicker-hideme');
 				list.hide();
 			}
 		});
@@ -422,7 +414,7 @@ requires jQuery 1.7+
 
 	function _setSelected(self, list)
 	{
-		var timeValue = _time2int(self.val());
+		var timeValue = _time2int(_getTimeValue(self));
 
 		var selected = _findRow(self, list, timeValue);
 		if (selected) selected.addClass('ui-timepicker-selected');
@@ -465,7 +457,27 @@ requires jQuery 1.7+
 		}
 
 		var prettyTime = _int2time(seconds, settings.timeFormat);
-		self.val(prettyTime);
+		_setTimeValue(self, prettyTime);
+	}
+
+	function _getTimeValue(self)
+	{
+		if (self.attr('type') != 'text') {
+			// use the element's data attributes to store values
+			return self.data('ui-timepicker-value');
+		} else {
+			return self.val();
+		}
+	}
+
+	function _setTimeValue(self, value)
+	{
+		if (self.attr('type') != 'text') {
+			// use the element's data attributes to store values
+			self.data('ui-timepicker-value', value);
+		} else {
+			return self.val(value);
+		}
 	}
 
 	function _keyhandler(e)
@@ -582,17 +594,17 @@ requires jQuery 1.7+
 			// selected value found
 			timeValue = cursor.data('time');
 
-		} else if (self.val()) {
+		} else if (_getTimeValue(self)) {
 
 			// no selected value; fall back on input value
-			timeValue = _time2int(self.val());
+			timeValue = _time2int(_getTimeValue(self));
 
 			_setSelected(self, list);
 		}
 
 		if (timeValue !== null) {
 			var timeString = _int2time(timeValue, settings.timeFormat);
-			self.val(timeString);
+			_setTimeValue(self, timeString);
 		}
 
 		self.trigger('change').trigger('changeTime');
@@ -685,7 +697,7 @@ requires jQuery 1.7+
 	function _time2int(timeString)
 	{
 		if (timeString === '') return null;
-		if (timeString+0 == timeString) return timeString;
+		if (!timeString || timeString+0 == timeString) return timeString;
 
 		if (typeof(timeString) == 'object') {
 			timeString = timeString.getHours()+':'+timeString.getMinutes()+':'+timeString.getSeconds();

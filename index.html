@@ -272,6 +272,29 @@ $('#stepExample2').timepicker({ 'step': 60 });</pre>
 
 
 
+	<div class="example">
+		<script>
+		  $(function() {
+			$('#spanExample').timepicker();
+			$('#openSpanExample').on('click', function(){
+			  $('#spanExample').timepicker('show');
+			});
+		  });
+		</script>
+
+		<h3>Non-input Example</h3>
+		<p>jquery-timepicker can be bound to any visibile DOM element, such as spans or divs.</p>
+		<p><span id="spanExample" style="background:#f00; padding:0 10px; margin-right:100px;"></span> <button id="openSpanExample">Pick Time</button> </p>
+
+		<pre class="code" data-language="javascript">$('#spanExample').timepicker();
+	$('#openSpanExample').on('click', function(){
+	$('#spanExample').timepicker('show');
+});</pre>
+	</div>
+
+
+
+
 
 	<div class="example">
 		<script src="lib/datepair.js"></script>
