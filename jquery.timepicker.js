@@ -169,7 +169,7 @@ requires jQuery 1.7+
 
 		option: function(key, value)
 		{
-			var self = $(this);
+			var self = this;
 			var settings = self.data('timepicker-settings');
 			var list = self.data('timepicker-list');
 
@@ -192,16 +192,17 @@ requires jQuery 1.7+
 				self.data('timepicker-list', false);
 			}
 
+			return self;
 		},
 
 		getSecondsFromMidnight: function()
 		{
-			return _time2int(_getTimeValue($(this)));
+			return _time2int(_getTimeValue(this));
 		},
 
 		getTime: function()
 		{
-			var self = $(this);
+			var self = this;
 			var today = new Date();
 			today.setHours(0, 0, 0, 0);
 			return new Date(today.valueOf() + (_time2int(_getTimeValue(self))*1000));
@@ -209,14 +210,14 @@ requires jQuery 1.7+
 
 		setTime: function(value)
 		{
-			var self = $(this);
+			var self = this;
 			var prettyTime = _int2time(_time2int(value), self.data('timepicker-settings').timeFormat);
 			_setTimeValue(self, prettyTime);
 		},
 
 		remove: function()
 		{
-			var self = $(this);
+			var self = this;
 
 			// check if this element is a timepicker
 			if (!self.hasClass('ui-timepicker-input')) {
