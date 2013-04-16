@@ -192,6 +192,7 @@ requires jQuery 1.7+
 				self.data('timepicker-list', false);
 			}
 
+			return self;
 		},
 
 		getSecondsFromMidnight: function()
