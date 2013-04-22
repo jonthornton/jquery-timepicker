@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.2
+jquery-timepicker v1.1.3
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -347,6 +347,15 @@ requires jQuery 1.7+
 		_setSelected(self, list);
 
 		list.on('click', 'li', function(e) {
+
+			// hack: temporarily disable the focus handler
+			// to deal with the fact that IE fires 'focus'
+			// events asynchronously
+			self.off('focus.timepicker');
+			self.on('focus.timepicker-ie-hack', function(){
+				self.off('focus.timepicker-ie-hack');
+				self.on('focus.timepicker', methods.show);
+			});
 			self[0].focus();
 
 			// make sure only the clicked row is selected
