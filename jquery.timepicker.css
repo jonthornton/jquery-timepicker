@@ -1,3 +1,6 @@
+html.ui-timepicker-noscroll,
+html.ui-timepicker-noscroll body { overflow: hidden; }
+
 .ui-timepicker-list {
 	overflow-y: auto;
 	height: 150px;
