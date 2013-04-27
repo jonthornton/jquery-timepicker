@@ -32,7 +32,7 @@ requires jQuery 1.7+
 		forceRoundTime: false,
 		appendTo: 'body',
 		disableTimeRanges: [],
-		closeOnWindowScroll: true
+		closeOnWindowScroll: false
 	};
 	var _lang = {
 		decimal: '.',
