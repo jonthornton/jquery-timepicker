@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.3
+jquery-timepicker v1.1.4
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -79,7 +79,8 @@ requires jQuery 1.7+
 				self.prop('autocomplete', 'off');
 				self.on('click.timepicker focus.timepicker', methods.show);
 				self.on('blur.timepicker', _formatValue);
-				self.on('keydown.timepicker', _keyhandler);
+				self.on('keydown.timepicker', _keydownhandler);
+				self.on('keyup.timepicker', _keyuphandler);
 				self.addClass('ui-timepicker-input');
 
 				_formatValue.call(self.get(0));
@@ -425,10 +426,24 @@ requires jQuery 1.7+
 
 	function _setSelected(self, list)
 	{
+		list.find('li').removeClass('ui-timepicker-selected');
+
 		var timeValue = _time2int(_getTimeValue(self));
+		if (!timeValue) {
+			return;
+		}
 
 		var selected = _findRow(self, list, timeValue);
-		if (selected) selected.addClass('ui-timepicker-selected');
+		if (selected) {
+
+			var topDelta = selected.offset().top - list.offset().top;
+
+			if (topDelta + selected.outerHeight() > list.outerHeight() || topDelta < 0) {
+				list.scrollTop(list.scrollTop() + selected.position().top - selected.outerHeight());
+			}
+
+			selected.addClass('ui-timepicker-selected');
+		}
 	}
 
 
@@ -491,7 +506,10 @@ requires jQuery 1.7+
 		}
 	}
 
-	function _keyhandler(e)
+	/*
+	*  Keyboard navigation via arrow keys
+	*/
+	function _keydownhandler(e)
 	{
 		var self = $(this);
 		var list = self.data('timepicker-list');
@@ -535,7 +553,7 @@ requires jQuery 1.7+
 					}
 				}
 
-				break;
+				return false;
 
 			case 40: // down
 				selected = list.find('.ui-timepicker-selected');
@@ -558,7 +576,7 @@ requires jQuery 1.7+
 					}
 				}
 
-				break;
+				return false;
 
 			case 27: // escape
 				list.find('li').removeClass('ui-timepicker-selected');
@@ -569,22 +587,46 @@ requires jQuery 1.7+
 				methods.hide();
 				break;
 
-			case 16:
-			case 17:
-			case 18:
-			case 19:
-			case 20:
-			case 33:
-			case 34:
-			case 35:
-			case 36:
-			case 37:
-			case 39:
-			case 45:
+			default:
 				return;
+		}
+	}
+
+	/*
+	*	Time typeahead
+	*/
+	function _keyuphandler(e)
+	{
+		var self = $(this);
+		var list = self.data('timepicker-list');
+
+		if (!list || !list.is(':visible')) {
+			return true;
+		}
+
+		switch (e.keyCode) {
+
+			case 48: // numerals
+			case 49:
+			case 50:
+			case 51:
+			case 52:
+			case 53:
+			case 54:
+			case 55:
+			case 56:
+			case 57:
+			case 65: // a
+			case 77: // m
+			case 80: // p
+			case 186: // colon
+			case 8: // backspace
+			case 46: // delete
+				_setSelected(self, list);
+				break;
 
 			default:
-				list.find('li').removeClass('ui-timepicker-selected');
+				// list.find('li').removeClass('ui-timepicker-selected');
 				return;
 		}
 	}
