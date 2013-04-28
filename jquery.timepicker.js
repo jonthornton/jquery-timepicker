@@ -114,17 +114,19 @@ requires jQuery 1.7+
 				return;
 			}
 
+			var wrapper = list.parent();
+
 			// make sure other pickers are hidden
 			methods.hide();
 
-			list.show();
+			wrapper.show();
 
 			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
 				// position the dropdown on top
-				list.offset({ 'left':(self.offset().left), 'top': self.offset().top - list.outerHeight() });
+				wrapper.css({ 'left':(self.offset().left), 'top': self.offset().top - list.outerHeight() });
 			} else {
 				// put it under the input
-				list.offset({ 'left':(self.offset().left), 'top': self.offset().top + self.outerHeight() });
+				wrapper.css({ 'left':(self.offset().left), 'top': self.offset().top + self.outerHeight() });
 			}
 
 			// position scrolling
@@ -158,12 +160,13 @@ requires jQuery 1.7+
 				var list = $(this);
 				var self = list.data('timepicker-input');
 				var settings = self.data('timepicker-settings');
+				var wrapper = list.parent();
 
 				if (settings && settings.selectOnBlur) {
 					_selectValue(self);
 				}
 
-				list.hide();
+				wrapper.hide();
 				self.trigger('hideTimepicker');
 			});
 		},
@@ -277,6 +280,9 @@ requires jQuery 1.7+
 	{
 		var settings = self.data('timepicker-settings');
 		var list = self.data('timepicker-list');
+		var wrapper = $('<div />', {
+			'class': 'ui-timepicker dropdown-menu'
+		});
 
 		if (list && list.length) {
 			list.remove();
@@ -344,7 +350,7 @@ requires jQuery 1.7+
 		} else if (typeof appendTo === 'function') {
 			appendTo = appendTo(self);
 		}
-		appendTo.append(list);
+		appendTo.append(wrapper.append(list));
 		_setSelected(self, list);
 
 		list.on('click', 'li', function(e) {
@@ -364,7 +370,7 @@ requires jQuery 1.7+
 			$(this).addClass('ui-timepicker-selected');
 
 			if (_selectValue(self)) {
-				list.hide();
+				wrapper.hide();
 			}
 		});
 	}
@@ -513,6 +519,7 @@ requires jQuery 1.7+
 	{
 		var self = $(this);
 		var list = self.data('timepicker-list');
+		var wrapper = list.parent();
 
 		if (!list || !list.is(':visible')) {
 			if (e.keyCode == 40) {
@@ -580,7 +587,7 @@ requires jQuery 1.7+
 
 			case 27: // escape
 				list.find('li').removeClass('ui-timepicker-selected');
-				list.hide();
+				wrapper.hide();
 				break;
 
 			case 9: //tab
