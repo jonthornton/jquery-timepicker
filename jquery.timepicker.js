@@ -121,10 +121,16 @@ requires jQuery 1.7+
 
 			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
 				// position the dropdown on top
-				list.offset({ 'left':(self.offset().left), 'top': self.offset().top - list.outerHeight() });
+				list.offset({
+					'left': self.offset().left + parseInt(list.css('marginLeft').replace('px', ''), 10),
+					'top': self.offset().top - list.outerHeight() + parseInt(list.css('marginTop').replace('px', ''), 10)
+				});
 			} else {
 				// put it under the input
-				list.offset({ 'left':(self.offset().left), 'top': self.offset().top + self.outerHeight() });
+				list.offset({
+					'left':self.offset().left + parseInt(list.css('marginLeft').replace('px', ''), 10),
+					'top': self.offset().top + self.outerHeight() + parseInt(list.css('marginTop').replace('px', ''), 10)
+				});
 			}
 
 			// position scrolling
