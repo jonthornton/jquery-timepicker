@@ -1,12 +1,9 @@
-.ui-timepicker-list {
+.ui-timepicker-wrapper {
 	overflow-y: auto;
 	height: 150px;
 	width: 6.5em;
 	background: #fff;
 	border: 1px solid #ddd;
-	margin: 0;
-	padding: 0;
-	list-style: none;
 	-webkit-box-shadow:0 5px 10px rgba(0,0,0,0.2);
 	-moz-box-shadow:0 5px 10px rgba(0,0,0,0.2);
 	box-shadow:0 5px 10px rgba(0,0,0,0.2);
@@ -14,8 +11,14 @@
 	z-index: 10001;
 }
 
-.ui-timepicker-list.ui-timepicker-with-duration {
+.ui-timepicker-wrapper.ui-timepicker-with-duration {
 	width: 11em;
+}
+
+.ui-timepicker-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
 .ui-timepicker-duration {

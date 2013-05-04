@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.4
+jquery-timepicker v1.1.5
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -160,7 +160,7 @@ requires jQuery 1.7+
 
 		hide: function(e)
 		{
-			$('.ui-timepicker-list:visible').each(function() {
+			$('.ui-timepicker-wrapper:visible').each(function() {
 				var list = $(this);
 				var self = list.data('timepicker-input');
 				var settings = self.data('timepicker-settings');
@@ -289,19 +289,18 @@ requires jQuery 1.7+
 			self.data('timepicker-list', false);
 		}
 
-		list = $('<ul />', {
-			'tabindex': -1,
-			'class': 'ui-timepicker-list'
-		});
+		list = $('<ul />', { 'class': 'ui-timepicker-list' });
+
+		var wrapped_list = $('<div />', { 'class': 'ui-timepicker-wrapper', 'tabindex': -1 });
+		wrapped_list.css({'display':'none', 'position': 'absolute' }).append(list);
+
 
 		if (settings.className) {
-			list.addClass(settings.className);
+			wrapped_list.addClass(settings.className);
 		}
 
-		list.css({'display':'none', 'position': 'absolute' });
-
 		if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
-			list.addClass('ui-timepicker-with-duration');
+			wrapped_list.addClass('ui-timepicker-with-duration');
 		}
 
 		var durStart = (settings.durationTime !== null) ? settings.durationTime : settings.minTime;
@@ -341,8 +340,8 @@ requires jQuery 1.7+
 			list.append(row);
 		}
 
-		list.data('timepicker-input', self);
-		self.data('timepicker-list', list);
+		wrapped_list.data('timepicker-input', self);
+		self.data('timepicker-list', wrapped_list);
 
 		var appendTo = settings.appendTo;
 		if (typeof appendTo === 'string') {
@@ -350,7 +349,7 @@ requires jQuery 1.7+
 		} else if (typeof appendTo === 'function') {
 			appendTo = appendTo(self);
 		}
-		appendTo.append(list);
+		appendTo.append(wrapped_list);
 		_setSelected(self, list);
 
 		list.on('click', 'li', function(e) {
@@ -370,7 +369,7 @@ requires jQuery 1.7+
 			$(this).addClass('ui-timepicker-selected');
 
 			if (_selectValue(self)) {
-				list.hide();
+				wrapped_list.hide();
 			}
 		});
 	}
@@ -397,7 +396,7 @@ requires jQuery 1.7+
 	{
 		var target = $(e.target);
 		var input = target.closest('.ui-timepicker-input');
-		if (input.length === 0 && target.closest('.ui-timepicker-list').length === 0) {
+		if (input.length === 0 && target.closest('.ui-timepicker-wrapper').length === 0) {
 			methods.hide();
 			$('body').unbind('.ui-timepicker');
 			$(window).unbind('.ui-timepicker');
@@ -542,7 +541,7 @@ requires jQuery 1.7+
 				var selected = list.find('.ui-timepicker-selected');
 
 				if (!selected.length) {
-					list.children().each(function(i, obj) {
+					list.find('li').each(function(i, obj) {
 						if ($(obj).position().top > 0) {
 							selected = $(obj);
 							return false;
@@ -565,7 +564,7 @@ requires jQuery 1.7+
 				selected = list.find('.ui-timepicker-selected');
 
 				if (selected.length === 0) {
-					list.children().each(function(i, obj) {
+					list.find('li').each(function(i, obj) {
 						if ($(obj).position().top > 0) {
 							selected = $(obj);
 							return false;

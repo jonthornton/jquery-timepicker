@@ -175,16 +175,18 @@ Sample markup with class names:
 ```html
 <input value="5:00pm" class="ui-timepicker-input" type="text">
 ...
-<ul class="ui-timepicker-list optional-custom-classname" tabindex="-1">
-	<li>12:00am</li>
-	<li>12:30am</li>
-	...
-	<li>4:30pm</li>
-	<li class="ui-timepicker-selected">5:00pm</li>
-	<li>5:30pm</li>
-	...
-	<li>11:30pm</li>
-</ul>
+<div class="ui-timepicker-wrapper optional-custom-classname" tabindex="-1">
+	<ul class="ui-timepicker-list">
+		<li>12:00am</li>
+		<li>12:30am</li>
+		...
+		<li>4:30pm</li>
+		<li class="ui-timepicker-selected">5:00pm</li>
+		<li>5:30pm</li>
+		...
+		<li>11:30pm</li>
+	</ul>
+</div>
 ```
 
 Help
