@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.5
+jquery-timepicker v1.1.6
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -761,18 +761,22 @@ requires jQuery 1.7+
 			timeString = timeString.getHours()+':'+timeString.getMinutes()+':'+timeString.getSeconds();
 		}
 
+		timeString = timeString.toLowerCase();
+
 		var d = new Date(0);
+		var time;
 
-		var timeRegex;
-		if (timeString.indexOf(":") === -1 && $.isNumeric(timeString.charAt(1))) {
-			//zero-required, fixed-position version
-			timeRegex = /^([0-2][0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)/;
+		// try to parse time input
+		if (timeString.indexOf(":") === -1) {
+			// no colon present
+			time = timeString.match(/^([0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)m?$/);
+
+			if (!time) {
+				time = timeString.match(/^([0-2][0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)m?$/);
+			}
 		} else {
-			//colon-delimited version
-			timeRegex = /^(\d{1,2})(?::(\d{1,2}))?(?::(\d{1,2}))?\s*([pa]?)/;
+			time = timeString.match(/^(\d{1,2})(?::([0-5][0-9]))?(?::([0-5][0-9]))?\s*([pa]?)m?$/);
 		}
-
-		var time = timeString.toLowerCase().match(timeRegex);
 
 		if (!time) {
 			return null;
