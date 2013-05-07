@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.6
+jquery-timepicker v1.1.7
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -332,7 +332,7 @@ requires jQuery 1.7+
 			if (disabledRange) {
 				if (timeInt >= disabledRange[0] && timeInt < disabledRange[1]) {
 					row.addClass('ui-timepicker-disabled');
-				} else if (timeInt > disabledRange[1]) {
+				} else if (timeInt >= disabledRange[1]) {
 					disabledRange = disabledTimeRanges.shift();
 				}
 			}
