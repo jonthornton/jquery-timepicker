@@ -283,6 +283,9 @@ requires jQuery 1.7+
 	{
 		var settings = self.data('timepicker-settings');
 		var list = self.data('timepicker-list');
+		var z_index = parseInt(self.parents().filter(function() {
+			return $(this).css('z-index') !== 'auto';
+		}).first().css('z-index')) + 10;
 
 		if (list && list.length) {
 			list.remove();
@@ -292,7 +295,7 @@ requires jQuery 1.7+
 		list = $('<ul />', { 'class': 'ui-timepicker-list' });
 
 		var wrapped_list = $('<div />', { 'class': 'ui-timepicker-wrapper', 'tabindex': -1 });
-		wrapped_list.css({'display':'none', 'position': 'absolute' }).append(list);
+		wrapped_list.css({'display':'none', 'position': 'absolute', 'z-index': z_index}).append(list);
 
 
 		if (settings.className) {
