@@ -32,7 +32,8 @@ requires jQuery 1.7+
 		forceRoundTime: false,
 		appendTo: 'body',
 		disableTimeRanges: [],
-		closeOnWindowScroll: false
+		closeOnWindowScroll: false,
+		calculateZIndex: false
 	};
 	var _lang = {
 		decimal: '.',
@@ -294,6 +295,12 @@ requires jQuery 1.7+
 		var wrapped_list = $('<div />', { 'class': 'ui-timepicker-wrapper', 'tabindex': -1 });
 		wrapped_list.css({'display':'none', 'position': 'absolute' }).append(list);
 
+		if(settings.calculateZIndex) {
+			var zIndex = parseInt(self.parents().filter(function() {
+				return $(this).css('z-index') !== 'auto';
+			}).first().css('z-index')) + 10;
+			wrapped_list.css({'z-index': zIndex});
+		}
 
 		if (settings.className) {
 			wrapped_list.addClass(settings.className);
