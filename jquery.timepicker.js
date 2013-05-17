@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.7
+jquery-timepicker v1.1.8
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -312,8 +312,9 @@ requires jQuery 1.7+
 			end += _ONE_DAY;
 		}
 
-		var disabledTimeRanges = settings.disableTimeRanges;
-		var disabledRange = disabledTimeRanges.shift();
+		var dr = settings.disableTimeRanges;
+		var drCur = 0;
+		var drLen = dr.length;
 
 		for (var i=start; i <= end; i += settings.step*60) {
 			var timeInt = i%_ONE_DAY;
@@ -329,11 +330,11 @@ requires jQuery 1.7+
 				row.append(duration);
 			}
 
-			if (disabledRange) {
-				if (timeInt >= disabledRange[0] && timeInt < disabledRange[1]) {
+			if (drCur < drLen) {
+				if (timeInt >= dr[drCur][0] && timeInt < dr[drCur][1]) {
 					row.addClass('ui-timepicker-disabled');
-				} else if (timeInt >= disabledRange[1]) {
-					disabledRange = disabledTimeRanges.shift();
+				} else if (timeInt >= dr[drCur][1]) {
+					drCur += 1;
 				}
 			}
 
@@ -474,6 +475,14 @@ requires jQuery 1.7+
 		} else if (settings.maxTime !== null && seconds > settings.maxTime) {
 			self.trigger('timeRangeError');
 		}
+
+		// check that time isn't within disabled time ranges
+		$.each(settings.disableTimeRanges, function(){
+			if (seconds >= this[0] && seconds < this[1]) {
+				self.trigger('timeRangeError');
+				return false;
+			}
+		});
 
 		if (settings.forceRoundTime) {
 			var offset = seconds % (settings.step*60); // step is in minutes

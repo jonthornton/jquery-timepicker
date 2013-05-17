@@ -165,7 +165,7 @@ Called when the timepicker is shown.
 Called if an unparseable time string is manually entered into the timepicker input.
 
 - **timeRangeError**
-Called if an maxTime or minTime is set and an invalid time is manually entered into the timepicker input.
+Called if an maxTime, minTime, or disableTimeRanges is set and an invalid time is manually entered into the timepicker input.
 
 Theming
 -------
