@@ -758,7 +758,7 @@ requires jQuery 1.7+
 		if (!timeString || timeString+0 == timeString) return timeString;
 
 		if (typeof(timeString) == 'object') {
-			timeString = timeString.getHours()+':'+timeString.getMinutes()+':'+timeString.getSeconds();
+			timeString = timeString.getHours()+':'+_pad2(timeString.getMinutes())+':'+_pad2(timeString.getSeconds());
 		}
 
 		timeString = timeString.toLowerCase();
@@ -799,6 +799,10 @@ requires jQuery 1.7+
 		var minutes = ( time[2]*1 || 0 );
 		var seconds = ( time[3]*1 || 0 );
 		return hours*3600 + minutes*60 + seconds;
+	}
+
+	function _pad2(n) {
+		return ("0" + n).slice(-2);
 	}
 
 	// Plugin entry
