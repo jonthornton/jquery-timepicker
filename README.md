@@ -36,13 +36,13 @@ A class name to apply to the HTML element that contains the timepicker dropdown.
 Close the timepicker when the window is scrolled. (Replicates ```<select>``` behavior.)
 *default: false*
 
-- **disableTextInput**
-Disable editing the input text and force the user to select a value from the timepicker list.
-*default: false*
-
 - **disabledTimeRanges**
 Disable selection of certain time ranges. Input is an array of time pairs, like ```[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]``
 *default: []*
+
+- **disableTextInput**
+Disable editing the input text and force the user to select a value from the timepicker list.
+*default: false*
 
 - **disableTouchKeyboard**
 Disable the onscreen keyboard for touch devices.
