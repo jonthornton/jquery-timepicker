@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.8
+jquery-timepicker v1.1.9
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -32,7 +32,8 @@ requires jQuery 1.7+
 		forceRoundTime: false,
 		appendTo: 'body',
 		disableTimeRanges: [],
-		closeOnWindowScroll: false
+		closeOnWindowScroll: false,
+		disableTextInput: false
 	};
 	var _lang = {
 		decimal: '.',
@@ -602,7 +603,7 @@ requires jQuery 1.7+
 				break;
 
 			default:
-				return;
+				return !self.data('timepicker-settings').disableTextInput;
 		}
 	}
 
