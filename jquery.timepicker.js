@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.9
+jquery-timepicker v1.1.10
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -533,7 +533,7 @@ requires jQuery 1.7+
 			if (e.keyCode == 40) {
 				self.focus();
 			} else {
-				return true;
+				return _screenInput(e, self);
 			}
 		}
 
@@ -603,8 +603,13 @@ requires jQuery 1.7+
 				break;
 
 			default:
-				return !self.data('timepicker-settings').disableTextInput;
+				return _screenInput(e, self);
 		}
+	}
+
+	function _screenInput(e, self)
+	{
+		return !self.data('timepicker-settings').disableTextInput || e.ctrlKey || e.altKey || e.metaKey || (e.keyCode != 2 && (e.keyCode < 46 || e.keyCode > 90));
 	}
 
 	/*
