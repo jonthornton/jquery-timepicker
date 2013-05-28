@@ -503,12 +503,13 @@ requires jQuery 1.7+
 
 	function _getTimeValue(self)
 	{
-		if (self.is('input')) {
-			return self.val();
-		} else {
-			// use the element's data attributes to store values
-			return self.data('ui-timepicker-value');
-		}
+	    if (self.is('input')) {
+	        return self.val();
+	    } else if (self.attr('ut-timepicker-value')) {
+	        return self.data('ui-timepicker-value');
+	    } else {
+	        return self.text();
+	    }
 	}
 
 	function _setTimeValue(self, value)
