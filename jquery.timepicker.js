@@ -505,7 +505,7 @@ requires jQuery 1.7+
 	{
 	    if (self.is('input')) {
 	        return self.val();
-	    } else if (self.data('ui-timepicker-value')) {
+	    } else if (self.data('ui-timepicker-value') != "NaN:0NaN AM") {
 	        return self.data('ui-timepicker-value');
 	    } else {
 	        return self.text();
