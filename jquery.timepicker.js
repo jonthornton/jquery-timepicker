@@ -626,6 +626,16 @@ requires jQuery 1.7+
 
 		switch (e.keyCode) {
 
+			case 96: // numpad numerals
+			case 97:
+			case 98:
+			case 99:
+			case 100:
+			case 101:
+			case 102:
+			case 103:
+			case 104:
+			case 105:
 			case 48: // numerals
 			case 49:
 			case 50:
