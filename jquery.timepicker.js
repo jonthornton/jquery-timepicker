@@ -106,7 +106,7 @@ requires jQuery 1.7+
 			}
 
 			// check if list needs to be rendered
-			if (!list || list.length === 0) {
+			if (!list || list.length === 0 || typeof settings.durationTime === 'function') {
 				_render(self);
 				list = self.data('timepicker-list');
 			}
@@ -258,7 +258,7 @@ requires jQuery 1.7+
 			settings.maxTime = _time2int(settings.maxTime);
 		}
 
-		if (settings.durationTime) {
+		if (settings.durationTime && typeof settings.durationTime !== 'function') {
 			settings.durationTime = _time2int(settings.durationTime);
 		}
 
@@ -304,7 +304,12 @@ requires jQuery 1.7+
 			wrapped_list.addClass('ui-timepicker-with-duration');
 		}
 
-		var durStart = (settings.durationTime !== null) ? settings.durationTime : settings.minTime;
+		var durStart = settings.minTime;
+		if (typeof settings.durationTime === 'function') {
+			durStart = _time2int(settings.durationTime());
+		} else if (settings.durationTime !== null) {
+			durStart = settings.durationTime;
+		}
 		var start = (settings.minTime !== null) ? settings.minTime : 0;
 		var end = (settings.maxTime !== null) ? settings.maxTime : (start + _ONE_DAY - 1);
 

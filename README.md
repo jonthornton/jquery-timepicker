@@ -49,7 +49,7 @@ Disable the onscreen keyboard for touch devices.
 *default: true*
 
 - **durationTime**
-The time against which ```showDuration``` will compute relative times.
+The time against which ```showDuration``` will compute relative times. If this is a function, its result will be used.
 *default: minTime*
 
 - **lang**
