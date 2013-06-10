@@ -120,7 +120,14 @@ requires jQuery 1.7+
 
 			list.show();
 
-			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
+			 // Fixes bug in IE8 where margin === 'auto'
+            if (list.css('margin-top') === 'auto') {
+                list.offset({
+                    'left': self.offset().left,
+                    'top': self.offset().top
+                });
+
+            } else if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
 				// position the dropdown on top
 				list.offset({
 					'left': self.offset().left + parseInt(list.css('marginLeft').replace('px', ''), 10),
