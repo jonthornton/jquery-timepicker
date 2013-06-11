@@ -9,6 +9,7 @@
 	box-shadow:0 5px 10px rgba(0,0,0,0.2);
 	outline: none;
 	z-index: 10001;
+	margin: 0;
 }
 
 .ui-timepicker-wrapper.ui-timepicker-with-duration {
