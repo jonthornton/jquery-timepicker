@@ -36,7 +36,7 @@ A class name to apply to the HTML element that contains the timepicker dropdown.
 Close the timepicker when the window is scrolled. (Replicates ```<select>``` behavior.)
 *default: false*
 
-- **disabledTimeRanges**
+- **disableTimeRanges**
 Disable selection of certain time ranges. Input is an array of time pairs, like ```[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]``
 *default: []*
 
