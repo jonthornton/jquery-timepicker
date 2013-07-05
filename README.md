@@ -52,6 +52,10 @@ Disable the onscreen keyboard for touch devices.
 The time against which ```showDuration``` will compute relative times. If this is a function, its result will be used.
 *default: minTime*
 
+- **forceRoundTime**
+Force update the time to ```step``` settings as soon as it loses focus.
+*default: false*
+
 - **lang**
 Language constants used in the timepicker. Can override the defaults by passing an object with one or more of the following properties: decimal, mins, hr, hrs.
 *default:* ```{
