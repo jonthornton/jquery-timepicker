@@ -33,7 +33,8 @@ requires jQuery 1.7+
 		appendTo: 'body',
 		disableTimeRanges: [],
 		closeOnWindowScroll: false,
-		disableTextInput: false
+		disableTextInput: false,
+		placeholder: ''
 	};
 	var _lang = {
 		decimal: '.',
@@ -76,6 +77,7 @@ requires jQuery 1.7+
 
 				settings = _parseSettings(settings);
 
+				self.prop('placeholder', settings.placeholder)
 				self.data('timepicker-settings', settings);
 				self.prop('autocomplete', 'off');
 				self.on('click.timepicker focus.timepicker', methods.show);
