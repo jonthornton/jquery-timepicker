@@ -337,10 +337,12 @@ requires jQuery 1.7+
 			}
 
 			if (drCur < drLen) {
-				if (timeInt >= dr[drCur][0] && timeInt < dr[drCur][1]) {
-					row.addClass('ui-timepicker-disabled');
-				} else if (timeInt >= dr[drCur][1]) {
+				if (timeInt >= dr[drCur][1]) {
 					drCur += 1;
+				}
+
+				if (dr[drCur] && timeInt >= dr[drCur][0] && timeInt < dr[drCur][1]) {
+					row.addClass('ui-timepicker-disabled');
 				}
 			}
 
