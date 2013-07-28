@@ -616,7 +616,7 @@ requires jQuery 1.7+
 
 	function _screenInput(e, self)
 	{
-		return !self.data('timepicker-settings').disableTextInput || e.ctrlKey || e.altKey || e.metaKey || (e.keyCode != 2 && (e.keyCode < 46 || e.keyCode > 90));
+		return !self.data('timepicker-settings').disableTextInput || e.ctrlKey || e.altKey || e.metaKey || (e.keyCode != 2 && e.keyCode < 46);
 	}
 
 	/*
