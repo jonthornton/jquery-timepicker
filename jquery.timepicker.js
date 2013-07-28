@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.10
+jquery-timepicker v1.1.11
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
