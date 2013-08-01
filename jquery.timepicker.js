@@ -93,7 +93,7 @@ requires jQuery 1.7+
 			var self = $(this);
 			var settings = self.data('timepicker-settings');
 
-			if ('ontouchstart' in document && settings.disableTouchKeyboard) {
+			if (_hideKeyboard(self)) {
 				// block the keyboard on mobile devices
 				self.blur();
 			}
@@ -371,7 +371,10 @@ requires jQuery 1.7+
 				self.off('focus.timepicker-ie-hack');
 				self.on('focus.timepicker', methods.show);
 			});
-			self[0].focus();
+
+			if (!_hideKeyboard(self)) {
+				self[0].focus();
+			}
 
 			// make sure only the clicked row is selected
 			list.find('li').removeClass('ui-timepicker-selected');
@@ -410,6 +413,12 @@ requires jQuery 1.7+
 			$('body').unbind('.ui-timepicker');
 			$(window).unbind('.ui-timepicker');
 		}
+	}
+
+	function _hideKeyboard(self)
+	{
+		var settings = self.data('settings');
+		return ((window.navigator.msPointerEnabled || 'ontouchstart' in document) && settings.disableTouchKeyboard);
 	}
 
 	function _findRow(self, list, value)
@@ -538,7 +547,9 @@ requires jQuery 1.7+
 
 		if (!list || !list.is(':visible')) {
 			if (e.keyCode == 40) {
-				self.focus();
+				if (!_hideKeyboard(self)) {
+					self.focus();
+				}
 			} else {
 				return _screenInput(e, self);
 			}
