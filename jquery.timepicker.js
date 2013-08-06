@@ -381,6 +381,7 @@ requires jQuery 1.7+
 			$(this).addClass('ui-timepicker-selected');
 
 			if (_selectValue(self)) {
+				self.trigger('hideTimepicker');
 				wrapped_list.hide();
 			}
 		});
@@ -410,6 +411,7 @@ requires jQuery 1.7+
 		var input = target.closest('.ui-timepicker-input');
 		if (input.length === 0 && target.closest('.ui-timepicker-wrapper').length === 0) {
 			methods.hide();
+			self.trigger('hideTimepicker');
 			$('body').unbind('.ui-timepicker');
 			$(window).unbind('.ui-timepicker');
 		}
