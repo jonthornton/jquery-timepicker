@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.11
+jquery-timepicker v1.1.12
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -411,7 +411,6 @@ requires jQuery 1.7+
 		var input = target.closest('.ui-timepicker-input');
 		if (input.length === 0 && target.closest('.ui-timepicker-wrapper').length === 0) {
 			methods.hide();
-			self.trigger('hideTimepicker');
 			$('body').unbind('.ui-timepicker');
 			$(window).unbind('.ui-timepicker');
 		}
@@ -479,6 +478,12 @@ requires jQuery 1.7+
 		}
 
 		var self = $(this);
+		var list = self.data('timepicker-list');
+
+		if (list && list.is(':visible')) {
+			return;
+		}
+
 		var seconds = _time2int(this.value);
 
 		if (seconds === null) {
@@ -615,7 +620,7 @@ requires jQuery 1.7+
 
 			case 27: // escape
 				list.find('li').removeClass('ui-timepicker-selected');
-				list.hide();
+				methods.hide();
 				break;
 
 			case 9: //tab
