@@ -418,7 +418,7 @@ requires jQuery 1.7+
 
 	function _hideKeyboard(self)
 	{
-		var settings = self.data('settings');
+		var settings = self.data('timepicker-settings');
 		return ((window.navigator.msPointerEnabled || 'ontouchstart' in document) && settings.disableTouchKeyboard);
 	}
 
