@@ -492,18 +492,18 @@ requires jQuery 1.7+
 		}
 
 		var settings = self.data('timepicker-settings');
-
+		var rangeError = false;
 		// check that the time in within bounds
 		if (settings.minTime !== null && seconds < settings.minTime) {
-			self.trigger('timeRangeError');
+			rangeError = true;
 		} else if (settings.maxTime !== null && seconds > settings.maxTime) {
-			self.trigger('timeRangeError');
+			rangeError = true;
 		}
 
 		// check that time isn't within disabled time ranges
 		$.each(settings.disableTimeRanges, function(){
 			if (seconds >= this[0] && seconds < this[1]) {
-				self.trigger('timeRangeError');
+				rangeError = true;
 				return false;
 			}
 		});
@@ -522,6 +522,10 @@ requires jQuery 1.7+
 
 		var prettyTime = _int2time(seconds, settings.timeFormat);
 		_setTimeValue(self, prettyTime);
+
+		if (rangeError) {
+			self.trigger('timeRangeError');
+		}
 	}
 
 	function _getTimeValue(self)
