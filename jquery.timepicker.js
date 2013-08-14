@@ -521,10 +521,13 @@ requires jQuery 1.7+
 		}
 
 		var prettyTime = _int2time(seconds, settings.timeFormat);
-		var rc = _setTimeValue(self, prettyTime);
 
-		if (rc && rangeError) {
-			self.trigger('timeRangeError');
+		if (rangeError) {
+			if (_setTimeValue(self, prettyTime, 'error')) {
+				self.trigger('timeRangeError');
+			}
+		} else {
+			_setTimeValue(self, prettyTime);
 		}
 	}
 
@@ -550,7 +553,7 @@ requires jQuery 1.7+
 
 			if (source == 'select') {
 				self.trigger('selectTime').trigger('changeTime').trigger('change');
-			} else {
+			} else if (source != 'error') {
 				self.trigger('changeTime');
 			}
 
