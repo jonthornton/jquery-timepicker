@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.0
+jquery-timepicker v1.2.1
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -419,7 +419,7 @@ requires jQuery 1.7+
 	function _hideKeyboard(self)
 	{
 		var settings = self.data('timepicker-settings');
-		return ((window.navigator.msPointerEnabled || 'ontouchstart' in document) && settings.disableTouchKeyboard);
+		return ((window.navigator.msMaxTouchPoints || 'ontouchstart' in document) && settings.disableTouchKeyboard);
 	}
 
 	function _findRow(self, list, value)
