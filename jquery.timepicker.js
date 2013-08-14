@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.1.12
+jquery-timepicker v1.2.0
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -79,7 +79,7 @@ requires jQuery 1.7+
 				self.data('timepicker-settings', settings);
 				self.prop('autocomplete', 'off');
 				self.on('click.timepicker focus.timepicker', methods.show);
-				self.on('blur.timepicker', _formatValue);
+				self.on('change.timepicker', _formatValue);
 				self.on('keydown.timepicker', _keydownhandler);
 				self.on('keyup.timepicker', _keyuphandler);
 				self.addClass('ui-timepicker-input');
@@ -521,9 +521,9 @@ requires jQuery 1.7+
 		}
 
 		var prettyTime = _int2time(seconds, settings.timeFormat);
-		_setTimeValue(self, prettyTime);
+		var rc = _setTimeValue(self, prettyTime);
 
-		if (rangeError) {
+		if (rc && rangeError) {
 			self.trigger('timeRangeError');
 		}
 	}
@@ -538,13 +538,26 @@ requires jQuery 1.7+
 		}
 	}
 
-	function _setTimeValue(self, value)
+	function _setTimeValue(self, value, source)
 	{
-		if (self.is('input')) {
-			self.val(value);
+		if (self.val() != value) {
+			if (self.is('input')) {
+				self.val(value);
+			} else {
+				// use the element's data attributes to store values
+				self.data('ui-timepicker-value', value);
+			}
+
+			if (source == 'select') {
+				self.trigger('selectTime').trigger('changeTime').trigger('change');
+			} else {
+				self.trigger('changeTime');
+			}
+
+			return true;
 		} else {
-			// use the element's data attributes to store values
-			self.data('ui-timepicker-value', value);
+			self.trigger('selectTime');
+			return false;
 		}
 	}
 
@@ -716,10 +729,10 @@ requires jQuery 1.7+
 
 		if (timeValue !== null) {
 			var timeString = _int2time(timeValue, settings.timeFormat);
-			_setTimeValue(self, timeString);
+			_setTimeValue(self, timeString, 'select');
 		}
 
-		self.trigger('change').trigger('changeTime');
+		//self.trigger('change').trigger('selectTime');
 		return true;
 	}
 
