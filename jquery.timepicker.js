@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.1
+jquery-timepicker v1.2.2
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -543,12 +543,10 @@ requires jQuery 1.7+
 
 	function _setTimeValue(self, value, source)
 	{
-		if (self.val() != value) {
+		if (self.data('ui-timepicker-value') != value) {
+			self.data('ui-timepicker-value', value);
 			if (self.is('input')) {
 				self.val(value);
-			} else {
-				// use the element's data attributes to store values
-				self.data('ui-timepicker-value', value);
 			}
 
 			if (source == 'select') {
