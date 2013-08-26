@@ -108,10 +108,10 @@ Get the time as an integer, expressed as seconds from 12am.
 	```
 
 - **getTime**
-Get the time using a Javascript Date object, relative to today's date.
+Get the time using a Javascript Date object, relative to a Date object (default: today).
 
 	```javascript
-	$('#getTimeExample').timepicker('getTime');
+	$('#getTimeExample').timepicker('getTime'[, new Date()]);
 	```
 
 	You can get the time as a string using jQuery's built-in ```val()``` function:
