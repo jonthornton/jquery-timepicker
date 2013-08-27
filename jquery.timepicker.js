@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.2
+jquery-timepicker v1.2.3
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -208,15 +208,15 @@ requires jQuery 1.7+
 			return _time2int(_getTimeValue(this));
 		},
 
-		getTime: function(date)
+		getTime: function(relative_date)
 		{
-			var self = this, today;
-			if(Object.prototype.toString.call(date) === '[object Date]')
-				today = date;
-			else
-				today = new Date;
-			today.setHours(0, 0, 0, 0);
-			return new Date(today.valueOf() + (_time2int(_getTimeValue(self))*1000));
+			var self = this;
+			if (!relative_date) {
+				relative_date = new Date();
+			}
+
+			relative_date.setHours(0, 0, 0, 0);
+			return new Date(relative_date.valueOf() + (_time2int(_getTimeValue(self))*1000));
 		},
 
 		setTime: function(value)
