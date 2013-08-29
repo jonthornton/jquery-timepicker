@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.4
+jquery-timepicker v1.2.5
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -460,7 +460,7 @@ requires jQuery 1.7+
 		list.find('li').removeClass('ui-timepicker-selected');
 
 		var timeValue = _time2int(_getTimeValue(self));
-		if (!timeValue) {
+		if (timeValue === null) {
 			return;
 		}
 
