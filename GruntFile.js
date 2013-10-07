@@ -8,11 +8,19 @@ module.exports = function(grunt) {
 					'jquery.timepicker.min.js': ['jquery.timepicker.js']
 				}
 			}
+		},
+		cssmin: {
+			minify: {
+				files: {
+					'jquery.timepicker.min.css': ['jquery.timepicker.css'] 
+				}
+			}
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
-	grunt.registerTask('default', ['uglify']);
+	grunt.registerTask('default', ['uglify', 'cssmin']);
 
 };

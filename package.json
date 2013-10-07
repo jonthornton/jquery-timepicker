@@ -17,7 +17,8 @@
 	},
 	"devDependencies": {
 		"grunt": "~0.4.1",
-		"grunt-contrib-uglify": "~0.2.2"
+		"grunt-contrib-uglify": "~0.2.2",
+		"grunt-contrib-cssmin": "~0.4.1"
 	},
 	"description": "A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.",
 	"keywords": [ "timepicker", "time", "picker", "ui", "google calendar" ],
