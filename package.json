@@ -17,6 +17,7 @@
 	},
 	"devDependencies": {
 		"grunt": "~0.4.1",
+		"grunt-cli": "~0.1.9",
 		"grunt-contrib-uglify": "~0.2.2",
 		"grunt-contrib-cssmin": "~0.4.1"
 	},
