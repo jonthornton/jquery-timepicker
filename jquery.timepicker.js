@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.7
+jquery-timepicker v1.2.8
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -659,7 +659,7 @@ requires jQuery 1.7+
 
 	function _screenInput(e, self)
 	{
-		return !self.data('timepicker-settings').disableTextInput || e.ctrlKey || e.altKey || e.metaKey || (e.keyCode != 2 && e.keyCode < 46);
+		return !self.data('timepicker-settings').disableTextInput || e.ctrlKey || e.altKey || e.metaKey || (e.keyCode != 2 && e.keyCode != 8 && e.keyCode < 46);
 	}
 
 	/*
