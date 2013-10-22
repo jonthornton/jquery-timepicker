@@ -325,12 +325,17 @@ requires jQuery 1.7+
 			end += _ONE_DAY;
 		}
 
+		if (end === _ONE_DAY-1 && settings.timeFormat.indexOf('H') !== -1) {
+			// show a 24:00 option when using military time
+			end = _ONE_DAY;
+		}
+
 		var dr = settings.disableTimeRanges;
 		var drCur = 0;
 		var drLen = dr.length;
 
 		for (var i=start; i <= end; i += settings.step*60) {
-			var timeInt = i%_ONE_DAY;
+			var timeInt = i;
 
 			var row = $('<li />');
 			row.data('time', timeInt);
@@ -806,6 +811,7 @@ requires jQuery 1.7+
 
 				case 'H':
 					hour = time.getHours();
+					if (seconds === _ONE_DAY) hour = 24;
 					output += (hour > 9) ? hour : '0'+hour;
 					break;
 
