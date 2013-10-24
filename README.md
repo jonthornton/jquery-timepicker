@@ -161,7 +161,7 @@ Events
 ------
 
 - **change**
-The native ```onChange``` event will fire any time the input value is updated, whether by selection from the timepicker list or manual entry into the text input.
+The native ```onChange``` event will fire any time the input value is updated, whether by selection from the timepicker list or manual entry into the text input. Your code should bind to ```change``` after initializing timepicker, or use [event delegation](http://api.jquery.com/on/).
 
 - **changeTime**
 Called when a valid time value is entered or selected. See ```timeFormatError``` and ```timeRangeError``` for error events. Fires before ```change``` event.
