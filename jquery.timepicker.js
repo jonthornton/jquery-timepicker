@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.8
+jquery-timepicker v1.2.9
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -154,7 +154,11 @@ requires jQuery 1.7+
 				list.scrollTop(0);
 			}
 
-			_attachCloseHandler(settings);
+			// attach close handlers
+			$('body').on('touchstart.ui-timepicker mousedown.ui-timepicker', _closeHandler);
+			if (settings.closeOnWindowScroll) {
+				$(window).on('scroll.ui-timepicker', _closeHandler);
+			}
 
 			self.trigger('showTimepicker');
 		},
@@ -402,18 +406,6 @@ requires jQuery 1.7+
 	function _generateBaseDate()
 	{
 		return new Date(1970, 1, 1, 0, 0, 0);
-	}
-
-	function _attachCloseHandler(settings)
-	{
-		if ('ontouchstart' in document) {
-			$('body').on('touchstart.ui-timepicker', _closeHandler);
-		} else {
-			$('body').on('mousedown.ui-timepicker', _closeHandler);
-			if (settings.closeOnWindowScroll) {
-				$(window).on('scroll.ui-timepicker', _closeHandler);
-			}
-		}
 	}
 
 	// event handler to decide whether to close timepicker
