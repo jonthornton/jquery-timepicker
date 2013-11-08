@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.9
+jquery-timepicker v1.2.10
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -286,6 +286,17 @@ requires jQuery 1.7+
 			settings.disableTimeRanges = settings.disableTimeRanges.sort(function(a, b){
 				return a[0] - b[0];
 			});
+
+			// merge any overlapping ranges
+			for (var i = settings.disableTimeRanges.length-1; i > 0; i--) {
+				if (settings.disableTimeRanges[i][0] <= settings.disableTimeRanges[i-1][1]) {
+					settings.disableTimeRanges[i-1] = [
+						Math.min(settings.disableTimeRanges[i][0], settings.disableTimeRanges[i-1][0]),
+						Math.max(settings.disableTimeRanges[i][1], settings.disableTimeRanges[i-1][1])
+					];
+					settings.disableTimeRanges.splice(i, 1);
+				}
+			}
 		}
 
 		return settings;
