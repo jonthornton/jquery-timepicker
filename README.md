@@ -196,7 +196,9 @@ Sample markup with class names:
 		...
 		<li>4:30pm</li>
 		<li class="ui-timepicker-selected">5:00pm</li>
-		<li>5:30pm</li>
+		<li class="ui-timepicker-disabled">5:30pm</li>
+		<li>6:00pm <span class="ui-timepicker-duration">(1 hour)</span></li>
+		<li>6:30pm</li>
 		...
 		<li>11:30pm</li>
 	</ul>
