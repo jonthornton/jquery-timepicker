@@ -28,7 +28,7 @@ requires jQuery 1.7+
 		scrollDefaultNow: false,
 		scrollDefaultTime: false,
 		selectOnBlur: false,
-		disableTouchKeyboard: true,
+		disableTouchKeyboard: false,
 		forceRoundTime: false,
 		appendTo: 'body',
 		disableTimeRanges: [],

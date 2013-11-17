@@ -46,7 +46,7 @@ Disable editing the input text and force the user to select a value from the tim
 
 - **disableTouchKeyboard**
 Disable the onscreen keyboard for touch devices.
-*default: true*
+*default: false*
 
 - **durationTime**
 The time against which ```showDuration``` will compute relative times. If this is a function, its result will be used.
