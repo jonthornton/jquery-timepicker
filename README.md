@@ -97,6 +97,10 @@ The amount of time, in minutes, between each item in the dropdown.
 How times should be displayed in the list and input element. Uses [PHP's date() formatting syntax](http://php.net/manual/en/function.date.php).
 *default: 'g:ia'*
 
+- **typeaheadHighlight**
+Highlight the nearest corresponding time option as a value is typed into the form input.
+*default: true*
+
 Methods
 -------
 

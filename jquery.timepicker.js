@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.10
+jquery-timepicker v1.2.11
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -33,7 +33,8 @@ requires jQuery 1.7+
 		appendTo: 'body',
 		disableTimeRanges: [],
 		closeOnWindowScroll: false,
-		disableTextInput: false
+		disableTextInput: false,
+		typeaheadHighlight: true
 	};
 	var _lang = {
 		decimal: '.',
@@ -679,6 +680,11 @@ requires jQuery 1.7+
 		var list = self.data('timepicker-list');
 
 		if (!list || !list.is(':visible')) {
+			return true;
+		}
+
+		if (!self.data('timepicker-settings').typeaheadHighlight) {
+			list.find('li').removeClass('ui-timepicker-selected');
 			return true;
 		}
 
