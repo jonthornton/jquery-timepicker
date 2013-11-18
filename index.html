@@ -299,7 +299,11 @@ $('#stepExample2').timepicker({ 'step': 60 });</pre>
 	<div class="example">
 		<script src="lib/datepair.js"></script>
 		<h3>Datepair Example</h3>
-
+		<script>
+		  $(function() {
+		    $('.datepair').datepair();
+		  });
+		</script>
 		<p class="datepair" data-language="javascript">
 			<input type="text" class="date start" />
 			<input type="text" class="time start" /> to
@@ -307,6 +311,15 @@ $('#stepExample2').timepicker({ 'step': 60 });</pre>
 			<input type="text" class="date end" />
 		</p>
 
+		<h4>HTML</h4>
+		<pre class="code" data-language="html"><div class="datepair">
+  <input type="text" class="date start" />
+  <input type="text" class="time start" /> to
+  <input type="text" class="time end" />
+  <input type="text" class="date end" />
+</div></pre>
+		<h4>JavaScript</h4>
+		<pre class="code" data-language="javascript">$('.datepair').datepair();</pre>
 		<p>Datepair source available <a href="http://jonthornton.github.com/jquery-timepicker/lib/datepair.js">here</a>.</p>
 	</div>
 
