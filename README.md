@@ -132,7 +132,7 @@ Close the timepicker dropdown.
 	```
 
 - **option**
-Change the settings of an existing timepicker.
+Change the settings of an existing timepicker. Calling ```option``` on a visible timepicker will cause the picker to be hidden.
 
 	```javascript
 	$('#optionExample').timepicker({ 'timeFormat': 'g:ia' });
