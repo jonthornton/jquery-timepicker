@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.13
+jquery-timepicker v1.2.14
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -356,7 +356,7 @@ requires jQuery 1.7+
 			var timeInt = i;
 
 			var row = $('<li />');
-			row.data('time', timeInt % 86400);
+			row.data('time', (timeInt <= 86400 ? timeInt : timeInt % 86400));
 			row.text(_int2time(timeInt, settings.timeFormat));
 
 			if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
