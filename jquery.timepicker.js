@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.15
+jquery-timepicker v1.2.16
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -47,6 +47,10 @@ requires jQuery 1.7+
 	{
 		init: function(options)
 		{
+			if (!options) {
+				options = [];
+			}
+
 			return this.each(function()
 			{
 				var self = $(this);
@@ -65,11 +69,14 @@ requires jQuery 1.7+
 					self = input;
 				}
 
-				var settings = $.extend({}, _defaults);
-
-				if (options) {
-					settings = $.extend(settings, options);
+				// pick up settings from data attributes
+				for (key in _defaults) {
+					if ((!options || !options[key]) && self.data(key))  {
+						options[key] = self.data(key);
+					}
 				}
+
+				var settings = $.extend({}, _defaults, options);
 
 				if (settings.lang) {
 					_lang = $.extend(_lang, settings.lang);
