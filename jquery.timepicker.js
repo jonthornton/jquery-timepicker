@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.16
+jquery-timepicker v1.2.17
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -96,7 +96,9 @@ requires jQuery 1.7+
 
 		show: function(e)
 		{
-			e.preventDefault();
+			if (e) {
+				e.preventDefault();
+			}
 
 			var self = $(this);
 			var settings = self.data('timepicker-settings');
