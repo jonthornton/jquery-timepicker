@@ -163,9 +163,9 @@ requires jQuery 1.7+
 			}
 
 			// attach close handlers
-			$('body').on('touchstart.ui-timepicker mousedown.ui-timepicker', _closeHandler);
+			$(document).on('touchstart.ui-timepicker mousedown.ui-timepicker', _closeHandler);
 			if (settings.closeOnWindowScroll) {
-				$(window).on('scroll.ui-timepicker', _closeHandler);
+				$(document).on('scroll.ui-timepicker', _closeHandler);
 			}
 
 			self.trigger('showTimepicker');
@@ -440,8 +440,7 @@ requires jQuery 1.7+
 		var input = target.closest('.ui-timepicker-input');
 		if (input.length === 0 && target.closest('.ui-timepicker-wrapper').length === 0) {
 			methods.hide();
-			$('body').unbind('.ui-timepicker');
-			$(window).unbind('.ui-timepicker');
+			$(document).unbind('.ui-timepicker');
 		}
 	}
 
