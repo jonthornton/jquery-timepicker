@@ -47,9 +47,6 @@ requires jQuery 1.7+
 	{
 		init: function(options)
 		{
-			if (!options) {
-				options = [];
-			}
 
 			return this.each(function()
 			{
@@ -70,13 +67,14 @@ requires jQuery 1.7+
 				}
 
 				// pick up settings from data attributes
+				var attributeOptions = [];
 				for (key in _defaults) {
-					if ((!options || !options[key]) && self.data(key))  {
-						options[key] = self.data(key);
+					if (self.data(key))  {
+						attributeOptions[key] = self.data(key);
 					}
 				}
 
-				var settings = $.extend({}, _defaults, options);
+				var settings = $.extend({}, _defaults, attributeOptions, options);
 
 				if (settings.lang) {
 					_lang = $.extend(_lang, settings.lang);
