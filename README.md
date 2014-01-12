@@ -42,10 +42,6 @@ Close the timepicker when the window is scrolled. (Replicates ```<select>``` beh
 Disable selection of certain time ranges. Input is an array of time pairs, like ```[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]``
 *default: []*
 
-- **disableTextInput**
-Disable editing the input text and force the user to select a value from the timepicker list.
-*default: false*
-
 - **disableTouchKeyboard**
 Disable the onscreen keyboard for touch devices.
 *default: false*
@@ -101,6 +97,10 @@ How times should be displayed in the list and input element. Uses [PHP's date() 
 
 - **typeaheadHighlight**
 Highlight the nearest corresponding time option as a value is typed into the form input.
+*default: true*
+
+- **useSelect**
+Convert the input to an HTML <SELECT> control. This is ideal for small screen devices. This option is not compatible with the following options: ```appendTo```, ```closeOnWindowScroll```, ```disableTouchKeyboard```, ```forceRoundTime```, ```scrollDefaultNow```, ```selectOnBlur```, ```typeAheadHighlight```.
 *default: true*
 
 Methods
