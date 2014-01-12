@@ -71,6 +71,10 @@ The time that should appear last in the dropdown list. Can be used to limit the 
 The time that should appear first in the dropdown list.
 *default: 12:00am*
 
+- **noneOption**
+Adds a "None" option to the top of the timepicker dropdown
+*default: false*
+
 - **scrollDefaultNow**
 If no time value is selected, set the dropdown scroll position to show the current time.
 *default: false*

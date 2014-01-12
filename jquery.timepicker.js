@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.2.17
+jquery-timepicker v1.3.0
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -33,7 +33,8 @@ requires jQuery 1.7+
 		appendTo: 'body',
 		disableTimeRanges: [],
 		closeOnWindowScroll: false,
-		typeaheadHighlight: true
+		typeaheadHighlight: true,
+		noneOption: false
 	};
 	var _lang = {
 		decimal: '.',
@@ -340,6 +341,14 @@ requires jQuery 1.7+
 
 			var wrapped_list = $('<div />', { 'class': 'ui-timepicker-wrapper', 'tabindex': -1 });
 			wrapped_list.css({'display':'none', 'position': 'absolute' }).append(list);
+		}
+
+		if (settings.noneOption) {
+			if (settings.useSelect) {
+				list.append($('<option value="">Time...</option>'));
+			} else {
+				list.append($('<li>None</li>'));
+			}
 		}
 
 		if (settings.className) {
@@ -849,6 +858,11 @@ requires jQuery 1.7+
 		}
 
 		var time = new Date(_baseDate.valueOf() + (seconds*1000));
+
+		if (isNaN(time.getTime())) {
+			return;
+		}
+
 		var output = '';
 		var hour, code;
 
