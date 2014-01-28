@@ -978,6 +978,7 @@ requires jQuery 1.7+
 	// Plugin entry
 	$.fn.timepicker = function(method)
 	{
+		if (!this.length) return this;
 		if(methods[method]) { return methods[method].apply(this, Array.prototype.slice.call(arguments, 1)); }
 		else if(typeof method === "object" || !method) { return methods.init.apply(this, arguments); }
 		else { $.error("Method "+ method + " does not exist on jQuery.timepicker"); }
