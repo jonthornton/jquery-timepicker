@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.3.0
+jquery-timepicker v1.3.1
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -165,6 +165,8 @@ requires jQuery 1.7+
 			}
 
 			self.trigger('showTimepicker');
+
+			return this;
 		},
 
 		hide: function(e)
@@ -188,6 +190,8 @@ requires jQuery 1.7+
 				list.hide();
 				self.trigger('hideTimepicker');
 			});
+
+			return this;
 		},
 
 		option: function(key, value)
@@ -219,7 +223,7 @@ requires jQuery 1.7+
 				_render(self);
 			}
 
-			return self;
+			return this;
 		},
 
 		getSecondsFromMidnight: function()
@@ -253,6 +257,8 @@ requires jQuery 1.7+
 			if (self.data('timepicker-list')) {
 				_setSelected(self, self.data('timepicker-list'));
 			}
+
+			return this;
 		},
 
 		remove: function()
@@ -275,6 +281,8 @@ requires jQuery 1.7+
 			}
 
 			self.removeData('timepicker-list');
+
+			return this;
 		}
 	};
 
