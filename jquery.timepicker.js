@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.3.1
+jquery-timepicker v1.3.2
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -352,10 +352,12 @@ requires jQuery 1.7+
 		}
 
 		if (settings.noneOption) {
+			var defaultLabel = (settings.useSelect) ? 'Time...' : 'None';
+			var label = (typeof settings.noneOption == 'string') ? settings.noneOption : defaultLabel;
 			if (settings.useSelect) {
-				list.append($('<option value="">Time...</option>'));
+				list.append($('<option value="">'+label+'</option>'));
 			} else {
-				list.append($('<li>None</li>'));
+				list.append($('<li>'+label+'</li>'));
 			}
 		}
 

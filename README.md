@@ -72,7 +72,7 @@ The time that should appear first in the dropdown list.
 *default: 12:00am*
 
 - **noneOption**
-Adds a "None" option to the top of the timepicker dropdown
+Accepts a boolean or string. Set to ```true``` to add a "None" option to the top of the dropdown; set to a string to customize the option label.
 *default: false*
 
 - **scrollDefaultNow**
