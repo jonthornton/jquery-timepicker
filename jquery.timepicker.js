@@ -243,9 +243,16 @@ requires jQuery 1.7+
 			if (!relative_date) {
 				relative_date = new Date();
 			}
+			var offset = _time2int(time_string);
 
-			relative_date.setHours(0, 0, 0, 0);
-			return new Date(relative_date.valueOf() + (_time2int(time_string)*1000));
+			// construct a Date with today's date, and offset's time
+			var time = new Date(relative_date);
+			time.setHours(offset / 3600);
+			time.setMinutes(offset % 3600 / 60);
+			time.setSeconds(offset % 60);
+			time.setMilliseconds(0);
+
+			return time;
 		},
 
 		setTime: function(value)
