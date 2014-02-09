@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.3.2
+jquery-timepicker v1.3.3
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -989,7 +989,13 @@ requires jQuery 1.7+
 	$.fn.timepicker = function(method)
 	{
 		if (!this.length) return this;
-		if(methods[method]) { return methods[method].apply(this, Array.prototype.slice.call(arguments, 1)); }
+		if (methods[method]) {
+			// check if this element is a timepicker
+			if (!this.hasClass('ui-timepicker-input')) {
+				return this;
+			}
+			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+		}
 		else if(typeof method === "object" || !method) { return methods.init.apply(this, arguments); }
 		else { $.error("Method "+ method + " does not exist on jQuery.timepicker"); }
 	};
