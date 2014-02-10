@@ -1,0 +1,101 @@
+
+body { background: #fff; color: #383838; font-family: helvetica, arial, sans-serif; font-size: 15px; line-height: 145%; }
+h1, h2, h3 { color: #000; }
+h2, h3 { margin: 30px 0 10px 0; }
+h2:first-child, h3:first-child { margin-top: 0; }
+p, .p { margin: 10px 0 20px 0; }
+input.time, input.date { font-size: 13px; }
+input.time { width: 80px; }
+input.date { width: 90px; }
+a { color: #06c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 a { color: #000; }
+image { border: 0; }
+
+.example { border: 1px solid #ddd; background: #f4f4f4; padding: 10px; margin: 10px 0 30px 0; }
+.example h3 { margin: 0 0 10px 0; }
+.example p { margin: 20px 0 0 0; }
+
+.big { font-size: 2em; line-height: 2em; }
+
+.code { font-family: Consolas, Monaco, "Courier New", Courier; margin: 20px 0 0 0; background: #333; }
+
+#container { margin: 50px auto; width: 700px; }
+h1 { font-size: 3.8em; color: #000; margin: 0 0 35px 0; }
+h1 .small { font-size: 0.4em; }
+h1 a { text-decoration: none }
+h2 { font-size: 1.5em; color: #000; }
+.byline { font-size: 1.5em; font-weight: bold; margin: 20px 0 0 0; }
+.byline a { text-decoration: none; }
+.description { font-size: 1.2em; margin: 20px 0; font-style: italic;}
+
+pre { background: #000; color: #fff; padding: 15px;}
+hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+.footer { text-align:center; padding-top:30px; font-style: italic; }
+
+div.ui-datepicker { font-size: 11px; }
+
+/**
+ * Blackboard theme
+ *
+ * Adapted from Domenico Carbotta's TextMate theme of the same name
+ *
+ * @author Domenico Carbotta
+ * @author Craig Campbell
+ * @version 1.0.2
+ */
+pre {
+    background: #0B1022;
+    word-wrap: break-word;
+    margin: 0px;
+    padding: 0px;
+    padding: 10px;
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+pre, code {
+    font-family: 'Monaco', courier, monospace;
+}
+
+pre .comment {
+    color: #727272;
+}
+
+pre .constant {
+    color: #D8FA3C;
+}
+
+pre .storage {
+    color: #FBDE2D;
+}
+
+pre .string, pre .comment.docstring {
+    color: #61CE3C;
+}
+
+pre .string.regexp, pre .support.tag.script, pre .support.tag.style {
+    color: #fff;
+}
+
+pre .keyword, pre .selector {
+    color: #FBDE2D;
+}
+
+pre .inherited-class {
+    font-style: italic;
+}
+
+pre .entity {
+    color: #FF6400;
+}
+
+pre .support, *[data-language="c"] .function.call {
+    color: #8DA6CE;
+}
+
+pre .variable.global, pre .variable.class, pre .variable.instance {
+    color: #FF6400;
+}
+
