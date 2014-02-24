@@ -80,8 +80,8 @@ If no time value is selected, set the dropdown scroll position to show the curre
 *default: false*
 
 - **scrollDefaultTime**  
-If no time value is selected, set the dropdown scroll position to show the time provided, e.g. "09:00".  
-*default: false*
+If no time value is selected, set the dropdown scroll position to show the time provided, e.g. "09:00". A string, Date object, or integer (seconds past midnight) is acceptible.   
+*default: null*
 
 - **selectOnBlur**  
 Update the input with the currently highlighted time value when the timepicker loses focus.  
