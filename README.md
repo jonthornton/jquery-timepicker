@@ -25,37 +25,37 @@ You can also set options as [data attributes](https://developer.mozilla.org/en-U
 Options
 -------
 
-- **appendTo**
-Override where the dropdown is appended.
-Takes either a `string` to use as a selector, a `function` that gets passed the clicked input element as argument or a jquery `object` to use directly.
+- **appendTo**  
+Override where the dropdown is appended.  
+Takes either a `string` to use as a selector, a `function` that gets passed the clicked input element as argument or a jquery `object` to use directly.  
 *default: "body"*
 
-- **className**
-A class name to apply to the HTML element that contains the timepicker dropdown.
+- **className**  
+A class name to apply to the HTML element that contains the timepicker dropdown.  
 *default: null*
 
-- **closeOnWindowScroll**
-Close the timepicker when the window is scrolled. (Replicates ```<select>``` behavior.)
+- **closeOnWindowScroll**  
+Close the timepicker when the window is scrolled. (Replicates ```<select>``` behavior.)  
 *default: false*
 
-- **disableTimeRanges**
-Disable selection of certain time ranges. Input is an array of time pairs, like ```[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]``
+- **disableTimeRanges**  
+Disable selection of certain time ranges. Input is an array of time pairs, like ```[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]``  
 *default: []*
 
-- **disableTouchKeyboard**
-Disable the onscreen keyboard for touch devices.
+- **disableTouchKeyboard**  
+Disable the onscreen keyboard for touch devices.  
 *default: false*
 
-- **durationTime**
-The time against which ```showDuration``` will compute relative times. If this is a function, its result will be used.
+- **durationTime**  
+The time against which ```showDuration``` will compute relative times. If this is a function, its result will be used.  
 *default: minTime*
 
-- **forceRoundTime**
-Force update the time to ```step``` settings as soon as it loses focus.
+- **forceRoundTime**  
+Force update the time to ```step``` settings as soon as it loses focus.  
 *default: false*
 
-- **lang**
-Language constants used in the timepicker. Can override the defaults by passing an object with one or more of the following properties: decimal, mins, hr, hrs.
+- **lang**  
+Language constants used in the timepicker. Can override the defaults by passing an object with one or more of the following properties: decimal, mins, hr, hrs.  
 *default:* ```{
 	decimal: '.',
 	mins: 'mins',
@@ -63,61 +63,61 @@ Language constants used in the timepicker. Can override the defaults by passing 
 	hrs: 'hrs'
 }```
 
-- **maxTime**
-The time that should appear last in the dropdown list. Can be used to limit the range of time options.
+- **maxTime**  
+The time that should appear last in the dropdown list. Can be used to limit the range of time options.  
 *default: 24 hours after minTime*
 
-- **minTime**
-The time that should appear first in the dropdown list.
+- **minTime**  
+The time that should appear first in the dropdown list.  
 *default: 12:00am*
 
-- **noneOption**
-Accepts a boolean or string. Set to ```true``` to add a "None" option to the top of the dropdown; set to a string to customize the option label.
+- **noneOption**  
+Accepts a boolean or string. Set to ```true``` to add a "None" option to the top of the dropdown; set to a string to customize the option label.  
 *default: false*
 
-- **scrollDefaultNow**
-If no time value is selected, set the dropdown scroll position to show the current time.
+- **scrollDefaultNow**  
+If no time value is selected, set the dropdown scroll position to show the current time.  
 *default: false*
 
-- **scrollDefaultTime**
-If no time value is selected, set the dropdown scroll position to show the time provided, e.g. "09:00".
+- **scrollDefaultTime**  
+If no time value is selected, set the dropdown scroll position to show the time provided, e.g. "09:00".  
 *default: false*
 
-- **selectOnBlur**
-Update the input with the currently highlighted time value when the timepicker loses focus.
+- **selectOnBlur**  
+Update the input with the currently highlighted time value when the timepicker loses focus.  
 *default: false*
 
-- **showDuration**
-Shows the relative time for each item in the dropdown. ```minTime``` or ```durationTime``` must be set.
+- **showDuration**  
+Shows the relative time for each item in the dropdown. ```minTime``` or ```durationTime``` must be set.  
 *default: false*
 
-- **step**
-The amount of time, in minutes, between each item in the dropdown.
+- **step**  
+The amount of time, in minutes, between each item in the dropdown.  
 *default: 30*
 
-- **timeFormat**
-How times should be displayed in the list and input element. Uses [PHP's date() formatting syntax](http://php.net/manual/en/function.date.php).
+- **timeFormat**  
+How times should be displayed in the list and input element. Uses [PHP's date() formatting syntax](http://php.net/manual/en/function.date.php).  
 *default: 'g:ia'*
 
-- **typeaheadHighlight**
-Highlight the nearest corresponding time option as a value is typed into the form input.
+- **typeaheadHighlight**  
+Highlight the nearest corresponding time option as a value is typed into the form input.  
 *default: true*
 
-- **useSelect**
-Convert the input to an HTML <SELECT> control. This is ideal for small screen devices. This option is not compatible with the following options: ```appendTo```, ```closeOnWindowScroll```, ```disableTouchKeyboard```, ```forceRoundTime```, ```scrollDefaultNow```, ```selectOnBlur```, ```typeAheadHighlight```.
+- **useSelect**  
+Convert the input to an HTML <SELECT> control. This is ideal for small screen devices. This option is not compatible with the following options: ```appendTo```, ```closeOnWindowScroll```, ```disableTouchKeyboard```, ```forceRoundTime```, ```scrollDefaultNow```, ```selectOnBlur```, ```typeAheadHighlight```.  
 *default: true*
 
 Methods
 -------
 
-- **getSecondsFromMidnight**
+- **getSecondsFromMidnight**  
 Get the time as an integer, expressed as seconds from 12am.
 
 	```javascript
 	$('#getTimeExample').timepicker('getSecondsFromMidnight');
 	```
 
-- **getTime**
+- **getTime**  
 Get the time using a Javascript Date object, relative to a Date object (default: today).
 
 	```javascript
@@ -130,14 +130,14 @@ Get the time using a Javascript Date object, relative to a Date object (default:
 	$('#getTimeExample').val();
 	```
 
-- **hide**
+- **hide**  
 Close the timepicker dropdown.
 
 	```javascript
 	$('#hideExample').timepicker('hide');
 	```
 
-- **option**
+- **option**  
 Change the settings of an existing timepicker. Calling ```option``` on a visible timepicker will cause the picker to be hidden.
 
 	```javascript
@@ -146,21 +146,21 @@ Change the settings of an existing timepicker. Calling ```option``` on a visible
 	$('#optionExample').timepicker('option', { 'minTime': '4:00am', 'timeFormat': 'H:i' });
 	```
 
-- **remove**
+- **remove**  
 Unbind an existing timepicker element.
 
 	```javascript
 	$('#removeExample').timepicker('remove');
 	```
 
-- **setTime**
+- **setTime**  
 Set the time using a Javascript Date object.
 
 	```javascript
 	$('#setTimeExample').timepicker('setTime', new Date());
 	```
 
-- **show**
+- **show**  
 Display the timepicker dropdown.
 
 	```javascript
@@ -170,25 +170,25 @@ Display the timepicker dropdown.
 Events
 ------
 
-- **change**
+- **change**  
 The native ```onChange``` event will fire any time the input value is updated, whether by selection from the timepicker list or manual entry into the text input. Your code should bind to ```change``` after initializing timepicker, or use [event delegation](http://api.jquery.com/on/).
 
-- **changeTime**
+- **changeTime**  
 Called after a valid time value is entered or selected. See ```timeFormatError``` and ```timeRangeError``` for error events. Fires before ```change``` event.
 
-- **hideTimepicker**
+- **hideTimepicker**  
 Called after the timepicker is closed.
 
-- **selectTime**
+- **selectTime**  
 Called after a time value is selected from the timepicker list. Fires before ```change``` event.
 
-- **showTimepicker**
+- **showTimepicker**  
 Called after the timepicker is shown.
 
-- **timeFormatError**
+- **timeFormatError**  
 Called if an unparseable time string is manually entered into the timepicker input. Fires before ```change``` event.
 
-- **timeRangeError**
+- **timeRangeError**  
 Called if a maxTime, minTime, or disableTimeRanges is set and an invalid time is manually entered into the timepicker input. Fires before ```change``` event.
 
 Theming
@@ -228,4 +228,4 @@ Development guidelines
 
 - - -
 
-This software is made available under the open source MIT License. &copy; 2012 [Jon Thornton](http://www.jonthornton.com), contributions from [Anthony Fojas](https://github.com/fojas), [Vince Mi](https://github.com/vinc3m1), [Nikita Korotaev](https://github.com/websirnik), [Spoon88](https://github.com/Spoon88), [elarkin](https://github.com/elarkin), [lodewijk](https://github.com/lodewijk), [jayzawrotny](https://github.com/jayzawrotny), [David Mazza](https://github.com/dmzza), [Matt Jurik](https://github.com/exabytes18), [Phil Freo](https://github.com/philfreo), [orloffv](https://github.com/orloffv), [patdenice](https://github.com/patdenice), [Raymond Julin](https://github.com/nervetattoo), [Gavin Ballard](https://github.com/gavinballard), [Steven Schmid](https://github.com/stevschmid), [ddaanet](https://github.com/ddaanet)
+This software is made available under the open source MIT License. &copy; 2014 [Jon Thornton](http://www.jonthornton.com) and [contributors](https://github.com/jonthornton/jquery-timepicker/graphs/contributors)
