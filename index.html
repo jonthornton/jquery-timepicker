@@ -166,6 +166,44 @@ $('#onselectExample').on('changeTime', function() {
     <div class="example">
         <script>
             $(function() {
+                $('#noneOptionExample').timepicker({
+                    'noneOption': [
+                        {
+                            'label': 'Foobar',
+                            'className': 'shibby',
+                            'value': '42'
+                        },
+                        'Foobar2'
+                    ]
+                });
+            });
+        </script>
+
+        <h3>noneOption Example</h3>
+        <p>Custom options can be added to the dropdown menu.</p>
+        <p><input id="noneOptionExample" type="text" class="time" /></p>
+
+        <pre class="code" data-language="javascript">
+$('#noneOptionExample').timepicker({
+    'noneOption': [
+        {
+            'label': 'Foobar',
+            'className': 'shibby',
+            'value': '42'
+        },
+        'Foobar2'
+    ]
+});
+        </pre>
+    </div>
+
+
+
+
+
+    <div class="example">
+        <script>
+            $(function() {
                 $('#timeformatExample1').timepicker({ 'timeFormat': 'H:i:s' });
                 $('#timeformatExample2').timepicker({ 'timeFormat': 'h:i A' });
             });

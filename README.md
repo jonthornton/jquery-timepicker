@@ -72,7 +72,11 @@ The time that should appear first in the dropdown list.
 *default: 12:00am*
 
 - **noneOption**  
-Accepts a boolean or string. Set to ```true``` to add a "None" option to the top of the dropdown; set to a string to customize the option label.  
+Adds one or more custom options to the top of the dropdown. Can accept several different value types:  
+Boolean (```true```): Adds a "None" option that results in an empty input value  
+String: Adds an option with a custom label that results in an empty input value  
+Object: Similar to string, but allows customizing the element's class name and the resulting input value. Can contain ```label```, ```value```, and ```className``` properties. ```value``` must be a string type.  
+Array: An array of strings or objects to add multiple non-time options  
 *default: false*
 
 - **scrollDefaultNow**  

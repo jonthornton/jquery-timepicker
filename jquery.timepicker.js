@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.3.4
+jquery-timepicker v1.3.5
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -359,12 +359,18 @@ requires jQuery 1.7+
 		}
 
 		if (settings.noneOption) {
-			var defaultLabel = (settings.useSelect) ? 'Time...' : 'None';
-			var label = (typeof settings.noneOption == 'string') ? settings.noneOption : defaultLabel;
-			if (settings.useSelect) {
-				list.append($('<option value="">'+label+'</option>'));
+			if (settings.noneOption === true) {
+				settings.noneOption = (settings.useSelect) ? 'Time...' : 'None';
+			}
+
+			if ($.isArray(settings.noneOption)) {
+				for (var i in settings.noneOption) {
+					var noneElement = _generateNoneElement(settings.noneOption[i], settings.useSelect);
+					list.append(noneElement);
+				}
 			} else {
-				list.append($('<li>'+label+'</li>'));
+				var noneElement = _generateNoneElement(settings.noneOption, settings.useSelect);
+				list.append(noneElement);
 			}
 		}
 
@@ -493,6 +499,34 @@ requires jQuery 1.7+
 		}
 	}
 
+	function _generateNoneElement(optionValue, useSelect)
+	{
+		var label, className, value;
+
+		if (typeof optionValue == 'object') {
+			label = optionValue.label;
+			className = optionValue.className;
+			value = optionValue.value;
+		} else if (typeof optionValue == 'string') {
+			label = optionValue;
+		} else {
+			$.error('Invalid noneOption value');
+		}
+
+		if (useSelect) {
+			return $('<option />', {
+					'value': value,
+					'class': className,
+					'text': label
+				});
+		} else {
+			return $('<li />', {
+					'class': className,
+					'text': label
+				}).data('time', value);
+		}
+	}
+
 	function _roundTime(time, settings)
 	{
 		if (!$.isNumeric(time)) {
@@ -543,6 +577,9 @@ requires jQuery 1.7+
 		// loop through the menu items
 		list.find('li').each(function(i, obj) {
 			var jObj = $(obj);
+			if (typeof jObj.data('time') != 'number') {
+				return;
+			}
 
 			var offset = jObj.data('time') - value;
 
@@ -842,8 +879,12 @@ requires jQuery 1.7+
 		}
 
 		if (timeValue !== null) {
-			var timeString = _int2time(timeValue, settings.timeFormat);
-			_setTimeValue(self, timeString, 'select');
+			if (typeof timeValue == 'string') {
+				self.val(timeValue);
+			} else {
+				var timeString = _int2time(timeValue, settings.timeFormat);
+				_setTimeValue(self, timeString, 'select');
+			}
 		}
 
 		//self.trigger('change').trigger('selectTime');
