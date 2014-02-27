@@ -219,6 +219,10 @@ Sample markup with class names:
 </div>
 ```
 
+## Packaging
+
+Install from [Bower](http://bower.io/) as ```jquery-timepicker-jt```.
+
 Help
 ----
 
