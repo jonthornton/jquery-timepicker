@@ -223,6 +223,8 @@ Sample markup with class names:
 
 Install from [Bower](http://bower.io/) as ```jquery-timepicker-jt```.
 
+An AngularJS directive is available at https://github.com/Recras/angular-jquery-timepicker
+
 Help
 ----
 
