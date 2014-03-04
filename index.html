@@ -4,7 +4,7 @@
   <meta charset='utf-8'>
 
   <title>Timepicker for jQuery &ndash; Demos and Documentation</title>
-  <meta name="description" content="A lightweight, customizable jQuery timepicker plugin inspired by Google Calendar. Add a user-friendly timepicker dropdown to your app in minutes." />
+  <meta name="description" content="A lightweight, customizable jQuery timepicker plugin inspired by Google Calendar. Add a user-friendly javascript timepicker dropdown to your app in minutes." />
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
   <script type="text/javascript" src="jquery.timepicker.js"></script>
@@ -18,172 +18,173 @@
 
 </head>
 
-<body><div id="container">
-    <h1><a href="https://github.com/jonthornton/jquery-timepicker">jquery.timepicker</a></h1>
-    <div class="description">
-        A lightweight, customizable jQuery timepicker plugin inspired by Google Calendar.
-    </div>
+<body>
+    <header>
 
-    <p>Use this plugin to unobtrusively add a timepicker dropdown to your forms. It's lightweight (2.5kb minified and gzipped) and easy to customize.
-        <a href="https://github.com/jonthornton/jquery-timepicker">View the source code on GitHub</a> or <a href="https://github.com/jonthornton/jquery-timepicker/zipball/master">download (zip)</a>.
-    </p>
-
-    <p><a href="https://github.com/jonthornton/jquery-timepicker#timepicker-plugin-for-jquery" class="big">Full documentation available here</a></p>
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#basicExample').timepicker();
-            });
-        </script>
-
-        <h3>Basic Example</h3>
-        <p><input id="basicExample" type="text" class="time" /></p>
-
-        <pre class="code" data-language="javascript">$('#basicExample').timepicker();</pre>
-    </div>
-
-
-
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#defaultValueExample').timepicker({ 'scrollDefaultNow': true });
-            });
-        </script>
-
-        <h3>Scroll Default Example</h3>
-        <p>Set the scroll position to local time if no value selected.</p>
-        <p><input id="defaultValueExample" type="text" class="time" /></p>
-
-        <pre class="code" data-language="javascript">$('#defaultValueExample').timepicker({ 'scrollDefaultNow': true });</pre>
-    </div>
-
-
-
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#setTimeExample').timepicker();
-                $('#setTimeButton').on('click', function (){
-                    $('#setTimeExample').timepicker('setTime', new Date());
-                });
-            });
-        </script>
-
-        <h3>Set Time Example</h3>
-        <p>Dynamically set the time using a Javascript Date object.</p>
-        <p>
-            <input id="setTimeExample" type="text" class="time" />
-            <button id="setTimeButton">Set current time</button>
+        <h1><a href="https://github.com/jonthornton/jquery-timepicker">jquery.timepicker</a></h1>
+        <p class="body-text">
+            A lightweight, customizable javascript timepicker plugin for jQuery inspired by Google Calendar.
         </p>
 
-        <pre class="code" data-language="javascript">$('#setTimeExample').timepicker();
+        <ul id="header-links">
+            <li><a href="https://github.com/jonthornton/jquery-timepicker#timepicker-plugin-for-jquery">Documentation</a></li>
+            <li><a href="https://github.com/jonthornton/jquery-timepicker">Source code on GitHub</a></li>
+            <li><a href="https://github.com/jonthornton/jquery-timepicker/zipball/master">Download (zip)</a></li>
+            <li><a href="https://github.com/jonthornton/jquery-timepicker/issues?state=open">Help</a></li>
+        </ul>
+    </header>
+
+    <section>
+        <p class="body-text">Use this plugin to unobtrusively add a timepicker dropdown to your forms. It's lightweight (2.5kb minified and gzipped) and easy to customize.</p>
+    </section>
+
+    <section id="examples">
+        <article>
+            <div class="demo">
+                <h2>Basic Example</h2>
+                <p><input id="basicExample" type="text" class="time" /></p>
+            </div>
+
+            <script>
+                $(function() {
+                    $('#basicExample').timepicker();
+                });
+            </script>
+
+            <pre class="code" data-language="javascript">$('#basicExample').timepicker();</pre>
+        </article>
+
+
+        <article>
+            <div class="demo">
+                <h2>Scroll Default Example</h2>
+                <p>Set the scroll position to local time if no value selected.</p>
+                <p><input id="defaultValueExample" type="text" class="time" /></p>
+            </div>
+
+            <script>
+                $(function() {
+                    $('#defaultValueExample').timepicker({ 'scrollDefaultNow': true });
+                });
+            </script>
+
+            <pre class="code" data-language="javascript">$('#defaultValueExample').timepicker({ 'scrollDefaultNow': true });</pre>
+        </article>
+
+        <article>
+            <div class="demo">
+                <h2>Set Time Example</h2>
+                <p>Dynamically set the time using a Javascript Date object.</p>
+                <p>
+                    <input id="setTimeExample" type="text" class="time" />
+                    <button id="setTimeButton">Set current time</button>
+                </p>
+            </div>
+
+            <script>
+                $(function() {
+                    $('#setTimeExample').timepicker();
+                    $('#setTimeButton').on('click', function (){
+                        $('#setTimeExample').timepicker('setTime', new Date());
+                    });
+                });
+            </script>
+
+            <pre class="code" data-language="javascript">$('#setTimeExample').timepicker();
 $('#setTimeButton').on('click', function (){
     $('#setTimeExample').timepicker('setTime', new Date());
 });</pre>
-    </div>
+        </article>
 
+        <article>
+            <div class="demo">
+                <h2>Duration Example</h2>
+                <p>Set a starting time and see duration from that starting time. You can optionally set an maxTime as well.</p>
+                <p><input id="durationExample" type="text" class="time" /></p>
+            </div>
 
+            <script>
+                $(function() {
+                    $('#durationExample').timepicker({ 'minTime': '2:00pm', 'maxTime': '11:30pm', 'showDuration': true });
+                });
+            </script>
 
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#durationExample').timepicker({ 'minTime': '2:00pm', 'maxTime': '11:30pm', 'showDuration': true });
-            });
-        </script>
-
-        <h3>Duration Example</h3>
-        <p>Set a starting time and see duration from that starting time. You can optionally set an maxTime as well.</p>
-        <p><input id="durationExample" type="text" class="time" /></p>
-
-        <pre class="code" data-language="javascript">$('#durationExample').timepicker({
+            <pre class="code" data-language="javascript">$('#durationExample').timepicker({
     'minTime': '2:00pm',
     'maxTime': '11:30pm',
     'showDuration': true
 });</pre>
-    </div>
+        </article>
 
+        <article>
+            <div class="demo">
+                <h2>Event Example</h2>
+                <p>Trigger an event after selecting a value. Fires before the input onchange event.</p>
+                <p>
+                    <input id="onselectExample" type="text" class="time" />
+                    <span id="onselectTarget" style="margin-left: 30px;"></span>
+                </p>
+            </div>
 
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#onselectExample').timepicker();
-                $('#onselectExample').on('changeTime', function() {
-                    $('#onselectTarget').text($(this).val());
+            <script>
+                $(function() {
+                    $('#onselectExample').timepicker();
+                    $('#onselectExample').on('changeTime', function() {
+                        $('#onselectTarget').text($(this).val());
+                    });
                 });
-            });
-        </script>
+            </script>
 
-        <h3>Event Example</h3>
-        <p>Trigger an event after selecting a value. Fires before the input onchange event.</p>
-        <p>
-          <input id="onselectExample" type="text" class="time" />
-          <span id="onselectTarget" style="margin-left: 30px;"></span>
-        </p>
-
-        <pre class="code" data-language="javascript">$('#onselectExample').timepicker();
+            <pre class="code" data-language="javascript">$('#onselectExample').timepicker();
 $('#onselectExample').on('changeTime', function() {
     $('#onselectTarget').text($(this).val());
 });</pre>
-    </div>
+        </article>
 
+        <article>
+            <div class="demo">
+                <h2>DisableTimeRanges Example</h2>
+                <p>Prevent selection of certain time values.</p>
+                <p><input id="disableTimeRangesExample" type="text" class="time" /></p>
+            </div>
 
+            <script>
+                $(function() {
+                    $('#disableTimeRangesExample').timepicker({ 'disableTimeRanges': [['1am', '2am'], ['3am', '4:01am']] });
+                });
+            </script>
 
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#disableTimeRangesExample').timepicker({ 'disableTimeRanges': [['1am', '2am'], ['3am', '4:01am']] });
-            });
-        </script>
-
-        <h3>DisableTimeRanges Example</h3>
-        <p>Prevent selection of certain time values.</p>
-        <p><input id="disableTimeRangesExample" type="text" class="time" /></p>
-
-        <pre class="code" data-language="javascript">$('#disableTimeRangesExample').timepicker({
+            <pre class="code" data-language="javascript">$('#disableTimeRangesExample').timepicker({
     'disableTimeRanges': [
         ['1am', '2am'],
         ['3am', '4:01am']
     ]
 });</pre>
-    </div>
+        </article>
 
+        <article>
+            <div class="demo">
+                <h2>noneOption Example</h2>
+                <p>Custom options can be added to the dropdown menu.</p>
+                <p><input id="noneOptionExample" type="text" class="time" /></p>
+            </div>
 
-
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#noneOptionExample').timepicker({
-                    'noneOption': [
-                        {
-                            'label': 'Foobar',
-                            'className': 'shibby',
-                            'value': '42'
-                        },
-                        'Foobar2'
-                    ]
+            <script>
+                $(function() {
+                    $('#noneOptionExample').timepicker({
+                        'noneOption': [
+                            {
+                                'label': 'Foobar',
+                                'className': 'shibby',
+                                'value': '42'
+                            },
+                            'Foobar2'
+                        ]
+                    });
                 });
-            });
-        </script>
+            </script>
 
-        <h3>noneOption Example</h3>
-        <p>Custom options can be added to the dropdown menu.</p>
-        <p><input id="noneOptionExample" type="text" class="time" /></p>
-
-        <pre class="code" data-language="javascript">
+            <pre class="code" data-language="javascript">
 $('#noneOptionExample').timepicker({
     'noneOption': [
         {
@@ -195,134 +196,137 @@ $('#noneOptionExample').timepicker({
     ]
 });
         </pre>
-    </div>
+        </article>
 
+        <article>
+            <div class="demo">
+                <h2>timeFormat Example</h2>
+                <p>timepicker.jquery uses the time portion of <a href="http://php.net/manual/en/function.date.php">PHP's date formatting commands</a>.</p>
+                <p><input id="timeformatExample1" type="text" class="time" /> <input id="timeformatExample2" type="text" class="time" /></p>
+            </div>
 
-
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#timeformatExample1').timepicker({ 'timeFormat': 'H:i:s' });
-                $('#timeformatExample2').timepicker({ 'timeFormat': 'h:i A' });
-            });
-        </script>
-
-        <h3>timeFormat Example</h3>
-        <p>timepicker.jquery uses the time portion of <a href="http://php.net/manual/en/function.date.php">PHP's date formatting commands</a>.</p>
-        <p><input id="timeformatExample1" type="text" class="time" /> <input id="timeformatExample2" type="text" class="time" /></p>
-
-        <pre class="code" data-language="javascript">$('#timeformatExample1').timepicker({ 'timeFormat': 'H:i:s' });
-$('#timeformatExample2').timepicker({ 'timeFormat': 'h:i A' });</pre>
-    </div>
-
-
-
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#stepExample1').timepicker({ 'step': 15 });
-                $('#stepExample2').timepicker({ 'step': 60 });
-            });
-        </script>
-
-        <h3>Step Example</h3>
-        <p>Generate drop-down options with varying levels of precision.</p>
-        <p><input id="stepExample1" type="text" class="time" /> <input id="stepExample2" type="text" class="time" /></p>
-
-        <pre class="code" data-language="javascript">$('#stepExample1').timepicker({ 'step': 15 });
-$('#stepExample2').timepicker({ 'step': 60 });</pre>
-    </div>
-
-
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#roundTimeExample').timepicker({ 'forceRoundTime': true });
-            });
-        </script>
-
-        <h3>forceRoundTime Example</h3>
-        <p>jquery-timepicker allows entering times via the keyboard. Setting forceRoundTime to true will
-            round the entered time to the nearest option on the dropdown list.</p>
-        <p><input id="roundTimeExample" type="text" class="time" /> </p>
-
-        <pre class="code" data-language="javascript">$('#roundTimeExample').timepicker({ 'forceRoundTime': true });</pre>
-    </div>
-
-
-
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#selectExample').timepicker();
-                $('#selectButton').click(function(e) {
-                    $('#selectExample').timepicker('option', { useSelect: true });
-                    $(this).hide();
+            <script>
+                $(function() {
+                    $('#timeformatExample1').timepicker({ 'timeFormat': 'H:i:s' });
+                    $('#timeformatExample2').timepicker({ 'timeFormat': 'h:i A' });
                 });
-            });
-        </script>
+            </script>
 
-        <h3>Select Example</h3>
-        <p>jquery-timepicker can render itself as a select element too.</p>
-        <p><input id="selectExample" class="time" /> <button id="selectButton">Toggle</button></p>
+            <pre class="code" data-language="javascript">$('#timeformatExample1').timepicker({ 'timeFormat': 'H:i:s' });
+$('#timeformatExample2').timepicker({ 'timeFormat': 'h:i A' });</pre>
+        </article>
 
-        <pre class="code" data-language="javascript">$('#selectExample').timepicker();
+        <article>
+            <div class="demo">
+                <h2>Step Example</h2>
+                <p>Generate drop-down options with varying levels of precision.</p>
+                <p><input id="stepExample1" type="text" class="time" /> <input id="stepExample2" type="text" class="time" /></p>
+            </div>
+
+            <script>
+                $(function() {
+                    $('#stepExample1').timepicker({ 'step': 15 });
+                    $('#stepExample2').timepicker({ 'step': 60 });
+                });
+            </script>
+
+            <pre class="code" data-language="javascript">$('#stepExample1').timepicker({ 'step': 15 });
+$('#stepExample2').timepicker({ 'step': 60 });</pre>
+        </article>
+
+        <article>
+            <div class="demo">
+                <h2>forceRoundTime Example</h2>
+                <p>jquery-timepicker allows entering times via the keyboard. Setting forceRoundTime to true will
+                    round the entered time to the nearest option on the dropdown list.</p>
+                <p><input id="roundTimeExample" type="text" class="time" /> </p>
+            </div>
+
+            <script>
+                $(function() {
+                    $('#roundTimeExample').timepicker({ 'forceRoundTime': true });
+                });
+            </script>
+
+            <pre class="code" data-language="javascript">$('#roundTimeExample').timepicker({ 'forceRoundTime': true });</pre>
+        </article>
+
+        <article>
+            <div class="demo">
+                <h2>Select Example</h2>
+                <p>jquery-timepicker can render itself as a select element too.</p>
+                <p><input id="selectExample" class="time" /> <button id="selectButton">Toggle</button></p>
+            </div>
+
+            <script>
+                $(function() {
+                    $('#selectExample').timepicker();
+                    $('#selectButton').click(function(e) {
+                        $('#selectExample').timepicker('option', { useSelect: true });
+                        $(this).hide();
+                    });
+                });
+            </script>
+
+            <pre class="code" data-language="javascript">$('#selectExample').timepicker();
 $('#selectButton').click(function(e) {
   $('#selectExample').timepicker('option', { useSelect: true });
   $(this).hide();
 });</pre>
-    </div>
+        </article>
 
+        <article>
+            <div class="demo">
+                <h2>Non-input Example</h2>
+                <p>jquery-timepicker can be bound to any visibile DOM element, such as spans or divs.</p>
+                <p><span id="spanExample" style="background:#f00; padding:0 10px; margin-right:100px;"></span> <button id="openSpanExample">Pick Time</button> </p>
+            </div>
 
-
-
-    <div class="example">
-        <script>
-            $(function() {
-                $('#spanExample').timepicker();
-                $('#openSpanExample').on('click', function(){
-                    $('#spanExample').timepicker('show');
+            <script>
+                $(function() {
+                    $('#spanExample').timepicker();
+                    $('#openSpanExample').on('click', function(){
+                        $('#spanExample').timepicker('show');
+                    });
                 });
-            });
-        </script>
+            </script>
 
-        <h3>Non-input Example</h3>
-        <p>jquery-timepicker can be bound to any visibile DOM element, such as spans or divs.</p>
-        <p><span id="spanExample" style="background:#f00; padding:0 10px; margin-right:100px;"></span> <button id="openSpanExample">Pick Time</button> </p>
-
-        <pre class="code" data-language="javascript">$('#spanExample').timepicker();
+            <pre class="code" data-language="javascript">$('#spanExample').timepicker();
     $('#openSpanExample').on('click', function(){
     $('#spanExample').timepicker('show');
 });</pre>
-    </div>
+        </article>
 
+        <article>
+            <div class="demo">
+                <h2>Datepair Plugin Example</h2>
 
+                <p>jquery-timepicker is designed to work with the <a href="http://jonthornton.github.com/jquery-datepair">jquery-datepair plugin</a>.
 
+                <p id="datepairExample">
+                    <input type="text" class="date start" />
+                    <input type="text" class="time start" /> to
+                    <input type="text" class="time end" />
+                    <input type="text" class="date end" />
+                </p>
+            </div>
 
+            <script src="http://jonthornton.github.io/jquery-datepair/jquery.datepair.js"></script>
+            <script>
+                $('#datepairExample .time').timepicker({
+                    'showDuration': true,
+                    'timeFormat': 'g:ia'
+                });
 
-    <div class="example">
+                $('#datepairExample .date').datepicker({
+                    'format': 'm/d/yyyy',
+                    'autoclose': true
+                });
 
-        <script src="http://jonthornton.github.io/jquery-datepair/jquery.datepair.js"></script>
-        <h3>Datepair Plugin Example</h3>
+                $('#datepairExample').datepair();
+            </script>
 
-        <p>jquery-timepicker is designed to work with the <a href="http://jonthornton.github.com/jquery-datepair">jquery-datepair plugin</a>.
-
-        <p id="datepairExample">
-            <input type="text" class="date start" />
-            <input type="text" class="time start" /> to
-            <input type="text" class="time end" />
-            <input type="text" class="date end" />
-        </p>
-
-        <pre class="code" data-language="javascript">
+            <pre class="code" data-language="javascript">
 &lt;p id="datepairExample"&gt;
     &lt;input type="text" class="date start" /&gt;
     &lt;input type="text" class="time start" /&gt; to
@@ -345,53 +349,19 @@ $('#selectButton').click(function(e) {
 
     // initialize datepair
     $('#datepairExample').datepair();
-&lt;/script&gt;
-        </pre>
+&lt;/script&gt;</pre>
 
-        <script>
-            $('#datepairExample .time').timepicker({
-                'showDuration': true,
-                'timeFormat': 'g:ia'
-            });
+        </article>
+    </section>
 
-            $('#datepairExample .date').datepicker({
-                'format': 'm/d/yyyy',
-                'autoclose': true
-            });
+    <section>
+        <h2>Need Help?</h2>
+        <p>Check <a href="https://github.com/jonthornton/jquery-timepicker#timepicker-plugin-for-jquery">the documenation</a> or <a href="https://github.com/jonthornton/jquery-timepicker/issues?state=open">submit an issue</a> on GitHub.</p>
+    </section>
 
-            $('#datepairExample').datepair();
-        </script>
-    </div>
-
-
-    <div class="example" style="background: #ffd;">
-        <h2>Want to get paid to work on stuff like this?</h2>
-
-        <p>Shameless plug: <a href="http://www.parkwhiz.com">ParkWhiz</a> is looking for talented developers
-            to help us drag the parking industry out of the Stone Age. Visit ParkWhiz's
-            <a href="http://www.parkwhiz.com/about/jobs/">jobs page</a> or email
-            <a href="mailto:jobs@parkwhiz.com">jobs@parkwhiz.com</a> and introduce yourself!</p>
-    </div>
-
-    <h2>Contact</h2>
-    <p><a href="http://jonthornton.com">Jon Thornton</a> &mdash; [lastname].[firstname]@gmail.com</p>
-
-
-    <h2>Download</h2>
-    <p>
-        You can download this project in either
-        <a href="https://github.com/jonthornton/jquery-timepicker/zipball/master">zip</a> or
-        <a href="https://github.com/jonthornton/jquery-timepicker/tarball/master">tar formats</a>. <br />
-        Get the source code on GitHub: <a href="https://github.com/jonthornton/jquery-timepicker">jonthornton/jquery.timepicker</a>
-    </p>
-    <div class="p">You can also clone the project with <a href="http://git-scm.com">Git</a>
-        by running:
-        <pre>$ git clone git://github.com/jonthornton/jquery-timepicker</pre>
-    </div>
-
-    <div class="footer">
-        &copy; 2014 <a href="http://jonthornton.com">Jon Thornton</a> and <a href="https://github.com/jonthornton/jquery-timepicker/graphs/contributors">contributors</a>
-    </div>
+    <footer>
+        <p>&copy; 2014 <a href="http://jonthornton.com">Jon Thornton</a></p>
+    </footer>
 
     <script type="text/javascript">
         var _gaq = _gaq || [];

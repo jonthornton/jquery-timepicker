@@ -1,39 +1,133 @@
+body {
+    background: #f0f0f0;
+    color: #444;
+    font-family: helvetica, arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.3;
+    margin: 0;
+    padding: 0;
+}
 
-body { background: #fff; color: #383838; font-family: helvetica, arial, sans-serif; font-size: 15px; line-height: 145%; }
-h1, h2, h3 { color: #000; }
-h2, h3 { margin: 30px 0 10px 0; }
-h2:first-child, h3:first-child { margin-top: 0; }
-p, .p { margin: 10px 0 20px 0; }
-input.time, input.date { font-size: 13px; }
-input.time { width: 80px; }
-input.date { width: 90px; }
-a { color: #06c; text-decoration: none; }
-a:hover { text-decoration: underline; }
-h1 a { color: #000; }
-image { border: 0; }
+header,
+section,
+footer {
+    padding: 20px;
+}
 
-.example { border: 1px solid #ddd; background: #f4f4f4; padding: 10px; margin: 10px 0 30px 0; }
-.example h3 { margin: 0 0 10px 0; }
-.example p { margin: 20px 0 0 0; }
+header,
+footer {
+    background: #d4d4d4;
+    color: #666;
+    position: relative;
+}
 
-.big { font-size: 2em; line-height: 2em; }
+header h1 {
+    margin: 0;
+    padding: 0;
+}
 
-.code { font-family: Consolas, Monaco, "Courier New", Courier; margin: 20px 0 0 0; background: #333; }
+header h1 a {
+    font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+    font-size: 60px;
+    font-weight: 200;
+    text-decoration: none;
+}
 
-#container { margin: 50px auto; width: 700px; }
-h1 { font-size: 3.8em; color: #000; margin: 0 0 35px 0; }
-h1 .small { font-size: 0.4em; }
-h1 a { text-decoration: none }
-h2 { font-size: 1.5em; color: #000; }
-.byline { font-size: 1.5em; font-weight: bold; margin: 20px 0 0 0; }
-.byline a { text-decoration: none; }
-.description { font-size: 1.2em; margin: 20px 0; font-style: italic;}
+header p {
+    font-size: 23px;
+}
 
-pre { background: #000; color: #fff; padding: 15px;}
-hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-.footer { text-align:center; padding-top:30px; font-style: italic; }
+#header-links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    right: 20px;
+    top: 30px;
+    text-align: right;
+}
 
-div.ui-datepicker { font-size: 11px; }
+#header-links a {
+    color: #888;
+}
+
+#header-links a:hover {
+    color: #06c;
+}
+
+h2 {
+    color: #444;
+    font-size: 35px;
+    font-weight: normal;
+    margin: 0;
+    line-height: 1.1
+}
+
+p {
+    margin: 20px 0 0 0;
+}
+
+p:first-child {
+    margin-top: 0;
+}
+
+input {
+    font-size: 13px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 3px;
+    background: #fff;
+    border: 1px solid #aac;
+}
+
+input.time {
+    width: 80px;
+}
+
+input.date {
+    width: 90px;
+}
+
+a {
+    color: #06c;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+image {
+    border: 0;
+}
+
+.body-text {
+    width: 700px;
+}
+
+#examples article {
+    padding-top: 100px;
+    clear: both;
+}
+
+#examples article:first-child {
+    padding-top: 0;
+}
+
+#examples .demo {
+    width: 450px;
+    float: left;
+}
+
+#examples .code {
+    font-size: 12px;
+    margin: 0 0 0 470px;
+}
+
+footer {
+    font-size: 12px;
+}
 
 /**
  * Blackboard theme
