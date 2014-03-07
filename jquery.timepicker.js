@@ -702,7 +702,7 @@ requires jQuery 1.7+
 			if (source == 'select') {
 				self.trigger('selectTime').trigger('changeTime').trigger('change');
 			} else if (source != 'error') {
-				self.trigger('changeTime');
+				self.trigger('changeTime').trigger('change');
 			}
 
 			return true;
