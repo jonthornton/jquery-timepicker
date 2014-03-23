@@ -32,6 +32,7 @@ requires jQuery 1.7+
 		forceRoundTime: false,
 		appendTo: 'body',
 		disableTimeRanges: [],
+		specialTimeRanges: [],
 		closeOnWindowScroll: false,
 		typeaheadHighlight: true,
 		noneOption: false
@@ -335,6 +336,32 @@ requires jQuery 1.7+
 			}
 		}
 
+		if (settings.specialTimeRanges.length > 0) {
+			// convert string times to integers
+			for (var i in settings.specialTimeRanges) {
+				settings.specialTimeRanges[i] = [
+					_time2int(settings.specialTimeRanges[i][0]),
+					_time2int(settings.specialTimeRanges[i][1])
+				];
+			}
+
+			// sort by starting time
+			settings.specialTimeRanges = settings.specialTimeRanges.sort(function(a, b){
+				return a[0] - b[0];
+			});
+
+			// merge any overlapping ranges
+			for (var i = settings.specialTimeRanges.length-1; i > 0; i--) {
+				if (settings.specialTimeRanges[i][0] <= settings.specialTimeRanges[i-1][1]) {
+					settings.specialTimeRanges[i-1] = [
+						Math.min(settings.specialTimeRanges[i][0], settings.specialTimeRanges[i-1][0]),
+						Math.max(settings.specialTimeRanges[i][1], settings.specialTimeRanges[i-1][1])
+					];
+					settings.specialTimeRanges.splice(i, 1);
+				}
+			}
+		}
+
 		return settings;
 	}
 
@@ -405,6 +432,10 @@ requires jQuery 1.7+
 		var drCur = 0;
 		var drLen = dr.length;
 
+		var sr = settings.specialTimeRanges;
+		var srCur = 0;
+		var srLen = sr.length;
+
 		for (var i=start; i <= end; i += settings.step*60) {
 			var timeInt = i;
 			var timeString = _int2time(timeInt, settings.timeFormat);
@@ -440,6 +471,16 @@ requires jQuery 1.7+
 					} else {
 						row.addClass('ui-timepicker-disabled');
 					}
+				}
+			}
+
+			if (srCur < srLen) {
+				if (timeInt >= sr[srCur][1]) {
+					srCur += 1;
+				}
+
+				if (sr[srCur] && timeInt >= sr[srCur][0] && timeInt < sr[srCur][1]) {
+					row.addClass('instant');
 				}
 			}
 
