@@ -53,7 +53,7 @@ requires jQuery 1.7+
 
 				// pick up settings from data attributes
 				var attributeOptions = [];
-				for (key in _defaults) {
+				for (var key in _defaults) {
 					if (self.data(key))  {
 						attributeOptions[key] = self.data(key);
 					}
