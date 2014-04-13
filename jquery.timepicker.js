@@ -634,9 +634,8 @@ requires jQuery 1.7+
 		}
 
 		var self = $(this);
-		var list = self.data('timepicker-list');
 
-		if (list && list.is(':visible')) {
+		if (self.is(':focus')) {
 			return;
 		}
 
