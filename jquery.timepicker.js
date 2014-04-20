@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.3.6
+jquery-timepicker v1.3.7
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -627,15 +627,16 @@ requires jQuery 1.7+
 	}
 
 
-	function _formatValue()
+	function _formatValue(e)
 	{
 		if (this.value === '') {
 			return;
 		}
 
 		var self = $(this);
+		var list = self.data('timepicker-list');
 
-		if (self.is(':focus')) {
+		if (self.is(':focus') && (!e || e.type != 'change')) {
 			return;
 		}
 
