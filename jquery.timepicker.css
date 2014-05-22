@@ -13,6 +13,11 @@
 }
 
 .ui-timepicker-wrapper.ui-timepicker-with-duration {
+	width: 14em;
+}
+
+.ui-timepicker-wrapper.ui-timepicker-with-duration.ui-timepicker-step-30,
+.ui-timepicker-wrapper.ui-timepicker-with-duration.ui-timepicker-step-60 {
 	width: 11em;
 }
 
