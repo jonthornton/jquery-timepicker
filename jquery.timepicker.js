@@ -391,6 +391,7 @@ requires jQuery 1.7+
 
 		if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
 			wrapped_list.addClass('ui-timepicker-with-duration');
+			wrapped_list.addClass('ui-timepicker-step-'+settings.step);
 		}
 
 		var durStart = settings.minTime;
@@ -904,17 +905,31 @@ requires jQuery 1.7+
 
 	function _int2duration(seconds)
 	{
-		var minutes = Math.round(seconds/60);
-		var duration;
+		var minutes = Math.round(seconds/60),
+			duration = [],
+			hours, mins;
 
-		if (Math.abs(minutes) < 60) {
+		if (minutes < 60) {
+			// Only show (x mins) under 1 hour
 			duration = [minutes, _lang.mins];
-		} else if (minutes == 60) {
-			duration = ['1', _lang.hr];
 		} else {
-			var hours = (minutes/60).toFixed(1);
-			if (_lang.decimal != '.') hours = hours.replace('.', _lang.decimal);
-			duration = [hours, _lang.hrs];
+			hours = Math.floor(minutes/60);
+			mins = minutes%60;
+
+			// Show decimal notation (eg: 1.5 hrs) for 30 minute steps
+			if (step == 30 && mins == 30) {
+				hours += _lang.decimal + 5;
+			}
+
+			duration.push(hours);
+			duration.push(hours == 1 ? _lang.hr : _lang.hrs);
+
+			// Show remainder minutes notation (eg: 1 hr 15 mins) for non-30 minute steps
+			// and only if there are remainder minutes to show
+			if (step != 30 && mins) {
+				duration.push(mins);
+				duration.push(_lang.mins);
+			}
 		}
 
 		return duration.join(' ');
