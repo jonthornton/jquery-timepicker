@@ -431,7 +431,7 @@ requires jQuery 1.7+
 			}
 
 			if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
-				var durationString = _int2duration(i - durStart);
+				var durationString = _int2duration(i - durStart, settings.step);
 				if (settings.useSelect) {
 					row.text(row.text()+' ('+durationString+')');
 				} else {
@@ -903,7 +903,7 @@ requires jQuery 1.7+
 		return true;
 	}
 
-	function _int2duration(seconds)
+	function _int2duration(seconds, step)
 	{
 		var minutes = Math.round(seconds/60),
 			duration = [],
