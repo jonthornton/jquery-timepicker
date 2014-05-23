@@ -228,7 +228,7 @@ An AngularJS directive is available at https://github.com/Recras/angular-jquery-
 Help
 ----
 
-Submit a [GitHub Issues request](https://github.com/jonthornton/jquery-timepicker/issues/new).
+Submit a [GitHub Issues request](https://github.com/jonthornton/jquery-timepicker/issues/new). Please try provide code that demonstrates the problem; you can use [this jsFiddle](http://jsfiddle.net/jonthornton/28uvg/) as a starting point.
 
 Development guidelines
 ----------------------
