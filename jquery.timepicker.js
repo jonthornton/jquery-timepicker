@@ -376,8 +376,10 @@ requires jQuery 1.7+
 
 			if ($.isArray(settings.noneOption)) {
 				for (var i in settings.noneOption) {
-					var noneElement = _generateNoneElement(settings.noneOption[i], settings.useSelect);
-					list.append(noneElement);
+					if (parseInt(i, 10) === i){
+						var noneElement = _generateNoneElement(settings.noneOption[i], settings.useSelect);
+						list.append(noneElement);
+					}
 				}
 			} else {
 				var noneElement = _generateNoneElement(settings.noneOption, settings.useSelect);
