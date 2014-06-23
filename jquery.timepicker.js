@@ -888,13 +888,6 @@ requires jQuery 1.7+
 		if (cursor.length) {
 			// selected value found
 			timeValue = cursor.data('time');
-
-		} else if (_getTimeValue(self)) {
-
-			// no selected value; fall back on input value
-			timeValue = _time2int(_getTimeValue(self));
-
-			_setSelected(self, list);
 		}
 
 		if (timeValue !== null) {
