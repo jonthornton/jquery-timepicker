@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.3.9
+jquery-timepicker v1.3.10
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -24,6 +24,7 @@ requires jQuery 1.7+
 		durationTime: null,
 		step: 30,
 		showDuration: false,
+		showOnFocus: true,
 		timeFormat: 'g:ia',
 		scrollDefaultNow: false,
 		scrollDefaultTime: false,
@@ -90,12 +91,16 @@ requires jQuery 1.7+
 
 		show: function(e)
 		{
-			if (e) {
-				e.preventDefault();
-			}
-
 			var self = $(this);
 			var settings = self.data('timepicker-settings');
+
+			if (e) {
+				if (!settings.showOnFocus) {
+					return true;
+				}
+
+				e.preventDefault();
+			}
 
 			if (settings.useSelect) {
 				self.data('timepicker-list').focus();

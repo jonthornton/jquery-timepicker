@@ -95,6 +95,10 @@ Update the input with the currently highlighted time value when the timepicker l
 Shows the relative time for each item in the dropdown. ```minTime``` or ```durationTime``` must be set.  
 *default: false*
 
+- **showOnFocus**  
+Display a timepicker dropdown when the input gains focus.  
+*default: true*
+
 - **step**  
 The amount of time, in minutes, between each item in the dropdown.  
 *default: 30*
