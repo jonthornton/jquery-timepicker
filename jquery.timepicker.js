@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.3.10
+jquery-timepicker v1.4.0
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -26,8 +26,7 @@ requires jQuery 1.7+
 		showDuration: false,
 		showOnFocus: true,
 		timeFormat: 'g:ia',
-		scrollDefaultNow: false,
-		scrollDefaultTime: false,
+		scrollDefault: null,
 		selectOnBlur: false,
 		disableTouchKeyboard: false,
 		forceRoundTime: false,
@@ -160,10 +159,8 @@ requires jQuery 1.7+
 			if (!selected.length) {
 				if (_getTimeValue(self)) {
 					selected = _findRow(self, list, _time2int(_getTimeValue(self)));
-				} else if (settings.scrollDefaultNow) {
-					selected = _findRow(self, list, _time2int(new Date()));
-				} else if (settings.scrollDefaultTime !== false) {
-					selected = _findRow(self, list, _time2int(settings.scrollDefaultTime));
+				} else if (settings.scrollDefault) {
+					selected = _findRow(self, list, settings.scrollDefault);
 				}
 			}
 
@@ -328,6 +325,18 @@ requires jQuery 1.7+
 
 		if (settings.durationTime && typeof settings.durationTime !== 'function') {
 			settings.durationTime = _time2int(settings.durationTime);
+		}
+
+		if (settings.scrollDefault == 'now') {
+			settings.scrollDefault = _time2int(new Date());
+		} else if (settings.scrollDefault) {
+			settings.scrollDefault = _time2int(settings.scrollDefault);
+		} else if (settings.minTime) {
+			settings.scrollDefault = settings.minTime;
+		}
+
+		if (settings.scrollDefault) {
+			settings.scrollDefault = _time2int(_roundTime(settings.scrollDefault, settings));
 		}
 
 		if (settings.disableTimeRanges.length > 0) {

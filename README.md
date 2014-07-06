@@ -79,12 +79,8 @@ Object: Similar to string, but allows customizing the element's class name and t
 Array: An array of strings or objects to add multiple non-time options  
 *default: false*
 
-- **scrollDefaultNow**  
-If no time value is selected, set the dropdown scroll position to show the current time.  
-*default: false*
-
-- **scrollDefaultTime**  
-If no time value is selected, set the dropdown scroll position to show the time provided, e.g. "09:00". A string, Date object, or integer (seconds past midnight) is acceptible.   
+- **scrollDefault**  
+If no time value is selected, set the dropdown scroll position to show the time provided, e.g. "09:00". A time string, Date object, or integer (seconds past midnight) is acceptible, as well as the string `'now'`.   
 *default: null*
 
 - **selectOnBlur**  

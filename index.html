@@ -59,16 +59,16 @@
             <div class="demo">
                 <h2>Scroll Default Example</h2>
                 <p>Set the scroll position to local time if no value selected.</p>
-                <p><input id="defaultValueExample" type="text" class="time" /></p>
+                <p><input id="scrollDefaultExample" type="text" class="time" /></p>
             </div>
 
             <script>
                 $(function() {
-                    $('#defaultValueExample').timepicker({ 'scrollDefaultNow': true });
+                    $('#scrollDefaultExample').timepicker({ 'scrollDefault': 'now' });
                 });
             </script>
 
-            <pre class="code" data-language="javascript">$('#defaultValueExample').timepicker({ 'scrollDefaultNow': true });</pre>
+            <pre class="code" data-language="javascript">$('#scrollDefaultExample').timepicker({ 'scrollDefault': 'now' });</pre>
         </article>
 
         <article>
