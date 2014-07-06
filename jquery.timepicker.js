@@ -339,6 +339,10 @@ requires jQuery 1.7+
 			settings.scrollDefault = _time2int(_roundTime(settings.scrollDefault, settings));
 		}
 
+		if (settings.timeFormat.match(/[gh]/)) {
+			settings._twelveHourTime = true;
+		}
+
 		if (settings.disableTimeRanges.length > 0) {
 			// convert string times to integers
 			for (var i in settings.disableTimeRanges) {
@@ -630,7 +634,7 @@ requires jQuery 1.7+
 	{
 		list.find('li').removeClass('ui-timepicker-selected');
 
-		var timeValue = _time2int(_getTimeValue(self));
+		var timeValue = _time2int(_getTimeValue(self), self.data('timepicker-settings'));
 		if (timeValue === null) {
 			return;
 		}
@@ -1020,7 +1024,7 @@ requires jQuery 1.7+
 		return output;
 	}
 
-	function _time2int(timeString)
+	function _time2int(timeString, settings)
 	{
 		if (timeString === '') return null;
 		if (!timeString || timeString+0 == timeString) return timeString;
@@ -1051,22 +1055,30 @@ requires jQuery 1.7+
 		}
 
 		var hour = parseInt(time[1]*1, 10);
-		var hours;
+		var ampm = time[4];
+		var hours = hour;
 
-		if (time[4]) {
+		if (ampm) {
 			if (hour == 12) {
 				hours = (time[4] == 'p') ? 12 : 0;
 			} else {
 				hours = (hour + (time[4] == 'p' ? 12 : 0));
 			}
-
-		} else {
-			hours = hour;
 		}
 
 		var minutes = ( time[2]*1 || 0 );
 		var seconds = ( time[3]*1 || 0 );
-		return hours*3600 + minutes*60 + seconds;
+		var timeInt = hours*3600 + minutes*60 + seconds;
+
+		// if no am/pm provided, intelligently guess based on the scrollDefault
+		if (!ampm && settings && settings._twelveHourTime && settings.scrollDefault) {
+			var delta = timeInt - settings.scrollDefault;
+			if (delta < 0 && delta >= _ONE_DAY / -2) {
+				timeInt = (timeInt + (_ONE_DAY / 2)) % _ONE_DAY;
+			}
+		}
+
+		return timeInt
 	}
 
 	function _pad2(n) {
