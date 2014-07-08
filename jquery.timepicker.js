@@ -759,6 +759,9 @@ requires jQuery 1.7+
 
 		if (!list || !list.is(':visible')) {
 			if (e.keyCode == 40) {
+				// show the list!
+				methods.show.call(self.get(0));
+				list = self.data('timepicker-list');
 				if (!_hideKeyboard(self)) {
 					self.focus();
 				}
