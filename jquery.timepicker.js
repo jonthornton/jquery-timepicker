@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.0
+jquery-timepicker v1.4.1
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -509,7 +509,7 @@ requires jQuery 1.7+
 			appendTo.append(wrapped_list);
 			_setSelected(self, list);
 
-			list.on('click', 'li', function(e) {
+			list.on('mousedown', 'li', function(e) {
 
 				// hack: temporarily disable the focus handler
 				// to deal with the fact that IE fires 'focus'
