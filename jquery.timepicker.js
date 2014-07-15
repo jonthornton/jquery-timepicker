@@ -419,7 +419,10 @@ requires jQuery 1.7+
 			wrapped_list.addClass('ui-timepicker-step-'+settings.step);
 		}
 
-		var durStart = settings.minTime;
+		var durStart;
+		if ((durStart = settings.minTime) === null && settings.maxTime !== null){
+			durStart = settings.maxTime;
+		}
 		if (typeof settings.durationTime === 'function') {
 			durStart = _time2int(settings.durationTime());
 		} else if (settings.durationTime !== null) {
@@ -456,7 +459,7 @@ requires jQuery 1.7+
 			}
 
 			if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
-				var durationString = _int2duration(i - durStart, settings.step);
+				var durationString = _int2duration(Math.abs(i - durStart), settings.step);
 				if (settings.useSelect) {
 					row.text(row.text()+' ('+durationString+')');
 				} else {
