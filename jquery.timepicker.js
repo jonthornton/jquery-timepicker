@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.2
+jquery-timepicker v1.4.3
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -209,34 +209,34 @@ requires jQuery 1.7+
 
 		option: function(key, value)
 		{
-			var self = this;
-			var settings = self.data('timepicker-settings');
-			var list = self.data('timepicker-list');
+			return this.each(function(){
+				var self = $(this);
+				var settings = self.data('timepicker-settings');
+				var list = self.data('timepicker-list');
 
-			if (typeof key == 'object') {
-				settings = $.extend(settings, key);
+				if (typeof key == 'object') {
+					settings = $.extend(settings, key);
 
-			} else if (typeof key == 'string' && typeof value != 'undefined') {
-				settings[key] = value;
+				} else if (typeof key == 'string' && typeof value != 'undefined') {
+					settings[key] = value;
 
-			} else if (typeof key == 'string') {
-				return settings[key];
-			}
+				} else if (typeof key == 'string') {
+					return settings[key];
+				}
 
-			settings = _parseSettings(settings);
+				settings = _parseSettings(settings);
 
-			self.data('timepicker-settings', settings);
+				self.data('timepicker-settings', settings);
 
-			if (list) {
-				list.remove();
-				self.data('timepicker-list', false);
-			}
+				if (list) {
+					list.remove();
+					self.data('timepicker-list', false);
+				}
 
-			if (settings.useSelect) {
-				_render(self);
-			}
-
-			return this;
+				if (settings.useSelect) {
+					_render(self);
+				}
+			});
 		},
 
 		getSecondsFromMidnight: function()
