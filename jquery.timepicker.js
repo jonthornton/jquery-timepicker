@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.1
+jquery-timepicker v1.4.2
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -926,6 +926,7 @@ requires jQuery 1.7+
 
 	function _int2duration(seconds, step)
 	{
+		seconds = Math.abs(seconds);
 		var minutes = Math.round(seconds/60),
 			duration = [],
 			hours, mins;
