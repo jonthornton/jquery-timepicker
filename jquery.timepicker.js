@@ -35,7 +35,8 @@ requires jQuery 1.7+
 		disableTimeRanges: [],
 		closeOnWindowScroll: false,
 		typeaheadHighlight: true,
-		noneOption: false
+		noneOption: false,
+		openOnReadOnly: false
 	};
 	var _lang = {
 		am: 'am',
@@ -114,7 +115,7 @@ requires jQuery 1.7+
 			var list = self.data('timepicker-list');
 
 			// check if input is readonly
-			if (self.prop('readonly')) {
+			if (self.prop('readonly') && !settings.openOnReadOnly) {
 				return;
 			}
 
