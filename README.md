@@ -5,7 +5,7 @@ Timepicker Plugin for jQuery
 
 [See a demo and examples here](http://jonthornton.github.com/jquery-timepicker)
 
-jquery.timepicker is a lightweight timepicker plugin for jQuery inspired by Google Calendar. It supports both mouse and keyboard navigation, and weighs in at 2.5kb minified and gzipped.
+jquery.timepicker is a lightweight timepicker plugin for jQuery inspired by Google Calendar. It supports both mouse and keyboard navigation, and weighs in at 2.7kb minified and gzipped.
 
 Requirements
 ------------

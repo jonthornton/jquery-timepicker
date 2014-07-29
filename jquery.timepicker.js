@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.3
+jquery-timepicker v1.4.4
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -271,7 +271,13 @@ requires jQuery 1.7+
 		setTime: function(value)
 		{
 			var self = this;
-			var prettyTime = _int2time(_time2int(value), self.data('timepicker-settings').timeFormat);
+			var settings = self.data('timepicker-settings');
+
+			if (settings.forceRoundTime) {
+				var prettyTime = _roundAndFormatTime(value, settings)
+			} else {
+				var prettyTime = _int2time(_time2int(value), settings.timeFormat);
+			}
 
 			_setTimeValue(self, prettyTime);
 			if (self.data('timepicker-list')) {
@@ -336,7 +342,7 @@ requires jQuery 1.7+
 		}
 
 		if (settings.scrollDefault) {
-			settings.scrollDefault = _time2int(_roundTime(settings.scrollDefault, settings));
+			settings.scrollDefault = _roundTime(settings.scrollDefault, settings);
 		}
 
 		if (settings.timeFormat.match(/[gh]/)) {
@@ -487,7 +493,7 @@ requires jQuery 1.7+
 		self.data('timepicker-list', wrapped_list);
 
 		if (settings.useSelect) {
-			list.val(_roundTime(self.val(), settings));
+			list.val(_roundAndFormatTime(self.val(), settings));
 			list.on('focus', function(){
 				$(this).data('timepicker-input').trigger('showTimepicker');
 			});
@@ -564,18 +570,34 @@ requires jQuery 1.7+
 		}
 	}
 
-	function _roundTime(time, settings)
+	function _roundTime(seconds, settings)
 	{
-		if (!$.isNumeric(time)) {
-			time = _time2int(time);
+		if (!$.isNumeric(seconds)) {
+			seconds = _time2int(seconds);
 		}
 
-		if (time === null) {
+		if (seconds === null) {
 			return null;
 		} else {
-			var step = settings.step*60;
-			// round to the nearest step
-			return _int2time(Math.round(time / step) * step, settings.timeFormat);
+			var offset = seconds % (settings.step*60); // step is in minutes
+
+			if (offset >= settings.step*30) {
+				// if offset is larger than a half step, round up
+				seconds += (settings.step*60) - offset;
+			} else {
+				// round down
+				seconds -= offset;
+			}
+
+			return seconds;
+		}
+	}
+
+	function _roundAndFormatTime(seconds, settings)
+	{
+		seconds = _roundTime(seconds, settings);
+		if (seconds) {
+			return _int2time(seconds, settings.timeFormat);
 		}
 	}
 
@@ -730,7 +752,7 @@ requires jQuery 1.7+
 
 			var settings = self.data('timepicker-settings');
 			if (settings.useSelect) {
-				self.data('timepicker-list').val(_roundTime(value, settings));
+				self.data('timepicker-list').val(_roundAndFormatTime(value, settings));
 			}
 		}
 
