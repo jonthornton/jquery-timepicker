@@ -596,7 +596,7 @@ requires jQuery 1.7+
 	function _roundAndFormatTime(seconds, settings)
 	{
 		seconds = _roundTime(seconds, settings);
-		if (seconds) {
+		if (seconds !== null) {
 			return _int2time(seconds, settings.timeFormat);
 		}
 	}
