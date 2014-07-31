@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.4
+jquery-timepicker v1.4.5
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -1056,7 +1056,7 @@ requires jQuery 1.7+
 		if (!timeString || timeString+0 == timeString) return timeString;
 
 		if (typeof(timeString) == 'object') {
-			timeString = timeString.getHours()+':'+_pad2(timeString.getMinutes())+':'+_pad2(timeString.getSeconds());
+			return timeString.getHours()*3600 + timeString.getMinutes()*60 + timeString.getSeconds();
 		}
 
 		timeString = timeString.toLowerCase();
@@ -1065,16 +1065,7 @@ requires jQuery 1.7+
 		var time;
 
 		// try to parse time input
-		if (timeString.indexOf(":") === -1) {
-			// no colon present
-			time = timeString.match(/^([0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)m?$/);
-
-			if (!time) {
-				time = timeString.match(/^([0-2][0-9]):?([0-5][0-9])?:?([0-5][0-9])?\s*([pa]?)m?$/);
-			}
-		} else {
-			time = timeString.match(/^(\d{1,2})(?::([0-5][0-9]))?(?::([0-5][0-9]))?\s*([pa]?)m?$/);
-		}
+		time = timeString.match(/^([0-2]?[0-9])\W?([0-5][0-9])?\W?([0-5][0-9])?\s*([pa]?)m?$/);
 
 		if (!time) {
 			return null;
