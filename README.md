@@ -100,7 +100,7 @@ The amount of time, in minutes, between each item in the dropdown.
 *default: 30*
 
 - **timeFormat**  
-How times should be displayed in the list and input element. Uses [PHP's date() formatting syntax](http://php.net/manual/en/function.date.php).  
+How times should be displayed in the list and input element. Uses [PHP's date() formatting syntax](http://php.net/manual/en/function.date.php). Characters can be escaped with a preceeding double slash (e.g. `H\\hi`). 
 *default: 'g:ia'*
 
 - **typeaheadHighlight**  

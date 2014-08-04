@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.5
+jquery-timepicker v1.4.6
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -993,7 +993,7 @@ requires jQuery 1.7+
 
 		var output = '';
 		var hour, code;
-
+console.log(format);
 		for (var i=0; i<format.length; i++) {
 
 			code = format.charAt(i);
@@ -1040,6 +1040,12 @@ requires jQuery 1.7+
 				case 's':
 					seconds = time.getSeconds();
 					output += (seconds > 9) ? seconds : '0'+seconds;
+					break;
+
+				case '\\':
+					// escape character; add the next character and skip ahead
+					i++;
+					output += format.charAt(i);
 					break;
 
 				default:
