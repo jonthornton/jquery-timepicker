@@ -993,7 +993,6 @@ requires jQuery 1.7+
 
 		var output = '';
 		var hour, code;
-console.log(format);
 		for (var i=0; i<format.length; i++) {
 
 			code = format.charAt(i);
