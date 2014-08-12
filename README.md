@@ -22,6 +22,8 @@ $('.some-time-inputs').timepicker(options);
 
 You can also set options as [data attributes](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes) on the intput elements, like ```<input type="text" data-time-format="H:i:s" />```. Timepicker still needs to be initialized by calling ```$('#someElement').timepicker();```.
 
+The defaults for all options are exposed through the ```$.fn.timepicker.defaults``` object. Properties changed in this object (same properties configurable through the constructor) will take effect for every instance created after the change.
+
 Options
 -------
 
