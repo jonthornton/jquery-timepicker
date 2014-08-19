@@ -147,7 +147,8 @@ Close the timepicker dropdown.
 Change the settings of an existing timepicker. Calling ```option``` on a visible timepicker will cause the picker to be hidden.
 
 	```javascript
-	$('#optionExample').timepicker({ 'timeFormat': 'g:ia' });
+	$('#optionExample').timepicker({ 'timeFormat': 'g:ia' }); // initialize the timepicker sometime earlier in your code
+	...
 	$('#optionExample').timepicker('option', 'minTime', '2:00am');
 	$('#optionExample').timepicker('option', { 'minTime': '4:00am', 'timeFormat': 'H:i' });
 	```
