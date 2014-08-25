@@ -94,7 +94,7 @@ requires jQuery 1.7+
 			var list = self.data('timepicker-list');
 
 			// check if input is readonly
-			if (self.prop('readonly')) {
+			if (self.prop('readonly') && !settings.showOnReadonly) {
 				return;
 			}
 
@@ -1110,6 +1110,7 @@ requires jQuery 1.7+
 		step: 30,
 		showDuration: false,
 		showOnFocus: true,
+		showOnReadonly: false,
 		timeFormat: 'g:ia',
 		scrollDefault: null,
 		selectOnBlur: false,
