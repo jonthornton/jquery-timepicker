@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.6
+jquery-timepicker v1.4.7
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -385,7 +385,7 @@ requires jQuery 1.7+
 
 			if ($.isArray(settings.noneOption)) {
 				for (var i in settings.noneOption) {
-					if (parseInt(i, 10) === i){
+					if (parseInt(i, 10) == i){
 						var noneElement = _generateNoneElement(settings.noneOption[i], settings.useSelect);
 						list.append(noneElement);
 					}
