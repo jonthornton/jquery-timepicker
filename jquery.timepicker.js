@@ -108,7 +108,7 @@ requires jQuery 1.7+
 				list = self.data('timepicker-list');
 			}
 
-			if (list.is(':visible')) {
+			if (_isVisible(list)) {
 				return;
 			}
 
@@ -175,8 +175,12 @@ requires jQuery 1.7+
 				self.blur();
 			}
 
-			$('.ui-timepicker-wrapper:visible').each(function() {
+			$('.ui-timepicker-wrapper').each(function() {
 				var list = $(this);
+				if (!_isVisible(list)) {
+					return;
+				}
+
 				var self = list.data('timepicker-input');
 				var settings = self.data('timepicker-settings');
 
@@ -302,6 +306,11 @@ requires jQuery 1.7+
 	};
 
 	// private methods
+
+	function _isVisible(elem)
+	{
+		return elem.offsetWidth > 0 && elem.offsetHeight > 0;
+	}
 
 	function _parseSettings(settings)
 	{
@@ -763,7 +772,7 @@ requires jQuery 1.7+
 		var self = $(this);
 		var list = self.data('timepicker-list');
 
-		if (!list || !list.is(':visible')) {
+		if (!list || !_isVisible(list)) {
 			if (e.keyCode == 40) {
 				// show the list!
 				methods.show.call(self.get(0));
@@ -854,7 +863,7 @@ requires jQuery 1.7+
 		var self = $(this);
 		var list = self.data('timepicker-list');
 
-		if (!list || !list.is(':visible')) {
+		if (!list || !_isVisible(list)) {
 			return true;
 		}
 
