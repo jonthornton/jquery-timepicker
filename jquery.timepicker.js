@@ -329,7 +329,7 @@ requires jQuery 1.7+
 			settings.scrollDefault = _roundTime(settings.scrollDefault, settings);
 		}
 
-		if (settings.timeFormat.match(/[gh]/)) {
+		if ($.type(settings.timeFormat) === "string" && settings.timeFormat.match(/[gh]/)) {
 			settings._twelveHourTime = true;
 		}
 
@@ -423,7 +423,7 @@ requires jQuery 1.7+
 			end += _ONE_DAY;
 		}
 
-		if (end === _ONE_DAY-1 && settings.timeFormat.indexOf('H') !== -1) {
+		if (end === _ONE_DAY-1 && $.type(settings.timeFormat) === "string" && settings.timeFormat.indexOf('H') !== -1) {
 			// show a 24:00 option when using military time
 			end = _ONE_DAY;
 		}
@@ -973,6 +973,10 @@ requires jQuery 1.7+
 
 		if (isNaN(time.getTime())) {
 			return;
+		}
+
+		if ($.type(format) === "function") {
+			return format(time);
 		}
 
 		var output = '';
