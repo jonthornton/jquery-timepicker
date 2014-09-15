@@ -7,7 +7,11 @@ requires jQuery 1.7+
 
 
 (function (factory) {
-	if (typeof define === 'function' && define.amd) {
+    if (typeof exports === "object" && exports &&
+        typeof module === "object" && module && module.exports === exports) {
+        // Browserify. Attach to jQuery module.
+        factory(require("jquery"));
+    } else if (typeof define === 'function' && define.amd) {
 		// AMD. Register as an anonymous module.
 		define(['jquery'], factory);
 	} else {
