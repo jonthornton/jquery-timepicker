@@ -309,7 +309,8 @@ requires jQuery 1.7+
 
 	function _isVisible(elem)
 	{
-		return elem.offsetWidth > 0 && elem.offsetHeight > 0;
+		var el = elem[0];
+		return el.offsetWidth > 0 && el.offsetHeight > 0;
 	}
 
 	function _parseSettings(settings)
