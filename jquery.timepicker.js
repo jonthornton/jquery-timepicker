@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.7
+jquery-timepicker v1.4.8
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -7,7 +7,11 @@ requires jQuery 1.7+
 
 
 (function (factory) {
-	if (typeof define === 'function' && define.amd) {
+    if (typeof exports === "object" && exports &&
+        typeof module === "object" && module && module.exports === exports) {
+        // Browserify. Attach to jQuery module.
+        factory(require("jquery"));
+    } else if (typeof define === 'function' && define.amd) {
 		// AMD. Register as an anonymous module.
 		define(['jquery'], factory);
 	} else {
@@ -104,7 +108,7 @@ requires jQuery 1.7+
 				list = self.data('timepicker-list');
 			}
 
-			if (list.is(':visible')) {
+			if (_isVisible(list)) {
 				return;
 			}
 
@@ -171,8 +175,12 @@ requires jQuery 1.7+
 				self.blur();
 			}
 
-			$('.ui-timepicker-wrapper:visible').each(function() {
+			$('.ui-timepicker-wrapper').each(function() {
 				var list = $(this);
+				if (!_isVisible(list)) {
+					return;
+				}
+
 				var self = list.data('timepicker-input');
 				var settings = self.data('timepicker-settings');
 
@@ -299,6 +307,12 @@ requires jQuery 1.7+
 
 	// private methods
 
+	function _isVisible(elem)
+	{
+		var el = elem[0];
+		return el.offsetWidth > 0 && el.offsetHeight > 0;
+	}
+
 	function _parseSettings(settings)
 	{
 		if (settings.minTime) {
@@ -325,7 +339,7 @@ requires jQuery 1.7+
 			settings.scrollDefault = _roundTime(settings.scrollDefault, settings);
 		}
 
-		if (settings.timeFormat.match(/[gh]/)) {
+		if ($.type(settings.timeFormat) === "string" && settings.timeFormat.match(/[gh]/)) {
 			settings._twelveHourTime = true;
 		}
 
@@ -419,7 +433,7 @@ requires jQuery 1.7+
 			end += _ONE_DAY;
 		}
 
-		if (end === _ONE_DAY-1 && settings.timeFormat.indexOf('H') !== -1) {
+		if (end === _ONE_DAY-1 && $.type(settings.timeFormat) === "string" && settings.timeFormat.indexOf('H') !== -1) {
 			// show a 24:00 option when using military time
 			end = _ONE_DAY;
 		}
@@ -759,7 +773,7 @@ requires jQuery 1.7+
 		var self = $(this);
 		var list = self.data('timepicker-list');
 
-		if (!list || !list.is(':visible')) {
+		if (!list || !_isVisible(list)) {
 			if (e.keyCode == 40) {
 				// show the list!
 				methods.show.call(self.get(0));
@@ -850,7 +864,7 @@ requires jQuery 1.7+
 		var self = $(this);
 		var list = self.data('timepicker-list');
 
-		if (!list || !list.is(':visible')) {
+		if (!list || !_isVisible(list)) {
 			return true;
 		}
 
@@ -969,6 +983,10 @@ requires jQuery 1.7+
 
 		if (isNaN(time.getTime())) {
 			return;
+		}
+
+		if ($.type(format) === "function") {
+			return format(time);
 		}
 
 		var output = '';
