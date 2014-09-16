@@ -59,6 +59,8 @@ Force update the time to ```step``` settings as soon as it loses focus.
 - **lang**  
 Language constants used in the timepicker. Can override the defaults by passing an object with one or more of the following properties: decimal, mins, hr, hrs.  
 *default:* ```{
+	am: 'am',
+	pm: 'pm',
 	decimal: '.',
 	mins: 'mins',
 	hr: 'hr',

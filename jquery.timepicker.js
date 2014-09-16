@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.8
+jquery-timepicker v1.4.9
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -1001,7 +1001,7 @@ requires jQuery 1.7+
 					break;
 
 				case 'A':
-					output += (time.getHours() > 11) ? _lang.PM : _lang.AM;
+					output += (time.getHours() > 11) ? _lang.pm.toUpperCase() : _lang.am.toUpperCase();
 					break;
 
 				case 'g':
@@ -1064,12 +1064,14 @@ requires jQuery 1.7+
 
 		timeString = timeString.toLowerCase();
 
-		var d = new Date(0);
-		var time;
+		// if the last character is an "a" or "p", add the "m"
+		if (timeString.slice(-1) == 'a' || timeString.slice(-1) == 'p') {
+			timeString += 'm';
+		}
 
 		// try to parse time input
-		time = timeString.match(/^([0-2]?[0-9])\W?([0-5][0-9])?\W?([0-5][0-9])?\s*([pa]?)m?$/);
-
+		var pattern = new RegExp('^([0-2]?[0-9])\\W?([0-5][0-9])?\\W?([0-5][0-9])?\\s*('+_lang.am+'|'+_lang.pm+')?$');
+		var time = timeString.match(pattern);
 		if (!time) {
 			return null;
 		}
@@ -1080,9 +1082,9 @@ requires jQuery 1.7+
 
 		if (ampm) {
 			if (hour == 12) {
-				hours = (time[4] == 'p') ? 12 : 0;
+				hours = (time[4] == _lang.pm) ? 12 : 0;
 			} else {
-				hours = (hour + (time[4] == 'p' ? 12 : 0));
+				hours = (hour + (time[4] == _lang.pm ? 12 : 0));
 			}
 		}
 
