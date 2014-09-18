@@ -1084,7 +1084,7 @@ requires jQuery 1.7+
 		var ampm = time[4];
 		var hours = hour;
 
-		if (ampm) {
+		if (hour <= 12 && ampm) {
 			if (hour == 12) {
 				hours = (time[4] == _lang.pm) ? 12 : 0;
 			} else {
