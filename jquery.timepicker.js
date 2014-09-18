@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.9
+jquery-timepicker v1.4.10
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -487,7 +487,10 @@ requires jQuery 1.7+
 		self.data('timepicker-list', wrapped_list);
 
 		if (settings.useSelect) {
-			list.val(_roundAndFormatTime(self.val(), settings));
+			if (self.val()) {
+				list.val(_roundAndFormatTime(self.val(), settings));
+			}
+
 			list.on('focus', function(){
 				$(this).data('timepicker-input').trigger('showTimepicker');
 			});
@@ -498,6 +501,7 @@ requires jQuery 1.7+
 				_setTimeValue(self, $(this).val(), 'select');
 			});
 
+			_setTimeValue(self, list.val());
 			self.hide().after(list);
 		} else {
 			var appendTo = settings.appendTo;
