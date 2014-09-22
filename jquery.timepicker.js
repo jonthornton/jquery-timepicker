@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.10
+jquery-timepicker v1.4.11
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -673,9 +673,9 @@ requires jQuery 1.7+
 	}
 
 
-	function _formatValue(e)
+	function _formatValue(e, origin)
 	{
-		if (this.value === '') {
+		if (this.value === '' || origin == 'timepicker') {
 			return;
 		}
 
@@ -757,7 +757,7 @@ requires jQuery 1.7+
 		if (self.data('ui-timepicker-value') != value) {
 			self.data('ui-timepicker-value', value);
 			if (source == 'select') {
-				self.trigger('selectTime').trigger('changeTime').trigger('change');
+				self.trigger('selectTime').trigger('changeTime').trigger('change', 'timepicker');
 			} else if (source != 'error') {
 				self.trigger('changeTime');
 			}
