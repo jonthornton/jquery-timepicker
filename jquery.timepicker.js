@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.11
+jquery-timepicker v1.4.12
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -749,7 +749,7 @@ requires jQuery 1.7+
 			self.val(value);
 
 			var settings = self.data('timepicker-settings');
-			if (settings.useSelect) {
+			if (settings.useSelect && source != 'select') {
 				self.data('timepicker-list').val(_roundAndFormatTime(value, settings));
 			}
 		}
