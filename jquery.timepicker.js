@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.12
+jquery-timepicker v1.4.13
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -130,9 +130,11 @@ requires jQuery 1.7+
 			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
 				// position the dropdown on top
 				listOffset.top = self.offset().top - list.outerHeight() + parseInt(list.css('marginTop').replace('px', ''), 10);
+				list.addClass('ui-timepicker-positioned-top');
 			} else {
 				// put it under the input
 				listOffset.top = self.offset().top + self.outerHeight() + parseInt(list.css('marginTop').replace('px', ''), 10);
+				list.removeClass('ui-timepicker-positioned-top');
 			}
 
 			list.offset(listOffset);

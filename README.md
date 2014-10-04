@@ -208,7 +208,7 @@ Sample markup with class names:
 ```html
 <input value="5:00pm" class="ui-timepicker-input" type="text">
 ...
-<div class="ui-timepicker-wrapper optional-custom-classname" tabindex="-1">
+<div class="ui-timepicker-wrapper ui-timepicker-positioned-top optional-custom-classname" tabindex="-1">
 	<ul class="ui-timepicker-list">
 		<li>12:00am</li>
 		<li>12:30am</li>
@@ -223,6 +223,8 @@ Sample markup with class names:
 	</ul>
 </div>
 ```
+
+The `ui-timepicker-positioned-top` class will be applied only when the dropdown is positioned above the input.
 
 ## Packaging
 
