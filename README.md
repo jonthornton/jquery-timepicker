@@ -41,7 +41,7 @@ Close the timepicker when the window is scrolled. (Replicates ```<select>``` beh
 *default: false*
 
 - **disableTimeRanges**  
-Disable selection of certain time ranges. Input is an array of time pairs, like ```[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]``  
+Disable selection of certain time ranges. Input is an array of time pairs, like ```[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]``. The start of the interval will be included but the end won't (in the examples, 4:30am and 8:00pm will be enabled).
 *default: []*
 
 - **disableTouchKeyboard**  
