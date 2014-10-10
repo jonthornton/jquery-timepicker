@@ -759,14 +759,14 @@ requires jQuery 1.7+
 		if (self.data('ui-timepicker-value') != value) {
 			self.data('ui-timepicker-value', value);
 			if (source == 'select') {
-				self.trigger('selectTime').trigger('changeTime').trigger('change', 'timepicker');
+				self.trigger('selectTime', [value]).trigger('changeTime').trigger('change', 'timepicker');
 			} else if (source != 'error') {
 				self.trigger('changeTime');
 			}
 
 			return true;
 		} else {
-			self.trigger('selectTime');
+			self.trigger('selectTime', [value]);
 			return false;
 		}
 	}
