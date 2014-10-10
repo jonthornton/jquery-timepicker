@@ -766,7 +766,7 @@ requires jQuery 1.7+
 
 			return true;
 		} else {
-			self.trigger('selectTime');
+			self.trigger('selectTime', [value]);
 			return false;
 		}
 	}
