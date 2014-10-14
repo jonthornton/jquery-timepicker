@@ -936,13 +936,13 @@ requires jQuery 1.7+
 		if (timeValue !== null) {
 			if (typeof timeValue == 'string') {
 				self.val(timeValue);
+				self.trigger('selectTime').trigger('changeTime').trigger('change', 'timepicker');
 			} else {
 				var timeString = _int2time(timeValue, settings.timeFormat);
 				_setTimeValue(self, timeString, 'select');
 			}
 		}
 
-		//self.trigger('change').trigger('selectTime');
 		return true;
 	}
 
