@@ -69,6 +69,10 @@ requires jQuery 1.7+
 
 					_formatValue.call(self.get(0));
 				}
+				
+				if (settings.disableUserInput) {
+					self.prop('readonly', 'true');
+				}
 			});
 		},
 
@@ -98,7 +102,7 @@ requires jQuery 1.7+
 			var list = self.data('timepicker-list');
 
 			// check if input is readonly
-			if (self.prop('readonly')) {
+			if (self.prop('readonly') && !settings.disableUserInput) {
 				return;
 			}
 
@@ -1146,6 +1150,7 @@ requires jQuery 1.7+
 		disableTimeRanges: [],
 		closeOnWindowScroll: false,
 		typeaheadHighlight: true,
-		noneOption: false
+		noneOption: false,
+		disableUserInput: false
 	};
 }));
