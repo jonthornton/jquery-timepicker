@@ -385,7 +385,11 @@ requires jQuery 1.7+
 		}
 
 		if (settings.useSelect) {
-			list = $('<select />', { 'class': 'ui-timepicker-select' });
+			var select_classes = 'ui-timepicker-select';
+			if(settings.additionalSelectClass)
+				select_classes += ' '+settings.additionalSelectClass;
+
+			list = $('<select />', { 'class': select_classes });
 			var wrapped_list = list;
 		} else {
 			list = $('<ul />', { 'class': 'ui-timepicker-list' });
@@ -1139,6 +1143,7 @@ requires jQuery 1.7+
 		timeFormat: 'g:ia',
 		scrollDefault: null,
 		selectOnBlur: false,
+		additionalSelectClass:false,
 		disableTouchKeyboard: false,
 		forceRoundTime: false,
 		appendTo: 'body',
