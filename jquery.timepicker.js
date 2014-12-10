@@ -656,7 +656,15 @@ requires jQuery 1.7+
 	{
 		list.find('li').removeClass('ui-timepicker-selected');
 
-		var timeValue = _time2int(_getTimeValue(self), self.data('timepicker-settings'));
+		var settings = self.data('timepicker-settings'),
+				timeValue;
+
+		if (settings.selectedDefault && typeof settings.selectedDefault === 'string') {
+			timeValue = _time2int(settings.selectedDefault, settings);
+		} else {
+			timeValue = _time2int(_getTimeValue(self), self.data('timepicker-settings'));
+		}
+
 		if (timeValue === null) {
 			return;
 		}
@@ -1138,6 +1146,7 @@ requires jQuery 1.7+
 		showOnFocus: true,
 		timeFormat: 'g:ia',
 		scrollDefault: null,
+		selectedDefault: null,
 		selectOnBlur: false,
 		disableTouchKeyboard: false,
 		forceRoundTime: false,
