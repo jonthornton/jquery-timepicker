@@ -11,6 +11,15 @@ Requirements
 ------------
 * [jQuery](http://jquery.com/) (>= 1.7)
 
+Using spectrum with a CDN
+------------
+
+CDN provided by [cdnjs](https://cdnjs.com/libraries/jquery-timepicker)
+```
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.4.13/jquery.timepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.4.13/jquery.timepicker.min.css">
+```
+
 Usage
 -----
 
