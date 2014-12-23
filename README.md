@@ -11,15 +11,6 @@ Requirements
 ------------
 * [jQuery](http://jquery.com/) (>= 1.7)
 
-Using spectrum with a CDN
-------------
-
-CDN provided by [cdnjs](https://cdnjs.com/libraries/jquery-timepicker)
-```
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.4.13/jquery.timepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.4.13/jquery.timepicker.min.css">
-```
-
 Usage
 -----
 
@@ -240,6 +231,8 @@ The `ui-timepicker-positioned-top` class will be applied only when the dropdown 
 Install from [Bower](http://bower.io/) as ```jquery-timepicker-jt```.
 
 An AngularJS directive is available at https://github.com/Recras/angular-jquery-timepicker
+
+Available via CDN at [https://cdnjs.com/libraries/jquery-timepicker](https://cdnjs.com/libraries/jquery-timepicker).
 
 Help
 ----
