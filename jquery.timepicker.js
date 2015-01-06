@@ -247,6 +247,7 @@ requires jQuery 1.7+
 				relative_date = new Date();
 			}
 			var offset = _time2int(time_string);
+            if (!offset) return null;
 
 			// construct a Date with today's date, and offset's time
 			var time = new Date(relative_date);
@@ -1086,13 +1087,26 @@ requires jQuery 1.7+
 		var ampm = time[4];
 		var hours = hour;
 
-		if (hour <= 12 && ampm) {
+		if (ampm) {
 			if (hour == 12) {
 				hours = (time[4] == _lang.pm) ? 12 : 0;
-			} else {
+			} else if (hour < 12) {
 				hours = (hour + (time[4] == _lang.pm ? 12 : 0));
-			}
-		}
+			} else {
+                return null;
+            }
+		} else {
+            if (hour > 23) {
+                return null;
+            }
+        }
+
+        if (minutes > 59) {
+            return null;
+        }
+        if (seconds > 59) {
+            return null;
+        }
 
 		var minutes = ( time[2]*1 || 0 );
 		var seconds = ( time[3]*1 || 0 );
