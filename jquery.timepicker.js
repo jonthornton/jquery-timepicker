@@ -1008,7 +1008,7 @@ requires jQuery 1.7+
 					break;
 
 				case 'A':
-					output += (time.getHours() > 11) ? _lang.pm.toUpperCase() : _lang.am.toUpperCase();
+					output += (time.getHours() > 11) ? _lang.PM : _lang.AM;
 					break;
 
 				case 'g':
@@ -1077,7 +1077,12 @@ requires jQuery 1.7+
 		}
 
 		// try to parse time input
-		var pattern = new RegExp('^([0-2]?[0-9])\\W?([0-5][0-9])?\\W?([0-5][0-9])?\\s*('+_lang.am+'|'+_lang.pm+')?$');
+		var pattern = new RegExp('^([0-2]?[0-9])\\W?([0-5][0-9])?\\W?([0-5][0-9])?\\s*(' +
+			_lang.am.replace('.', '\\.')+'|' +
+			_lang.pm.replace('.', '\\.')+'|' +
+			_lang.AM.replace('.', '\\.')+'|' +
+			_lang.PM.replace('.', '\\.')+')?$');
+
 		var time = timeString.match(pattern);
 		if (!time) {
 			return null;

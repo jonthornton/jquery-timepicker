@@ -61,6 +61,8 @@ Language constants used in the timepicker. Can override the defaults by passing 
 *default:* ```{
 	am: 'am',
 	pm: 'pm',
+	AM: 'AM',
+	PM: 'PM',
 	decimal: '.',
 	mins: 'mins',
 	hr: 'hr',
