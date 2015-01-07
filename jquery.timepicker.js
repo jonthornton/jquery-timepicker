@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.4.13
+jquery-timepicker v1.5.0
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -266,7 +266,7 @@ requires jQuery 1.7+
 			if (settings.forceRoundTime) {
 				var prettyTime = _roundAndFormatTime(value, settings)
 			} else {
-				var prettyTime = _int2time(_time2int(value), settings.timeFormat);
+				var prettyTime = _int2time(_time2int(value), settings);
 			}
 
 			_setTimeValue(self, prettyTime);
@@ -435,7 +435,7 @@ requires jQuery 1.7+
 			end += _ONE_DAY;
 		}
 
-		if (end === _ONE_DAY-1 && $.type(settings.timeFormat) === "string" && settings.timeFormat.indexOf('H') !== -1) {
+		if (end === _ONE_DAY-1 && $.type(settings.timeFormat) === "string" && settings.show2400) {
 			// show a 24:00 option when using military time
 			end = _ONE_DAY;
 		}
@@ -446,7 +446,7 @@ requires jQuery 1.7+
 
 		for (var i=start; i <= end; i += settings.step*60) {
 			var timeInt = i;
-			var timeString = _int2time(timeInt, settings.timeFormat);
+			var timeString = _int2time(timeInt, settings);
 
 			if (settings.useSelect) {
 				var row = $('<option />', { 'value': timeString });
@@ -597,7 +597,7 @@ requires jQuery 1.7+
 	{
 		seconds = _roundTime(seconds, settings);
 		if (seconds !== null) {
-			return _int2time(seconds, settings.timeFormat);
+			return _int2time(seconds, settings);
 		}
 	}
 
@@ -724,7 +724,7 @@ requires jQuery 1.7+
 			}
 		}
 
-		var prettyTime = _int2time(seconds, settings.timeFormat);
+		var prettyTime = _int2time(seconds, settings);
 
 		if (rangeError) {
 			if (_setTimeValue(self, prettyTime, 'error')) {
@@ -938,7 +938,7 @@ requires jQuery 1.7+
 				self.val(timeValue);
 				self.trigger('selectTime').trigger('changeTime').trigger('change', 'timepicker');
 			} else {
-				var timeString = _int2time(timeValue, settings.timeFormat);
+				var timeString = _int2time(timeValue, settings);
 				_setTimeValue(self, timeString, 'select');
 			}
 		}
@@ -979,7 +979,7 @@ requires jQuery 1.7+
 		return duration.join(' ');
 	}
 
-	function _int2time(seconds, format)
+	function _int2time(seconds, settings)
 	{
 		if (seconds === null) {
 			return;
@@ -991,15 +991,15 @@ requires jQuery 1.7+
 			return;
 		}
 
-		if ($.type(format) === "function") {
-			return format(time);
+		if ($.type(settings.timeFormat) === "function") {
+			return settings.timeFormat(time);
 		}
 
 		var output = '';
 		var hour, code;
-		for (var i=0; i<format.length; i++) {
+		for (var i=0; i<settings.timeFormat.length; i++) {
 
-			code = format.charAt(i);
+			code = settings.timeFormat.charAt(i);
 			switch (code) {
 
 				case 'a':
@@ -1016,7 +1016,9 @@ requires jQuery 1.7+
 					break;
 
 				case 'G':
-					output += time.getHours();
+					hour = time.getHours();
+					if (seconds === _ONE_DAY) hour = 24;
+					output += hour;
 					break;
 
 				case 'h':
@@ -1153,6 +1155,7 @@ requires jQuery 1.7+
 		disableTimeRanges: [],
 		closeOnWindowScroll: false,
 		typeaheadHighlight: true,
-		noneOption: false
+		noneOption: false,
+		show2400: false,
 	};
 }));
