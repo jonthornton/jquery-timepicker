@@ -1070,7 +1070,15 @@ requires jQuery 1.7+
 			return timeString.getHours()*3600 + timeString.getMinutes()*60 + timeString.getSeconds();
 		}
 
-		timeString = timeString.toLowerCase();
+		timeString = timeString.toLowerCase().trim();
+
+		// if the AM/PM designator contains periods then remove them
+		if (timeString.slice(-1) == '.') {
+			timeString = timeString.substring(0, timeString.length - 1);
+		}
+		if (timeString.slice(-2) == '.m') {
+			timeString = timeString.substring(0, timeString.length - 2) + "m";
+		}
 
 		// if the last character is an "a" or "p", add the "m"
 		if (timeString.slice(-1) == 'a' || timeString.slice(-1) == 'p') {
