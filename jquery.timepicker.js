@@ -1069,7 +1069,7 @@ requires jQuery 1.7+
 			return timeString.getHours()*3600 + timeString.getMinutes()*60 + timeString.getSeconds();
 		}
 
-		timeString = timeString.toLowerCase();
+		timeString = timeString.toLowerCase().replace('.', '');
 
 		// if the last character is an "a" or "p", add the "m"
 		if (timeString.slice(-1) == 'a' || timeString.slice(-1) == 'p') {
@@ -1078,10 +1078,10 @@ requires jQuery 1.7+
 
 		// try to parse time input
 		var pattern = new RegExp('^([0-2]?[0-9])\\W?([0-5][0-9])?\\W?([0-5][0-9])?\\s*(' +
-			_lang.am.replace('.', '\\.')+'|' +
-			_lang.pm.replace('.', '\\.')+'|' +
-			_lang.AM.replace('.', '\\.')+'|' +
-			_lang.PM.replace('.', '\\.')+')?$');
+			_lang.am.replace('.', '')+'|' +
+			_lang.pm.replace('.', '')+'|' +
+			_lang.AM.replace('.', '')+'|' +
+			_lang.PM.replace('.', '')+')?$');
 
 		var time = timeString.match(pattern);
 		if (!time) {
