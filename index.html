@@ -358,6 +358,44 @@ $('#selectButton').click(function(e) {
 &lt;/script&gt;</pre>
 
         </article>
+
+        <article>
+            <div class="demo">
+                <h2>Custom step example</h2>
+
+                <p>It is possible to pass in a custom set of time ranges</a>.
+                <p>If the number of custom step items doesn't fit with the min/max settings,
+                the last item is reused.
+                </p>
+                <input id="customStepExample" type="text"/>
+            </div>
+
+            <script>
+                $('#customStepExample').timepicker({
+                    'showDuration': true,
+                    'timeFormat': 'g:ia',
+                    'minTime': '8:30am',
+                    'maxTime': '11:55am',
+                    'customSteps': [45, 5, 45, 15, 45, 5]
+                });
+
+            </script>
+
+            <pre class="code" data-language="javascript">
+&lt;input id="customStepExample" type="text" /&gt;
+
+&lt;script&gt;
+    $('#customStepExample').timepicker({
+        'showDuration': true,
+        'timeFormat': 'g:ia',
+        'minTime': '8:30am',
+        'maxTime': '11:55am',
+        'customSteps': [45, 5, 45, 15, 45, 5]
+    });
+
+&lt;/script&gt;</pre>
+        </article>
+
     </section>
 
     <section>

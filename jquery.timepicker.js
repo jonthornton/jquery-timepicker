@@ -374,6 +374,42 @@ requires jQuery 1.7+
 		return settings;
 	}
 
+	// The following object is used when rendering the list of items
+	// to display. It contains logic which handles the case when we
+	// should iterate over a list of custom steps, as well as standard
+	// steps.
+	var renderIterator = {
+		init: function(start, end, settings) {
+			this.settings     = settings;
+			this.currentValue = start;
+			this.end          = end;
+			this.i            = 0;
+			if (this.settings.customSteps) {
+				// Sanity check: if the customSteps array is specified,
+				// but is empty, then we supply some reasonable default value.
+				if (this.settings.customSteps.length === 0) {
+					this.settings.customSteps.push(60);
+				}
+			}
+		},
+		shouldContinue: function() {
+			return this.currentValue <= this.end;
+		},
+		next: function() {
+			if (this.settings.customSteps) {
+				this.currentValue += this.settings.customSteps[this.i]*60;
+				if (this.i < this.settings.customSteps.length - 1) {
+					this.i++;
+				}
+			} else {
+				this.currentValue +=  this.settings.step*60;
+			}
+		},
+		value: function() {
+			return this.currentValue;
+		}
+	};
+
 	function _render(self)
 	{
 		var settings = self.data('timepicker-settings');
@@ -444,8 +480,10 @@ requires jQuery 1.7+
 		var drCur = 0;
 		var drLen = dr.length;
 
-		for (var i=start; i <= end; i += settings.step*60) {
-			var timeInt = i;
+		renderIterator.init(start, end, settings);
+
+		for ( ; renderIterator.shouldContinue(); renderIterator.next()) {
+			var timeInt = renderIterator.value();
 			var timeString = _int2time(timeInt, settings);
 
 			if (settings.useSelect) {
@@ -458,7 +496,7 @@ requires jQuery 1.7+
 			}
 
 			if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
-				var durationString = _int2duration(i - durStart, settings.step);
+				var durationString = _int2duration(timeInt - durStart, settings.step);
 				if (settings.useSelect) {
 					row.text(row.text()+' ('+durationString+')');
 				} else {
