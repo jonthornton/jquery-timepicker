@@ -397,7 +397,7 @@ requires jQuery 1.7+
 		},
 		next: function() {
 			if (this.settings.customSteps) {
-				this.currentValue += this.settings.customSteps[this.i] * 60;
+				this.currentValue += this.settings.customSteps[this.i]*60;
 				if (this.i < this.settings.customSteps.length - 1) {
 					this.i++;
 				}
