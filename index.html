@@ -230,12 +230,20 @@ $('#timeformatExample2').timepicker({ 'timeFormat': 'h:i A' });</pre>
             <script>
                 $(function() {
                     $('#stepExample1').timepicker({ 'step': 15 });
-                    $('#stepExample2').timepicker({ 'step': 60 });
+                    $('#stepExample2').timepicker({
+                        'step': function(i) {
+                            return (i%2) ? 15 : 45;
+                        }
+                    });
                 });
             </script>
 
             <pre class="code" data-language="javascript">$('#stepExample1').timepicker({ 'step': 15 });
-$('#stepExample2').timepicker({ 'step': 60 });</pre>
+$('#stepExample2').timepicker({
+    'step': function(i) {
+        return (i%2) ? 15 : 45;
+    }
+});</pre>
         </article>
 
         <article>

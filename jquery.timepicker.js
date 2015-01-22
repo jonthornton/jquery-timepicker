@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.5.1
+jquery-timepicker v1.5.2
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -417,6 +417,7 @@ requires jQuery 1.7+
 		}
 
 		if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
+			var stepval = typeof settings.step == 'function' ? 'function' : settings.step;
 			wrapped_list.addClass('ui-timepicker-with-duration');
 			wrapped_list.addClass('ui-timepicker-step-'+settings.step);
 		}
@@ -444,7 +445,14 @@ requires jQuery 1.7+
 		var drCur = 0;
 		var drLen = dr.length;
 
-		for (var i=start; i <= end; i += settings.step*60) {
+		var stepFunc = settings.step;
+		if (typeof stepFunc != 'function') {
+			stepFunc = function() {
+				return settings.step;
+			}
+		}
+
+		for (var i=start, j=0; i <= end; j++, i += stepFunc(j)*60) {
 			var timeInt = i;
 			var timeString = _int2time(timeInt, settings);
 

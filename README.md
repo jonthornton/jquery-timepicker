@@ -110,7 +110,7 @@ Display a timepicker dropdown when the input gains focus.
 *default: true*
 
 - **step**  
-The amount of time, in minutes, between each item in the dropdown.  
+The amount of time, in minutes, between each item in the dropdown. Alternately, you can specify a function to generate steps dynamically. The function will receive a count integer (0, 1, 2...) and is expected to return a step integer.  
 *default: 30*
 
 - **timeFormat**  
