@@ -63,7 +63,7 @@ requires jQuery 1.7+
 				} else {
 					self.prop('autocomplete', 'off');
 					self.on('click.timepicker focus.timepicker', methods.show);
-					self.on('change.timepicker', _formatValue);
+					self.on('change', _formatValue);
 					self.on('keydown.timepicker', _keydownhandler);
 					self.on('keyup.timepicker', _keyuphandler);
 
@@ -523,7 +523,7 @@ requires jQuery 1.7+
 			appendTo.append(wrapped_list);
 			_setSelected(self, list);
 
-			list.on('mousedown', 'li', function(e) {
+			list.on('click', 'li', function(e) {
 
 				// hack: temporarily disable the focus handler
 				// to deal with the fact that IE fires 'focus'
@@ -766,7 +766,7 @@ requires jQuery 1.7+
 		if (self.data('ui-timepicker-value') != value) {
 			self.data('ui-timepicker-value', value);
 			if (source == 'select') {
-				self.trigger('selectTime').trigger('changeTime').trigger('change', 'timepicker');
+				self.trigger('selectTime').trigger('changeTime').trigger('change');
 			} else if (source != 'error') {
 				self.trigger('changeTime');
 			}
@@ -943,7 +943,7 @@ requires jQuery 1.7+
 		if (timeValue !== null) {
 			if (typeof timeValue == 'string') {
 				self.val(timeValue);
-				self.trigger('selectTime').trigger('changeTime').trigger('change', 'timepicker');
+				self.trigger('selectTime').trigger('changeTime').trigger('change');
 			} else {
 				var timeString = _int2time(timeValue, settings);
 				_setTimeValue(self, timeString, 'select');
