@@ -555,7 +555,11 @@ requires jQuery 1.7+
 
 				if (_selectValue(self)) {
 					self.trigger('hideTimepicker');
-					wrapped_list.hide();
+
+					list.on('mouseup.timepicker', 'li', function(e) {
+						list.off('mouseup.timepicker');
+						wrapped_list.hide();
+					});
 				}
 			});
 		}
