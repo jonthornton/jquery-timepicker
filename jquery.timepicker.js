@@ -1095,24 +1095,26 @@ requires jQuery 1.7+
 			timeString += 'm';
 		}
 
-		// try to parse time input
-		var pattern = new RegExp('^([0-2]?[0-9])\\W?([0-5][0-9])?\\W?([0-5][0-9])?\\s*(' +
+		var ampmRegex = '(' +
 			_lang.am.replace('.', '')+'|' +
 			_lang.pm.replace('.', '')+'|' +
 			_lang.AM.replace('.', '')+'|' +
-			_lang.PM.replace('.', '')+')?$');
+			_lang.PM.replace('.', '')+')?'
+
+		// try to parse time input
+		var pattern = new RegExp('^'+ampmRegex+'\\s*([0-2]?[0-9])\\W?([0-5][0-9])?\\W?([0-5][0-9])?\\s*'+ampmRegex+'$');
 
 		var time = timeString.match(pattern);
 		if (!time) {
 			return null;
 		}
 
-		var hour = parseInt(time[1]*1, 10);
-		var ampm = time[4];
+		var hour = parseInt(time[2]*1, 10);
+		var ampm = time[1] || time[5];
 		var hours = hour;
 
 		if (hour <= 12 && ampm) {
-			var isPm = (time[4] == _lang.pm || time[4] == _lang.PM);
+			var isPm = (ampm == _lang.pm || ampm == _lang.PM);
 
 			if (hour == 12) {
 				hours = isPm ? 12 : 0;
@@ -1121,8 +1123,8 @@ requires jQuery 1.7+
 			}
 		}
 
-		var minutes = ( time[2]*1 || 0 );
-		var seconds = ( time[3]*1 || 0 );
+		var minutes = ( time[3]*1 || 0 );
+		var seconds = ( time[4]*1 || 0 );
 		var timeInt = hours*3600 + minutes*60 + seconds;
 
 		// if no am/pm provided, intelligently guess based on the scrollDefault
