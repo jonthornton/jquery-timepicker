@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.5.2
+jquery-timepicker v1.5.3
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -119,7 +119,7 @@ requires jQuery 1.7+
 			list.show();
 			var listOffset = {};
 
-			if (settings.orientation == 'rtl') {
+			if (settings.orientation.match(/r/)) {
 				// right-align the dropdown
 				listOffset.left = self.offset().left + self.outerWidth() - list.outerWidth() + parseInt(list.css('marginLeft').replace('px', ''), 10);
 			} else {
@@ -127,7 +127,18 @@ requires jQuery 1.7+
 				listOffset.left = self.offset().left + parseInt(list.css('marginLeft').replace('px', ''), 10);
 			}
 
-			if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
+			var verticalOrientation;
+			if (settings.orientation.match(/t/)) {
+				verticalOrientation = 't';
+			} else if (settings.orientation.match(/b/)) {
+				verticalOrientation = 'b';
+			} else if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
+				verticalOrientation = 't';
+			} else {
+				verticalOrientation = 'b';
+			}
+
+			if (verticalOrientation == 't') {
 				// position the dropdown on top
 				list.addClass('ui-timepicker-positioned-top');
 				listOffset.top = self.offset().top - list.outerHeight() + parseInt(list.css('marginTop').replace('px', ''), 10);
@@ -1158,7 +1169,7 @@ requires jQuery 1.7+
 		disableTouchKeyboard: false,
 		forceRoundTime: false,
 		appendTo: 'body',
-		orientation: 'ltr',
+		orientation: 'l',
 		disableTimeRanges: [],
 		closeOnWindowScroll: false,
 		typeaheadHighlight: true,

@@ -89,6 +89,10 @@ Object: Similar to string, but allows customizing the element's class name and t
 Array: An array of strings or objects to add multiple non-time options  
 *default: false*
 
+- **orientation**  
+By default the timepicker dropdown will be aligned to the bottom right of the input element, or aligned to the top left if there isn't enough room below the input. Force alignment with `l` (left), `r` (right), `t` (top), and `b` (bottom). Examples: `tl`, `rb`.
+*default: 'l'*
+
 - **scrollDefault**  
 If no time value is selected, set the dropdown scroll position to show the time provided, e.g. "09:00". A time string, Date object, or integer (seconds past midnight) is acceptible, as well as the string `'now'`.   
 *default: null*
