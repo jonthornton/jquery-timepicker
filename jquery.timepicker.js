@@ -32,8 +32,7 @@ requires jQuery 1.7+
 		hrs: 'hrs'
 	};
 
-	var methods =
-	{
+	var methods = {
 		init: function(options)
 		{
 			return this.each(function()
@@ -349,7 +348,7 @@ requires jQuery 1.7+
 		}
 
 		if (settings.scrollDefault) {
-			settings.scrollDefault = _roundTime(settings.scrollDefault, settings);
+			settings.scrollDefault = settings.roundingFunction(settings.scrollDefault, settings);
 		}
 
 		if ($.type(settings.timeFormat) === "string" && settings.timeFormat.match(/[gh]/)) {
@@ -593,32 +592,9 @@ requires jQuery 1.7+
 		}
 	}
 
-	function _roundTime(seconds, settings)
-	{
-		if (!$.isNumeric(seconds)) {
-			seconds = _time2int(seconds);
-		}
-
-		if (seconds === null) {
-			return null;
-		} else {
-			var offset = seconds % (settings.step*60); // step is in minutes
-
-			if (offset >= settings.step*30) {
-				// if offset is larger than a half step, round up
-				seconds += (settings.step*60) - offset;
-			} else {
-				// round down
-				seconds -= offset;
-			}
-
-			return seconds;
-		}
-	}
-
 	function _roundAndFormatTime(seconds, settings)
 	{
-		seconds = _roundTime(seconds, settings);
+		seconds = settings.roundingFunction(seconds, settings);
 		if (seconds !== null) {
 			return _int2time(seconds, settings);
 		}
@@ -654,7 +630,7 @@ requires jQuery 1.7+
 
 		var settings = self.data('timepicker-settings');
 		var out = false;
-		var halfStep = settings.step*30;
+		var value = settings.roundingFunction(value, settings);
 
 		// loop through the menu items
 		list.find('li').each(function(i, obj) {
@@ -663,10 +639,7 @@ requires jQuery 1.7+
 				return;
 			}
 
-			var offset = jObj.data('time') - value;
-
-			// check if the value is less than half a step from each row
-			if (Math.abs(offset) < halfStep || offset == halfStep) {
+			if (jObj.data('time') == value) {
 				out = jObj;
 				return false;
 			}
@@ -735,15 +708,7 @@ requires jQuery 1.7+
 		});
 
 		if (settings.forceRoundTime) {
-			var offset = seconds % (settings.step*60); // step is in minutes
-
-			if (offset >= settings.step*30) {
-				// if offset is larger than a half step, round up
-				seconds += (settings.step*60) - offset;
-			} else {
-				// round down
-				seconds -= offset;
-			}
+			seconds = settings.roundingFunction(seconds, settings);
 		}
 
 		var prettyTime = _int2time(seconds, settings);
@@ -1174,6 +1139,23 @@ requires jQuery 1.7+
 		selectOnBlur: false,
 		disableTouchKeyboard: false,
 		forceRoundTime: false,
+		roundingFunction: function(seconds, settings) {
+			if (seconds === null) {
+				return null;
+			} else {
+				var offset = seconds % (settings.step*60); // step is in minutes
+
+				if (offset >= settings.step*30) {
+					// if offset is larger than a half step, round up
+					seconds += (settings.step*60) - offset;
+				} else {
+					// round down
+					seconds -= offset;
+				}
+
+				return seconds;
+			}
+		},
 		appendTo: 'body',
 		orientation: 'l',
 		disableTimeRanges: [],
