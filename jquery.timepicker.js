@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.5.3
+jquery-timepicker v1.6.0
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -442,7 +442,7 @@ requires jQuery 1.7+
 		var start = (settings.minTime !== null) ? settings.minTime : 0;
 		var end = (settings.maxTime !== null) ? settings.maxTime : (start + _ONE_DAY - 1);
 
-		if (end <= start) {
+		if (end < start) {
 			// make sure the end time is greater than start time, otherwise there will be no list to show
 			end += _ONE_DAY;
 		}
