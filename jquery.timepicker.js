@@ -1068,7 +1068,7 @@ requires jQuery 1.7+
 			_lang.am.replace('.', '')+'|' +
 			_lang.pm.replace('.', '')+'|' +
 			_lang.AM.replace('.', '')+'|' +
-			_lang.PM.replace('.', '')+')?'
+			_lang.PM.replace('.', '')+')?';
 
 		// try to parse time input
 		var pattern = new RegExp('^'+ampmRegex+'\\s*([0-2]?[0-9])\\W?([0-5][0-9])?\\W?([0-5][0-9])?\\s*'+ampmRegex+'$');
@@ -1104,7 +1104,7 @@ requires jQuery 1.7+
 			}
 		}
 
-		return timeInt
+		return timeInt;
 	}
 
 	function _pad2(n) {
@@ -1162,6 +1162,6 @@ requires jQuery 1.7+
 		closeOnWindowScroll: false,
 		typeaheadHighlight: true,
 		noneOption: false,
-		show2400: false,
+		show2400: false
 	};
 }));
