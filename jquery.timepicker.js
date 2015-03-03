@@ -508,7 +508,7 @@ requires jQuery 1.7+
 
 		if (settings.useSelect) {
 			if (self.val()) {
-				list.val(_roundAndFormatTime(self.val(), settings));
+				list.val(_roundAndFormatTime(_time2int(self.val()), settings));
 			}
 
 			list.on('focus', function(){
@@ -521,7 +521,7 @@ requires jQuery 1.7+
 				_setTimeValue(self, $(this).val(), 'select');
 			});
 
-			_setTimeValue(self, list.val());
+			_setTimeValue(self, list.val(), 'initial');
 			self.hide().after(list);
 		} else {
 			var appendTo = settings.appendTo;
@@ -738,7 +738,7 @@ requires jQuery 1.7+
 			self.val(value);
 
 			var settings = self.data('timepicker-settings');
-			if (settings.useSelect && source != 'select') {
+			if (settings.useSelect && source != 'select' && source != 'initial') {
 				self.data('timepicker-list').val(_roundAndFormatTime(value, settings));
 			}
 		}
