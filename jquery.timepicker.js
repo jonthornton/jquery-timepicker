@@ -1,5 +1,5 @@
 /************************
-jquery-timepicker v1.6.0
+jquery-timepicker v1.6.1
 http://jonthornton.github.com/jquery-timepicker/
 
 requires jQuery 1.7+
@@ -274,7 +274,7 @@ requires jQuery 1.7+
 			var settings = self.data('timepicker-settings');
 
 			if (settings.forceRoundTime) {
-				var prettyTime = _roundAndFormatTime(value, settings)
+				var prettyTime = _roundAndFormatTime(_time2int(value), settings)
 			} else {
 				var prettyTime = _int2time(_time2int(value), settings);
 			}
