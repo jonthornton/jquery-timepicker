@@ -192,6 +192,14 @@ Display the timepicker dropdown.
 
 	```javascript
 	$('#showExample').timepicker('show');
+
+	```
+
+- **getDuration**  
+Get the relative time for selected item. ```minTime``` or ```durationTime``` must be set. 
+
+	```javascript
+	$('#getTimeExample').timepicker('getDuration');
 	```
 
 Events

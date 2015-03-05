@@ -314,7 +314,12 @@ requires jQuery 1.7+
 			self.removeData('timepicker-list');
 
 			return this;
-		}
+		},
+
+        getDuration: function (){
+            var self = this;
+            return _calculateDuration(self);
+        }
 	};
 
 	// private methods
@@ -384,6 +389,17 @@ requires jQuery 1.7+
 		return settings;
 	}
 
+    function _calculateDuration(self)
+    {
+        var settings = self.data('timepicker-settings');
+        if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
+            return  _int2duration( _time2int( _getTimeValue(self) ) - settings.minTime, settings.step);
+        }else {
+            return "";
+        }
+
+    }
+
 	function _render(self)
 	{
 		var settings = self.data('timepicker-settings');
@@ -438,6 +454,7 @@ requires jQuery 1.7+
 		} else if (settings.durationTime !== null) {
 			durStart = settings.durationTime;
 		}
+
 		var start = (settings.minTime !== null) ? settings.minTime : 0;
 		var end = (settings.maxTime !== null) ? settings.maxTime : (start + _ONE_DAY - 1);
 
@@ -485,6 +502,14 @@ requires jQuery 1.7+
 					row.append(duration);
 				}
 			}
+
+            if (settings.useSelect) {
+                row.text(row.text()+' ('+durationString+')');
+            } else {
+                var duration = $('<span />', { 'class': 'ui-timepicker-duration' });
+                duration.text(' ('+durationString+')');
+                row.append(duration);
+            }
 
 			if (drCur < drLen) {
 				if (timeInt >= dr[drCur][1]) {
@@ -724,6 +749,7 @@ requires jQuery 1.7+
 
 	function _getTimeValue(self)
 	{
+        console.log(self);
 		if (self.is('input')) {
 			return self.val();
 		} else {
