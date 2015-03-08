@@ -1,9 +1,8 @@
-/************************
-jquery-timepicker v1.6.2
-http://jonthornton.github.com/jquery-timepicker/
-
-requires jQuery 1.7+
-************************/
+/*!
+ * jquery-timepicker v1.6.2 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * Copyright (c) 2015 Jon Thornton - http://jonthornton.github.com/jquery-timepicker/
+ * License: MIT
+ */
 
 
 (function (factory) {
