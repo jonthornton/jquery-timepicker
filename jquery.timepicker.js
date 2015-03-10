@@ -1038,7 +1038,7 @@
 				case '\\':
 					// escape character; add the next character and skip ahead
 					i++;
-					output += format.charAt(i);
+					output += settings.timeFormat.charAt(i);
 					break;
 
 				default:
