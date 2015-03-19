@@ -865,7 +865,8 @@
 			return true;
 		}
 
-		if (!self.data('timepicker-settings').typeaheadHighlight) {
+        // Don't hide the selected row if they pressed up/down
+		if (!self.data('timepicker-settings').typeaheadHighlight && e.keyCode !== 38 && e.keyCode !== 40) {
 			list.find('li').removeClass('ui-timepicker-selected');
 			return true;
 		}
