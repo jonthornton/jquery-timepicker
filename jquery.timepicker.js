@@ -683,7 +683,7 @@
 
 		var self = $(this);
 
-		if (self.is(':focus') && (!e || e.type != 'change')) {
+		if (self.is(':focus') && (!e || (e.type !== 'change' && !(e.type === 'keydown' && e.keyCode === 13)))) {
 			return;
 		}
 
@@ -787,6 +787,8 @@
 
 			case 13: // return
 				if (_selectValue(self)) {
+					// Format the entered value before hiding
+					_formatValue.call(self.get(0), e);
 					methods.hide.apply(this);
 				}
 
