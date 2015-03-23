@@ -683,7 +683,7 @@
 
 		var self = $(this);
 
-		if (self.is(':focus') && (!e || e.type != 'change')) {
+		if (self.is(':focus') && (!e || (e.type !== 'change' && !(e.type === 'keydown' && e.keyCode === 13)))) {
 			return;
 		}
 
@@ -787,6 +787,8 @@
 
 			case 13: // return
 				if (_selectValue(self)) {
+					// Format the entered value before hiding
+					_formatValue.call(self.get(0), e);
 					methods.hide.apply(this);
 				}
 
@@ -865,7 +867,8 @@
 			return true;
 		}
 
-		if (!self.data('timepicker-settings').typeaheadHighlight) {
+		// Don't hide the selected row if they pressed up/down
+		if (!self.data('timepicker-settings').typeaheadHighlight && e.keyCode !== 38 && e.keyCode !== 40) {
 			list.find('li').removeClass('ui-timepicker-selected');
 			return true;
 		}
