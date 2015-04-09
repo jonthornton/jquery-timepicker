@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.6.8 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.6.9 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2015 Jon Thornton - http://jonthornton.github.com/jquery-timepicker/
  * License: MIT
  */
@@ -257,7 +257,7 @@
 			}
 
 			var offset = _time2int(time_string);
-			if (!offset) {
+			if (offset === null) {
 				return null;
 			}
 
@@ -1058,7 +1058,7 @@
 			return timeString.getHours()*3600 + timeString.getMinutes()*60 + timeString.getSeconds();
 		}
 
-		timeString = timeString.toLowerCase().replace('.', '');
+		timeString = timeString.toLowerCase().replace(/[\s\.]/g, '');
 
 		// if the last character is an "a" or "p", add the "m"
 		if (timeString.slice(-1) == 'a' || timeString.slice(-1) == 'p') {
@@ -1072,7 +1072,7 @@
 			_lang.PM.replace('.', '')+')?';
 
 		// try to parse time input
-		var pattern = new RegExp('^'+ampmRegex+'\\s*([0-2]?[0-9])\\W?([0-5][0-9])?\\W?([0-5][0-9])?\\s*'+ampmRegex+'$');
+		var pattern = new RegExp('^'+ampmRegex+'([0-2]?[0-9])\\W?([0-5][0-9])?\\W?([0-5][0-9])?'+ampmRegex+'$');
 
 		var time = timeString.match(pattern);
 		if (!time) {
