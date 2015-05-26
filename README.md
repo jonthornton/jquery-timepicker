@@ -27,10 +27,6 @@ The defaults for all options are exposed through the ```$.fn.timepicker.defaults
 Options
 -------
 
-- **show2400**  
-Show "24:00" as an option when using 24-hour time format.  
-*default: false*
-
 - **appendTo**  
 Override where the dropdown is appended.  
 Takes either a `string` to use as a selector, a `function` that gets passed the clicked input element as argument or a jquery `object` to use directly.  
