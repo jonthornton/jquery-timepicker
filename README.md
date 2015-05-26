@@ -101,10 +101,6 @@ If no time value is selected, set the dropdown scroll position to show the time 
 Update the input with the currently highlighted time value when the timepicker loses focus.  
 *default: false*
 
-- **show2400**  
-Show "24:00" as an option when using 24-hour time format.  
-*default: false*
-
 - **showDuration**  
 Shows the relative time for each item in the dropdown. ```minTime``` or ```durationTime``` must be set.  
 *default: false*
