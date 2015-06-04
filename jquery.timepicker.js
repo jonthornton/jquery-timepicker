@@ -154,7 +154,11 @@
 
 			list.offset(listOffset);
 
-			// position scrolling
+			if (settings.fitWidth) {
+				listOffset.innerWidth(self.innerWidth())
+			}
+
+            // position scrolling
 			var selected = list.find('.ui-timepicker-selected');
 
 			if (!selected.length) {
@@ -1175,6 +1179,7 @@
 		closeOnWindowScroll: false,
 		typeaheadHighlight: true,
 		noneOption: false,
-		show2400: false
+		show2400: false,
+		fitWidth: false
 	};
 }));
