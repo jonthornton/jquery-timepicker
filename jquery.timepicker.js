@@ -79,7 +79,7 @@
 			var settings = self.data('timepicker-settings');
 
 			if (e) {
-				if (!settings.showOnFocus) {
+				if (settings.showOn !== e.type) {
 					return true;
 				}
 
@@ -154,6 +154,9 @@
 
 			list.offset(listOffset);
 
+			// set the dropdown width (if needed)
+			methods.resize.call(this, arguments);
+
 			// position scrolling
 			var selected = list.find('.ui-timepicker-selected');
 
@@ -211,6 +214,23 @@
 			});
 
 			return this;
+		},
+
+		resize: function()
+		{
+			var self = $(this);
+			var settings = self.data('timepicker-settings');
+			var list = self.data('timepicker-list');
+
+			if (!list || list.is(':hidden') || !settings.matchElementWidth) return;
+
+			var width = self.outerWidth();
+			var padLeft = parseInt(list.css('paddingLeft'), 10) || 0;
+			var padRight = parseInt(list.css('paddingRight'), 10) || 0;
+			var borderLeft = parseInt(list.css('borderLeftWidth'), 10) || 0;
+			var borderRight = parseInt(list.css('borderRightWidth'), 10) || 0;
+
+			list.width(width - padLeft - padRight - borderLeft - borderRight);
 		},
 
 		option: function(key, value)
@@ -1148,7 +1168,7 @@
 		showOnFocus: true,
 		timeFormat: 'g:ia',
 		scrollDefault: null,
-		selectOnBlur: false,
+		selectOn: 'focus',
 		disableTextInput: false,
 		disableTouchKeyboard: false,
 		forceRoundTime: false,
@@ -1170,6 +1190,7 @@
 			}
 		},
 		appendTo: 'body',
+		matchElementWidth: false,
 		orientation: 'l',
 		disableTimeRanges: [],
 		closeOnWindowScroll: false,

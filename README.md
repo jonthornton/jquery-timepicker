@@ -113,9 +113,9 @@ Show "24:00" as an option when using 24-hour time format.
 Shows the relative time for each item in the dropdown. ```minTime``` or ```durationTime``` must be set.  
 *default: false*
 
-- **showOnFocus**  
-Display a timepicker dropdown when the input gains focus.  
-*default: true*
+- **showOn**  
+Display a timepicker dropdown on input events.  
+*default: "focus"*
 
 - **step**  
 The amount of time, in minutes, between each item in the dropdown. Alternately, you can specify a function to generate steps dynamically. The function will receive a count integer (0, 1, 2...) and is expected to return a step integer.  
