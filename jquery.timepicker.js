@@ -413,7 +413,7 @@
 		}
 
 		if (settings.showOnFocus === false) {
-			settings.showOn = 'focus'
+			settings.showOn = null
 		}
 
 		return settings;
