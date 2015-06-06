@@ -155,7 +155,7 @@
 			list.offset(listOffset);
 
 			// set the dropdown width (if needed)
-			methods.resize.call(this, arguments);
+			methods.resize.call(this);
 
 			// position scrolling
 			var selected = list.find('.ui-timepicker-selected');
