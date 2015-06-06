@@ -224,13 +224,7 @@
 
 			if (!list || list.is(':hidden') || !settings.matchElementWidth) return;
 
-			var width = self.outerWidth();
-			var padLeft = parseInt(list.css('paddingLeft'), 10) || 0;
-			var padRight = parseInt(list.css('paddingRight'), 10) || 0;
-			var borderLeft = parseInt(list.css('borderLeftWidth'), 10) || 0;
-			var borderRight = parseInt(list.css('borderRightWidth'), 10) || 0;
-
-			list.width(width - padLeft - padRight - borderLeft - borderRight);
+			return list.outerWidth(self.outerWidth());
 		},
 
 		option: function(key, value)
