@@ -418,8 +418,8 @@
 			}
 		}
 
-		if (settings.selectOnFocus === false) {
-			settings.selectOn = 'focus'
+		if (settings.showOnFocus === false) {
+			settings.showOn = 'focus'
 		}
 
 		return settings;
@@ -1169,10 +1169,10 @@
 		durationTime: null,
 		step: 30,
 		showDuration: false,
-		showOnFocus: true,
+		showOn: 'focus',
 		timeFormat: 'g:ia',
 		scrollDefault: null,
-		selectOn: 'focus',
+		selectOnBlur: false,
 		disableTextInput: false,
 		disableTouchKeyboard: false,
 		forceRoundTime: false,
