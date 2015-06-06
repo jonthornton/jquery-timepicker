@@ -418,6 +418,10 @@
 			}
 		}
 
+		if (settings.selectOnFocus === false) {
+			settings.selectOn = 'focus'
+		}
+
 		return settings;
 	}
 
