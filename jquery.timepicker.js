@@ -172,6 +172,15 @@
 				list.scrollTop(0);
 			}
 
+			// prevent scroll propagation
+			if(settings.stopScrollPropagation) {
+				$(document).on('wheel.ui-timepicker', '.ui-timepicker-wrapper', function(e){
+					e.preventDefault();
+					var currentScroll = $(this).scrollTop();
+					$(this).scrollTop(currentScroll + e.originalEvent.deltaY);
+				});
+			}
+
 			// attach close handlers
 			$(document).on('touchstart.ui-timepicker mousedown.ui-timepicker', _closeHandler);
 			$(window).on('resize.ui-timepicker', _closeHandler);
@@ -1175,6 +1184,7 @@
 		closeOnWindowScroll: false,
 		typeaheadHighlight: true,
 		noneOption: false,
-		show2400: false
+		show2400: false,
+		stopScrollPropagation: false
 	};
 }));
