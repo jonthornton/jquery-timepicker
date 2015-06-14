@@ -18,6 +18,8 @@ Usage
 $('.some-time-inputs').timepicker(options);
 ```
 
+Include `jquery.timepicker.css` and `jquery.timepicker.min.js` in your page.
+
 ```options``` is an optional javascript object with parameters explained below.
 
 You can also set options as [data attributes](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes) on the intput elements, like ```<input type="text" data-time-format="H:i:s" />```. Timepicker still needs to be initialized by calling ```$('#someElement').timepicker();```.
