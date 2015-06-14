@@ -115,6 +115,10 @@ Show "24:00" as an option when using 24-hour time format.
 Shows the relative time for each item in the dropdown. ```minTime``` or ```durationTime``` must be set.  
 *default: false*
 
+- **showOn**  
+Display a timepicker dropdown when the input fires a particular event. Set to false to disable automatic display.
+*default: 'focus'*
+
 - **showOnFocus**  
 Display a timepicker dropdown when the input gains focus.  
 *default: true*

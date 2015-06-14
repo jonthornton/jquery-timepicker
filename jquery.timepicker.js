@@ -79,7 +79,7 @@
 			var settings = self.data('timepicker-settings');
 
 			if (e) {
-				if (!settings.showOnFocus) {
+				if (settings.showOn !== e.type) {
 					return true;
 				}
 
@@ -370,6 +370,10 @@
 
 		if ($.type(settings.timeFormat) === "string" && settings.timeFormat.match(/[gh]/)) {
 			settings._twelveHourTime = true;
+		}
+
+		if (settings.showOnFocus === false && settings.showOn == 'focus') {
+			settings.showOn = null
 		}
 
 		if (settings.disableTimeRanges.length > 0) {
@@ -1146,6 +1150,7 @@
 		step: 30,
 		showDuration: false,
 		showOnFocus: true,
+		showOn: 'focus',
 		timeFormat: 'g:ia',
 		scrollDefault: null,
 		selectOnBlur: false,
