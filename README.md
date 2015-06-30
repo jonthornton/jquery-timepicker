@@ -116,11 +116,11 @@ Shows the relative time for each item in the dropdown. ```minTime``` or ```durat
 *default: false*
 
 - **showOn**  
-Display a timepicker dropdown when the input fires a particular event. Set to false to disable automatic display.
-*default: 'focus'*
+Display a timepicker dropdown when the input fires a particular event. Set to null or an empty array to disable automatic display. Setting should be an array of strings.
+*default: ['focus']*
 
 - **showOnFocus**  
-Display a timepicker dropdown when the input gains focus.  
+DEPRICATED: Display a timepicker dropdown when the input gains focus.  
 *default: true*
 
 - **step**  

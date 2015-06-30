@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.8.0 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.8.1 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2015 Jon Thornton - http://jonthornton.github.com/jquery-timepicker/
  * License: MIT
  */
@@ -60,7 +60,11 @@
 					_render(self);
 				} else {
 					self.prop('autocomplete', 'off');
-					self.on('click.timepicker focus.timepicker', methods.show);
+					if (settings.showOn) {
+						for (i in settings.showOn) {
+							self.on(settings.showOn[i]+'.timepicker', methods.show);
+						}
+					}
 					self.on('change.timepicker', _formatValue);
 					self.on('keydown.timepicker', _keydownhandler);
 					self.on('keyup.timepicker', _keyuphandler);
@@ -79,10 +83,6 @@
 			var settings = self.data('timepicker-settings');
 
 			if (e) {
-				if (settings.showOn !== e.type) {
-					return true;
-				}
-
 				e.preventDefault();
 			}
 
@@ -381,8 +381,8 @@
 			settings._twelveHourTime = true;
 		}
 
-		if (settings.showOnFocus === false && settings.showOn == 'focus') {
-			settings.showOn = null
+		if (settings.showOnFocus === false && settings.showOn.indexOf('focus') != -1) {
+			settings.showOn.splice(settings.showOn.indexOf('focus'), 1);
 		}
 
 		if (settings.disableTimeRanges.length > 0) {
@@ -1159,7 +1159,7 @@
 		step: 30,
 		showDuration: false,
 		showOnFocus: true,
-		showOn: 'focus',
+		showOn: ['click', 'focus'],
 		timeFormat: 'g:ia',
 		scrollDefault: null,
 		selectOnBlur: false,
