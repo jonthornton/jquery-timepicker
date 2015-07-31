@@ -51,7 +51,7 @@ Disable typing in the timepicker input box; for users to select from list.
 *default: false*
 
 - **disableTouchKeyboard**  
-Disable the onscreen keyboard for touch devices.  
+Disable the onscreen keyboard for touch devices. There can be instances where Firefox or Chrome have touch events enabled (such as on Surface tablets but not actually be a touch device. In this case `disableTouchKeyboard` will prevent the timepicker input field from being focused. [More information here.](https://github.com/jonthornton/jquery-timepicker/issues/413)  
 *default: false*
 
 - **durationTime**  
