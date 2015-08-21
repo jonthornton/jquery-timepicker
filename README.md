@@ -47,7 +47,7 @@ Disable selection of certain time ranges. Input is an array of time pairs, like 
 *default: []*
 
 - **disableTextInput**  
-Disable typing in the timepicker input box; for users to select from list.  
+Disable typing in the timepicker input box; force users to select from list. [More information here.](https://github.com/jonthornton/jquery-timepicker/issues/425#issuecomment-133262458)  
 *default: false*
 
 - **disableTouchKeyboard**  
