@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 		cssmin: {
 			minify: {
 				files: {
-					'jquery.timepicker.min.css': ['jquery.timepicker.css'] 
+					'jquery.timepicker.min.css': ['jquery.timepicker.css']
 				}
 			}
 		}
