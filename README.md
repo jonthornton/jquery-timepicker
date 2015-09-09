@@ -120,7 +120,7 @@ Display a timepicker dropdown when the input fires a particular event. Set to nu
 *default: ['focus']*
 
 - **showOnFocus**  
-DEPRICATED: Display a timepicker dropdown when the input gains focus.  
+DEPRECATED: Display a timepicker dropdown when the input gains focus.  
 *default: true*
 
 - **step**  
