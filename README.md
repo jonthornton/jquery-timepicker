@@ -34,6 +34,10 @@ Override where the dropdown is appended.
 Takes either a `string` to use as a selector, a `function` that gets passed the clicked input element as argument or a jquery `object` to use directly.  
 *default: "body"*
 
+- **boundDate**  
+???  
+*default: null*
+
 - **className**  
 A class name to apply to the HTML element that contains the timepicker dropdown.  
 *default: null*

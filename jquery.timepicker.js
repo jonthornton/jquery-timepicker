@@ -6,11 +6,11 @@
 
 
 (function (factory) {
-    if (typeof exports === "object" && exports &&
-        typeof module === "object" && module && module.exports === exports) {
-        // Browserify. Attach to jQuery module.
-        factory(require("jquery"));
-    } else if (typeof define === 'function' && define.amd) {
+	if (typeof exports === "object" && exports &&
+		typeof module === "object" && module && module.exports === exports) {
+		// Browserify. Attach to jQuery module.
+		factory(require("jquery"));
+	} else if (typeof define === 'function' && define.amd) {
 		// AMD. Register as an anonymous module.
 		define(['jquery'], factory);
 	} else {
@@ -104,7 +104,7 @@
 			}
 
 			// check if list needs to be rendered
-			if (!list || list.length === 0 || typeof settings.durationTime === 'function') {
+			if (!list || list.length === 0 || typeof settings.durationTime === 'function' || settings.boundDate) {
 				_render(self);
 				list = self.data('timepicker-list');
 			}
@@ -358,10 +358,6 @@
 			settings.maxTime = _time2int(settings.maxTime);
 		}
 
-		if (settings.durationTime && typeof settings.durationTime !== 'function') {
-			settings.durationTime = _time2int(settings.durationTime);
-		}
-
 		if (settings.scrollDefault == 'now') {
 			settings.scrollDefault = function() {
 				return settings.roundingFunction(_time2int(new Date()), settings);
@@ -409,6 +405,10 @@
 					settings.disableTimeRanges.splice(i, 1);
 				}
 			}
+		}
+
+		if (settings.boundDate) {
+			settings.boundDate = _startOfDay(settings.boundDate);
 		}
 
 		return settings;
@@ -462,11 +462,19 @@
 			wrapped_list.addClass('ui-timepicker-step-'+settings.step);
 		}
 
-		var durStart = settings.minTime;
-		if (typeof settings.durationTime === 'function') {
-			durStart = _time2int(settings.durationTime());
-		} else if (settings.durationTime !== null) {
-			durStart = settings.durationTime;
+		var durTime = settings.minTime, durDate;
+		if(settings.durationTime){
+			if (typeof settings.durationTime === 'function') {
+				durTime = settings.durationTime();
+			} else {
+				durTime = settings.durationTime;
+			}
+
+			// if boundDate is set, split durationTime into date (start of day) + time for duration computation.
+			if(settings.boundDate){
+				durDate = _startOfDay(durTime);
+			}
+			durTime = _time2int(durTime);
 		}
 		var start = (settings.minTime !== null) ? settings.minTime : 0;
 		var end = (settings.maxTime !== null) ? settings.maxTime : (start + _ONE_DAY - 1);
@@ -506,7 +514,15 @@
 			}
 
 			if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
-				var durationString = _int2duration(i - durStart, settings.step);
+				var current = i, compareTo = durTime;
+
+				// if boundDate is set, we can compute the duration in terms of days
+				if(settings.boundDate){
+					current += +settings.boundDate / 1000;
+					compareTo += +durDate / 1000;
+				}
+
+				var durationString = _int2duration(current - compareTo, settings.step);
 				if (settings.useSelect) {
 					row.text(row.text()+' ('+durationString+')');
 				} else {
@@ -1136,6 +1152,12 @@
 		return ("0" + n).slice(-2);
 	}
 
+	function _startOfDay(date) {
+		var clone = new Date(date);
+		clone.setHours(0, -clone.getTimezoneOffset(), 0, 0);
+		return clone;
+	}
+
 	// Plugin entry
 	$.fn.timepicker = function(method)
 	{
@@ -1190,6 +1212,7 @@
 		typeaheadHighlight: true,
 		noneOption: false,
 		show2400: false,
-		stopScrollPropagation: false
+		stopScrollPropagation: false,
+		boundDate: null
 	};
 }));
