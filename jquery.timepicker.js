@@ -1190,6 +1190,7 @@
 		step: 30,
 		stopScrollPropagation: false,
 		timeFormat: 'g:ia',
-		typeaheadHighlight: true
+		typeaheadHighlight: true,
+		useSelect: false
 	};
 }));
