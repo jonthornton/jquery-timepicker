@@ -275,10 +275,10 @@
 			}
 
 			if (!relative_date) {
-				relative_date = new Date();
+				relative_date = _baseDate;
 			}
 
-			// construct a Date with today's date, and offset's time
+			// construct a Date from relative date, and offset's time
 			var time = new Date(relative_date);
 			time.setHours(offset / 3600);
 			time.setMinutes(offset % 3600 / 60);

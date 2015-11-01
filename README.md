@@ -154,7 +154,7 @@ Get the time as an integer, expressed as seconds from 12am.
 	```
 
 - **getTime**  
-Get the time using a Javascript Date object, relative to a Date object (default: today).
+Get the time using a Javascript Date object, relative to a Date object (default: Jan 1, 1970).
 
 	```javascript
 	$('#getTimeExample').timepicker('getTime');
