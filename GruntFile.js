@@ -29,7 +29,7 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			all: ['jquery.timepicker.js']
-		  },
+		},
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');

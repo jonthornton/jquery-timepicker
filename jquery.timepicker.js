@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.8.3 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.8.4 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2015 Jon Thornton - http://jonthornton.github.com/jquery-timepicker/
  * License: MIT
  */
@@ -1046,7 +1046,7 @@
 
 				case 'H':
 					hour = time.getHours();
-					if (seconds === _ONE_DAY) hour = 24;
+					if (seconds === _ONE_DAY) hour = settings.show2400 ? 24 : 0;
 					output += (hour > 9) ? hour : '0'+hour;
 					break;
 
