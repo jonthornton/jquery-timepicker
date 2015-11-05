@@ -275,6 +275,8 @@ Development guidelines
 
 1. Install dependencies (jquery + grunt) `npm install`
 2. For sanity checks and minification run `grunt`, or just `grunt lint` to have the code linted
+ 
+jquery-timepicker follows [semantic versioning](http://semver.org/).
 
 - - -
 
