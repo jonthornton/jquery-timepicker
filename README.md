@@ -241,16 +241,16 @@ Sample markup with class names:
 ...
 <div class="ui-timepicker-wrapper ui-timepicker-positioned-top optional-custom-classname" tabindex="-1">
 	<ul class="ui-timepicker-list">
-		<li>12:00am</li>
-		<li>12:30am</li>
+		<li class="ui-timepicker-am">12:00am</li>
+		<li class="ui-timepicker-am">12:30am</li>
 		...
-		<li>4:30pm</li>
-		<li class="ui-timepicker-selected">5:00pm</li>
-		<li class="ui-timepicker-disabled">5:30pm</li>
-		<li>6:00pm <span class="ui-timepicker-duration">(1 hour)</span></li>
-		<li>6:30pm</li>
+		<li class="ui-timepicker-pm">4:30pm</li>
+		<li class="ui-timepicker-pm ui-timepicker-selected">5:00pm</li>
+		<li class="ui-timepicker-pm ui-timepicker-disabled">5:30pm</li>
+		<li class="ui-timepicker-pm">6:00pm <span class="ui-timepicker-duration">(1 hour)</span></li>
+		<li class="ui-timepicker-pm">6:30pm</li>
 		...
-		<li>11:30pm</li>
+		<li class="ui-timepicker-pm">11:30pm</li>
 	</ul>
 </div>
 ```
