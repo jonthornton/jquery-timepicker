@@ -140,7 +140,7 @@ Highlight the nearest corresponding time option as a value is typed into the for
 *default: true*
 
 - **useSelect**  
-Convert the input to an HTML `<SELECT>` control. This is ideal for small screen devices, or if you want to prevent the user from entering arbitrary values. This option is not compatible with the following options: ```appendTo```, ```closeOnWindowScroll```, ```disableTouchKeyboard```, ```forceRoundTime```, ```scrollDefaultNow```, ```selectOnBlur```, ```typeAheadHighlight```.  
+Convert the input to an HTML `<SELECT>` control. This is ideal for small screen devices, or if you want to prevent the user from entering arbitrary values. This option is not compatible with the following options: ```appendTo```, ```closeOnWindowScroll```, ```disableTouchKeyboard```, ```forceRoundTime```, ```scrollDefault```, ```selectOnBlur```, ```typeAheadHighlight```.  
 *default: false*
 
 Methods
