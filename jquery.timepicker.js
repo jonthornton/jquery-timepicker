@@ -1105,7 +1105,8 @@
 			return null;
 		}
 
-		var hour = parseInt(time[2]*1, 10) % 24;
+		var unboundedHour = parseInt(time[2]*1, 10);
+		var hour = (unboundedHour > 24) ? unboundedHour % 24 : unboundedHour;
 		var ampm = time[1] || time[5];
 		var hours = hour;
 
