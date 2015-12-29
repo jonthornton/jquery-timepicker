@@ -634,7 +634,7 @@
 
 	function _generateBaseDate()
 	{
-		return new Date(1970, 1, 1, 0, 0, 0);
+		return new Date(1970, 0, 1, 0, 0, 0);
 	}
 
 	// event handler to decide whether to close timepicker
