@@ -158,7 +158,7 @@
 			var selected = list.find('.ui-timepicker-selected');
 
 			if (!selected.length) {
-				var timeInt = _time2int(_getTimeValue(self));
+				var timeInt = _time2int(_getTimeValue(self), settings);
 				if (timeInt !== null) {
 					selected = _findRow(self, list, timeInt);
 				} else if (settings.scrollDefault) {
@@ -257,19 +257,23 @@
 
 		getSecondsFromMidnight: function()
 		{
-			return _time2int(_getTimeValue(this));
+			var self = this;
+			var settings = self.data('timepicker-settings');
+			
+			return _time2int(_getTimeValue(this), settings);
 		},
 
 		getTime: function(relative_date)
 		{
 			var self = this;
+			var settings = self.data('timepicker-settings');
 
 			var time_string = _getTimeValue(self);
 			if (!time_string) {
 				return null;
 			}
 
-			var offset = _time2int(time_string);
+			var offset = _time2int(time_string, settings);
 			if (offset === null) {
 				return null;
 			}
@@ -352,15 +356,15 @@
 	function _parseSettings(settings)
 	{
 		if (settings.minTime) {
-			settings.minTime = _time2int(settings.minTime);
+			settings.minTime = _time2int(settings.minTime, settings);
 		}
 
 		if (settings.maxTime) {
-			settings.maxTime = _time2int(settings.maxTime);
+			settings.maxTime = _time2int(settings.maxTime, settings);
 		}
 
 		if (settings.durationTime && typeof settings.durationTime !== 'function') {
-			settings.durationTime = _time2int(settings.durationTime);
+			settings.durationTime = _time2int(settings.durationTime, settings);
 		}
 
 		if (settings.scrollDefault == 'now') {
@@ -390,8 +394,8 @@
 			// convert string times to integers
 			for (var i in settings.disableTimeRanges) {
 				settings.disableTimeRanges[i] = [
-					_time2int(settings.disableTimeRanges[i][0]),
-					_time2int(settings.disableTimeRanges[i][1])
+					_time2int(settings.disableTimeRanges[i][0], settings),
+					_time2int(settings.disableTimeRanges[i][1], settings)
 				];
 			}
 
@@ -465,7 +469,7 @@
 
 		var durStart = settings.minTime;
 		if (typeof settings.durationTime === 'function') {
-			durStart = _time2int(settings.durationTime());
+			durStart = _time2int(settings.durationTime(), settings);
 		} else if (settings.durationTime !== null) {
 			durStart = settings.durationTime;
 		}
@@ -1075,6 +1079,100 @@
 		return output;
 	}
 
+	/// parse a time string with the provided format returning null if it fails otherwise
+	/// the number of seconds in the time
+	function parseTime(time, format)
+	{
+		if (!time)
+		{
+			return null;
+		}
+		
+		// map our groiup since js can't do named captures
+		var groups = [];
+		var reg = '^';
+		for (var i=0; i<format.length; i++)
+		{
+			code = format.charAt(i);
+			switch (code)
+			{
+				case 'a':
+					reg += '(am|pm)';
+					groups.push('am');
+					break;
+				case 'A':
+					reg += '(AM|PM)';
+					groups.push('AM');
+					break;
+				case 'g':
+					reg += '(\\d{1,2})';
+					groups.push('h');
+					break;
+				case 'G':
+					reg += '(\\d{1,2})';
+					groups.push('H');
+					break;
+				case 'h':
+					reg += '(\\d{2})';
+					groups.push('h');
+					break;
+				case 'H':
+					reg += '(\\d{2})';
+					groups.push('H');
+					break;
+				case 'i':
+					reg += '(\\d{2})';
+					groups.push('M');
+					break;
+				case 's':
+					reg += '(\\d{2})';
+					groups.push('S');
+					break;
+				case ' ':
+					reg += '\\s';
+					break;
+				case '\\':
+					reg += '\\\\';
+					break;
+					
+				default:
+					reg += code;
+			}
+		}
+		reg += '$';
+		
+		var regex = new RegExp(reg);
+		var match = regex.exec(time);
+		if (!match)
+		{
+			return null;
+		}
+		
+		var hour = 0,min = 0,sec = 0;
+		for (var i=1; i<match.length; i++)
+		{
+			var code = groups[i-1];
+			if ((code == "am" && match[i] == "pm") || (code == "AM" && match[i] == "PM"))
+			{
+				hour += 12;
+			}
+			else if (code == 'h' || code == 'H')
+			{
+				hour += parseInt(match[i]);
+			}
+			else if (code == 'M')
+			{
+				min += parseInt(match[i]);
+			}
+			else if (code == 'S')
+			{
+				sec += parseInt(match[i]);
+			}
+		}
+		
+		return (hour * 3600) + (min * 60) + sec;
+	}
+
 	function _time2int(timeString, settings)
 	{
 		if (timeString === '') return null;
@@ -1084,6 +1182,15 @@
 			return timeString.getHours()*3600 + timeString.getMinutes()*60 + timeString.getSeconds();
 		}
 
+		// try and parse using the timeformat, else fallback to a generic parser
+		if ($.type(settings.timeFormat) === "string") {
+			var itime = parseTime(timeString, settings.timeFormat);
+			if (itime != null)
+			{
+				return itime;
+			}
+		}
+		
 		timeString = timeString.toLowerCase().replace(/[\s\.]/g, '');
 
 		// if the last character is an "a" or "p", add the "m"
