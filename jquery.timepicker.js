@@ -61,7 +61,7 @@
 				} else {
 					self.prop('autocomplete', 'off');
 					if (settings.showOn) {
-						for (i in settings.showOn) {
+						for (var i in settings.showOn) {
 							self.on(settings.showOn[i]+'.timepicker', methods.show);
 						}
 					}
