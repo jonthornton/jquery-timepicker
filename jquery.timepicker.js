@@ -225,6 +225,10 @@
 
 		option: function(key, value)
 		{
+			if (typeof key == 'string' && typeof value == 'undefined') {
+				return $(this).data('timepicker-settings')[key];
+			}
+
 			return this.each(function(){
 				var self = $(this);
 				var settings = self.data('timepicker-settings');
@@ -232,12 +236,8 @@
 
 				if (typeof key == 'object') {
 					settings = $.extend(settings, key);
-
-				} else if (typeof key == 'string' && typeof value != 'undefined') {
-					settings[key] = value;
-
 				} else if (typeof key == 'string') {
-					return settings[key];
+					settings[key] = value;
 				}
 
 				settings = _parseSettings(settings);
