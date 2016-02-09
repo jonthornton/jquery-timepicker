@@ -96,7 +96,7 @@ By default the timepicker dropdown will be aligned to the bottom right of the in
 *default: 'l'*
 
 - **roundingFunction**  
-Function used to compute rounded times. The function will receive time in seconds and a settings object as arguments. The functino should handle a null value for seconds.
+Function used to compute rounded times. The function will receive time in seconds and a settings object as arguments. The function should handle a null value for seconds.
 *default: round to nearest step*
 
 - **scrollDefault**  
