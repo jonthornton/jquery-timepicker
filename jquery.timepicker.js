@@ -565,7 +565,7 @@
 			appendTo.append(wrapped_list);
 			_setSelected(self, list);
 
-			list.on('mousedown', 'li', function(e) {
+			list.on('mousedown touchstart', 'li', function(e) {
 
 				// hack: temporarily disable the focus handler
 				// to deal with the fact that IE fires 'focus'
@@ -587,8 +587,8 @@
 				if (_selectValue(self)) {
 					self.trigger('hideTimepicker');
 
-					list.on('mouseup.timepicker', 'li', function(e) {
-						list.off('mouseup.timepicker');
+					list.on('mouseup.timepicker touchend.timepicker', 'li', function(e) {
+						list.off('mouseup.timepicker touchend.timepicker');
 						wrapped_list.hide();
 					});
 				}
