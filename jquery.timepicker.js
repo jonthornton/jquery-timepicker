@@ -158,7 +158,7 @@
 			var selected = list.find('.ui-timepicker-selected');
 
 			if (!selected.length) {
-				var timeInt = _time2int(_getTimeValue(self));
+				var timeInt = _time2int(_getTimeValue(self), settings);
 				if (timeInt !== null) {
 					selected = _findRow(self, list, timeInt);
 				} else if (settings.scrollDefault) {
@@ -257,7 +257,7 @@
 
 		getSecondsFromMidnight: function()
 		{
-			return _time2int(_getTimeValue(this));
+			return _time2int(_getTimeValue(this), this.data('timepicker-settings'));
 		},
 
 		getTime: function(relative_date)
@@ -269,7 +269,7 @@
 				return null;
 			}
 
-			var offset = _time2int(time_string);
+			var offset = _time2int(time_string, this.data('timepicker-settings'));
 			if (offset === null) {
 				return null;
 			}
@@ -352,15 +352,15 @@
 	function _parseSettings(settings)
 	{
 		if (settings.minTime) {
-			settings.minTime = _time2int(settings.minTime);
+			settings.minTime = _time2int(settings.minTime, settings);
 		}
 
 		if (settings.maxTime) {
-			settings.maxTime = _time2int(settings.maxTime);
+			settings.maxTime = _time2int(settings.maxTime, settings);
 		}
 
 		if (settings.durationTime && typeof settings.durationTime !== 'function') {
-			settings.durationTime = _time2int(settings.durationTime);
+			settings.durationTime = _time2int(settings.durationTime, settings);
 		}
 
 		if (settings.scrollDefault == 'now') {
@@ -390,8 +390,8 @@
 			// convert string times to integers
 			for (var i in settings.disableTimeRanges) {
 				settings.disableTimeRanges[i] = [
-					_time2int(settings.disableTimeRanges[i][0]),
-					_time2int(settings.disableTimeRanges[i][1])
+					_time2int(settings.disableTimeRanges[i][0], settings),
+					_time2int(settings.disableTimeRanges[i][1], settings)
 				];
 			}
 
@@ -465,7 +465,7 @@
 
 		var durStart = settings.minTime;
 		if (typeof settings.durationTime === 'function') {
-			durStart = _time2int(settings.durationTime());
+			durStart = _time2int(settings.durationTime(), settings);
 		} else if (settings.durationTime !== null) {
 			durStart = settings.durationTime;
 		}
@@ -508,7 +508,7 @@
 			}
 
 			if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
-				var durationString = _int2duration(i - durStart, settings.step);
+				var durationString = settings.durationRender(i - durStart, settings.step);
 				if (settings.useSelect) {
 					row.text(row.text()+' ('+durationString+')');
 				} else {
@@ -1099,6 +1099,11 @@
 			return timeString.getHours()*3600 + timeString.getMinutes()*60 + timeString.getSeconds();
 		}
 
+        return settings.timeParse(timeString, settings);
+    }
+
+    function _timeString2int(timeString, settings)
+    {
 		timeString = timeString.toLowerCase().replace(/[\s\.]/g, '');
 
 		// if the last character is an "a" or "p", add the "m"
@@ -1211,6 +1216,8 @@
 		step: 30,
 		stopScrollPropagation: false,
 		timeFormat: 'g:ia',
+        durationRender: _int2duration,
+        timeParse: _timeString2int,
 		typeaheadHighlight: true,
 		useSelect: false
 	};
