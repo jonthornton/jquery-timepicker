@@ -634,7 +634,8 @@
 
 	function _generateBaseDate()
 	{
-		return new Date(1970, 0, 1, 0, 0, 0);
+		// Do not use 1st Jan, as that is not supported by Firefox 38 for timezones ahead of UTC.
+        return new Date(1970, 0, 2, 0, 0, 0);
 	}
 
 	// event handler to decide whether to close timepicker
