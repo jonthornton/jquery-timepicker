@@ -294,9 +294,9 @@
 			var settings = self.data('timepicker-settings');
 
 			if (settings.forceRoundTime) {
-				var prettyTime = _roundAndFormatTime(_time2int(value), settings)
+				var prettyTime = _roundAndFormatTime(_time2int(value, settings), settings)
 			} else {
-				var prettyTime = _int2time(_time2int(value), settings);
+				var prettyTime = _int2time(_time2int(value, settings), settings);
 			}
 
 			if (value && prettyTime === null && settings.noneOption) {
@@ -365,12 +365,12 @@
 
 		if (settings.scrollDefault == 'now') {
 			settings.scrollDefault = function() {
-				return settings.roundingFunction(_time2int(new Date()), settings);
+				return settings.roundingFunction(_time2int(new Date(), settings), settings);
 			}
 		} else if (settings.scrollDefault && typeof settings.scrollDefault != 'function') {
 			var val = settings.scrollDefault;
 			settings.scrollDefault = function() {
-				return settings.roundingFunction(_time2int(val), settings);
+				return settings.roundingFunction(_time2int(val, settings), settings);
 			}
 		} else if (settings.minTime) {
 			settings.scrollDefault = function() {
@@ -540,7 +540,7 @@
 
 		if (settings.useSelect) {
 			if (self.val()) {
-				list.val(_roundAndFormatTime(_time2int(self.val()), settings));
+				list.val(_roundAndFormatTime(_time2int(self.val(), settings), settings));
 			}
 
 			list.on('focus', function(){
@@ -772,7 +772,7 @@
 
 			var settings = self.data('timepicker-settings');
 			if (settings.useSelect && source != 'select' && source != 'initial') {
-				self.data('timepicker-list').val(_roundAndFormatTime(_time2int(value), settings));
+				self.data('timepicker-list').val(_roundAndFormatTime(_time2int(value, settings), settings));
 			}
 		}
 
