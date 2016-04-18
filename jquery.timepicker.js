@@ -1193,7 +1193,11 @@
 					seconds -= offset;
 				}
 
-				return seconds;
+				if (seconds == _ONE_DAY && settings.show2400) {
+					return seconds;
+				}
+
+				return seconds%_ONE_DAY;
 			}
 		},
 		scrollDefault: null,
