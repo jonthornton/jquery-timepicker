@@ -1039,7 +1039,7 @@
 
 				case 'G':
 					hour = time.getHours();
-					if (timeInt === _ONE_DAY) hour = 24;
+					if (timeInt === _ONE_DAY) hour = settings.show2400 ? 24 : 0;
 					output += hour;
 					break;
 
