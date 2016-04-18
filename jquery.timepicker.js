@@ -1093,13 +1093,12 @@
 	function _time2int(timeString, settings)
 	{
 		if (timeString === '') return null;
-		if (!timeString) return timeString;
-
-		if (typeof(timeString) == 'object') {
+		if (typeof timeString == 'object') {
 			return timeString.getHours()*3600 + timeString.getMinutes()*60 + timeString.getSeconds();
 		}
-
-		if (timeString+0 == timeString) return timeString;
+		if (typeof timeString != 'string') {
+			return timeString;
+		}
 
 		timeString = timeString.toLowerCase().replace(/[\s\.]/g, '');
 
