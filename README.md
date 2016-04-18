@@ -174,6 +174,13 @@ Close the timepicker dropdown.
 	$('#hideExample').timepicker('hide');
 	```
 
+- **isVisible**  
+Check if the timepicker attached to *a specific input* is visible. Not compatible with the `useSelect` option.
+
+	```javascript
+	$('#hideExample').timepicker('isVisible');
+	```
+
 - **option**  
 Change the settings of an existing timepicker. Calling ```option``` on a visible timepicker will cause the picker to be hidden.
 

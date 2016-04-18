@@ -287,6 +287,12 @@
 			return time;
 		},
 
+		isVisible: function() {
+			var self = this;
+			var list = self.data('timepicker-list');
+			return !!(list && _isVisible(list));
+		},
+
 		setTime: function(value)
 		{
 			var self = this;
