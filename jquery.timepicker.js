@@ -18,7 +18,6 @@
 		factory(jQuery);
 	}
 }(function ($) {
-	var _baseDate = _generateBaseDate();
 	var _ONE_DAY = 86400;
 	var _lang = {
 		am: 'am',
@@ -275,7 +274,7 @@
 			}
 
 			if (!relative_date) {
-				relative_date = _baseDate;
+				relative_date = new Date();
 			}
 
 			// construct a Date from relative date, and offset's time
@@ -630,11 +629,6 @@
 		if (seconds !== null) {
 			return _int2time(seconds, settings);
 		}
-	}
-
-	function _generateBaseDate()
-	{
-		return new Date(1970, 0, 1, 0, 0, 0);
 	}
 
 	// event handler to decide whether to close timepicker
@@ -1007,20 +1001,20 @@
 		return duration.join(' ');
 	}
 
-	function _int2time(seconds, settings)
+	function _int2time(timeInt, settings)
 	{
-		if (seconds === null) {
+		if (typeof timeInt != 'number') {
 			return null;
 		}
 
-		var time = new Date(_baseDate.valueOf() + (seconds*1000));
+		var seconds = parseInt(timeInt%60)
+			, minutes = parseInt((timeInt/60)%60)
+			, hours = parseInt((timeInt/(60*60))%24);
+
+		var time = new Date(1970, 0, 1, hours, minutes, seconds, 0);
 
 		if (isNaN(time.getTime())) {
 			return null;
-		}
-
-		if ($.type(settings.timeFormat) === "function") {
-			return settings.timeFormat(time);
 		}
 
 		var output = '';
@@ -1045,7 +1039,7 @@
 
 				case 'G':
 					hour = time.getHours();
-					if (seconds === _ONE_DAY) hour = 24;
+					if (timeInt === _ONE_DAY) hour = 24;
 					output += hour;
 					break;
 
@@ -1061,7 +1055,7 @@
 
 				case 'H':
 					hour = time.getHours();
-					if (seconds === _ONE_DAY) hour = settings.show2400 ? 24 : 0;
+					if (timeInt === _ONE_DAY) hour = settings.show2400 ? 24 : 0;
 					output += (hour > 9) ? hour : '0'+hour;
 					break;
 
