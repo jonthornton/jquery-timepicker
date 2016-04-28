@@ -1115,7 +1115,17 @@
 		}
 
 		var unboundedHour = parseInt(time[2]*1, 10);
-		var hour = (unboundedHour > 24) ? unboundedHour % 24 : unboundedHour;
+		var hour;
+		if (settings && !settings.moduloHour) {
+			if (unboundedHour > 24) {
+				return null;
+			} else {
+				hour = unboundedHour;
+			}
+		} else {
+			hour = (unboundedHour > 24) ? unboundedHour % 24 : unboundedHour;
+		}
+
 		var ampm = time[1] || time[5];
 		var hours = hour;
 
@@ -1174,6 +1184,7 @@
 		forceRoundTime: false,
 		maxTime: null,
 		minTime: null,
+		moduloHour: true,
 		noneOption: false,
 		orientation: 'l',
 		roundingFunction: function(seconds, settings) {
