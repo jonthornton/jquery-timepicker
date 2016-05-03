@@ -1011,7 +1011,7 @@
 			, minutes = parseInt((timeInt/60)%60)
 			, hours = parseInt((timeInt/(60*60))%24);
 
-		var time = new Date(1970, 0, 1, hours, minutes, seconds, 0);
+		var time = new Date(1970, 0, 2, hours, minutes, seconds, 0);
 
 		if (isNaN(time.getTime())) {
 			return null;
