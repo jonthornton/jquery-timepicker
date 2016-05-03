@@ -1085,7 +1085,7 @@
 
 	function _time2int(timeString, settings)
 	{
-		if (timeString === '') return null;
+		if (timeString === '' || timeString === null) return null;
 		if (typeof timeString == 'object') {
 			return timeString.getHours()*3600 + timeString.getMinutes()*60 + timeString.getSeconds();
 		}
