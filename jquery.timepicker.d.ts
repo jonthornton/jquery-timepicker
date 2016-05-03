@@ -1,4 +1,4 @@
-// Type definitions for jQuery.timepicker 1.9.0
+// Type definitions for jQuery.timepicker 1.9.1
 // https://github.com/jonthornton/jquery-timepicker
 
 /**
@@ -34,16 +34,16 @@ declare namespace Jt.Timepicker {
         disableTextInput?: boolean;
         /**
          * Default: []
-         * Disable selection of certain time ranges. Input is an array of time pairs, like `[['3:00am', '4:30am'], ['5:00pm', '8:00pm']]. 
+         * Disable selection of certain time ranges. Input is an array of time pairs, like `[['3:00am', '4:30am'], ['5:00pm', '8:00pm']].
          * The start of the interval will be disabled but the end won't.
          */
         disableTimeRanges?: Array<string[]>;
         /**
          * Default: false
-         * Disables the onscreen keyboard for touch devices. There can be instances where Firefox or Chrome have touch events enabled 
-         * (such as on Surface tablets but not actually be a touch device. In this case disableTouchKeyboard will prevent the timepicker 
+         * Disables the onscreen keyboard for touch devices. There can be instances where Firefox or Chrome have touch events enabled
+         * (such as on Surface tablets but not actually be a touch device. In this case disableTouchKeyboard will prevent the timepicker
          * input field from being focused.
-         * More information: https://github.com/jonthornton/jquery-timepicker/issues/413 
+         * More information: https://github.com/jonthornton/jquery-timepicker/issues/413
          */
         disableTouchKeyboard?: boolean;
         /**
@@ -101,7 +101,7 @@ declare namespace Jt.Timepicker {
          */
         show2400?: boolean;
         /**
-         * Default: false 
+         * Default: false
          * Shows the relative time for each item in the dropdown. minTime or durationTime must be set.
          */
         showDuration?: boolean;
@@ -112,7 +112,7 @@ declare namespace Jt.Timepicker {
         showOn?: string[];
         /**
          * @deprecated Display a timepicker dropdown when the input gains focus.
-         * Default: true 
+         * Default: true
          */
         showOnFocus?: boolean;
         /**
@@ -137,8 +137,8 @@ declare namespace Jt.Timepicker {
         typeaheadHighlight?: boolean;
         /**
          * Default: false
-         * Convert the input to an HTML <SELECT> control. This is ideal for small screen devices, or if you want to prevent the user from entering 
-         * arbitrary values. This option is not compatible with the following options: appendTo, closeOnWindowScroll, disableTouchKeyboard, 
+         * Convert the input to an HTML <SELECT> control. This is ideal for small screen devices, or if you want to prevent the user from entering
+         * arbitrary values. This option is not compatible with the following options: appendTo, closeOnWindowScroll, disableTouchKeyboard,
          * scrollDefault, selectOnBlur, typeAheadHighlight.
          */
         useSelect?: boolean;
