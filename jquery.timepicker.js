@@ -734,8 +734,8 @@
 
 		var rangeError = false;
 		// check that the time in within bounds
-		if (settings.minTime !== null && seconds < settings.minTime
-			&& settings.maxTime !== null && seconds > settings.maxTime) {
+		if ((settings.minTime !== null && seconds < settings.minTime)
+			|| (settings.maxTime !== null && seconds > settings.maxTime)) {
 			rangeError = true;
 		}
 
