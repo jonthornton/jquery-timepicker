@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.11.3 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.11.4 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2015 Jon Thornton - http://jonthornton.github.com/jquery-timepicker/
  * License: MIT
  */
@@ -734,8 +734,8 @@
 
 		var rangeError = false;
 		// check that the time in within bounds
-		if (settings.minTime !== null && seconds < settings.minTime
-			&& settings.maxTime !== null && seconds > settings.maxTime) {
+		if ((settings.minTime !== null && settings.maxTime !== null)
+			&& (seconds < settings.minTime || seconds > settings.maxTime)) {
 			rangeError = true;
 		}
 
