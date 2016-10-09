@@ -276,6 +276,8 @@ An AngularJS directive is available at https://github.com/Recras/angular-jquery-
 
 Available via CDN at [https://cdnjs.com/libraries/jquery-timepicker](https://cdnjs.com/libraries/jquery-timepicker).
 
+[NPM - https://www.npmjs.com/package/timepicker](https://www.npmjs.com/package/timepicker)
+
 Help
 ----
 
