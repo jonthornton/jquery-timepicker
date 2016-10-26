@@ -22,7 +22,7 @@ Include `jquery.timepicker.css` and `jquery.timepicker.min.js` in your page.
 
 ```options``` is an optional javascript object with parameters explained below.
 
-You can also set options as [data attributes](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes) on the intput elements, like ```<input type="text" data-time-format="H:i:s" />```. Timepicker still needs to be initialized by calling ```$('#someElement').timepicker();```.
+You can also set options as [data attributes](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes) on the intput elements, like ```<input type="text" data-time-format="H:i:s" />```. Timepicker still needs to be initialized by calling ```$('#someElement').timepicker(options);```. Data attributes will override any conflicting initialization options.
 
 The defaults for all options are exposed through the ```$.fn.timepicker.defaults``` object. Properties changed in this object (same properties configurable through the constructor) will take effect for every instance created after the change.
 

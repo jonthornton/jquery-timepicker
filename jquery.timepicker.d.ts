@@ -1,4 +1,4 @@
-// Type definitions for jQuery.timepicker 1.11.5
+// Type definitions for jQuery.timepicker 1.11.6
 // https://github.com/jonthornton/jquery-timepicker
 
 /**
