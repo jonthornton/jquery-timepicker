@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.11.6 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.11.7 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2015 Jon Thornton - http://jonthornton.github.com/jquery-timepicker/
  * License: MIT
  */
@@ -1214,6 +1214,11 @@
 				return seconds;
 			} else {
 				var offset = seconds % (settings.step*60); // step is in minutes
+
+				var start = settings.minTime || 0;
+
+                // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
+                offset -= start % (settings.step * 60);
 
 				if (offset >= settings.step*30) {
 					// if offset is larger than a half step, round up

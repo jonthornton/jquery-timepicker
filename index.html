@@ -47,7 +47,11 @@
 
             <script>
                 $(function() {
-                    $('#basicExample').timepicker();
+                    $('#basicExample').timepicker({
+                        'step': 6,
+                        'minTime': '6:45am',
+                        'forceRoundTime': true
+                    });
                 });
             </script>
 
