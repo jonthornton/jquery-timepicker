@@ -507,8 +507,8 @@
 				row.text(timeString);
 			} else {
 				var row = $('<li />');
-				row.addClass(timeInt % 86400 < 43200 ? 'ui-timepicker-am' : 'ui-timepicker-pm');
-				row.data('time', (timeInt <= 86400 ? timeInt : timeInt % 86400));
+				row.addClass((timeInt % _ONE_DAY) < (_ONE_DAY / 2) ? 'ui-timepicker-am' : 'ui-timepicker-pm');
+				row.data('time', (timeInt <= _ONE_DAY ? timeInt : timeInt % _ONE_DAY));
 				row.text(timeString);
 			}
 
