@@ -238,7 +238,7 @@ Called after the timepicker is shown.
 Called if an unparseable time string is manually entered into the timepicker input. Fires before ```change``` event.
 
 - **timeRangeError**  
-Called if a maxTime, minTime, or disableTimeRanges is set and an invalid time is manually entered into the timepicker input. Fires before ```change``` event.
+Called if maxTime and minTime, or disableTimeRanges is set and an invalid time is manually entered into the timepicker input. Fires before ```change``` event.
 
 The `selectTime` and `hideTimepicker` events fire slightly differently when using the `useSelect` option. See https://github.com/jonthornton/jquery-timepicker/issues/427 for more information.
 
