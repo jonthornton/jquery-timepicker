@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.11.9 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.11.10 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2015 Jon Thornton - http://jonthornton.github.com/jquery-timepicker/
  * License: MIT
  */
@@ -30,6 +30,58 @@
 		hrs: 'hrs'
 	};
 
+	var _DEFAULTS = {
+		appendTo: 'body',
+		className: null,
+		closeOnWindowScroll: false,
+		disableTextInput: false,
+		disableTimeRanges: [],
+		disableTouchKeyboard: false,
+		durationTime: null,
+		forceRoundTime: false,
+		maxTime: null,
+		minTime: null,
+		noneOption: false,
+		orientation: 'l',
+		roundingFunction: function(seconds, settings) {
+			if (seconds === null) {
+				return null;
+			} else if (typeof settings.step !== "number") {
+				// TODO: nearest fit irregular steps
+				return seconds;
+			} else {
+				var offset = seconds % (settings.step*60); // step is in minutes
+
+				var start = settings.minTime || 0;
+
+                // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
+                offset -= start % (settings.step * 60);
+
+				if (offset >= settings.step*30) {
+					// if offset is larger than a half step, round up
+					seconds += (settings.step*60) - offset;
+				} else {
+					// round down
+					seconds -= offset;
+				}
+
+				return _moduloSeconds(seconds, settings);
+			}
+		},
+		scrollDefault: null,
+		selectOnBlur: false,
+		show2400: false,
+		showDuration: false,
+		showOn: ['click', 'focus'],
+		showOnFocus: true,
+		step: 30,
+		stopScrollPropagation: false,
+		timeFormat: 'g:ia',
+		typeaheadHighlight: true,
+		useSelect: false,
+		wrapHours: true
+	};
+
 	var methods = {
 		init: function(options)
 		{
@@ -39,13 +91,13 @@
 
 				// pick up settings from data attributes
 				var attributeOptions = [];
-				for (var key in $.fn.timepicker.defaults) {
+				for (var key in _DEFAULTS) {
 					if (self.data(key))  {
 						attributeOptions[key] = self.data(key);
 					}
 				}
 
-				var settings = $.extend({}, $.fn.timepicker.defaults, options, attributeOptions);
+				var settings = $.extend({}, _DEFAULTS, options, attributeOptions);
 
 				if (settings.lang) {
 					_lang = $.extend(_lang, settings.lang);
@@ -1201,57 +1253,5 @@
 		}
 		else if(typeof method === "object" || !method) { return methods.init.apply(this, arguments); }
 		else { $.error("Method "+ method + " does not exist on jQuery.timepicker"); }
-	};
-	// Global defaults
-	$.fn.timepicker.defaults = {
-		appendTo: 'body',
-		className: null,
-		closeOnWindowScroll: false,
-		disableTextInput: false,
-		disableTimeRanges: [],
-		disableTouchKeyboard: false,
-		durationTime: null,
-		forceRoundTime: false,
-		maxTime: null,
-		minTime: null,
-		noneOption: false,
-		orientation: 'l',
-		roundingFunction: function(seconds, settings) {
-			if (seconds === null) {
-				return null;
-			} else if (typeof settings.step !== "number") {
-				// TODO: nearest fit irregular steps
-				return seconds;
-			} else {
-				var offset = seconds % (settings.step*60); // step is in minutes
-
-				var start = settings.minTime || 0;
-
-                // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
-                offset -= start % (settings.step * 60);
-
-				if (offset >= settings.step*30) {
-					// if offset is larger than a half step, round up
-					seconds += (settings.step*60) - offset;
-				} else {
-					// round down
-					seconds -= offset;
-				}
-
-				return _moduloSeconds(seconds, settings);
-			}
-		},
-		scrollDefault: null,
-		selectOnBlur: false,
-		show2400: false,
-		showDuration: false,
-		showOn: ['click', 'focus'],
-		showOnFocus: true,
-		step: 30,
-		stopScrollPropagation: false,
-		timeFormat: 'g:ia',
-		typeaheadHighlight: true,
-		useSelect: false,
-		wrapHours: true
 	};
 }));
