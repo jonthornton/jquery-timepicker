@@ -205,6 +205,11 @@
 
 			list.offset(listOffset);
 
+			list.width('auto');
+			if (!$.browser.msie || $.browser.version != 9) {
+				list.width(list.innerWidth() + 20);
+			}
+			
 			// position scrolling
 			var selected = list.find('.ui-timepicker-selected');
 
