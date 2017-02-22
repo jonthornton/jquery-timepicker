@@ -34,6 +34,7 @@
 		appendTo: 'body',
 		className: null,
 		closeOnWindowScroll: false,
+        	closeOnWindowResize: false,
 		disableTextInput: false,
 		disableTimeRanges: [],
 		disableTouchKeyboard: false,
@@ -206,7 +207,10 @@
 
 			// attach close handlers
 			$(document).on('touchstart.ui-timepicker mousedown.ui-timepicker', _closeHandler);
-			$(window).on('resize.ui-timepicker', _closeHandler);
+			$(window).on(
+				'resize.ui-timepicker',
+				settings.closeOnWindowResize ? _closeHandler : _updatePosition
+			);
 			$(document).on(
 				'scroll.ui-timepicker',
 				settings.closeOnWindowScroll ? _closeHandler : _updatePosition
