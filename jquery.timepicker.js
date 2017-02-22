@@ -217,6 +217,11 @@
 				}
 			}
 
+			// if not found or disabled, intelligently find first selectable element
+			if (!selected.length || selected.hasClass('ui-timepicker-disabled')) {
+				selected = list.find('li:not(.ui-timepicker-disabled):first');
+			}
+			
 			if (selected && selected.length) {
 				var topOffset = list.scrollTop() + selected.position().top - selected.outerHeight();
 				list.scrollTop(topOffset);
