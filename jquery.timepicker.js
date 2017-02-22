@@ -362,7 +362,9 @@
 				prettyTime = value;
 			}
 
-			_setTimeValue(self, prettyTime);
+			self.val(prettyTime);
+			_formatValue.call(self.get(0), {'type':'change'});
+
 			if (self.data('timepicker-list')) {
 				_setSelected(self, self.data('timepicker-list'));
 			}
