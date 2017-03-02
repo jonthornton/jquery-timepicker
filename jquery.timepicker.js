@@ -770,11 +770,16 @@
 
 	function _formatValue(e, origin)
 	{
-		if (this.value === '' || origin == 'timepicker') {
+		if (origin == 'timepicker') {
 			return;
 		}
 
 		var self = $(this);
+
+		if (this.value === '') {
+			_setTimeValue(self, null, origin);
+			return;
+		}
 
 		if (self.is(':focus') && (!e || e.type != 'change')) {
 			return;
