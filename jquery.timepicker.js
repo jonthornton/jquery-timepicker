@@ -404,7 +404,13 @@
 			self.removeData('timepicker-list');
 
 			return this;
-		}
+		},
+
+		getDuration: function (){
+            var self = this;
+            return _calculateDuration(self);
+        }
+        
 	};
 
 	// private methods
@@ -480,6 +486,18 @@
 
 		return settings;
 	}
+
+	
+    function _calculateDuration(self)
+    {
+        var settings = self.data('timepicker-settings');
+        if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
+            return  _int2duration( _time2int( _getTimeValue(self) ) - settings.minTime, settings.step);
+        }else {
+            return "";
+        }
+
+    }
 
 	function _render(self)
 	{
