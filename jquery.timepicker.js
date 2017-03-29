@@ -891,6 +891,10 @@
 		var self = $(this);
 		var list = self.data('timepicker-list');
 
+		if (self.prop('readonly')) {
+		    return true;
+		}
+		
 		if (!list || !_isVisible(list)) {
 			if (e.keyCode == 40) {
 				// show the list!
