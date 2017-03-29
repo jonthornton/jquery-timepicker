@@ -122,6 +122,8 @@
 					if (settings.disableTextInput) {
 						self.on('keydown.timepicker', _disableTextInputHandler);
 					}
+                    			self.on('cut.timepicker', _keyuphandler);
+                    			self.on('paste.timepicker', _keyuphandler);
 
 					_formatValue.call(self.get(0), null, 'initial');
 				}
@@ -986,6 +988,17 @@
 
 		if (!list || !_isVisible(list) || settings.disableTextInput) {
 			return true;
+		}
+		
+		if (e.type === 'paste' || e.type === 'cut') {
+		    	setTimeout(function () {
+				if (settings.typeaheadHighlight) {
+			    		_setSelected(self, list);
+				} else {
+			    		list.hide();
+				}
+		    	}, 0);
+		    	return;
 		}
 
 		switch (e.keyCode) {
