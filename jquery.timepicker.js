@@ -754,7 +754,8 @@
 	{
 		list.find('li').removeClass('ui-timepicker-selected');
 
-		var timeValue = _time2int(_getTimeValue(self), self.data('timepicker-settings'));
+		var settings = self.data('timepicker-settings');
+		var timeValue = _time2int(_getTimeValue(self), settings);
 		if (timeValue === null) {
 			return;
 		}
@@ -767,8 +768,10 @@
 			if (topDelta + selected.outerHeight() > list.outerHeight() || topDelta < 0) {
 				list.scrollTop(list.scrollTop() + selected.position().top - selected.outerHeight());
 			}
-
-			selected.addClass('ui-timepicker-selected');
+			
+			if (settings.forceRoundTime || selected.data('time') === timeValue) {
+				selected.addClass('ui-timepicker-selected');
+			}
 		}
 	}
 
