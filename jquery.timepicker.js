@@ -1203,6 +1203,7 @@
 			return null;
 		}
 
+		var hour = parseInt(time[2]*1, 10);
 		var ampm = time[1] || time[5];
 		var hours = hour;
 		var minutes = ( time[3]*1 || 0 );
