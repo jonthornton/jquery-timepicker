@@ -1204,17 +1204,11 @@
 		}
 
 		var hour = parseInt(time[2]*1, 10);
-		if (hour > 24) {
-			if (settings && settings.wrapHours === false) {
-				return null;
-			} else {
-				hour = hour % 24;
-			}
-		}
-
 		var ampm = time[1] || time[5];
 		var hours = hour;
-
+		var minutes = ( time[3]*1 || 0 );
+		var seconds = ( time[4]*1 || 0 );
+		
 		if (hour <= 12 && ampm) {
 			var isPm = (ampm == _lang.pm || ampm == _lang.PM);
 
@@ -1223,10 +1217,17 @@
 			} else {
 				hours = (hour + (isPm ? 12 : 0));
 			}
+		} else if (settings) {
+			var t = hour * 3600 + minutes * 60 + seconds;
+			if (t >= _ONE_DAY + (settings.show2400 ? 1 : 0)) {
+				if (settings.wrapHours === false) {
+					return null;
+				}
+
+				hours = hour % 24;
+			}
 		}
 
-		var minutes = ( time[3]*1 || 0 );
-		var seconds = ( time[4]*1 || 0 );
 		var timeInt = hours*3600 + minutes*60 + seconds;
 
 		// if no am/pm provided, intelligently guess based on the scrollDefault
