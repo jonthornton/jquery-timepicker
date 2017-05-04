@@ -908,6 +908,11 @@
 		}
 
 		switch (e.keyCode) {
+			
+			case 9: // tab
+				_selectValue(self);
+				methods.hide.apply(this);
+				break;
 
 			case 13: // return
 				if (_selectValue(self)) {
