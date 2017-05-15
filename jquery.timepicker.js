@@ -34,6 +34,7 @@
 		appendTo: 'body',
 		className: null,
 		closeOnWindowScroll: false,
+        	closeOnWindowResize: false,
 		disableTextInput: false,
 		disableTimeRanges: [],
 		disableTouchKeyboard: false,
@@ -172,40 +173,11 @@
 			// make sure other pickers are hidden
 			methods.hide();
 
-			// position the dropdown relative to the input
 			list.show();
 			var listOffset = {};
-
-			if (settings.orientation.match(/r/)) {
-				// right-align the dropdown
-				listOffset.left = self.offset().left + self.outerWidth() - list.outerWidth() + parseInt(list.css('marginLeft').replace('px', ''), 10);
-			} else {
-				// left-align the dropdown
-				listOffset.left = self.offset().left + parseInt(list.css('marginLeft').replace('px', ''), 10);
-			}
-
-			var verticalOrientation;
-			if (settings.orientation.match(/t/)) {
-				verticalOrientation = 't';
-			} else if (settings.orientation.match(/b/)) {
-				verticalOrientation = 'b';
-			} else if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
-				verticalOrientation = 't';
-			} else {
-				verticalOrientation = 'b';
-			}
-
-			if (verticalOrientation == 't') {
-				// position the dropdown on top
-				list.addClass('ui-timepicker-positioned-top');
-				listOffset.top = self.offset().top - list.outerHeight() + parseInt(list.css('marginTop').replace('px', ''), 10);
-			} else {
-				// put it under the input
-				list.removeClass('ui-timepicker-positioned-top');
-				listOffset.top = self.offset().top + self.outerHeight() + parseInt(list.css('marginTop').replace('px', ''), 10);
-			}
-
-			list.offset(listOffset);
+			
+			// position the dropdown relative to the input
+            		_updatePosition();
 
 			// position scrolling
 			var selected = list.find('.ui-timepicker-selected');
@@ -242,10 +214,14 @@
 
 			// attach close handlers
 			$(document).on('touchstart.ui-timepicker mousedown.ui-timepicker', _closeHandler);
-			$(window).on('resize.ui-timepicker', _closeHandler);
-			if (settings.closeOnWindowScroll) {
-				$(document).on('scroll.ui-timepicker', _closeHandler);
-			}
+			$(window).on(
+				'resize.ui-timepicker',
+				settings.closeOnWindowResize ? _closeHandler : _updatePosition
+			);
+			$(document).on(
+				'scroll.ui-timepicker',
+				settings.closeOnWindowScroll ? _closeHandler : _updatePosition
+			);
 
 			self.trigger('showTimepicker');
 
@@ -1268,6 +1244,55 @@
 
 		return seconds%_ONE_DAY;
 	}
+	
+	function _updatePosition(e) {
+		$('.ui-timepicker-wrapper').each(function () {
+			var list = $(this);
+			if (!_isVisible(list)) {
+				return;
+			}
+			
+			var self = list.data('timepicker-input');
+			var settings = self.data('timepicker-settings');
+			
+			if (settings.useSelect) {
+				return;
+			}
+			
+			var listOffset = {};
+
+			if (settings.orientation.match(/r/)) {
+				// right-align the dropdown
+				listOffset.left = self.offset().left + self.outerWidth() - list.outerWidth() + parseInt(list.css('marginLeft').replace('px', ''), 10);
+			} else {
+				// left-align the dropdown
+				listOffset.left = self.offset().left + parseInt(list.css('marginLeft').replace('px', ''), 10);
+			}
+
+			var verticalOrientation;
+			if (settings.orientation.match(/t/)) {
+				verticalOrientation = 't';
+			} else if (settings.orientation.match(/b/)) {
+				verticalOrientation = 'b';
+			} else if ((self.offset().top + self.outerHeight(true) + list.outerHeight()) > $(window).height() + $(window).scrollTop()) {
+				verticalOrientation = 't';
+			} else {
+				verticalOrientation = 'b';
+			}
+
+			if (verticalOrientation == 't') {
+				// position the dropdown on top
+				list.addClass('ui-timepicker-positioned-top');
+				listOffset.top = self.offset().top - list.outerHeight() + parseInt(list.css('marginTop').replace('px', ''), 10);
+			} else {
+				// put it under the input
+				list.removeClass('ui-timepicker-positioned-top');
+				listOffset.top = self.offset().top + self.outerHeight() + parseInt(list.css('marginTop').replace('px', ''), 10);
+			}
+
+			list.offset(listOffset);
+		});
+    	}
 
 	// Plugin entry
 	$.fn.timepicker = function(method)
@@ -1283,4 +1308,6 @@
 		else if(typeof method === "object" || !method) { return methods.init.apply(this, arguments); }
 		else { $.error("Method "+ method + " does not exist on jQuery.timepicker"); }
 	};
+	
+	$.fn.timepicker.updatePosition = _updatePosition;
 }));
