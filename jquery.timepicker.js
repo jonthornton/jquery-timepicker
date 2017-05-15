@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.11.10 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.11.11 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2015 Jon Thornton - http://jonthornton.github.com/jquery-timepicker/
  * License: MIT
  */
@@ -122,6 +122,8 @@
 					if (settings.disableTextInput) {
 						self.on('keydown.timepicker', _disableTextInputHandler);
 					}
+                    			self.on('cut.timepicker', _keyuphandler);
+                    			self.on('paste.timepicker', _keyuphandler);
 
 					_formatValue.call(self.get(0), null, 'initial');
 				}
@@ -221,7 +223,7 @@
 			if (!selected.length || selected.hasClass('ui-timepicker-disabled')) {
 				selected = list.find('li:not(.ui-timepicker-disabled):first');
 			}
-			
+
 			if (selected && selected.length) {
 				var topOffset = list.scrollTop() + selected.position().top - selected.outerHeight();
 				list.scrollTop(topOffset);
@@ -368,7 +370,7 @@
 			}
 
 			self.val(prettyTime);
-			_formatValue.call(self.get(0), {'type':'change'});
+			_formatValue.call(self.get(0), {'type':'change'}, 'initial');
 
 			if (self.data('timepicker-list')) {
 				_setSelected(self, self.data('timepicker-list'));
@@ -768,7 +770,7 @@
 			if (topDelta + selected.outerHeight() > list.outerHeight() || topDelta < 0) {
 				list.scrollTop(list.scrollTop() + selected.position().top - selected.outerHeight());
 			}
-			
+
 			if (settings.forceRoundTime || selected.data('time') === timeValue) {
 				selected.addClass('ui-timepicker-selected');
 			}
@@ -991,6 +993,17 @@
 			return true;
 		}
 
+		if (e.type === 'paste' || e.type === 'cut') {
+		    	setTimeout(function () {
+				if (settings.typeaheadHighlight) {
+			    		_setSelected(self, list);
+				} else {
+			    		list.hide();
+				}
+		    	}, 0);
+		    	return;
+		}
+
 		switch (e.keyCode) {
 
 			case 96: // numpad numerals
@@ -1211,7 +1224,7 @@
 		var hours = hour;
 		var minutes = ( time[3]*1 || 0 );
 		var seconds = ( time[4]*1 || 0 );
-		
+
 		if (hour <= 12 && ampm) {
 			var isPm = (ampm == _lang.pm || ampm == _lang.PM);
 
