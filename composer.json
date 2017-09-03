@@ -1,0 +1,27 @@
+{
+  "name": "jonthornton/jquery-timepicker",
+  "description": "jQuery UI widget for color picking (similar to the one in Microsoft Office 2010).",
+  "type": "component",
+  "homepage": "http://jonthornton.github.io/jquery-timepicker/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jon Thornton"
+    }
+  ],
+  "require": {
+    "robloach/component-installer": "*",
+    "components/jquery": "*"
+  },
+  "extra": {
+    "component": {
+      "scripts": [
+        "jquery.timepicker.js"
+      ],
+      "files": [
+        "*.*",
+        "lib/*.*"
+      ]
+    }
+  }
+}
