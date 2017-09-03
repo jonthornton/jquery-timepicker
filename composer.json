@@ -19,8 +19,8 @@
         "jquery.timepicker.js"
       ],
       "files": [
-        "*.*",
-        "lib/*.*"
+        "jquery.timepicker.min.js",
+        "jquery.timepicker.css"
       ]
     }
   }
