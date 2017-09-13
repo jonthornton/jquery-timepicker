@@ -994,6 +994,17 @@
 		if (!list || !_isVisible(list) || settings.disableTextInput) {
 			return true;
 		}
+		
+		if (e.type === 'paste' || e.type === 'cut') {
+		    	setTimeout(function () {
+				if (settings.typeaheadHighlight) {
+			    		_setSelected(self, list);
+				} else {
+			    		list.hide();
+				}
+		    	}, 0);
+		    	return;
+		}
 
 		if (e.type === 'paste' || e.type === 'cut') {
 		    	setTimeout(function () {
