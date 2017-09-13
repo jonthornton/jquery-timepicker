@@ -369,7 +369,7 @@
 				prettyTime = value;
 			}
 
-			self.val(prettyTime);
+			_setTimeValue(self, prettyTime, 'initial');
 			_formatValue.call(self.get(0), {'type':'change'}, 'initial');
 
 			if (self.data('timepicker-list')) {
@@ -853,7 +853,7 @@
 			self.val(value);
 
 			var settings = self.data('timepicker-settings');
-			if (settings.useSelect && source != 'select' && source != 'initial') {
+			if (settings.useSelect && source != 'select') {
 				self.data('timepicker-list').val(_roundAndFormatTime(_time2int(value), settings));
 			}
 		}
