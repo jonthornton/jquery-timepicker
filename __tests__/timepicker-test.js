@@ -12,3 +12,14 @@ beforeEach(() => {
 test("timepicker initializes", () => {
   $(`#${TEST_INPUT}`).timepicker();
 });
+
+test("show single string noneOption correctly", () =>{
+  $(`#${TEST_INPUT}`).timepicker({
+    "noneOption": "----"
+  }).timepicker('show');
+
+  $('.ui-timepicker-list li:first-child').trigger('click');
+
+
+  expect($(`#${TEST_INPUT}`).val()).toEqual('');
+});

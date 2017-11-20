@@ -1,6 +1,6 @@
 {
   "name": "timepicker",
-  "version": "1.11.12",
+  "version": "1.11.13",
   "title": "jquery-timepicker",
   "author": {
     "name": "Jon Thornton",
@@ -26,9 +26,14 @@
     "prettier-eslint-cli": "^4.3.2"
   },
   "main": "jquery.timepicker.min.js",
-  "description":
-    "A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.",
-  "keywords": ["timepicker", "time", "picker", "ui", "google calendar"],
+  "description": "A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.",
+  "keywords": [
+    "timepicker",
+    "time",
+    "picker",
+    "ui",
+    "google calendar"
+  ],
   "homepage": "http://jonthornton.github.com/jquery-timepicker/",
   "repository": {
     "type": "git",
