@@ -8,6 +8,15 @@ module.exports = {
     filename: 'jquery.timepicker.min.js',
     path: path.resolve(__dirname, 'dist')
   },
+  module: {
+    loaders: [
+      {
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      }
+    ]
+  },
   externals: {
     // require("jquery") is external and available
     //  on the global var jQuery
