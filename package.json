@@ -7,6 +7,7 @@
     "url": "https://github.com/jonthornton"
   },
   "scripts": {
+    "build": "webpack --config webpack.config.js",
     "format": "prettier-eslint --write \"jquery.timepicker.js\"",
     "lint": "eslint",
     "test": "jest"
@@ -23,7 +24,9 @@
     "grunt-contrib-uglify": "~0.11.0",
     "jest": "^21.1.0",
     "prettier-eslint": "^8.1.1",
-    "prettier-eslint-cli": "^4.3.2"
+    "prettier-eslint-cli": "^4.3.2",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack": "^3.6.0"
   },
   "main": "jquery.timepicker.min.js",
   "description": "A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.",

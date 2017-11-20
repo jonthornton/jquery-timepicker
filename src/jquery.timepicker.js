@@ -4,6 +4,8 @@
  * License: MIT
  */
 
+const jQuery = require('jquery');
+
 (function(factory) {
   if (
     typeof exports === "object" &&
