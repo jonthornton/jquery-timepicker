@@ -270,13 +270,11 @@ The `ui-timepicker-positioned-top` class will be applied only when the dropdown 
 
 ## Packaging
 
-Install from [Bower](http://bower.io/) as ```jquery-timepicker-jt```.
+NPM [npm install --save timepicker](https://www.npmjs.com/package/timepicker)
+
+CDN [https://cdn.jsdelivr.net/npm/timepicker/](https://cdn.jsdelivr.net/npm/timepicker/)
 
 An AngularJS directive is available at https://github.com/Recras/angular-jquery-timepicker
-
-Available via CDN at [https://cdn.jsdelivr.net/npm/timepicker/](https://cdn.jsdelivr.net/npm/timepicker/).
-
-NPM: [npm install --save timepicker](https://www.npmjs.com/package/timepicker)
 
 Help
 ----
