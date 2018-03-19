@@ -5,5 +5,8 @@
         "browsers": ["last 2 versions", "ie >= 7"]
       }
     }]
+  ],
+  "plugins": [
+    "transform-object-rest-spread"
   ]
 }

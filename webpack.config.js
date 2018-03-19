@@ -30,5 +30,6 @@ module.exports = {
         to: './'
       }
     ])
-  ]
+  ],
+  devtool: 'eval-source-map',
 };

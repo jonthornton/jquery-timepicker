@@ -4,7 +4,8 @@
  * License: MIT
  */
 
-const jQuery = require('jquery');
+import jQuery from 'jquery';
+import Timepicker from './timepicker';
 
 (function(factory) {
   if (
@@ -41,21 +42,13 @@ const jQuery = require('jquery');
       return this.each(function() {
         var self = $(this);
 
-        // pick up settings from data attributes
-        var attributeOptions = [];
-        for (var key in $.fn.timepicker.defaults) {
-          if (self.data(key)) {
-            attributeOptions[key] = self.data(key);
-          }
-        }
-
-        var settings = $.extend({}, $.fn.timepicker.defaults, options, attributeOptions);
+        const tp = new Timepicker(this, options);
+        const settings = tp.settings;
 
         if (settings.lang) {
           _lang = $.extend(_lang, settings.lang);
         }
 
-        settings = _parseSettings(settings);
         self.data("timepicker-settings", settings);
         self.addClass("ui-timepicker-input");
 
@@ -192,7 +185,7 @@ const jQuery = require('jquery');
       var selected = list.find(".ui-timepicker-selected");
 
       if (!selected.length) {
-        var timeInt = _time2int(_getTimeValue(self));
+        var timeInt = Timepicker.time2int(_getTimeValue(self));
         if (timeInt !== null) {
           selected = _findRow(self, list, timeInt);
         } else if (settings.scrollDefault) {
@@ -283,7 +276,7 @@ const jQuery = require('jquery');
           settings[key] = value;
         }
 
-        settings = _parseSettings(settings);
+        settings = Timepicker.parseSettings(settings);
 
         self.data("timepicker-settings", settings);
 
@@ -301,7 +294,7 @@ const jQuery = require('jquery');
     },
 
     getSecondsFromMidnight: function() {
-      return _time2int(_getTimeValue(this));
+      return Timepicker.time2int(_getTimeValue(this));
     },
 
     getTime: function(relative_date) {
@@ -312,7 +305,7 @@ const jQuery = require('jquery');
         return null;
       }
 
-      var offset = _time2int(time_string);
+      var offset = Timepicker.time2int(time_string);
       if (offset === null) {
         return null;
       }
@@ -342,9 +335,9 @@ const jQuery = require('jquery');
       var settings = self.data("timepicker-settings");
 
       if (settings.forceRoundTime) {
-        var prettyTime = _roundAndFormatTime(_time2int(value), settings);
+        var prettyTime = _roundAndFormatTime(Timepicker.time2int(value), settings);
       } else {
-        var prettyTime = _int2time(_time2int(value), settings);
+        var prettyTime = _int2time(Timepicker.time2int(value), settings);
       }
 
       if (value && prettyTime === null && settings.noneOption) {
@@ -395,92 +388,6 @@ const jQuery = require('jquery');
   function _isVisible(elem) {
     var el = elem[0];
     return el.offsetWidth > 0 && el.offsetHeight > 0;
-  }
-
-  function _parseSettings(settings) {
-    if (settings.minTime) {
-      settings.minTime = _time2int(settings.minTime);
-    }
-
-    if (settings.maxTime) {
-      settings.maxTime = _time2int(settings.maxTime);
-    }
-
-    if (settings.durationTime && typeof settings.durationTime !== "function") {
-      settings.durationTime = _time2int(settings.durationTime);
-    }
-
-    if (settings.scrollDefault == "now") {
-      settings.scrollDefault = function() {
-        return settings.roundingFunction(_time2int(new Date()), settings);
-      };
-    } else if (
-      settings.scrollDefault &&
-      typeof settings.scrollDefault != "function"
-    ) {
-      var val = settings.scrollDefault;
-      settings.scrollDefault = function() {
-        return settings.roundingFunction(_time2int(val), settings);
-      };
-    } else if (settings.minTime) {
-      settings.scrollDefault = function() {
-        return settings.roundingFunction(settings.minTime, settings);
-      };
-    }
-
-    if (
-      $.type(settings.timeFormat) === "string" &&
-      settings.timeFormat.match(/[gh]/)
-    ) {
-      settings._twelveHourTime = true;
-    }
-
-    if (
-      settings.showOnFocus === false &&
-      settings.showOn.indexOf("focus") != -1
-    ) {
-      settings.showOn.splice(settings.showOn.indexOf("focus"), 1);
-    }
-
-    if (settings.disableTimeRanges.length > 0) {
-      // convert string times to integers
-      for (var i in settings.disableTimeRanges) {
-        settings.disableTimeRanges[i] = [
-          _time2int(settings.disableTimeRanges[i][0]),
-          _time2int(settings.disableTimeRanges[i][1])
-        ];
-      }
-
-      // sort by starting time
-      settings.disableTimeRanges = settings.disableTimeRanges.sort(function(
-        a,
-        b
-      ) {
-        return a[0] - b[0];
-      });
-
-      // merge any overlapping ranges
-      for (var i = settings.disableTimeRanges.length - 1; i > 0; i--) {
-        if (
-          settings.disableTimeRanges[i][0] <=
-          settings.disableTimeRanges[i - 1][1]
-        ) {
-          settings.disableTimeRanges[i - 1] = [
-            Math.min(
-              settings.disableTimeRanges[i][0],
-              settings.disableTimeRanges[i - 1][0]
-            ),
-            Math.max(
-              settings.disableTimeRanges[i][1],
-              settings.disableTimeRanges[i - 1][1]
-            )
-          ];
-          settings.disableTimeRanges.splice(i, 1);
-        }
-      }
-    }
-
-    return settings;
   }
 
   function _render(self) {
@@ -548,7 +455,7 @@ const jQuery = require('jquery');
 
     var durStart = settings.minTime;
     if (typeof settings.durationTime === "function") {
-      durStart = _time2int(settings.durationTime());
+      durStart = Timepicker.time2int(settings.durationTime());
     } else if (settings.durationTime !== null) {
       durStart = settings.durationTime;
     }
@@ -635,7 +542,7 @@ const jQuery = require('jquery');
 
     if (settings.useSelect) {
       if (self.val()) {
-        list.val(_roundAndFormatTime(_time2int(self.val()), settings));
+        list.val(_roundAndFormatTime(Timepicker.time2int(self.val()), settings));
       }
 
       list.on("focus", function() {
@@ -788,7 +695,7 @@ const jQuery = require('jquery');
     list.find("li").removeClass("ui-timepicker-selected");
 
     var settings = self.data("timepicker-settings");
-    var timeValue = _time2int(_getTimeValue(self), settings);
+    var timeValue = Timepicker.time2int(_getTimeValue(self), settings);
     if (timeValue === null) {
       return;
     }
@@ -829,7 +736,7 @@ const jQuery = require('jquery');
     }
 
     var settings = self.data("timepicker-settings");
-    var seconds = _time2int(this.value, settings);
+    var seconds = Timepicker.time2int(this.value, settings);
 
     if (seconds === null) {
       self.trigger("timeFormatError");
@@ -895,7 +802,7 @@ const jQuery = require('jquery');
       if (settings.useSelect && source != "select" && self.data("timepicker-list")) {
         self
           .data("timepicker-list")
-          .val(_roundAndFormatTime(_time2int(value), settings));
+          .val(_roundAndFormatTime(Timepicker.time2int(value), settings));
       }
     }
 
@@ -1225,77 +1132,6 @@ const jQuery = require('jquery');
     }
 
     return output;
-  }
-
-  function _time2int(timeString, settings) {
-    if (timeString === "" || timeString === null) return null;
-    if (typeof timeString == "object") {
-      return (
-        timeString.getHours() * 3600 +
-        timeString.getMinutes() * 60 +
-        timeString.getSeconds()
-      );
-    }
-    if (typeof timeString != "string") {
-      return timeString;
-    }
-
-    timeString = timeString.toLowerCase().replace(/[\s\.]/g, "");
-
-    // if the last character is an "a" or "p", add the "m"
-    if (timeString.slice(-1) == "a" || timeString.slice(-1) == "p") {
-      timeString += "m";
-    }
-
-    var pattern = /^(([^0-9]*))?([0-9]?[0-9])(\W?([0-5][0-9]))?(\W+([0-5][0-9]))?(([^0-9]*))$/;
-    var time = timeString.match(pattern);
-    if (!time) {
-      return null;
-    }
-
-    var hour = parseInt(time[3] * 1, 10);
-    var ampm = time[2] || time[9];
-    var hours = hour;
-    var minutes = time[5] * 1 || 0;
-    var seconds = time[7] * 1 || 0;
-
-    if (hour <= 12 && ampm) {
-      ampm = ampm.trim();
-      var isPm = ampm == _lang.pm || ampm == _lang.PM;
-
-      if (hour == 12) {
-        hours = isPm ? 12 : 0;
-      } else {
-        hours = hour + (isPm ? 12 : 0);
-      }
-    } else if (settings) {
-      var t = hour * 3600 + minutes * 60 + seconds;
-      if (t >= _ONE_DAY + (settings.show2400 ? 1 : 0)) {
-        if (settings.wrapHours === false) {
-          return null;
-        }
-
-        hours = hour % 24;
-      }
-    }
-
-    var timeInt = hours * 3600 + minutes * 60 + seconds;
-
-    // if no am/pm provided, intelligently guess based on the scrollDefault
-    if (
-      hour < 12 &&
-      !ampm &&
-      settings &&
-      settings._twelveHourTime &&
-      settings.scrollDefault
-    ) {
-      var delta = timeInt - settings.scrollDefault();
-      if (delta < 0 && delta >= _ONE_DAY / -2) {
-        timeInt = (timeInt + _ONE_DAY / 2) % _ONE_DAY;
-      }
-    }
-
-    return timeInt;
   }
 
   function _pad2(n) {
