@@ -1,67 +1,6 @@
-const _ONE_DAY = 86400;
-const DEFAULT_SETTINGS = {
-  appendTo: "body",
-  className: null,
-  closeOnWindowScroll: false,
-  disableTextInput: false,
-  disableTimeRanges: [],
-  disableTouchKeyboard: false,
-  durationTime: null,
-  forceRoundTime: false,
-  lang: {},
-  maxTime: null,
-  minTime: null,
-  noneOption: false,
-  orientation: "l",
-  roundingFunction: function(seconds, settings) {
-    if (seconds === null) {
-      return null;
-    } else if (typeof settings.step !== "number") {
-      // TODO: nearest fit irregular steps
-      return seconds;
-    } else {
-      var offset = seconds % (settings.step * 60); // step is in minutes
+import { DEFAULT_SETTINGS, DEFAULT_LANG } from './defaults'
 
-      var start = settings.minTime || 0;
-
-      // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
-      offset -= start % (settings.step * 60);
-
-      if (offset >= settings.step * 30) {
-        // if offset is larger than a half step, round up
-        seconds += settings.step * 60 - offset;
-      } else {
-        // round down
-        seconds -= offset;
-      }
-
-      return _moduloSeconds(seconds, settings);
-    }
-  },
-  scrollDefault: null,
-  selectOnBlur: false,
-  show2400: false,
-  showDuration: false,
-  showOn: ["click", "focus"],
-  showOnFocus: true,
-  step: 30,
-  stopScrollPropagation: false,
-  timeFormat: "g:ia",
-  typeaheadHighlight: true,
-  useSelect: false,
-  wrapHours: true
-};
-
-const DEFAULT_LANG = {
-  am: 'am',
-  pm: 'pm',
-  AM: 'AM',
-  PM: 'PM',
-  decimal: '.',
-  mins: 'mins',
-  hr: 'hr',
-  hrs: 'hrs'
-};
+const ONE_DAY = 86400;
 
 class Timepicker {
   constructor(targetEl, options = {}) {
@@ -128,7 +67,7 @@ class Timepicker {
       }
     } else {
       var t = hour * 3600 + minutes * 60 + seconds;
-      if (t >= _ONE_DAY + (this.settings.show2400 ? 1 : 0)) {
+      if (t >= ONE_DAY + (this.settings.show2400 ? 1 : 0)) {
         if (this.settings.wrapHours === false) {
           return null;
         }
@@ -147,8 +86,8 @@ class Timepicker {
       this.settings.scrollDefault
     ) {
       var delta = timeInt - this.settings.scrollDefault();
-      if (delta < 0 && delta >= _ONE_DAY / -2) {
-        timeInt = (timeInt + _ONE_DAY / 2) % _ONE_DAY;
+      if (delta < 0 && delta >= ONE_DAY / -2) {
+        timeInt = (timeInt + ONE_DAY / 2) % ONE_DAY;
       }
     }
 
