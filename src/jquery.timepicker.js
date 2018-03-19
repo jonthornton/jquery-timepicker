@@ -44,12 +44,10 @@ import Timepicker from './timepicker';
 
         const tp = new Timepicker(this, options);
         const settings = tp.settings;
-
-        if (settings.lang) {
-          _lang = $.extend(_lang, settings.lang);
-        }
+        _lang = settings.lang;
 
         self.data("timepicker-settings", settings);
+        self.data("timepicker-obj", tp);
         self.addClass("ui-timepicker-input");
 
         if (settings.useSelect) {
@@ -78,6 +76,7 @@ import Timepicker from './timepicker';
     show: function(e) {
       var self = $(this);
       var settings = self.data("timepicker-settings");
+      var tp = self.data("timepicker-obj");
 
       if (e) {
         e.preventDefault();
@@ -185,7 +184,7 @@ import Timepicker from './timepicker';
       var selected = list.find(".ui-timepicker-selected");
 
       if (!selected.length) {
-        var timeInt = Timepicker.time2int(_getTimeValue(self));
+        var timeInt = tp.time2int(_getTimeValue(self));
         if (timeInt !== null) {
           selected = _findRow(self, list, timeInt);
         } else if (settings.scrollDefault) {
@@ -268,6 +267,7 @@ import Timepicker from './timepicker';
       return this.each(function() {
         var self = $(this);
         var settings = self.data("timepicker-settings");
+        var tp = self.data("timepicker-obj");
         var list = self.data("timepicker-list");
 
         if (typeof key == "object") {
@@ -276,7 +276,7 @@ import Timepicker from './timepicker';
           settings[key] = value;
         }
 
-        settings = Timepicker.parseSettings(settings);
+        settings = tp.parseSettings(settings);
 
         self.data("timepicker-settings", settings);
 
@@ -294,18 +294,21 @@ import Timepicker from './timepicker';
     },
 
     getSecondsFromMidnight: function() {
-      return Timepicker.time2int(_getTimeValue(this));
+      var self = $(this);
+      var tp = self.data("timepicker-obj");
+      return tp.time2int(_getTimeValue(this));
     },
 
     getTime: function(relative_date) {
-      var self = this;
+      var self = $(this);
+      var tp = self.data("timepicker-obj");
 
       var time_string = _getTimeValue(self);
       if (!time_string) {
         return null;
       }
 
-      var offset = Timepicker.time2int(time_string);
+      var offset = tp.time2int(time_string);
       if (offset === null) {
         return null;
       }
@@ -333,11 +336,12 @@ import Timepicker from './timepicker';
     setTime: function(value) {
       var self = this;
       var settings = self.data("timepicker-settings");
+      var tp = self.data("timepicker-obj");
 
       if (settings.forceRoundTime) {
-        var prettyTime = _roundAndFormatTime(Timepicker.time2int(value), settings);
+        var prettyTime = _roundAndFormatTime(tp.time2int(value), settings);
       } else {
-        var prettyTime = _int2time(Timepicker.time2int(value), settings);
+        var prettyTime = _int2time(tp.time2int(value), settings);
       }
 
       if (value && prettyTime === null && settings.noneOption) {
@@ -393,6 +397,7 @@ import Timepicker from './timepicker';
   function _render(self) {
     var settings = self.data("timepicker-settings");
     var list = self.data("timepicker-list");
+    var tp = self.data("timepicker-obj");
 
     if (list && list.length) {
       list.remove();
@@ -455,7 +460,7 @@ import Timepicker from './timepicker';
 
     var durStart = settings.minTime;
     if (typeof settings.durationTime === "function") {
-      durStart = Timepicker.time2int(settings.durationTime());
+      durStart = tp.time2int(settings.durationTime());
     } else if (settings.durationTime !== null) {
       durStart = settings.durationTime;
     }
@@ -542,7 +547,7 @@ import Timepicker from './timepicker';
 
     if (settings.useSelect) {
       if (self.val()) {
-        list.val(_roundAndFormatTime(Timepicker.time2int(self.val()), settings));
+        list.val(_roundAndFormatTime(tp.time2int(self.val()), settings));
       }
 
       list.on("focus", function() {
@@ -695,7 +700,8 @@ import Timepicker from './timepicker';
     list.find("li").removeClass("ui-timepicker-selected");
 
     var settings = self.data("timepicker-settings");
-    var timeValue = Timepicker.time2int(_getTimeValue(self), settings);
+    var tp = self.data("timepicker-obj");
+    var timeValue = tp.time2int(_getTimeValue(self));
     if (timeValue === null) {
       return;
     }
@@ -736,7 +742,8 @@ import Timepicker from './timepicker';
     }
 
     var settings = self.data("timepicker-settings");
-    var seconds = Timepicker.time2int(this.value, settings);
+    var tp = self.data("timepicker-obj");
+    var seconds = tp.time2int(this.value);
 
     if (seconds === null) {
       self.trigger("timeFormatError");
@@ -799,10 +806,12 @@ import Timepicker from './timepicker';
       }
 
       var settings = self.data("timepicker-settings");
+
+      var tp = self.data("timepicker-obj");
       if (settings.useSelect && source != "select" && self.data("timepicker-list")) {
         self
           .data("timepicker-list")
-          .val(_roundAndFormatTime(Timepicker.time2int(value), settings));
+          .val(_roundAndFormatTime(tp.time2int(value), settings));
       }
     }
 

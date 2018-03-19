@@ -1,5 +1,5 @@
 const _ONE_DAY = 86400;
-const _DEFAULTS = {
+const DEFAULT_SETTINGS = {
   appendTo: "body",
   className: null,
   closeOnWindowScroll: false,
@@ -8,6 +8,7 @@ const _DEFAULTS = {
   disableTouchKeyboard: false,
   durationTime: null,
   forceRoundTime: false,
+  lang: {},
   maxTime: null,
   minTime: null,
   noneOption: false,
@@ -51,7 +52,7 @@ const _DEFAULTS = {
   wrapHours: true
 };
 
-let _lang = {
+const DEFAULT_LANG = {
   am: 'am',
   pm: 'pm',
   AM: 'AM',
@@ -64,16 +65,13 @@ let _lang = {
 
 class Timepicker {
   constructor(targetEl, options = {}) {
-    const attrOptions = Timepicker.extractAttrOptions(targetEl, Object.keys(_DEFAULTS));
-    this.settings = Timepicker.parseSettings({
-      ..._DEFAULTS,
+    const attrOptions = Timepicker.extractAttrOptions(targetEl, Object.keys(DEFAULT_SETTINGS));
+    this.settings = this.parseSettings({
+      ...DEFAULT_SETTINGS,
       ...options,
       ...attrOptions,
+      lang: { ...DEFAULT_LANG, ...options.lang }
     });
-
-    if ('lang' in options) {
-      _lang = { ..._lang, ...options.lang };
-    }
   }
 
   static extractAttrOptions(element, keys) {
@@ -87,7 +85,7 @@ class Timepicker {
     return output;
   }
 
-  static time2int(timeString, settings) {
+  time2int(timeString) {
     if (timeString === "" || timeString === null) return null;
     if (typeof timeString == "object") {
       return (
@@ -128,10 +126,10 @@ class Timepicker {
       } else {
         hours = hour + (isPm ? 12 : 0);
       }
-    } else if (settings) {
+    } else {
       var t = hour * 3600 + minutes * 60 + seconds;
-      if (t >= _ONE_DAY + (settings.show2400 ? 1 : 0)) {
-        if (settings.wrapHours === false) {
+      if (t >= _ONE_DAY + (this.settings.show2400 ? 1 : 0)) {
+        if (this.settings.wrapHours === false) {
           return null;
         }
 
@@ -145,11 +143,10 @@ class Timepicker {
     if (
       hour < 12 &&
       !ampm &&
-      settings &&
-      settings._twelveHourTime &&
-      settings.scrollDefault
+      this.settings._twelveHourTime &&
+      this.settings.scrollDefault
     ) {
-      var delta = timeInt - settings.scrollDefault();
+      var delta = timeInt - this.settings.scrollDefault();
       if (delta < 0 && delta >= _ONE_DAY / -2) {
         timeInt = (timeInt + _ONE_DAY / 2) % _ONE_DAY;
       }
@@ -158,22 +155,22 @@ class Timepicker {
     return timeInt;
   }
 
-  static parseSettings(settings) {
+  parseSettings(settings) {
     if (settings.minTime) {
-      settings.minTime = Timepicker.time2int(settings.minTime);
+      settings.minTime = this.time2int(settings.minTime);
     }
 
     if (settings.maxTime) {
-      settings.maxTime = Timepicker.time2int(settings.maxTime);
+      settings.maxTime = this.time2int(settings.maxTime);
     }
 
     if (settings.durationTime && typeof settings.durationTime !== "function") {
-      settings.durationTime = Timepicker.time2int(settings.durationTime);
+      settings.durationTime = this.time2int(settings.durationTime);
     }
 
     if (settings.scrollDefault == "now") {
       settings.scrollDefault = function() {
-        return settings.roundingFunction(Timepicker.time2int(new Date()), settings);
+        return settings.roundingFunction(this.time2int(new Date()), settings);
       };
     } else if (
       settings.scrollDefault &&
@@ -181,7 +178,7 @@ class Timepicker {
     ) {
       var val = settings.scrollDefault;
       settings.scrollDefault = function() {
-        return settings.roundingFunction(Timepicker.time2int(val), settings);
+        return settings.roundingFunction(this.time2int(val), settings);
       };
     } else if (settings.minTime) {
       settings.scrollDefault = function() {
