@@ -143,8 +143,8 @@ class Timepicker {
       // convert string times to integers
       for (var i in settings.disableTimeRanges) {
         settings.disableTimeRanges[i] = [
-          Timepicker.time2int(settings.disableTimeRanges[i][0]),
-          Timepicker.time2int(settings.disableTimeRanges[i][1])
+          this.time2int(settings.disableTimeRanges[i][0]),
+          this.time2int(settings.disableTimeRanges[i][1])
         ];
       }
 
