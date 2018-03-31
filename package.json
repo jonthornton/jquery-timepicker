@@ -28,6 +28,7 @@
     "prettier-eslint-cli": "^4.3.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.6.0",
+    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-plugin-output-babel": "^0.0.2"
   },
   "main": "jquery.timepicker.min.js",

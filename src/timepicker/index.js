@@ -1,15 +1,14 @@
-import { DEFAULT_SETTINGS, DEFAULT_LANG } from './defaults'
-
-const ONE_DAY = 86400;
+import { DEFAULT_SETTINGS, DEFAULT_LANG } from './defaults';
+import { ONE_DAY } from './constants';
 
 class Timepicker {
   constructor(targetEl, options = {}) {
     const attrOptions = Timepicker.extractAttrOptions(targetEl, Object.keys(DEFAULT_SETTINGS));
+
     this.settings = this.parseSettings({
       ...DEFAULT_SETTINGS,
       ...options,
-      ...attrOptions,
-      lang: { ...DEFAULT_LANG, ...options.lang }
+      ...attrOptions
     });
   }
 
@@ -25,15 +24,15 @@ class Timepicker {
   }
 
   time2int(timeString) {
-    if (timeString === "" || timeString === null) return null;
-    if (typeof timeString == "object") {
+    if (timeString === "" || timeString === null || timeString === undefined) return null;
+    if (timeString instanceof Date) {
       return (
         timeString.getHours() * 3600 +
         timeString.getMinutes() * 60 +
         timeString.getSeconds()
       );
     }
-    if (typeof timeString != "string") {
+    if (timeString instanceof String) {
       return timeString;
     }
 
@@ -95,6 +94,13 @@ class Timepicker {
   }
 
   parseSettings(settings) {
+
+    settings.lang = { ...DEFAULT_LANG, ...settings.lang };
+
+    // lang is used by other functions the rest of this depends on
+    // todo: unwind circular dependency on lang
+    this.settings = settings;
+
     if (settings.minTime) {
       settings.minTime = this.time2int(settings.minTime);
     }
@@ -108,7 +114,7 @@ class Timepicker {
     }
 
     if (settings.scrollDefault == "now") {
-      settings.scrollDefault = function() {
+      settings.scrollDefault = () => {
         return settings.roundingFunction(this.time2int(new Date()), settings);
       };
     } else if (
@@ -116,7 +122,7 @@ class Timepicker {
       typeof settings.scrollDefault != "function"
     ) {
       var val = settings.scrollDefault;
-      settings.scrollDefault = function() {
+      settings.scrollDefault = () => {
         return settings.roundingFunction(this.time2int(val), settings);
       };
     } else if (settings.minTime) {

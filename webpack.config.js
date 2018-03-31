@@ -1,6 +1,7 @@
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/jquery.timepicker.js',
@@ -23,6 +24,7 @@ module.exports = {
     "jquery": "jQuery"
   },
   plugins: [
+    // new BundleAnalyzerPlugin(),
     new UglifyJSPlugin(),
     new CopyWebpackPlugin([
       {

@@ -6,7 +6,9 @@ require('../jquery.timepicker');
 const TEST_INPUT = "testInput";
 
 beforeEach(() => {
-  document.body.innerHTML = `<input type="text" id="${TEST_INPUT}" />`;
+  document.body.innerHTML = `<div>
+      <input type="text" id="${TEST_INPUT}" />
+    </div>`;
   jQuery(`#${TEST_INPUT}`).get(0).dataset = {}
 });
 
@@ -20,8 +22,6 @@ test("show single string noneOption correctly", () =>{
   }).timepicker('show');
 
   jQuery('.ui-timepicker-list li:first-child').trigger('click');
-
-
   expect(jQuery(`#${TEST_INPUT}`).val()).toEqual('');
 });
 

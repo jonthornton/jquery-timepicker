@@ -4,8 +4,10 @@
  * License: MIT
  */
 
-import jQuery from 'jquery';
+// import jQuery from 'jquery';
 import Timepicker from './timepicker';
+import moduloSeconds from './timepicker/rounding';
+import { ONE_DAY } from './timepicker/constants';
 
 (function(factory) {
   if (
@@ -25,17 +27,7 @@ import Timepicker from './timepicker';
     factory(jQuery);
   }
 })(function($) {
-  var _ONE_DAY = 86400;
-  var _lang = {
-    am: "am",
-    pm: "pm",
-    AM: "AM",
-    PM: "PM",
-    decimal: ".",
-    mins: "mins",
-    hr: "hr",
-    hrs: "hrs"
-  };
+  var _lang = {};
 
   var methods = {
     init: function(options) {
@@ -466,20 +458,20 @@ import Timepicker from './timepicker';
     }
     var start = settings.minTime !== null ? settings.minTime : 0;
     var end =
-      settings.maxTime !== null ? settings.maxTime : start + _ONE_DAY - 1;
+      settings.maxTime !== null ? settings.maxTime : start + ONE_DAY - 1;
 
     if (end < start) {
       // make sure the end time is greater than start time, otherwise there will be no list to show
-      end += _ONE_DAY;
+      end += ONE_DAY;
     }
 
     if (
-      end === _ONE_DAY - 1 &&
+      end === ONE_DAY - 1 &&
       $.type(settings.timeFormat) === "string" &&
       settings.show2400
     ) {
       // show a 24:00 option when using military time
-      end = _ONE_DAY;
+      end = ONE_DAY;
     }
 
     var dr = settings.disableTimeRanges;
@@ -503,11 +495,11 @@ import Timepicker from './timepicker';
       } else {
         var row = $("<li />");
         row.addClass(
-          timeInt % _ONE_DAY < _ONE_DAY / 2
+          timeInt % ONE_DAY < ONE_DAY / 2
             ? "ui-timepicker-am"
             : "ui-timepicker-pm"
         );
-        row.data("time", _moduloSeconds(timeInt, settings));
+        row.data("time", moduloSeconds(timeInt, settings));
         row.text(timeString);
       }
 
@@ -1099,7 +1091,7 @@ import Timepicker from './timepicker';
 
         case "G":
           hour = time.getHours();
-          if (timeInt === _ONE_DAY) hour = settings.show2400 ? 24 : 0;
+          if (timeInt === ONE_DAY) hour = settings.show2400 ? 24 : 0;
           output += hour;
           break;
 
@@ -1115,7 +1107,7 @@ import Timepicker from './timepicker';
 
         case "H":
           hour = time.getHours();
-          if (timeInt === _ONE_DAY) hour = settings.show2400 ? 24 : 0;
+          if (timeInt === ONE_DAY) hour = settings.show2400 ? 24 : 0;
           output += hour > 9 ? hour : "0" + hour;
           break;
 
@@ -1145,14 +1137,6 @@ import Timepicker from './timepicker';
 
   function _pad2(n) {
     return ("0" + n).slice(-2);
-  }
-
-  function _moduloSeconds(seconds, settings) {
-    if (seconds == _ONE_DAY && settings.show2400) {
-      return seconds;
-    }
-
-    return seconds % _ONE_DAY;
   }
 
   // Plugin entry
