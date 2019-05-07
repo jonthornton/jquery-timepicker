@@ -15,7 +15,7 @@ declare namespace Jt.Timepicker {
          * Override where the dropdown is appended.
          * Takes either a string to use as a selector, a function that gets passed the clicked input element as argument or a jquery object to use directly.
          */
-        appendTo?: string | ((clickedElement) => string);
+        appendTo?: string | JQuery | ((clickedElement: JQuery) => JQuery);
         /**
          * Default: null
          * A class name to apply to the HTML element that contains the timepicker dropdown.
