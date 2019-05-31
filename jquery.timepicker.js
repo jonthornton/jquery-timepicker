@@ -814,7 +814,7 @@
         return;
       }
 
-      if (jObj.data("time") == value) {
+      if (jObj.data("time") >= value) {
         out = jObj;
         return false;
       }
