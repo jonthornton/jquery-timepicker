@@ -177,6 +177,12 @@
       // make sure other pickers are hidden
       methods.hide();
 
+      // set list width to parent element width
+      if(settings.setParentWidth) {
+        if(self.css('width') != 0)
+          list.css('width', self.css('width'));
+      }
+
       // position the dropdown relative to the input
       list.show();
       var listOffset = {};
