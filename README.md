@@ -92,7 +92,7 @@ Array: An array of strings or objects to add multiple non-time options
 *default: false*
 
 - **orientation**  
-By default the timepicker dropdown will be aligned to the bottom right of the input element, or aligned to the top left if there isn't enough room below the input. Force alignment with `l` (left), `r` (right), `t` (top), and `b` (bottom). Examples: `tl`, `rb`.
+By default the timepicker dropdown will be aligned to the bottom right of the input element, or aligned to the top left if there isn't enough room below the input. Force alignment with `l` (left), `r` (right), `c` (horizontal center), `t` (top), and `b` (bottom). Examples: `tl`, `rb`.
 *default: 'l'*
 
 - **roundingFunction**  

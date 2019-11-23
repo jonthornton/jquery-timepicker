@@ -188,10 +188,16 @@
           self.outerWidth() -
           list.outerWidth() +
           parseInt(list.css("marginLeft").replace("px", ""), 10);
-      } else {
+      } else if (settings.orientation.match(/l/)) {
         // left-align the dropdown
         listOffset.left =
           self.offset().left +
+          parseInt(list.css("marginLeft").replace("px", ""), 10);
+      } else if (settings.orientation.match(/c/)) {
+        // center-align the dropdown
+        listOffset.left =
+          self.offset().left +
+          ((self.outerWidth() - list.outerWidth()) / 2) +
           parseInt(list.css("marginLeft").replace("px", ""), 10);
       }
 
