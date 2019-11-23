@@ -75,6 +75,10 @@ Language constants used in the timepicker. Can override the defaults by passing 
 	hrs: 'hrs'
 }```
 
+- **listWidth**  
+Set this to override CSS styling and set the list width to match the input element's width. Set to 1 to match input width, 2 to double input width, .5 to halve input width, etc. Set to `null` to let CSS determine the list width.  
+*default: null (CSS styling)*
+
 - **maxTime**  
 The time that should appear last in the dropdown list. Can be used to limit the range of time options.  
 *default: 24 hours after minTime*

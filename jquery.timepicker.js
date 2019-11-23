@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.11.15 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.12.0 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2015 Jon Thornton - http://jonthornton.github.com/jquery-timepicker/
  * License: MIT
  */
@@ -43,6 +43,7 @@
     disableTouchKeyboard: false,
     durationTime: null,
     forceRoundTime: false,
+    listWidth: null, // Set to 1 to match input width, 2 to double input width, .5 to halve input width, etc
     maxTime: null,
     minTime: null,
     noneOption: false,
@@ -176,6 +177,11 @@
 
       // make sure other pickers are hidden
       methods.hide();
+
+      if (typeof settings.listWidth == 'number') {
+        console.log(settings.listWidth)
+        list.width(self.outerWidth() * settings.listWidth);
+      }
 
       // position the dropdown relative to the input
       list.show();

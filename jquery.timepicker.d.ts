@@ -1,4 +1,4 @@
-// Type definitions for jQuery.timepicker 1.11.15
+// Type definitions for jQuery.timepicker 1.12.0
 // https://github.com/jonthornton/jquery-timepicker
 
 /**
@@ -59,6 +59,11 @@ declare namespace Jt.Timepicker {
         /**
          * Default: 24 hours after minTime
          * The time that should appear last in the dropdown list. Can be used to limit the range of time options.
+         */
+        listWidth?: number;
+        /**
+         * Default: null
+         * Set this to override CSS styling and set the list width to match the input element's width. Set to 1 to match input width, 2 to double input width, .5 to halve input width, etc. Set to `null` to let CSS determine the list width. 
          */
         maxTime?: Date | string;
         /**
