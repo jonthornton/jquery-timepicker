@@ -1257,26 +1257,22 @@
       ")?";
 
     // try to parse time input
-    var pattern = new RegExp(
-      "^" +
-        ampmRegex +
-        "([0-9]?[0-9])\\W?([0-5][0-9])?\\W?([0-5][0-9])?" +
-        ampmRegex +
-        "$"
-    );
+    var pattern = new RegExp("^(([^0-9]*))?([0-9]?[0-9])(\\W?([0-5][0-9]))?(\\W+([0-5][0-9]))?(([^0-9]*))$", "u");
+
 
     var time = timeString.match(pattern);
     if (!time) {
       return null;
     }
 
-    var hour = parseInt(time[2] * 1, 10);
-    var ampm = time[1] || time[5];
+    var hour = parseInt(time[3] * 1, 10);
+    var ampm = time[2] || time[9];
     var hours = hour;
-    var minutes = time[3] * 1 || 0;
-    var seconds = time[4] * 1 || 0;
+    var minutes = time[5] * 1 || 0;
+    var seconds = time[7] * 1 || 0;
 
     if (hour <= 12 && ampm) {
+      ampm = ampm.trim();
       var isPm = ampm == _lang.pm || ampm == _lang.PM;
 
       if (hour == 12) {
