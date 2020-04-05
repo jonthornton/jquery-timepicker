@@ -23,3 +23,11 @@ test("show single string noneOption correctly", () =>{
 
   expect($(`#${TEST_INPUT}`).val()).toEqual('');
 });
+
+test("timepicker can parse time value", () => {
+  $(`#${TEST_INPUT}`).val('2:37pm');
+  $(`#${TEST_INPUT}`).timepicker();
+
+  expectedSecondsFromMidnight = 14 * 3600 + 37 * 60;
+  expect($(`#${TEST_INPUT}`).timepicker('getSecondsFromMidnight')).toEqual(expectedSecondsFromMidnight);
+});
