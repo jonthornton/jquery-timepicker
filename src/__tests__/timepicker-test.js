@@ -9,7 +9,6 @@ beforeEach(() => {
   document.body.innerHTML = `<div>
       <input type="text" id="${TEST_INPUT}" />
     </div>`;
-  $(`#${TEST_INPUT}`).get(0).dataset = {};
 });
 
 test("timepicker initializes", () => {
