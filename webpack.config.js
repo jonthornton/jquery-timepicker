@@ -1,16 +1,16 @@
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
+  mode: 'production',
   entry: './src/jquery.timepicker.js',
   output: {
     filename: 'jquery.timepicker.min.js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js?$/,
         exclude: /node_modules/,
@@ -25,7 +25,6 @@ module.exports = {
   },
   plugins: [
     // new BundleAnalyzerPlugin(),
-    new UglifyJSPlugin(),
     new CopyWebpackPlugin([
       {
         from: 'src/static',

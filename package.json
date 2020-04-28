@@ -24,14 +24,12 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.4.2",
     "babel-loader": "^8.0.0",
-    "copy-webpack-plugin": "^4.2.1",
+    "copy-webpack-plugin": "^5.1.1",
     "jest": "^21.1.0",
     "prettier-eslint": "^8.1.1",
     "prettier-eslint-cli": "^4.3.2",
-    "uglifyjs-webpack-plugin": "^0.4.6",
-    "webpack": "^3.6.0",
-    "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-plugin-output-babel": "^0.0.2"
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   },
   "main": "jquery.timepicker.min.js",
   "description": "A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.",
