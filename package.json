@@ -9,7 +9,7 @@
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "watch": "webpack -w --config webpack.config.js ",
-    "format": "prettier-eslint --write \"jquery.timepicker.js\"",
+    "format": "prettier-eslint --write \"src/**/*.js\"",
     "lint": "eslint",
     "test": "jest"
   },
@@ -26,8 +26,8 @@
     "babel-loader": "^8.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "jest": "^21.1.0",
-    "prettier-eslint": "^8.1.1",
-    "prettier-eslint-cli": "^4.3.2",
+    "prettier-eslint": "^9.0.1",
+    "prettier-eslint-cli": "^5.0.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
   },

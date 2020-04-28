@@ -1,4 +1,4 @@
-import { ONE_DAY } from './constants';
+import { ONE_DAY } from "./constants";
 
 const roundingFunction = (seconds, settings) => {
   if (seconds === null) {
@@ -24,7 +24,7 @@ const roundingFunction = (seconds, settings) => {
 
     return _moduloSeconds(seconds, settings);
   }
-}
+};
 
 function _moduloSeconds(seconds, settings) {
   if (seconds == ONE_DAY && settings.show2400) {

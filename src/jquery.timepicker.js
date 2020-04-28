@@ -5,9 +5,9 @@
  */
 
 // import jQuery from 'jquery';
-import Timepicker from './timepicker';
-import moduloSeconds from './timepicker/rounding';
-import { ONE_DAY } from './timepicker/constants';
+import Timepicker from "./timepicker";
+import moduloSeconds from "./timepicker/rounding";
+import { ONE_DAY } from "./timepicker/constants";
 
 (function(factory) {
   if (
@@ -111,8 +111,8 @@ import { ONE_DAY } from './timepicker/constants';
       // make sure other pickers are hidden
       methods.hide();
 
-      if (typeof settings.listWidth == 'number') {
-        console.log(settings.listWidth)
+      if (typeof settings.listWidth == "number") {
+        console.log(settings.listWidth);
         list.width(self.outerWidth() * settings.listWidth);
       }
 
@@ -136,7 +136,7 @@ import { ONE_DAY } from './timepicker/constants';
         // center-align the dropdown
         listOffset.left =
           self.offset().left +
-          ((self.outerWidth() - list.outerWidth()) / 2) +
+          (self.outerWidth() - list.outerWidth()) / 2 +
           parseInt(list.css("marginLeft").replace("px", ""), 10);
       }
 
@@ -199,13 +199,15 @@ import { ONE_DAY } from './timepicker/constants';
 
       // prevent scroll propagation
       if (settings.stopScrollPropagation) {
-        $(
-          document
-        ).on("wheel.ui-timepicker", ".ui-timepicker-wrapper", function(e) {
-          e.preventDefault();
-          var currentScroll = $(this).scrollTop();
-          $(this).scrollTop(currentScroll + e.originalEvent.deltaY);
-        });
+        $(document).on(
+          "wheel.ui-timepicker",
+          ".ui-timepicker-wrapper",
+          function(e) {
+            e.preventDefault();
+            var currentScroll = $(this).scrollTop();
+            $(this).scrollTop(currentScroll + e.originalEvent.deltaY);
+          }
+        );
       }
 
       // attach close handlers
@@ -398,8 +400,8 @@ import { ONE_DAY } from './timepicker/constants';
 
     if (settings.useSelect) {
       list = $("<select />", { class: "ui-timepicker-select" });
-      if (self.attr('name')) {
-        list.attr('name', 'ui-timepicker-' + self.attr('name'));
+      if (self.attr("name")) {
+        list.attr("name", "ui-timepicker-" + self.attr("name"));
       }
       var wrapped_list = list;
     } else {
@@ -607,7 +609,7 @@ import { ONE_DAY } from './timepicker/constants';
       value = optionValue.value;
     } else if (typeof optionValue == "string") {
       label = optionValue;
-      value = '';
+      value = "";
     } else {
       $.error("Invalid noneOption value");
     }
@@ -793,14 +795,18 @@ import { ONE_DAY } from './timepicker/constants';
 
   function _setTimeValue(self, value, source) {
     if (self.is("input")) {
-      if (value !== null || self.val() != '') {
+      if (value !== null || self.val() != "") {
         self.val(value);
       }
 
       var settings = self.data("timepicker-settings");
 
       var tp = self.data("timepicker-obj");
-      if (settings.useSelect && source != "select" && self.data("timepicker-list")) {
+      if (
+        settings.useSelect &&
+        source != "select" &&
+        self.data("timepicker-list")
+      ) {
         self
           .data("timepicker-list")
           .val(_roundAndFormatTime(tp.time2int(value), settings));
@@ -828,8 +834,8 @@ import { ONE_DAY } from './timepicker/constants';
   }
 
   /*
-	*  Filter freeform input
-	*/
+   *  Filter freeform input
+   */
   function _disableTextInputHandler(e) {
     switch (e.keyCode) {
       case 13: // return
@@ -842,8 +848,8 @@ import { ONE_DAY } from './timepicker/constants';
   }
 
   /*
-	*  Keyboard navigation via arrow keys
-	*/
+   *  Keyboard navigation via arrow keys
+   */
   function _keydownhandler(e) {
     var self = $(this);
     var list = self.data("timepicker-list");
@@ -934,8 +940,8 @@ import { ONE_DAY } from './timepicker/constants';
   }
 
   /*
-	*	Time typeahead
-	*/
+   *	Time typeahead
+   */
   function _keyuphandler(e) {
     var self = $(this);
     var list = self.data("timepicker-list");

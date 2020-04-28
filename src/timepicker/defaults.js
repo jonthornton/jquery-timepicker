@@ -1,4 +1,4 @@
-import roundingFunction from './rounding'
+import roundingFunction from "./rounding";
 
 const DEFAULT_SETTINGS = {
   appendTo: "body",
@@ -30,14 +30,14 @@ const DEFAULT_SETTINGS = {
 };
 
 const DEFAULT_LANG = {
-  am: 'am',
-  pm: 'pm',
-  AM: 'AM',
-  PM: 'PM',
-  decimal: '.',
-  mins: 'mins',
-  hr: 'hr',
-  hrs: 'hrs'
+  am: "am",
+  pm: "pm",
+  AM: "AM",
+  PM: "PM",
+  decimal: ".",
+  mins: "mins",
+  hr: "hr",
+  hrs: "hrs"
 };
 
 export { DEFAULT_SETTINGS, DEFAULT_LANG };

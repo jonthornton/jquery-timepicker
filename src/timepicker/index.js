@@ -1,9 +1,12 @@
-import { DEFAULT_SETTINGS, DEFAULT_LANG } from './defaults';
-import { ONE_DAY } from './constants';
+import { DEFAULT_SETTINGS, DEFAULT_LANG } from "./defaults";
+import { ONE_DAY } from "./constants";
 
 class Timepicker {
   constructor(targetEl, options = {}) {
-    const attrOptions = Timepicker.extractAttrOptions(targetEl, Object.keys(DEFAULT_SETTINGS));
+    const attrOptions = Timepicker.extractAttrOptions(
+      targetEl,
+      Object.keys(DEFAULT_SETTINGS)
+    );
 
     this.settings = this.parseSettings({
       ...DEFAULT_SETTINGS,
@@ -24,7 +27,8 @@ class Timepicker {
   }
 
   time2int(timeString) {
-    if (timeString === "" || timeString === null || timeString === undefined) return null;
+    if (timeString === "" || timeString === null || timeString === undefined)
+      return null;
     if (timeString instanceof Date) {
       return (
         timeString.getHours() * 3600 +
@@ -94,7 +98,6 @@ class Timepicker {
   }
 
   parseSettings(settings) {
-
     settings.lang = { ...DEFAULT_LANG, ...settings.lang };
 
     // lang is used by other functions the rest of this depends on
@@ -132,8 +135,8 @@ class Timepicker {
     }
 
     if (
-      typeof settings.timeFormat === "string"
-        && settings.timeFormat.match(/[gh]/)
+      typeof settings.timeFormat === "string" &&
+      settings.timeFormat.match(/[gh]/)
     ) {
       settings._twelveHourTime = true;
     }
