@@ -1,6 +1,6 @@
 {
   "name": "timepicker",
-  "version": "1.13.4",
+  "version": "1.13.5",
   "title": "jquery-timepicker",
   "author": {
     "name": "Jon Thornton",
@@ -10,7 +10,6 @@
     "build": "rollup --config rollup.config.js",
     "watch": "rollup -w --config rollup.config.js",
     "format": "prettier-eslint --write \"src/**/*.js\"",
-    "lint": "eslint",
     "test": "jest"
   },
   "license": "MIT",

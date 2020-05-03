@@ -1,9 +1,9 @@
 Timepicker Plugin for jQuery
 ========================
 
-[<img src="http://jonthornton.github.com/jquery-timepicker/lib/screenshot.png" alt="timepicker screenshot" />](http://jonthornton.github.com/jquery-timepicker)
+[<img src="http://jonthornton.github.com/jquery-timepicker/lib/screenshot.png" alt="timepicker screenshot" />](https://www.jonthornton.com/jquery-timepicker)
 
-[See a demo and examples here](http://jonthornton.github.com/jquery-timepicker)
+[See a demo and examples here](https://www.jonthornton.com/jquery-timepicker)
 
 jquery.timepicker is a lightweight timepicker plugin for jQuery inspired by Google Calendar. It supports both mouse and keyboard navigation, and weighs in at 5.5kb minified and gzipped.
 
@@ -288,11 +288,16 @@ Submit a [GitHub Issues request](https://github.com/jonthornton/jquery-timepicke
 Development guidelines
 ----------------------
 
-1. Install dependencies (jquery + grunt) `npm install`
-2. For sanity checks and minification run `grunt`, or just `grunt lint` to have the code linted
+After cloning, install dev dependencies with `npm install`.
+
+* `npm run build`: compile timepicker and place updated output in `dist/`
+* `npm run watch`: rebuild every time one of the source files changes
+* `npm run format`: apply code formatting rules
+* `npm run test`: run the jest test suite
+
  
 jquery-timepicker follows [semantic versioning](http://semver.org/).
 
 - - -
 
-This software is made available under the open source MIT License. &copy; 2014 [Jon Thornton](http://www.jonthornton.com) and [contributors](https://github.com/jonthornton/jquery-timepicker/graphs/contributors)
+This software is made available under the open source MIT License. &copy; 2020 [Jon Thornton](https://www.jonthornton.com) and [contributors](https://github.com/jonthornton/jquery-timepicker/graphs/contributors)
