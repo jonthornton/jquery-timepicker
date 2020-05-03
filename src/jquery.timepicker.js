@@ -4,10 +4,9 @@
  * License: MIT
  */
 
-// import jQuery from 'jquery';
-import Timepicker from "./timepicker";
-import moduloSeconds from "./timepicker/rounding";
-import { ONE_DAY } from "./timepicker/constants";
+import Timepicker from "./timepicker/index.js";
+import moduloSeconds from "./timepicker/rounding.js";
+import { ONE_DAY } from "./timepicker/constants.js";
 
 (function(factory) {
   if (
