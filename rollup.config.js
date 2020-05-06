@@ -12,12 +12,12 @@ export default {
   input: 'src/jquery.timepicker.js',
   output: [
     {
-      file: 'dist/jquery.timepicker.js',
+      file: 'jquery.timepicker.js',
       format: 'iife',
       banner: banner
     },
     {
-      file: 'dist/jquery.timepicker.min.js',
+      file: 'jquery.timepicker.min.js',
       format: 'iife',
       plugins: [terser()]
     }
@@ -25,7 +25,7 @@ export default {
   plugins: [
     copy({
       targets: [
-        { src: 'src/static/jquery.timepicker.css', dest: 'dist/' },
+        { src: 'src/static/jquery.timepicker.css', dest: './' },
       ]
     })
   ]

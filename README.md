@@ -290,7 +290,7 @@ Development guidelines
 
 After cloning, install dev dependencies with `npm install`.
 
-* `npm run build`: compile timepicker and place updated output in `dist/`
+* `npm run build`: compile timepicker and place updated output in the project root
 * `npm run watch`: rebuild every time one of the source files changes
 * `npm run format`: apply code formatting rules
 * `npm run test`: run the jest test suite
