@@ -1,6 +1,6 @@
 {
   "name": "timepicker",
-  "version": "1.13.7",
+  "version": "1.13.8",
   "title": "jquery-timepicker",
   "author": {
     "name": "Jon Thornton",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@rollup/plugin-babel": "^5.0.0",
     "babel-jest": "^25.4.0",
     "jest": "^25.4.0",
     "prettier-eslint": "^9.0.1",

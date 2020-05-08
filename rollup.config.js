@@ -1,6 +1,7 @@
 import { terser } from "rollup-plugin-terser";
 import copy from 'rollup-plugin-copy'
 import { version } from './package.json';
+import babel from '@rollup/plugin-babel';
 
 const banner = `/*!
  * jquery-timepicker v${version} - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
@@ -27,6 +28,7 @@ export default {
       targets: [
         { src: 'src/static/jquery.timepicker.css', dest: './' },
       ]
-    })
+    }),
+    babel({ babelHelpers: 'bundled' })
   ]
 };
