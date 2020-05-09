@@ -148,6 +148,10 @@ class Timepicker {
       settings.showOn.splice(settings.showOn.indexOf("focus"), 1);
     }
 
+    if (!settings.disableTimeRanges) {
+      settings.disableTimeRanges = [];
+    }
+
     if (settings.disableTimeRanges.length > 0) {
       // convert string times to integers
       for (var i in settings.disableTimeRanges) {

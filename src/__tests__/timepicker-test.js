@@ -35,3 +35,8 @@ test("timepicker can parse time value", () => {
     expectedSecondsFromMidnight
   );
 });
+
+test("timepicker can tolerate undefined values", () => {
+  $(`#${TEST_INPUT}`).val("2:37pm");
+  $(`#${TEST_INPUT}`).timepicker({ 'disableTimeRanges': null });
+});
