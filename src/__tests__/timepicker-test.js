@@ -40,3 +40,20 @@ test("timepicker can tolerate undefined values", () => {
   $(`#${TEST_INPUT}`).val("2:37pm");
   $(`#${TEST_INPUT}`).timepicker({ 'disableTimeRanges': null });
 });
+
+test("setTime works", () => {
+  $(`#${TEST_INPUT}`).val("2:37pm");
+  $(`#${TEST_INPUT}`).timepicker();
+
+  $(`#${TEST_INPUT}`).timepicker('setTime', 43200);
+
+  expect($(`#${TEST_INPUT}`).val()).toEqual("12:00pm");
+
+  $(`#${TEST_INPUT}`).timepicker('setTime', '11pm');
+  expect($(`#${TEST_INPUT}`).val()).toEqual("11:00pm");
+
+  $(`#${TEST_INPUT}`).timepicker('setTime', new Date('December 17, 1995 03:24:00'));
+  expect($(`#${TEST_INPUT}`).val()).toEqual("3:24am");
+});
+
+

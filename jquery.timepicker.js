@@ -258,7 +258,7 @@
           return timeString.getHours() * 3600 + timeString.getMinutes() * 60 + timeString.getSeconds();
         }
 
-        if (timeString instanceof String) {
+        if (typeof timeString != "string") {
           return timeString;
         }
 

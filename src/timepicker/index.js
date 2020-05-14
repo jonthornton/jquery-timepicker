@@ -36,7 +36,7 @@ class Timepicker {
         timeString.getSeconds()
       );
     }
-    if (timeString instanceof String) {
+    if (typeof timeString != "string") {
       return timeString;
     }
 
