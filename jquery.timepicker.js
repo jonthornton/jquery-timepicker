@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.13.9 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.13.10 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2020 Jon Thornton - https://www.jonthornton.com/jquery-timepicker/
  * License: MIT
  */
