@@ -270,21 +270,28 @@ $('#selectButton').click(function(e) {
 			<div class="demo">
 				<h2>Non-input Example</h2>
 				<p>jquery-timepicker can be bound to any visibile DOM element, such as spans or divs.</p>
-				<p><span id="spanExample" style="background:#f00; padding:0 10px; margin-right:100px;"></span>
+				<p><span id="spanExampleTarget" style="background:#f00; padding:0 10px; margin-right:100px;"></span>
+					<span id="spanExampleDisplay" style=""></span>
 					<button id="openSpanExample">Pick Time</button>
 				</p>
 			</div>
 			<script>
 			$(function() {
-				$('#spanExample').timepicker();
+				$('#spanExampleTarget').timepicker()
+				$('#spanExampleTarget').on('changeTime', function(e){
+					console.log($('#spanExampleTarget').timepicker('getTime'));
+				});
 				$('#openSpanExample').on('click', function() {
-					$('#spanExample').timepicker('show');
+					$('#spanExampleTarget').timepicker('show');
 				});
 			});
 			</script>
-			<pre class="code" data-language="javascript">$('#spanExample').timepicker();
-	$('#openSpanExample').on('click', function(){
-	$('#spanExample').timepicker('show');
+			<pre class="code" data-language="javascript">$('#spanExampleTarget').timepicker()
+$('#spanExampleTarget').on('changeTime', function(e){
+	console.log($('#spanExampleTarget').timepicker('getTime'));
+});
+$('#openSpanExample').on('click', function() {
+	$('#spanExampleTarget').timepicker('show');
 });</pre>
 		</article>
 		<article>
