@@ -103,13 +103,16 @@ class Timepicker {
     // lang is used by other functions the rest of this depends on
     // todo: unwind circular dependency on lang
     this.settings = settings;
-
     if (settings.minTime) {
       settings.minTime = this.time2int(settings.minTime);
     }
 
     if (settings.maxTime) {
       settings.maxTime = this.time2int(settings.maxTime);
+    }
+
+    if (settings.listWidth) {
+      settings.listWidth = this.time2int(settings.listWidth);
     }
 
     if (settings.durationTime && typeof settings.durationTime !== "function") {

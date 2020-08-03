@@ -10,6 +10,7 @@ const DEFAULT_SETTINGS = {
   durationTime: null,
   forceRoundTime: false,
   lang: {},
+  listWidth: null,
   maxTime: null,
   minTime: null,
   noneOption: false,

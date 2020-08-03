@@ -210,6 +210,7 @@
     durationTime: null,
     forceRoundTime: false,
     lang: {},
+    listWidth: null,
     maxTime: null,
     minTime: null,
     noneOption: false,
@@ -330,6 +331,10 @@
 
         if (settings.maxTime) {
           settings.maxTime = this.time2int(settings.maxTime);
+        }
+
+        if (settings.listWidth) {
+          settings.listWidth = this.time2int(settings.listWidth);
         }
 
         if (settings.durationTime && typeof settings.durationTime !== "function") {
