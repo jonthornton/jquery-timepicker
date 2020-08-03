@@ -589,7 +589,7 @@
         } // attach close handlers
 
 
-        $(document).on("touchstart.ui-timepicker mousedown.ui-timepicker", _closeHandler);
+        $(document).on("mousedown.ui-timepicker", _closeHandler);
         $(window).on("resize.ui-timepicker", _closeHandler);
 
         if (settings.closeOnWindowScroll) {
