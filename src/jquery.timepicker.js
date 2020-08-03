@@ -105,7 +105,6 @@ import { ONE_DAY } from "./timepicker/constants.js";
       methods.hide();
 
       if (typeof settings.listWidth == "number") {
-        console.log(settings.listWidth);
         list.width(self.outerWidth() * settings.listWidth);
       }
 

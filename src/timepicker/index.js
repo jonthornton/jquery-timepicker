@@ -18,7 +18,6 @@ class Timepicker {
   static extractAttrOptions(element, keys) {
     const output = {};
     for (const key of keys) {
-      // console.log(key, element)
       if (key in element.dataset) {
         output[key] = element.dataset[key];
       }
