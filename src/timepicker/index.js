@@ -58,6 +58,11 @@ class Timepicker {
     var minutes = time[5] * 1 || 0;
     var seconds = time[7] * 1 || 0;
 
+    if (!ampm && time[3].length == 2 && time[3][0] == '0') {
+      // preceding '0' implies AM
+      ampm = 'am';
+    }
+
     if (hour <= 12 && ampm) {
       ampm = ampm.trim();
       var isPm = ampm == this.settings.lang.pm || ampm == this.settings.lang.PM;

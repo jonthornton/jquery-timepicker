@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.13.13 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.13.14 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2020 Jon Thornton - https://www.jonthornton.com/jquery-timepicker/
  * License: MIT
  */
@@ -281,6 +281,11 @@
         var hours = hour;
         var minutes = time[5] * 1 || 0;
         var seconds = time[7] * 1 || 0;
+
+        if (!ampm && time[3].length == 2 && time[3][0] == '0') {
+          // preceding '0' implies AM
+          ampm = 'am';
+        }
 
         if (hour <= 12 && ampm) {
           ampm = ampm.trim();
@@ -1056,6 +1061,8 @@
       if (timeValue === null) {
         return;
       }
+
+      console.log(timeValue);
 
       var selected = _findRow(self, list, timeValue);
 

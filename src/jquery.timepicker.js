@@ -688,7 +688,7 @@ import { ONE_DAY } from "./timepicker/constants.js";
     if (timeValue === null) {
       return;
     }
-
+console.log(timeValue)
     var selected = _findRow(self, list, timeValue);
     if (selected) {
       var topDelta = selected.offset().top - list.offset().top;
