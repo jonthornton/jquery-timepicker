@@ -199,6 +199,39 @@ class Timepicker {
 
     return settings;
   }
+
+  _int2duration(seconds, step) {
+    seconds = Math.abs(seconds);
+    var minutes = Math.round(seconds / 60),
+      duration = [],
+      hours,
+      mins;
+
+    if (minutes < 60) {
+      // Only show (x mins) under 1 hour
+      duration = [minutes, this.settings.lang.mins];
+    } else {
+      hours = Math.floor(minutes / 60);
+      mins = minutes % 60;
+
+      // Show decimal notation (eg: 1.5 hrs) for 30 minute steps
+      if (step == 30 && mins == 30) {
+        hours += this.settings.lang.decimal + 5;
+      }
+
+      duration.push(hours);
+      duration.push(hours == 1 ? this.settings.lang.hr : this.settings.lang.hrs);
+
+      // Show remainder minutes notation (eg: 1 hr 15 mins) for non-30 minute steps
+      // and only if there are remainder minutes to show
+      if (step != 30 && mins) {
+        duration.push(mins);
+        duration.push(this.settings.lang.mins);
+      }
+    }
+
+    return duration.join(" ");
+  }
 }
 
 export default Timepicker;

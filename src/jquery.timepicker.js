@@ -1,6 +1,7 @@
 import Timepicker from "./timepicker/index.js";
 import moduloSeconds from "./timepicker/rounding.js";
 import { ONE_DAY } from "./timepicker/constants.js";
+import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
 (function(factory) {
   if (
@@ -498,7 +499,7 @@ import { ONE_DAY } from "./timepicker/constants.js";
         (settings.minTime !== null || settings.durationTime !== null) &&
         settings.showDuration
       ) {
-        var durationString = _int2duration(i - durStart, settings.step);
+        var durationString = tp._int2duration(i - durStart, settings.step);
         if (settings.useSelect) {
           row.text(row.text() + " (" + durationString + ")");
         } else {
@@ -688,7 +689,7 @@ import { ONE_DAY } from "./timepicker/constants.js";
     if (timeValue === null) {
       return;
     }
-console.log(timeValue)
+
     var selected = _findRow(self, list, timeValue);
     if (selected) {
       var topDelta = selected.offset().top - list.offset().top;
@@ -1014,39 +1015,6 @@ console.log(timeValue)
     return true;
   }
 
-  function _int2duration(seconds, step) {
-    seconds = Math.abs(seconds);
-    var minutes = Math.round(seconds / 60),
-      duration = [],
-      hours,
-      mins;
-
-    if (minutes < 60) {
-      // Only show (x mins) under 1 hour
-      duration = [minutes, _lang.mins];
-    } else {
-      hours = Math.floor(minutes / 60);
-      mins = minutes % 60;
-
-      // Show decimal notation (eg: 1.5 hrs) for 30 minute steps
-      if (step == 30 && mins == 30) {
-        hours += _lang.decimal + 5;
-      }
-
-      duration.push(hours);
-      duration.push(hours == 1 ? _lang.hr : _lang.hrs);
-
-      // Show remainder minutes notation (eg: 1 hr 15 mins) for non-30 minute steps
-      // and only if there are remainder minutes to show
-      if (step != 30 && mins) {
-        duration.push(mins);
-        duration.push(_lang.mins);
-      }
-    }
-
-    return duration.join(" ");
-  }
-
   function _int2time(timeInt, settings) {
     if (typeof timeInt != "number") {
       return null;
@@ -1130,10 +1098,6 @@ console.log(timeValue)
     return output;
   }
 
-  function _pad2(n) {
-    return ("0" + n).slice(-2);
-  }
-
   // Plugin entry
   $.fn.timepicker = function(method) {
     if (!this.length) return this;
@@ -1154,56 +1118,5 @@ console.log(timeValue)
   };
 
   // Default plugin options.
-  $.fn.timepicker.defaults = {
-    appendTo: "body",
-    className: null,
-    closeOnWindowScroll: false,
-    disableTextInput: false,
-    disableTimeRanges: [],
-    disableTouchKeyboard: false,
-    durationTime: null,
-    forceRoundTime: false,
-    listWidth: null, // Set to 1 to match input width, 2 to double input width, .5 to halve input width, etc
-    maxTime: null,
-    minTime: null,
-    noneOption: false,
-    orientation: "l",
-    roundingFunction: function(seconds, settings) {
-      if (seconds === null) {
-        return null;
-      } else if (typeof settings.step !== "number") {
-        // TODO: nearest fit irregular steps
-        return seconds;
-      } else {
-        var offset = seconds % (settings.step * 60); // step is in minutes
-
-        var start = settings.minTime || 0;
-
-        // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
-        offset -= start % (settings.step * 60);
-
-        if (offset >= settings.step * 30) {
-          // if offset is larger than a half step, round up
-          seconds += settings.step * 60 - offset;
-        } else {
-          // round down
-          seconds -= offset;
-        }
-
-        return _moduloSeconds(seconds, settings);
-      }
-    },
-    scrollDefault: null,
-    selectOnBlur: false,
-    show2400: false,
-    showDuration: false,
-    showOn: ["click", "focus"],
-    showOnFocus: true,
-    step: 30,
-    stopScrollPropagation: false,
-    timeFormat: "g:ia",
-    typeaheadHighlight: true,
-    useSelect: false,
-    wrapHours: true
-  };
+  $.fn.timepicker.defaults = DEFAULT_SETTINGS;
 });

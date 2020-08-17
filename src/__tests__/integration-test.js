@@ -56,4 +56,8 @@ test("setTime works", () => {
   expect($(`#${TEST_INPUT}`).val()).toEqual("3:24am");
 });
 
-
+test("showDuration works", () => {
+  $(`#${TEST_INPUT}`).val("2:00pm");
+  $(`#${TEST_INPUT}`).timepicker({ 'showDuration': true, 'durationTime':'2:00pm' });
+  $(`#${TEST_INPUT}`).timepicker('show');
+});
