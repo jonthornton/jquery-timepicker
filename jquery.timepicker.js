@@ -1062,8 +1062,6 @@
         return;
       }
 
-      console.log(timeValue);
-
       var selected = _findRow(self, list, timeValue);
 
       if (selected) {
