@@ -203,7 +203,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       }
 
       // attach close handlers
-      $(document).on("mousedown.ui-timepicker",_closeHandler);
+      $(document).on("mousedown.ui-timepicker", _closeHandler);
       $(window).on("resize.ui-timepicker", _closeHandler);
       if (settings.closeOnWindowScroll) {
         $(document).on("scroll.ui-timepicker", _closeHandler);
@@ -322,9 +322,9 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       var settings = tp.settings;
 
       if (settings.forceRoundTime) {
-        var prettyTime = _roundAndFormatTime(tp.time2int(value), settings);
+        var prettyTime = tp._roundAndFormatTime(tp.time2int(value));
       } else {
-        var prettyTime = _int2time(tp.time2int(value), settings);
+        var prettyTime = tp._int2time(tp.time2int(value));
       }
 
       if (value && prettyTime === null && settings.noneOption) {
@@ -421,7 +421,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
           }
         }
       } else {
-        var noneElement =tp._generateNoneElement(
+        var noneElement = tp._generateNoneElement(
           settings.noneOption,
           settings.useSelect
         );
@@ -480,7 +480,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     for (var i = start, j = 0; i <= end; j++, i += stepFunc(j) * 60) {
       var timeInt = i;
-      var timeString = _int2time(timeInt, settings);
+      var timeString = tp._int2time(timeInt);
 
       if (settings.useSelect) {
         var row = $("<option />", { value: timeString });
@@ -532,7 +532,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     if (settings.useSelect) {
       if (self.val()) {
-        list.val(_roundAndFormatTime(tp.time2int(self.val()), settings));
+        list.val(tp._roundAndFormatTime(tp.time2int(self.val())));
       }
 
       list.on("focus", function() {
@@ -588,14 +588,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
           });
         }
       });
-    }
-  }
-
-
-  function _roundAndFormatTime(seconds, settings) {
-    seconds = settings.roundingFunction(seconds, settings);
-    if (seconds !== null) {
-      return _int2time(seconds, settings);
     }
   }
 
@@ -738,7 +730,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       }
     }
 
-    var prettyTime = _int2time(seconds, settings);
+    var prettyTime = tp._int2time(seconds);
 
     if (rangeError) {
       if (
@@ -771,7 +763,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       var settings = tp.settings;
 
       if (settings.useSelect && source != "select" && tp.list) {
-        tp.list.val(_roundAndFormatTime(tp.time2int(value), settings));
+        tp.list.val(tp._roundAndFormatTime(tp.time2int(value)));
       }
     }
 
@@ -967,96 +959,13 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     if (timeValue !== null) {
       if (typeof timeValue != "string") {
-        timeValue = _int2time(timeValue, settings);
+        timeValue = tp._int2time(timeValue);
       }
 
       _setTimeValue(self, timeValue, "select");
     }
 
     return true;
-  }
-
-  function _int2time(timeInt, settings) {
-    if (typeof timeInt != "number") {
-      return null;
-    }
-
-    var seconds = parseInt(timeInt % 60),
-      minutes = parseInt((timeInt / 60) % 60),
-      hours = parseInt((timeInt / (60 * 60)) % 24);
-
-    var time = new Date(1970, 0, 2, hours, minutes, seconds, 0);
-
-    if (isNaN(time.getTime())) {
-      return null;
-    }
-
-    if ($.type(settings.timeFormat) === "function") {
-      return settings.timeFormat(time);
-    }
-
-    var output = "";
-    var hour, code;
-    for (var i = 0; i < settings.timeFormat.length; i++) {
-      code = settings.timeFormat.charAt(i);
-      switch (code) {
-        case "a":
-          output += time.getHours() > 11 ? _lang.pm : _lang.am;
-          break;
-
-        case "A":
-          output += time.getHours() > 11 ? _lang.PM : _lang.AM;
-          break;
-
-        case "g":
-          hour = time.getHours() % 12;
-          output += hour === 0 ? "12" : hour;
-          break;
-
-        case "G":
-          hour = time.getHours();
-          if (timeInt === ONE_DAY) hour = settings.show2400 ? 24 : 0;
-          output += hour;
-          break;
-
-        case "h":
-          hour = time.getHours() % 12;
-
-          if (hour !== 0 && hour < 10) {
-            hour = "0" + hour;
-          }
-
-          output += hour === 0 ? "12" : hour;
-          break;
-
-        case "H":
-          hour = time.getHours();
-          if (timeInt === ONE_DAY) hour = settings.show2400 ? 24 : 0;
-          output += hour > 9 ? hour : "0" + hour;
-          break;
-
-        case "i":
-          var minutes = time.getMinutes();
-          output += minutes > 9 ? minutes : "0" + minutes;
-          break;
-
-        case "s":
-          seconds = time.getSeconds();
-          output += seconds > 9 ? seconds : "0" + seconds;
-          break;
-
-        case "\\":
-          // escape character; add the next character and skip ahead
-          i++;
-          output += settings.timeFormat.charAt(i);
-          break;
-
-        default:
-          output += code;
-      }
-    }
-
-    return output;
   }
 
   // Plugin entry

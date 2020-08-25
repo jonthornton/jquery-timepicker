@@ -283,9 +283,9 @@
         var minutes = time[5] * 1 || 0;
         var seconds = time[7] * 1 || 0;
 
-        if (!ampm && time[3].length == 2 && time[3][0] == '0') {
+        if (!ampm && time[3].length == 2 && time[3][0] == "0") {
           // preceding '0' implies AM
-          ampm = 'am';
+          ampm = "am";
         }
 
         if (hour <= 12 && ampm) {
@@ -447,6 +447,100 @@
         return duration.join(" ");
       }
     }, {
+      key: "_roundAndFormatTime",
+      value: function _roundAndFormatTime(seconds) {
+        seconds = this.settings.roundingFunction(seconds, this.settings);
+
+        if (seconds !== null) {
+          return this._int2time(seconds);
+        }
+      }
+    }, {
+      key: "_int2time",
+      value: function _int2time(timeInt) {
+        if (typeof timeInt != "number") {
+          return null;
+        }
+
+        var seconds = parseInt(timeInt % 60),
+            minutes = parseInt(timeInt / 60 % 60),
+            hours = parseInt(timeInt / (60 * 60) % 24);
+        var time = new Date(1970, 0, 2, hours, minutes, seconds, 0);
+
+        if (isNaN(time.getTime())) {
+          return null;
+        }
+
+        if (typeof this.settings.timeFormat === "function") {
+          return this.settings.timeFormat(time);
+        }
+
+        var output = "";
+        var hour, code;
+
+        for (var i = 0; i < this.settings.timeFormat.length; i++) {
+          code = this.settings.timeFormat.charAt(i);
+
+          switch (code) {
+            case "a":
+              output += time.getHours() > 11 ? this.settings.lang.pm : this.settings.lang.am;
+              break;
+
+            case "A":
+              output += time.getHours() > 11 ? this.settings.lang.PM : this.settings.lang.AM;
+              break;
+
+            case "g":
+              hour = time.getHours() % 12;
+              output += hour === 0 ? "12" : hour;
+              break;
+
+            case "G":
+              hour = time.getHours();
+              if (timeInt === ONE_DAY) hour = this.settings.show2400 ? 24 : 0;
+              output += hour;
+              break;
+
+            case "h":
+              hour = time.getHours() % 12;
+
+              if (hour !== 0 && hour < 10) {
+                hour = "0" + hour;
+              }
+
+              output += hour === 0 ? "12" : hour;
+              break;
+
+            case "H":
+              hour = time.getHours();
+              if (timeInt === ONE_DAY) hour = this.settings.show2400 ? 24 : 0;
+              output += hour > 9 ? hour : "0" + hour;
+              break;
+
+            case "i":
+              var minutes = time.getMinutes();
+              output += minutes > 9 ? minutes : "0" + minutes;
+              break;
+
+            case "s":
+              seconds = time.getSeconds();
+              output += seconds > 9 ? seconds : "0" + seconds;
+              break;
+
+            case "\\":
+              // escape character; add the next character and skip ahead
+              i++;
+              output += this.settings.timeFormat.charAt(i);
+              break;
+
+            default:
+              output += code;
+          }
+        }
+
+        return output;
+      }
+    }, {
       key: "_generateNoneElement",
       value: function _generateNoneElement(optionValue, useSelect) {
         var label, className, value;
@@ -465,10 +559,10 @@
         var el;
 
         if (useSelect) {
-          el = document.createElement('option');
+          el = document.createElement("option");
           el.value = value;
         } else {
-          el = document.createElement('li');
+          el = document.createElement("li");
           el.dataset.time = String(value);
         }
 
@@ -790,9 +884,9 @@
         var settings = tp.settings;
 
         if (settings.forceRoundTime) {
-          var prettyTime = _roundAndFormatTime(tp.time2int(value), settings);
+          var prettyTime = tp._roundAndFormatTime(tp.time2int(value));
         } else {
-          var prettyTime = _int2time(tp.time2int(value), settings);
+          var prettyTime = tp._int2time(tp.time2int(value));
         }
 
         if (value && prettyTime === null && settings.noneOption) {
@@ -942,7 +1036,7 @@
       for (var i = start, j = 0; i <= end; j++, i += stepFunc(j) * 60) {
         var timeInt = i;
 
-        var timeString = _int2time(timeInt, settings);
+        var timeString = tp._int2time(timeInt);
 
         if (settings.useSelect) {
           var row = $("<option />", {
@@ -992,7 +1086,7 @@
 
       if (settings.useSelect) {
         if (self.val()) {
-          list.val(_roundAndFormatTime(tp.time2int(self.val()), settings));
+          list.val(tp._roundAndFormatTime(tp.time2int(self.val())));
         }
 
         list.on("focus", function () {
@@ -1047,14 +1141,6 @@
             });
           }
         });
-      }
-    }
-
-    function _roundAndFormatTime(seconds, settings) {
-      seconds = settings.roundingFunction(seconds, settings);
-
-      if (seconds !== null) {
-        return _int2time(seconds, settings);
       }
     } // event handler to decide whether to close timepicker
 
@@ -1183,7 +1269,7 @@
         }
       }
 
-      var prettyTime = _int2time(seconds, settings);
+      var prettyTime = tp._int2time(seconds);
 
       if (rangeError) {
         if (_setTimeValue(self, prettyTime, "error") || e && e.type == "change") {
@@ -1213,7 +1299,7 @@
         var settings = tp.settings;
 
         if (settings.useSelect && source != "select" && tp.list) {
-          tp.list.val(_roundAndFormatTime(tp.time2int(value), settings));
+          tp.list.val(tp._roundAndFormatTime(tp.time2int(value)));
         }
       }
 
@@ -1423,97 +1509,13 @@
 
       if (timeValue !== null) {
         if (typeof timeValue != "string") {
-          timeValue = _int2time(timeValue, settings);
+          timeValue = tp._int2time(timeValue);
         }
 
         _setTimeValue(self, timeValue, "select");
       }
 
       return true;
-    }
-
-    function _int2time(timeInt, settings) {
-      if (typeof timeInt != "number") {
-        return null;
-      }
-
-      var seconds = parseInt(timeInt % 60),
-          minutes = parseInt(timeInt / 60 % 60),
-          hours = parseInt(timeInt / (60 * 60) % 24);
-      var time = new Date(1970, 0, 2, hours, minutes, seconds, 0);
-
-      if (isNaN(time.getTime())) {
-        return null;
-      }
-
-      if ($.type(settings.timeFormat) === "function") {
-        return settings.timeFormat(time);
-      }
-
-      var output = "";
-      var hour, code;
-
-      for (var i = 0; i < settings.timeFormat.length; i++) {
-        code = settings.timeFormat.charAt(i);
-
-        switch (code) {
-          case "a":
-            output += time.getHours() > 11 ? _lang.pm : _lang.am;
-            break;
-
-          case "A":
-            output += time.getHours() > 11 ? _lang.PM : _lang.AM;
-            break;
-
-          case "g":
-            hour = time.getHours() % 12;
-            output += hour === 0 ? "12" : hour;
-            break;
-
-          case "G":
-            hour = time.getHours();
-            if (timeInt === ONE_DAY) hour = settings.show2400 ? 24 : 0;
-            output += hour;
-            break;
-
-          case "h":
-            hour = time.getHours() % 12;
-
-            if (hour !== 0 && hour < 10) {
-              hour = "0" + hour;
-            }
-
-            output += hour === 0 ? "12" : hour;
-            break;
-
-          case "H":
-            hour = time.getHours();
-            if (timeInt === ONE_DAY) hour = settings.show2400 ? 24 : 0;
-            output += hour > 9 ? hour : "0" + hour;
-            break;
-
-          case "i":
-            var minutes = time.getMinutes();
-            output += minutes > 9 ? minutes : "0" + minutes;
-            break;
-
-          case "s":
-            seconds = time.getSeconds();
-            output += seconds > 9 ? seconds : "0" + seconds;
-            break;
-
-          case "\\":
-            // escape character; add the next character and skip ahead
-            i++;
-            output += settings.timeFormat.charAt(i);
-            break;
-
-          default:
-            output += code;
-        }
-      }
-
-      return output;
     } // Plugin entry
 
 
