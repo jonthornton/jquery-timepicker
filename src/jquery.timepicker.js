@@ -32,7 +32,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         const settings = tp.settings;
         _lang = settings.lang;
 
-        self.data("timepicker-settings", settings);
         self.data("timepicker-obj", tp);
         self.addClass("ui-timepicker-input");
 
@@ -61,8 +60,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     show: function(e) {
       var self = $(this);
-      var settings = self.data("timepicker-settings");
       var tp = self.data("timepicker-obj");
+      var settings = tp.settings;
 
       if (e) {
         e.preventDefault();
@@ -217,9 +216,9 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     hide: function(e) {
       var self = $(this);
-      var settings = self.data("timepicker-settings");
+      var tp = self.data("timepicker-obj");
 
-      if (settings && settings.useSelect) {
+      if (tp && tp.settings && tp.settings.useSelect) {
         self.blur();
       }
 
@@ -230,9 +229,9 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         }
 
         var self = list.data("timepicker-input");
-        var settings = self.data("timepicker-settings");
+        var tp = self.data("timepicker-obj");
 
-        if (settings && settings.selectOnBlur) {
+        if (tp && tp.settings && tp.settings.selectOnBlur) {
           _selectValue(self);
         }
 
@@ -245,13 +244,14 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     option: function(key, value) {
       if (typeof key == "string" && typeof value == "undefined") {
-        return $(this).data("timepicker-settings")[key];
+        var tp = $(this).data("timepicker-obj");
+        return tp.settings[key];
       }
 
       return this.each(function() {
         var self = $(this);
-        var settings = self.data("timepicker-settings");
         var tp = self.data("timepicker-obj");
+        var settings = tp.settings;
         var list = self.data("timepicker-list");
 
         if (typeof key == "object") {
@@ -261,8 +261,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         }
 
         settings = tp.parseSettings(settings);
-
-        self.data("timepicker-settings", settings);
+        tp.settings = settings;
 
         _formatValue.call(self.get(0), { type: "change" }, "initial");
 
@@ -319,8 +318,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     setTime: function(value) {
       var self = this;
-      var settings = self.data("timepicker-settings");
       var tp = self.data("timepicker-obj");
+      var settings = tp.settings;
 
       if (settings.forceRoundTime) {
         var prettyTime = _roundAndFormatTime(tp.time2int(value), settings);
@@ -350,10 +349,12 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         return;
       }
 
-      var settings = self.data("timepicker-settings");
+      var tp = self.data("timepicker-obj");
+      var settings = tp.settings;
+
       self.removeAttr("autocomplete", "off");
       self.removeClass("ui-timepicker-input");
-      self.removeData("timepicker-settings");
+      self.removeData("timepicker-obj");
       self.off(".timepicker");
 
       // timepicker-list won't be present unless the user has interacted with this timepicker
@@ -379,9 +380,9 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
   }
 
   function _render(self) {
-    var settings = self.data("timepicker-settings");
     var list = self.data("timepicker-list");
     var tp = self.data("timepicker-obj");
+    var settings = tp.settings;
 
     if (list && list.length) {
       list.remove();
@@ -648,7 +649,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
   }
 
   function _hideKeyboard(self) {
-    var settings = self.data("timepicker-settings");
+    var tp = self.data("timepicker-obj");
+    var settings = tp.settings;
     return (
       (window.navigator.msMaxTouchPoints || "ontouchstart" in document) &&
       settings.disableTouchKeyboard
@@ -660,7 +662,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       return false;
     }
 
-    var settings = self.data("timepicker-settings");
+    var tp = self.data("timepicker-obj");
+    var settings = tp.settings;
     var out = false;
     var value = settings.roundingFunction(value, settings);
 
@@ -683,8 +686,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
   function _setSelected(self, list) {
     list.find("li").removeClass("ui-timepicker-selected");
 
-    var settings = self.data("timepicker-settings");
     var tp = self.data("timepicker-obj");
+    var settings = tp.settings;
     var timeValue = tp.time2int(_getTimeValue(self));
     if (timeValue === null) {
       return;
@@ -725,8 +728,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       return;
     }
 
-    var settings = self.data("timepicker-settings");
     var tp = self.data("timepicker-obj");
+    var settings = tp.settings;
     var seconds = tp.time2int(this.value);
 
     if (seconds === null) {
@@ -789,9 +792,9 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         self.val(value);
       }
 
-      var settings = self.data("timepicker-settings");
-
       var tp = self.data("timepicker-obj");
+      var settings = tp.settings;
+
       if (
         settings.useSelect &&
         source != "select" &&
@@ -921,7 +924,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
   function _keyuphandler(e) {
     var self = $(this);
     var list = self.data("timepicker-list");
-    var settings = self.data("timepicker-settings");
+    var tp = self.data("timepicker-obj");
+    var settings = tp.settings;
 
     if (!list || !_isVisible(list) || settings.disableTextInput) {
       return true;
@@ -975,7 +979,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
   }
 
   function _selectValue(self) {
-    var settings = self.data("timepicker-settings");
+    var tp = self.data("timepicker-obj");
+    var settings = tp.settings;
     var list = self.data("timepicker-list");
     var timeValue = null;
 

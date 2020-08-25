@@ -67,5 +67,13 @@ test("disableTextInput works", () => {
   $(`#${TEST_INPUT}`).timepicker({ 'disableTextInput': true });
   const event = new KeyboardEvent('keydown', {'keyCode': 37});
   $(`#${TEST_INPUT}`).get(0).dispatchEvent(event);
-  // $(`#${TEST_INPUT}`).timepicker('show');
+});
+
+test("disableTextInput works", () => {
+  $(`#${TEST_INPUT}`).timepicker({ 'disableTextInput': true });
+  expect($(`#${TEST_INPUT}`).timepicker('option', 'disableTextInput')).toEqual(true);
+
+  $(`#${TEST_INPUT}`).timepicker('option', { 'disableTextInput': false });
+  expect($(`#${TEST_INPUT}`).timepicker('option', 'disableTextInput')).toEqual(false);
+
 });
