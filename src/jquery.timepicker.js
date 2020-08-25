@@ -413,7 +413,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       if ($.isArray(settings.noneOption)) {
         for (var i in settings.noneOption) {
           if (parseInt(i, 10) == i) {
-            var noneElement = _generateNoneElement(
+            var noneElement = tp._generateNoneElement(
               settings.noneOption[i],
               settings.useSelect
             );
@@ -421,7 +421,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
           }
         }
       } else {
-        var noneElement = _generateNoneElement(
+        var noneElement =tp._generateNoneElement(
           settings.noneOption,
           settings.useSelect
         );
@@ -492,7 +492,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
             ? "ui-timepicker-am"
             : "ui-timepicker-pm"
         );
-        row.data("time", moduloSeconds(timeInt, settings));
+        row.attr("data-time", moduloSeconds(timeInt, settings));
         row.text(timeString);
       }
 
@@ -591,33 +591,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     }
   }
 
-  function _generateNoneElement(optionValue, useSelect) {
-    var label, className, value;
-
-    if (typeof optionValue == "object") {
-      label = optionValue.label;
-      className = optionValue.className;
-      value = optionValue.value;
-    } else if (typeof optionValue == "string") {
-      label = optionValue;
-      value = "";
-    } else {
-      $.error("Invalid noneOption value");
-    }
-
-    if (useSelect) {
-      return $("<option />", {
-        value: value,
-        class: className,
-        text: label
-      });
-    } else {
-      return $("<li />", {
-        class: className,
-        text: label
-      }).data("time", String(value));
-    }
-  }
 
   function _roundAndFormatTime(seconds, settings) {
     seconds = settings.roundingFunction(seconds, settings);
@@ -667,20 +640,20 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     var out = false;
     var value = settings.roundingFunction(value, settings);
 
-    // loop through the menu items
     list.find("li").each(function(i, obj) {
-      var jObj = $(obj);
-      if (typeof jObj.data("time") != "number") {
+      const parsed = Number.parseInt(obj.dataset.time);
+
+      if (Number.isNaN(parsed)) {
         return;
       }
 
-      if (jObj.data("time") == value) {
-        out = jObj;
+      if (parsed == value) {
+        out = obj;
         return false;
       }
     });
 
-    return out;
+    return $(out);
   }
 
   function _setSelected(self, list) {
@@ -706,7 +679,9 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         );
       }
 
-      if (settings.forceRoundTime || selected.data("time") === timeValue) {
+      const parsed = Number.parseInt(selected.get(0).dataset.time);
+
+      if (settings.forceRoundTime || parsed === timeValue) {
         selected.addClass("ui-timepicker-selected");
       }
     }
@@ -987,7 +962,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     if (cursor.length) {
       // selected value found
-      timeValue = cursor.data("time");
+      timeValue = Number.parseInt(cursor.get(0).dataset.time);
     }
 
     if (timeValue !== null) {

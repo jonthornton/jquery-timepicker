@@ -3,6 +3,8 @@ import { ONE_DAY } from "./constants";
 
 class Timepicker {
   constructor(targetEl, options = {}) {
+    this.targetEl = targetEl;
+
     const attrOptions = Timepicker.extractAttrOptions(
       targetEl,
       Object.keys(DEFAULT_SETTINGS)
@@ -246,6 +248,35 @@ class Timepicker {
     }
 
     return duration.join(" ");
+  }
+
+
+  _generateNoneElement(optionValue, useSelect) {
+    var label, className, value;
+
+    if (typeof optionValue == "object") {
+      label = optionValue.label;
+      className = optionValue.className;
+      value = optionValue.value;
+    } else if (typeof optionValue == "string") {
+      label = optionValue;
+      value = "";
+    } else {
+      $.error("Invalid noneOption value");
+    }
+
+    let el;
+    if (useSelect) {
+      el = document.createElement('option');
+      el.value = value;
+    } else {
+      el = document.createElement('li');
+      el.dataset.time = String(value);
+    }
+
+    el.innerText = label;
+    el.classList.add(className);
+    return el;
   }
 }
 
