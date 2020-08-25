@@ -69,11 +69,10 @@ test("disableTextInput works", () => {
   $(`#${TEST_INPUT}`).get(0).dispatchEvent(event);
 });
 
-test("disableTextInput works", () => {
+test("option works", () => {
   $(`#${TEST_INPUT}`).timepicker({ 'disableTextInput': true });
   expect($(`#${TEST_INPUT}`).timepicker('option', 'disableTextInput')).toEqual(true);
 
   $(`#${TEST_INPUT}`).timepicker('option', { 'disableTextInput': false });
   expect($(`#${TEST_INPUT}`).timepicker('option', 'disableTextInput')).toEqual(false);
-
 });

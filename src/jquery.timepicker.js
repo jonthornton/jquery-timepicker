@@ -68,7 +68,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       }
 
       if (settings.useSelect) {
-        self.data("timepicker-list").focus();
+        tp.list.focus();
         return;
       }
 
@@ -77,7 +77,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         self.blur();
       }
 
-      var list = self.data("timepicker-list");
+      var list = tp.list;
 
       // check if input is readonly
       if (self.prop("readonly")) {
@@ -91,7 +91,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         typeof settings.durationTime === "function"
       ) {
         _render(self);
-        list = self.data("timepicker-list");
+        list = tp.list;
       }
 
       if (_isVisible(list)) {
@@ -252,7 +252,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         var self = $(this);
         var tp = self.data("timepicker-obj");
         var settings = tp.settings;
-        var list = self.data("timepicker-list");
+        var list = tp.list;
 
         if (typeof key == "object") {
           settings = $.extend(settings, key);
@@ -267,7 +267,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
         if (list) {
           list.remove();
-          self.data("timepicker-list", false);
+          tp.list = null;
         }
 
         if (settings.useSelect) {
@@ -312,8 +312,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     isVisible: function() {
       var self = this;
-      var list = self.data("timepicker-list");
-      return !!(list && _isVisible(list));
+      var tp = self.data("timepicker-obj");
+      return !!(tp && tp.list && _isVisible(tp.list));
     },
 
     setTime: function(value) {
@@ -334,8 +334,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       _setTimeValue(self, prettyTime, "initial");
       _formatValue.call(self.get(0), { type: "change" }, "initial");
 
-      if (self.data("timepicker-list")) {
-        _setSelected(self, self.data("timepicker-list"));
+      if (tp && tp.list) {
+        _setSelected(self, tp.list);
       }
 
       return this;
@@ -358,15 +358,15 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       self.off(".timepicker");
 
       // timepicker-list won't be present unless the user has interacted with this timepicker
-      if (self.data("timepicker-list")) {
-        self.data("timepicker-list").remove();
+      if (tp.list) {
+        tp.list.remove();
       }
 
       if (settings.useSelect) {
         self.show();
       }
 
-      self.removeData("timepicker-list");
+      tp.list = null;
 
       return this;
     }
@@ -380,13 +380,13 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
   }
 
   function _render(self) {
-    var list = self.data("timepicker-list");
     var tp = self.data("timepicker-obj");
+    var list = tp.list;
     var settings = tp.settings;
 
     if (list && list.length) {
       list.remove();
-      self.data("timepicker-list", false);
+      tp.list = null;
     }
 
     if (settings.useSelect) {
@@ -528,7 +528,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     }
 
     wrapped_list.data("timepicker-input", self);
-    self.data("timepicker-list", wrapped_list);
+    tp.list = wrapped_list;
 
     if (settings.useSelect) {
       if (self.val()) {
@@ -795,14 +795,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       var tp = self.data("timepicker-obj");
       var settings = tp.settings;
 
-      if (
-        settings.useSelect &&
-        source != "select" &&
-        self.data("timepicker-list")
-      ) {
-        self
-          .data("timepicker-list")
-          .val(_roundAndFormatTime(tp.time2int(value), settings));
+      if (settings.useSelect && source != "select" && tp.list) {
+        tp.list.val(_roundAndFormatTime(tp.time2int(value), settings));
       }
     }
 
@@ -831,13 +825,14 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
    */
   function _keydownhandler(e) {
     var self = $(this);
-    var list = self.data("timepicker-list");
+    var tp = self.data("timepicker-obj");
+    var list = tp.list;
 
     if (!list || !_isVisible(list)) {
       if (e.keyCode == 40) {
         // show the list!
         methods.show.call(self.get(0));
-        list = self.data("timepicker-list");
+        list = tp.list;
         if (!_hideKeyboard(self)) {
           self.focus();
         }
@@ -923,8 +918,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
    */
   function _keyuphandler(e) {
     var self = $(this);
-    var list = self.data("timepicker-list");
     var tp = self.data("timepicker-obj");
+    var list = tp.list;
     var settings = tp.settings;
 
     if (!list || !_isVisible(list) || settings.disableTextInput) {
@@ -981,7 +976,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
   function _selectValue(self) {
     var tp = self.data("timepicker-obj");
     var settings = tp.settings;
-    var list = self.data("timepicker-list");
+    var list = tp.list;
     var timeValue = null;
 
     var cursor = list.find(".ui-timepicker-selected");
