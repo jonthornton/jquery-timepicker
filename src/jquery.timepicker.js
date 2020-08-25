@@ -49,7 +49,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
           self.on("keydown.timepicker", _keydownhandler);
           self.on("keyup.timepicker", _keyuphandler);
           if (settings.disableTextInput) {
-            self.on("keydown.timepicker", _disableTextInputHandler);
+            self.on("keydown.timepicker", tp._disableTextInputHandler);
           }
           self.on("cut.timepicker", _keyuphandler);
           self.on("paste.timepicker", _keyuphandler);
@@ -820,20 +820,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         self.trigger("selectTime");
       }
       return false;
-    }
-  }
-
-  /*
-   *  Filter freeform input
-   */
-  function _disableTextInputHandler(e) {
-    switch (e.keyCode) {
-      case 13: // return
-      case 9: //tab
-        return;
-
-      default:
-        e.preventDefault();
     }
   }
 

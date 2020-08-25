@@ -200,6 +200,21 @@ class Timepicker {
     return settings;
   }
 
+
+  /*
+   *  Filter freeform input
+   */
+  _disableTextInputHandler(e) {
+    switch (e.keyCode) {
+      case 13: // return
+      case 9: //tab
+        return;
+
+      default:
+        e.preventDefault();
+    }
+  }
+
   _int2duration(seconds, step) {
     seconds = Math.abs(seconds);
     var minutes = Math.round(seconds / 60),

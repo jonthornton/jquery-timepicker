@@ -61,3 +61,11 @@ test("showDuration works", () => {
   $(`#${TEST_INPUT}`).timepicker({ 'showDuration': true, 'durationTime':'2:00pm' });
   $(`#${TEST_INPUT}`).timepicker('show');
 });
+
+test("disableTextInput works", () => {
+  $(`#${TEST_INPUT}`).val("2:00pm");
+  $(`#${TEST_INPUT}`).timepicker({ 'disableTextInput': true });
+  const event = new KeyboardEvent('keydown', {'keyCode': 37});
+  $(`#${TEST_INPUT}`).get(0).dispatchEvent(event);
+  // $(`#${TEST_INPUT}`).timepicker('show');
+});
