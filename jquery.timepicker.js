@@ -433,7 +433,7 @@
       define(["jquery"], factory);
     } else {
       // Browser globals
-      factory(jQuery);
+      factory($);
     }
   })(function ($) {
     var _lang = {};
@@ -1561,7 +1561,7 @@
             seconds -= offset;
           }
 
-          return _moduloSeconds(seconds, settings);
+          return _moduloSeconds$1(seconds, settings);
         }
       },
       scrollDefault: null,
