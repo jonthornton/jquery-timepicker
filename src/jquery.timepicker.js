@@ -235,7 +235,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         var tp = self.data("timepicker-obj");
 
         if (tp && tp.settings && tp.settings.selectOnBlur) {
-          _selectValue(self);
+          tp._selectValue();
         }
 
         list.hide();
@@ -577,7 +577,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         list.find("li").removeClass("ui-timepicker-selected");
         $(this).addClass("ui-timepicker-selected");
 
-        if (_selectValue(self)) {
+        if (tp._selectValue()) {
           self.trigger("hideTimepicker");
 
           list.on("mouseup.timepicker click.timepicker", "li", function(e) {
@@ -731,7 +731,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     switch (e.keyCode) {
       case 13: // return
-        if (_selectValue(self)) {
+        if (tp._selectValue()) {
           _formatValue.call(self.get(0), { type: "change" });
           methods.hide.apply(this);
         }
@@ -859,34 +859,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         }
         break;
     }
-  }
-
-  function _selectValue(self) {
-    var tp = self.data("timepicker-obj");
-    var settings = tp.settings;
-    var list = tp.list;
-    var timeValue = null;
-
-    var cursor = list.find(".ui-timepicker-selected");
-
-    if (cursor.hasClass("ui-timepicker-disabled")) {
-      return false;
-    }
-
-    if (cursor.length) {
-      // selected value found
-      timeValue = Number.parseInt(cursor.get(0).dataset.time);
-    }
-
-    if (timeValue !== null) {
-      if (typeof timeValue != "string") {
-        timeValue = tp._int2time(timeValue);
-      }
-
-      tp._setTimeValue(timeValue, "select");
-    }
-
-    return true;
   }
 
   // Plugin entry

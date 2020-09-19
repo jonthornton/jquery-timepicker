@@ -337,6 +337,34 @@
         }
       }
     }, {
+      key: "_selectValue",
+      value: function _selectValue() {
+        var tp = this;
+        var settings = tp.settings;
+        var list = tp.list;
+        var timeValue = null;
+        var cursor = list.find(".ui-timepicker-selected");
+
+        if (cursor.hasClass("ui-timepicker-disabled")) {
+          return false;
+        }
+
+        if (cursor.length) {
+          // selected value found
+          timeValue = Number.parseInt(cursor.get(0).dataset.time);
+        }
+
+        if (timeValue !== null) {
+          if (typeof timeValue != "string") {
+            timeValue = tp._int2time(timeValue);
+          }
+
+          tp._setTimeValue(timeValue, "select");
+        }
+
+        return true;
+      }
+    }, {
       key: "time2int",
       value: function time2int(timeString) {
         if (timeString === "" || timeString === null || timeString === undefined) return null;
@@ -890,7 +918,7 @@
           var tp = self.data("timepicker-obj");
 
           if (tp && tp.settings && tp.settings.selectOnBlur) {
-            _selectValue(self);
+            tp._selectValue();
           }
 
           list.hide();
@@ -1221,7 +1249,7 @@
           list.find("li").removeClass("ui-timepicker-selected");
           $(this).addClass("ui-timepicker-selected");
 
-          if (_selectValue(self)) {
+          if (tp._selectValue()) {
             self.trigger("hideTimepicker");
             list.on("mouseup.timepicker click.timepicker", "li", function (e) {
               list.off("mouseup.timepicker click.timepicker");
@@ -1364,7 +1392,7 @@
       switch (e.keyCode) {
         case 13:
           // return
-          if (_selectValue(self)) {
+          if (tp._selectValue()) {
             _formatValue.call(self.get(0), {
               type: "change"
             });
@@ -1505,33 +1533,6 @@
 
           break;
       }
-    }
-
-    function _selectValue(self) {
-      var tp = self.data("timepicker-obj");
-      var settings = tp.settings;
-      var list = tp.list;
-      var timeValue = null;
-      var cursor = list.find(".ui-timepicker-selected");
-
-      if (cursor.hasClass("ui-timepicker-disabled")) {
-        return false;
-      }
-
-      if (cursor.length) {
-        // selected value found
-        timeValue = Number.parseInt(cursor.get(0).dataset.time);
-      }
-
-      if (timeValue !== null) {
-        if (typeof timeValue != "string") {
-          timeValue = tp._int2time(timeValue);
-        }
-
-        tp._setTimeValue(timeValue, "select");
-      }
-
-      return true;
     } // Plugin entry
 
 

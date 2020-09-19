@@ -116,6 +116,34 @@ class Timepicker {
     }
   }
 
+  _selectValue() {
+    var tp = this;
+    var settings = tp.settings;
+    var list = tp.list;
+    var timeValue = null;
+
+    var cursor = list.find(".ui-timepicker-selected");
+
+    if (cursor.hasClass("ui-timepicker-disabled")) {
+      return false;
+    }
+
+    if (cursor.length) {
+      // selected value found
+      timeValue = Number.parseInt(cursor.get(0).dataset.time);
+    }
+
+    if (timeValue !== null) {
+      if (typeof timeValue != "string") {
+        timeValue = tp._int2time(timeValue);
+      }
+
+      tp._setTimeValue(timeValue, "select");
+    }
+
+    return true;
+  }
+
   time2int(timeString) {
     if (timeString === "" || timeString === null || timeString === undefined)
       return null;
