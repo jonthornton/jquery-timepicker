@@ -120,7 +120,6 @@ class Timepicker {
     var tp = this;
     var settings = tp.settings;
     var list = tp.list;
-    var timeValue = null;
 
     var cursor = list.find(".ui-timepicker-selected");
 
@@ -128,11 +127,21 @@ class Timepicker {
       return false;
     }
 
-    if (cursor.length) {
-      // selected value found
-      timeValue = Number.parseInt(cursor.get(0).dataset.time);
+    if (!cursor.length) {
+      return true;
     }
+      
+    var timeValue = cursor.get(0).dataset.time;
 
+    // selected value found
+    if (timeValue) {
+      const parsedTimeValue = Number.parseInt(timeValue);
+      if (parsedTimeValue) {
+        timeValue = parsedTimeValue;
+      }
+
+    }
+    
     if (timeValue !== null) {
       if (typeof timeValue != "string") {
         timeValue = tp._int2time(timeValue);

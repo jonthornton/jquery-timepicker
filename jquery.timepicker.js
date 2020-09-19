@@ -342,16 +342,24 @@
         var tp = this;
         var settings = tp.settings;
         var list = tp.list;
-        var timeValue = null;
         var cursor = list.find(".ui-timepicker-selected");
 
         if (cursor.hasClass("ui-timepicker-disabled")) {
           return false;
         }
 
-        if (cursor.length) {
-          // selected value found
-          timeValue = Number.parseInt(cursor.get(0).dataset.time);
+        if (!cursor.length) {
+          return true;
+        }
+
+        var timeValue = cursor.get(0).dataset.time; // selected value found
+
+        if (timeValue) {
+          var parsedTimeValue = Number.parseInt(timeValue);
+
+          if (parsedTimeValue) {
+            timeValue = parsedTimeValue;
+          }
         }
 
         if (timeValue !== null) {
