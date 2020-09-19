@@ -72,7 +72,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         return;
       }
 
-      if (_hideKeyboard(self)) {
+      if (tp._hideKeyboard()) {
         // block the keyboard on mobile devices
         self.blur();
       }
@@ -566,7 +566,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
           self.on("focus.timepicker", methods.show);
         });
 
-        if (!_hideKeyboard(self)) {
+        if (!tp._hideKeyboard()) {
           self[0].focus();
         }
 
@@ -606,15 +606,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     methods.hide();
     $(document).unbind(".ui-timepicker");
     $(window).unbind(".ui-timepicker");
-  }
-
-  function _hideKeyboard(self) {
-    var tp = self.data("timepicker-obj");
-    var settings = tp.settings;
-    return (
-      (window.navigator.msMaxTouchPoints || "ontouchstart" in document) &&
-      settings.disableTouchKeyboard
-    );
   }
 
   function _setSelected(self, list) {
@@ -769,7 +760,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         // show the list!
         methods.show.call(self.get(0));
         list = tp.list;
-        if (!_hideKeyboard(self)) {
+        if (!tp._hideKeyboard()) {
           self.focus();
         }
       } else {

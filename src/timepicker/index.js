@@ -60,6 +60,13 @@ class Timepicker {
     return out;
   }
 
+  _hideKeyboard() {
+    return (
+      (window.navigator.msMaxTouchPoints || "ontouchstart" in document) &&
+      this.settings.disableTouchKeyboard
+    );
+  }
+
   time2int(timeString) {
     if (timeString === "" || timeString === null || timeString === undefined)
       return null;

@@ -280,6 +280,11 @@
         return out;
       }
     }, {
+      key: "_hideKeyboard",
+      value: function _hideKeyboard() {
+        return (window.navigator.msMaxTouchPoints || "ontouchstart" in document) && this.settings.disableTouchKeyboard;
+      }
+    }, {
       key: "time2int",
       value: function time2int(timeString) {
         if (timeString === "" || timeString === null || timeString === undefined) return null;
@@ -696,7 +701,7 @@
           return;
         }
 
-        if (_hideKeyboard(self)) {
+        if (tp._hideKeyboard()) {
           // block the keyboard on mobile devices
           self.blur();
         }
@@ -1154,7 +1159,7 @@
             self.on("focus.timepicker", methods.show);
           });
 
-          if (!_hideKeyboard(self)) {
+          if (!tp._hideKeyboard()) {
             self[0].focus();
           } // make sure only the clicked row is selected
 
@@ -1190,12 +1195,6 @@
       methods.hide();
       $(document).unbind(".ui-timepicker");
       $(window).unbind(".ui-timepicker");
-    }
-
-    function _hideKeyboard(self) {
-      var tp = self.data("timepicker-obj");
-      var settings = tp.settings;
-      return (window.navigator.msMaxTouchPoints || "ontouchstart" in document) && settings.disableTouchKeyboard;
     }
 
     function _setSelected(self, list) {
@@ -1342,7 +1341,7 @@
           methods.show.call(self.get(0));
           list = tp.list;
 
-          if (!_hideKeyboard(self)) {
+          if (!tp._hideKeyboard()) {
             self.focus();
           }
         } else {
