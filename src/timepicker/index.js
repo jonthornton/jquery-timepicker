@@ -67,6 +67,46 @@ class Timepicker {
     );
   }
 
+  _setTimeValue(value, source) {
+    if (this.targetEl.nodeName === "INPUT") {
+      if (value !== null || this.targetEl.value != "") {
+        this.targetEl.value = value;
+      }
+
+      var tp = this;
+      var settings = tp.settings;
+
+      if (settings.useSelect && source != "select" && tp.list) {
+        tp.list.val(tp._roundAndFormatTime(tp.time2int(value)));
+      }
+    }
+
+    const selectTimeEvent = new Event('selectTime');
+    
+    if (this.selectedValue != value) {
+      this.selectedValue = value;
+
+      const changeTimeEvent = new Event('changeTime');
+      const changeEvent = new CustomEvent('change', { detail: 'timepicker'});
+
+      if (source == "select") {
+        this.targetEl.dispatchEvent(selectTimeEvent);
+        this.targetEl.dispatchEvent(changeTimeEvent);
+        this.targetEl.dispatchEvent(changeEvent);
+
+      } else if (["error", "initial"].indexOf(source) == -1) {
+        this.targetEl.dispatchEvent(changeTimeEvent);
+      }
+
+      return true;
+    } else {
+      if (["error", "initial"].indexOf(source) == -1) {
+        this.targetEl.dispatchEvent(selectTimeEvent);
+      }
+      return false;
+    }
+  }
+
   time2int(timeString) {
     if (timeString === "" || timeString === null || timeString === undefined)
       return null;

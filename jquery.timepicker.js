@@ -285,6 +285,48 @@
         return (window.navigator.msMaxTouchPoints || "ontouchstart" in document) && this.settings.disableTouchKeyboard;
       }
     }, {
+      key: "_setTimeValue",
+      value: function _setTimeValue(value, source) {
+        if (this.targetEl.nodeName === "INPUT") {
+          if (value !== null || this.targetEl.value != "") {
+            this.targetEl.value = value;
+          }
+
+          var tp = this;
+          var settings = tp.settings;
+
+          if (settings.useSelect && source != "select" && tp.list) {
+            tp.list.val(tp._roundAndFormatTime(tp.time2int(value)));
+          }
+        }
+
+        var selectTimeEvent = new Event('selectTime');
+
+        if (this.selectedValue != value) {
+          this.selectedValue = value;
+          var changeTimeEvent = new Event('changeTime');
+          var changeEvent = new CustomEvent('change', {
+            detail: 'timepicker'
+          });
+
+          if (source == "select") {
+            this.targetEl.dispatchEvent(selectTimeEvent);
+            this.targetEl.dispatchEvent(changeTimeEvent);
+            this.targetEl.dispatchEvent(changeEvent);
+          } else if (["error", "initial"].indexOf(source) == -1) {
+            this.targetEl.dispatchEvent(changeTimeEvent);
+          }
+
+          return true;
+        } else {
+          if (["error", "initial"].indexOf(source) == -1) {
+            this.targetEl.dispatchEvent(selectTimeEvent);
+          }
+
+          return false;
+        }
+      }
+    }, {
       key: "time2int",
       value: function time2int(timeString) {
         if (timeString === "" || timeString === null || timeString === undefined) return null;
@@ -723,7 +765,7 @@
           return;
         }
 
-        self.data("ui-timepicker-value", self.val());
+        tp.selectedValue = self.val();
 
         _setSelected(self, list); // make sure other pickers are hidden
 
@@ -932,7 +974,7 @@
           prettyTime = value;
         }
 
-        _setTimeValue(self, prettyTime, "initial");
+        tp._setTimeValue(prettyTime, "initial");
 
         _formatValue.call(self.get(0), {
           type: "change"
@@ -1130,10 +1172,10 @@
           $(this).data("timepicker-input").trigger("hideTimepicker");
         });
         list.on("change", function () {
-          _setTimeValue(self, $(this).val(), "select");
+          tp._setTimeValue($(this).val(), "select");
         });
 
-        _setTimeValue(self, list.val(), "initial");
+        tp._setTimeValue(list.val(), "initial");
 
         self.hide().after(list);
       } else {
@@ -1225,14 +1267,15 @@
     }
 
     function _formatValue(e, origin) {
-      if (origin == "timepicker") {
+      if (e && e.detail == "timepicker") {
         return;
       }
 
       var self = $(this);
+      var tp = self.data("timepicker-obj");
 
       if (this.value === "") {
-        _setTimeValue(self, null, origin);
+        tp._setTimeValue(null, origin);
 
         return;
       }
@@ -1241,7 +1284,6 @@
         return;
       }
 
-      var tp = self.data("timepicker-obj");
       var settings = tp.settings;
       var seconds = tp.time2int(this.value);
 
@@ -1276,11 +1318,11 @@
       var prettyTime = tp._int2time(seconds);
 
       if (rangeError) {
-        if (_setTimeValue(self, prettyTime, "error") || e && e.type == "change") {
+        if (tp._setTimeValue(prettyTime, "error") || e && e.type == "change") {
           self.trigger("timeRangeError");
         }
       } else {
-        _setTimeValue(self, prettyTime, origin);
+        tp._setTimeValue(prettyTime, origin);
       }
     }
 
@@ -1289,40 +1331,8 @@
         return self.val();
       } else {
         // use the element's data attributes to store values
-        return self.data("ui-timepicker-value");
-      }
-    }
-
-    function _setTimeValue(self, value, source) {
-      if (self.is("input")) {
-        if (value !== null || self.val() != "") {
-          self.val(value);
-        }
-
         var tp = self.data("timepicker-obj");
-        var settings = tp.settings;
-
-        if (settings.useSelect && source != "select" && tp.list) {
-          tp.list.val(tp._roundAndFormatTime(tp.time2int(value)));
-        }
-      }
-
-      if (self.data("ui-timepicker-value") != value) {
-        self.data("ui-timepicker-value", value);
-
-        if (source == "select") {
-          self.trigger("selectTime").trigger("changeTime").trigger("change", "timepicker");
-        } else if (["error", "initial"].indexOf(source) == -1) {
-          self.trigger("changeTime");
-        }
-
-        return true;
-      } else {
-        if (["error", "initial"].indexOf(source) == -1) {
-          self.trigger("selectTime");
-        }
-
-        return false;
+        return tp.selectedValue;
       }
     }
     /*
@@ -1516,7 +1526,7 @@
           timeValue = tp._int2time(timeValue);
         }
 
-        _setTimeValue(self, timeValue, "select");
+        tp._setTimeValue(timeValue, "select");
       }
 
       return true;

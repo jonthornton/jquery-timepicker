@@ -98,7 +98,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         return;
       }
 
-      self.data("ui-timepicker-value", self.val());
+      tp.selectedValue = self.val();
       _setSelected(self, list);
 
       // make sure other pickers are hidden
@@ -331,7 +331,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         prettyTime = value;
       }
 
-      _setTimeValue(self, prettyTime, "initial");
+      tp._setTimeValue(prettyTime, "initial");
       _formatValue.call(self.get(0), { type: "change" }, "initial");
 
       if (tp && tp.list) {
@@ -541,10 +541,10 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
           .trigger("hideTimepicker");
       });
       list.on("change", function() {
-        _setTimeValue(self, $(this).val(), "select");
+        tp._setTimeValue($(this).val(), "select");
       });
 
-      _setTimeValue(self, list.val(), "initial");
+      tp._setTimeValue(list.val(), "initial");
       self.hide().after(list);
     } else {
       var appendTo = settings.appendTo;
@@ -640,14 +640,15 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
   }
 
   function _formatValue(e, origin) {
-    if (origin == "timepicker") {
+    if (e && e.detail == "timepicker") {
       return;
     }
 
     var self = $(this);
+    var tp = self.data("timepicker-obj");
 
     if (this.value === "") {
-      _setTimeValue(self, null, origin);
+      tp._setTimeValue(null, origin);
       return;
     }
 
@@ -655,7 +656,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       return;
     }
 
-    var tp = self.data("timepicker-obj");
     var settings = tp.settings;
     var seconds = tp.time2int(this.value);
 
@@ -694,13 +694,13 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     if (rangeError) {
       if (
-        _setTimeValue(self, prettyTime, "error") ||
+        tp._setTimeValue(prettyTime, "error") ||
         (e && e.type == "change")
       ) {
         self.trigger("timeRangeError");
       }
     } else {
-      _setTimeValue(self, prettyTime, origin);
+      tp._setTimeValue(prettyTime, origin);
     }
   }
 
@@ -709,41 +709,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       return self.val();
     } else {
       // use the element's data attributes to store values
-      return self.data("ui-timepicker-value");
-    }
-  }
-
-  function _setTimeValue(self, value, source) {
-    if (self.is("input")) {
-      if (value !== null || self.val() != "") {
-        self.val(value);
-      }
-
       var tp = self.data("timepicker-obj");
-      var settings = tp.settings;
-
-      if (settings.useSelect && source != "select" && tp.list) {
-        tp.list.val(tp._roundAndFormatTime(tp.time2int(value)));
-      }
-    }
-
-    if (self.data("ui-timepicker-value") != value) {
-      self.data("ui-timepicker-value", value);
-      if (source == "select") {
-        self
-          .trigger("selectTime")
-          .trigger("changeTime")
-          .trigger("change", "timepicker");
-      } else if (["error", "initial"].indexOf(source) == -1) {
-        self.trigger("changeTime");
-      }
-
-      return true;
-    } else {
-      if (["error", "initial"].indexOf(source) == -1) {
-        self.trigger("selectTime");
-      }
-      return false;
+      return tp.selectedValue;
     }
   }
 
@@ -922,7 +889,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         timeValue = tp._int2time(timeValue);
       }
 
-      _setTimeValue(self, timeValue, "select");
+      tp._setTimeValue(timeValue, "select");
     }
 
     return true;
