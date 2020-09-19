@@ -98,7 +98,10 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         return;
       }
 
-      tp.selectedValue = self.val();
+      if (self.is('input')) {
+        tp.selectedValue = self.val();
+      }
+
       _setSelected(self, list);
 
       // make sure other pickers are hidden
@@ -168,7 +171,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       var selected = list.find(".ui-timepicker-selected");
 
       if (!selected.length) {
-        var timeInt = tp.time2int(_getTimeValue(self));
+        var timeInt = tp.time2int(tp._getTimeValue());
         if (timeInt !== null) {
           selected = $(tp._findRow(timeInt));
         } else if (settings.scrollDefault) {
@@ -279,14 +282,14 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     getSecondsFromMidnight: function() {
       var self = $(this);
       var tp = self.data("timepicker-obj");
-      return tp.time2int(_getTimeValue(this));
+      return tp.time2int(tp._getTimeValue());
     },
 
     getTime: function(relative_date) {
       var self = $(this);
       var tp = self.data("timepicker-obj");
 
-      var time_string = _getTimeValue(self);
+      var time_string = tp._getTimeValue();
       if (!time_string) {
         return null;
       }
@@ -613,7 +616,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     var tp = self.data("timepicker-obj");
     var settings = tp.settings;
-    var timeValue = tp.time2int(_getTimeValue(self));
+    var timeValue = tp.time2int(tp._getTimeValue());
+ 
     if (timeValue === null) {
       return;
     }
@@ -701,16 +705,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       }
     } else {
       tp._setTimeValue(prettyTime, origin);
-    }
-  }
-
-  function _getTimeValue(self) {
-    if (self.is("input")) {
-      return self.val();
-    } else {
-      // use the element's data attributes to store values
-      var tp = self.data("timepicker-obj");
-      return tp.selectedValue;
     }
   }
 

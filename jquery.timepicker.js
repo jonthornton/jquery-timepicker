@@ -327,6 +327,16 @@
         }
       }
     }, {
+      key: "_getTimeValue",
+      value: function _getTimeValue() {
+        if (this.targetEl.nodeName === "INPUT") {
+          return this.targetEl.value;
+        } else {
+          // use the element's data attributes to store values
+          return this.selectedValue;
+        }
+      }
+    }, {
       key: "time2int",
       value: function time2int(timeString) {
         if (timeString === "" || timeString === null || timeString === undefined) return null;
@@ -765,7 +775,9 @@
           return;
         }
 
-        tp.selectedValue = self.val();
+        if (self.is('input')) {
+          tp.selectedValue = self.val();
+        }
 
         _setSelected(self, list); // make sure other pickers are hidden
 
@@ -818,7 +830,7 @@
         var selected = list.find(".ui-timepicker-selected");
 
         if (!selected.length) {
-          var timeInt = tp.time2int(_getTimeValue(self));
+          var timeInt = tp.time2int(tp._getTimeValue());
 
           if (timeInt !== null) {
             selected = $(tp._findRow(timeInt));
@@ -924,13 +936,13 @@
       getSecondsFromMidnight: function getSecondsFromMidnight() {
         var self = $(this);
         var tp = self.data("timepicker-obj");
-        return tp.time2int(_getTimeValue(this));
+        return tp.time2int(tp._getTimeValue());
       },
       getTime: function getTime(relative_date) {
         var self = $(this);
         var tp = self.data("timepicker-obj");
 
-        var time_string = _getTimeValue(self);
+        var time_string = tp._getTimeValue();
 
         if (!time_string) {
           return null;
@@ -1243,7 +1255,7 @@
       list.find("li").removeClass("ui-timepicker-selected");
       var tp = self.data("timepicker-obj");
       var settings = tp.settings;
-      var timeValue = tp.time2int(_getTimeValue(self));
+      var timeValue = tp.time2int(tp._getTimeValue());
 
       if (timeValue === null) {
         return;
@@ -1323,16 +1335,6 @@
         }
       } else {
         tp._setTimeValue(prettyTime, origin);
-      }
-    }
-
-    function _getTimeValue(self) {
-      if (self.is("input")) {
-        return self.val();
-      } else {
-        // use the element's data attributes to store values
-        var tp = self.data("timepicker-obj");
-        return tp.selectedValue;
       }
     }
     /*

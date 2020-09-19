@@ -82,7 +82,7 @@ class Timepicker {
     }
 
     const selectTimeEvent = new Event('selectTime');
-    
+
     if (this.selectedValue != value) {
       this.selectedValue = value;
 
@@ -104,6 +104,15 @@ class Timepicker {
         this.targetEl.dispatchEvent(selectTimeEvent);
       }
       return false;
+    }
+  }
+
+  _getTimeValue() {
+    if (this.targetEl.nodeName === "INPUT") {
+      return this.targetEl.value;
+    } else {
+      // use the element's data attributes to store values
+      return this.selectedValue;
     }
   }
 
