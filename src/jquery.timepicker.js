@@ -170,9 +170,9 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       if (!selected.length) {
         var timeInt = tp.time2int(_getTimeValue(self));
         if (timeInt !== null) {
-          selected = _findRow(self, list, timeInt);
+          selected = $(tp._findRow(timeInt));
         } else if (settings.scrollDefault) {
-          selected = _findRow(self, list, settings.scrollDefault());
+          selected = $(tp._findRow(settings.scrollDefault()));
         }
       }
 
@@ -617,32 +617,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     );
   }
 
-  function _findRow(self, list, value) {
-    if (!value && value !== 0) {
-      return false;
-    }
-
-    var tp = self.data("timepicker-obj");
-    var settings = tp.settings;
-    var out = false;
-    var value = settings.roundingFunction(value, settings);
-
-    list.find("li").each(function(i, obj) {
-      const parsed = Number.parseInt(obj.dataset.time);
-
-      if (Number.isNaN(parsed)) {
-        return;
-      }
-
-      if (parsed == value) {
-        out = obj;
-        return false;
-      }
-    });
-
-    return $(out);
-  }
-
   function _setSelected(self, list) {
     list.find("li").removeClass("ui-timepicker-selected");
 
@@ -653,7 +627,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       return;
     }
 
-    var selected = _findRow(self, list, timeValue);
+    var selected = $(tp._findRow(timeValue));
     if (selected) {
       var topDelta = selected.offset().top - list.offset().top;
 

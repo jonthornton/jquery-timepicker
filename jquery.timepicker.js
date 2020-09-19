@@ -252,6 +252,34 @@
     }
 
     _createClass(Timepicker, [{
+      key: "_findRow",
+      value: function _findRow(value) {
+        if (!value && value !== 0) {
+          return false;
+        }
+
+        var out = false;
+        var value = this.settings.roundingFunction(value, this.settings);
+
+        if (!this.list) {
+          return false;
+        }
+
+        this.list.find("li").each(function (i, obj) {
+          var parsed = Number.parseInt(obj.dataset.time);
+
+          if (Number.isNaN(parsed)) {
+            return;
+          }
+
+          if (parsed == value) {
+            out = obj;
+            return false;
+          }
+        });
+        return out;
+      }
+    }, {
       key: "time2int",
       value: function time2int(timeString) {
         if (timeString === "" || timeString === null || timeString === undefined) return null;
@@ -746,9 +774,9 @@
           var timeInt = tp.time2int(_getTimeValue(self));
 
           if (timeInt !== null) {
-            selected = _findRow(self, list, timeInt);
+            selected = $(tp._findRow(timeInt));
           } else if (settings.scrollDefault) {
-            selected = _findRow(self, list, settings.scrollDefault());
+            selected = $(tp._findRow(settings.scrollDefault()));
           }
         } // if not found or disabled, intelligently find first selectable element
 
@@ -1170,30 +1198,6 @@
       return (window.navigator.msMaxTouchPoints || "ontouchstart" in document) && settings.disableTouchKeyboard;
     }
 
-    function _findRow(self, list, value) {
-      if (!value && value !== 0) {
-        return false;
-      }
-
-      var tp = self.data("timepicker-obj");
-      var settings = tp.settings;
-      var out = false;
-      var value = settings.roundingFunction(value, settings);
-      list.find("li").each(function (i, obj) {
-        var parsed = Number.parseInt(obj.dataset.time);
-
-        if (Number.isNaN(parsed)) {
-          return;
-        }
-
-        if (parsed == value) {
-          out = obj;
-          return false;
-        }
-      });
-      return $(out);
-    }
-
     function _setSelected(self, list) {
       list.find("li").removeClass("ui-timepicker-selected");
       var tp = self.data("timepicker-obj");
@@ -1204,7 +1208,7 @@
         return;
       }
 
-      var selected = _findRow(self, list, timeValue);
+      var selected = $(tp._findRow(timeValue));
 
       if (selected) {
         var topDelta = selected.offset().top - list.offset().top;

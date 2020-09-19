@@ -46,3 +46,11 @@ test("_roundAndFormatTime works", () => {
   expect(tp._roundAndFormatTime(5)).toEqual("12:00am");
   expect(tp._roundAndFormatTime(7100)).toEqual("2:00am");
 });
+
+test("_findRow works", () => {
+  const el = createIntput();
+  const tp = new Timepicker(el);
+
+  // todo: finish this test after moving show method
+  // tp.show();
+});

@@ -32,6 +32,34 @@ class Timepicker {
     return el.offsetWidth > 0 && el.offsetHeight > 0;
   }
 
+  _findRow(value) {
+    if (!value && value !== 0) {
+      return false;
+    }
+
+    var out = false;
+    var value = this.settings.roundingFunction(value, this.settings);
+
+    if (!this.list) {
+      return false;
+    }
+
+    this.list.find("li").each(function(i, obj) {
+      const parsed = Number.parseInt(obj.dataset.time);
+
+      if (Number.isNaN(parsed)) {
+        return;
+      }
+
+      if (parsed == value) {
+        out = obj;
+        return false;
+      }
+    });
+
+    return out;
+  }
+
   time2int(timeString) {
     if (timeString === "" || timeString === null || timeString === undefined)
       return null;
