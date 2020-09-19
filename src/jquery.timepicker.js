@@ -94,7 +94,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         list = tp.list;
       }
 
-      if (_isVisible(list)) {
+      if (Timepicker.isVisible(list)) {
         return;
       }
 
@@ -224,7 +224,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
       $(".ui-timepicker-wrapper").each(function() {
         var list = $(this);
-        if (!_isVisible(list)) {
+        if (!Timepicker.isVisible(list)) {
           return;
         }
 
@@ -313,7 +313,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     isVisible: function() {
       var self = this;
       var tp = self.data("timepicker-obj");
-      return !!(tp && tp.list && _isVisible(tp.list));
+      return !!(tp && tp.list && Timepicker.isVisible(tp.list));
     },
 
     setTime: function(value) {
@@ -373,11 +373,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
   };
 
   // private methods
-
-  function _isVisible(elem) {
-    var el = elem[0];
-    return el.offsetWidth > 0 && el.offsetHeight > 0;
-  }
 
   function _render(self) {
     var tp = self.data("timepicker-obj");
@@ -795,7 +790,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     var tp = self.data("timepicker-obj");
     var list = tp.list;
 
-    if (!list || !_isVisible(list)) {
+    if (!list || !Timepicker.isVisible(list)) {
       if (e.keyCode == 40) {
         // show the list!
         methods.show.call(self.get(0));
@@ -889,7 +884,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     var list = tp.list;
     var settings = tp.settings;
 
-    if (!list || !_isVisible(list) || settings.disableTextInput) {
+    if (!list || !Timepicker.isVisible(list) || settings.disableTextInput) {
       return true;
     }
 

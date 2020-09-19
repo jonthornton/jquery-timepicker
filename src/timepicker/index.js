@@ -27,6 +27,11 @@ class Timepicker {
     return output;
   }
 
+  static isVisible(elem) {
+    var el = elem[0];
+    return el.offsetWidth > 0 && el.offsetHeight > 0;
+  }
+
   time2int(timeString) {
     if (timeString === "" || timeString === null || timeString === undefined)
       return null;
