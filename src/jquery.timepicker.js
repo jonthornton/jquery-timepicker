@@ -102,7 +102,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         tp.selectedValue = self.val();
       }
 
-      _setSelected(self, list);
+      tp._setSelected();
 
       // make sure other pickers are hidden
       methods.hide();
@@ -338,7 +338,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       _formatValue.call(self.get(0), { type: "change" }, "initial");
 
       if (tp && tp.list) {
-        _setSelected(self, tp.list);
+        tp._setSelected();
       }
 
       return this;
@@ -557,7 +557,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         appendTo = appendTo(self);
       }
       appendTo.append(wrapped_list);
-      _setSelected(self, list);
+      tp._setSelected();
 
       list.on("mousedown click", "li", function(e) {
         // hack: temporarily disable the focus handler
@@ -609,38 +609,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     methods.hide();
     $(document).unbind(".ui-timepicker");
     $(window).unbind(".ui-timepicker");
-  }
-
-  function _setSelected(self, list) {
-    list.find("li").removeClass("ui-timepicker-selected");
-
-    var tp = self.data("timepicker-obj");
-    var settings = tp.settings;
-    var timeValue = tp.time2int(tp._getTimeValue());
- 
-    if (timeValue === null) {
-      return;
-    }
-
-    var selected = $(tp._findRow(timeValue));
-    if (selected) {
-      var topDelta = selected.offset().top - list.offset().top;
-
-      if (
-        topDelta + selected.outerHeight() > list.outerHeight() ||
-        topDelta < 0
-      ) {
-        list.scrollTop(
-          list.scrollTop() + selected.position().top - selected.outerHeight()
-        );
-      }
-
-      const parsed = Number.parseInt(selected.get(0).dataset.time);
-
-      if (settings.forceRoundTime || parsed === timeValue) {
-        selected.addClass("ui-timepicker-selected");
-      }
-    }
   }
 
   function _formatValue(e, origin) {
@@ -817,7 +785,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     if (e.type === "paste" || e.type === "cut") {
       setTimeout(function() {
         if (settings.typeaheadHighlight) {
-          _setSelected(self, list);
+          tp._setSelected();
         } else {
           list.hide();
         }
@@ -853,7 +821,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       case 8: // backspace
       case 46: // delete
         if (settings.typeaheadHighlight) {
-          _setSelected(self, list);
+          tp._setSelected();
         } else {
           list.hide();
         }

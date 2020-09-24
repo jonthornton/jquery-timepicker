@@ -662,6 +662,36 @@
         return output;
       }
     }, {
+      key: "_setSelected",
+      value: function _setSelected() {
+        var list = this.list;
+        list.find("li").removeClass("ui-timepicker-selected");
+        var timeValue = this.time2int(this._getTimeValue());
+
+        if (timeValue === null) {
+          return;
+        }
+
+        var selected = this._findRow(timeValue);
+
+        if (selected) {
+          var selectedRect = selected.getBoundingClientRect();
+          var listRect = list.get(0).getBoundingClientRect();
+          var topDelta = selectedRect.top - listRect.top;
+
+          if (topDelta + selectedRect.height > listRect.height || topDelta < 0) {
+            var newScroll = list.scrollTop() + (selectedRect.top - listRect.top) - selectedRect.height;
+            list.scrollTop(newScroll);
+          }
+
+          var parsed = Number.parseInt(selected.dataset.time);
+
+          if (this.settings.forceRoundTime || parsed === timeValue) {
+            selected.classList.add('ui-timepicker-selected');
+          }
+        }
+      }
+    }, {
       key: "_generateNoneElement",
       value: function _generateNoneElement(optionValue, useSelect) {
         var label, className, value;
@@ -815,7 +845,7 @@
           tp.selectedValue = self.val();
         }
 
-        _setSelected(self, list); // make sure other pickers are hidden
+        tp._setSelected(); // make sure other pickers are hidden
 
 
         methods.hide();
@@ -1029,7 +1059,7 @@
         }, "initial");
 
         if (tp && tp.list) {
-          _setSelected(self, tp.list);
+          tp._setSelected();
         }
 
         return this;
@@ -1237,7 +1267,7 @@
 
         appendTo.append(wrapped_list);
 
-        _setSelected(self, list);
+        tp._setSelected();
 
         list.on("mousedown click", "li", function (e) {
           // hack: temporarily disable the focus handler
@@ -1285,33 +1315,6 @@
       methods.hide();
       $(document).unbind(".ui-timepicker");
       $(window).unbind(".ui-timepicker");
-    }
-
-    function _setSelected(self, list) {
-      list.find("li").removeClass("ui-timepicker-selected");
-      var tp = self.data("timepicker-obj");
-      var settings = tp.settings;
-      var timeValue = tp.time2int(tp._getTimeValue());
-
-      if (timeValue === null) {
-        return;
-      }
-
-      var selected = $(tp._findRow(timeValue));
-
-      if (selected) {
-        var topDelta = selected.offset().top - list.offset().top;
-
-        if (topDelta + selected.outerHeight() > list.outerHeight() || topDelta < 0) {
-          list.scrollTop(list.scrollTop() + selected.position().top - selected.outerHeight());
-        }
-
-        var parsed = Number.parseInt(selected.get(0).dataset.time);
-
-        if (settings.forceRoundTime || parsed === timeValue) {
-          selected.addClass("ui-timepicker-selected");
-        }
-      }
     }
 
     function _formatValue(e, origin) {
@@ -1490,7 +1493,7 @@
       if (e.type === "paste" || e.type === "cut") {
         setTimeout(function () {
           if (settings.typeaheadHighlight) {
-            _setSelected(self, list);
+            tp._setSelected();
           } else {
             list.hide();
           }
@@ -1534,7 +1537,7 @@
         case 46:
           // delete
           if (settings.typeaheadHighlight) {
-            _setSelected(self, list);
+            tp._setSelected();
           } else {
             list.hide();
           }

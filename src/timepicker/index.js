@@ -473,6 +473,40 @@ class Timepicker {
     return output;
   }
 
+  _setSelected() {
+    const list = this.list;
+
+    list.find("li").removeClass("ui-timepicker-selected");
+
+    const timeValue = this.time2int(this._getTimeValue());
+  
+    if (timeValue === null) {
+      return;
+    }
+
+    const selected = this._findRow(timeValue);
+    if (selected) {
+
+      const selectedRect = selected.getBoundingClientRect();
+      const listRect = list.get(0).getBoundingClientRect();
+      const topDelta = selectedRect.top - listRect.top;
+
+      if (topDelta + selectedRect.height > listRect.height || topDelta < 0) {
+        const newScroll = list.scrollTop() 
+                          + (selectedRect.top - listRect.top) 
+                          - selectedRect.height;
+
+        list.scrollTop(newScroll);
+      }
+      
+      const parsed = Number.parseInt(selected.dataset.time);
+
+      if (this.settings.forceRoundTime || parsed === timeValue) {
+        selected.classList.add('ui-timepicker-selected');
+      }
+    }
+  }
+
   _generateNoneElement(optionValue, useSelect) {
     var label, className, value;
 
