@@ -174,7 +174,13 @@ class Timepicker {
       timeString += "m";
     }
 
-    var pattern = /^(([^0-9]*))?([0-9]?[0-9])(\W?([0-5][0-9]))?(\W+([0-5][0-9]))?(([^0-9]*))$/;
+    let pattern = /^(([^0-9]*))?([0-9]?[0-9])(([0-5][0-9]))?(([0-5][0-9]))?(([^0-9]*))$/;
+
+    const hasDelimetersMatch = timeString.match(/\W/);
+    if (hasDelimetersMatch) {
+      pattern = /^(([^0-9]*))?([0-9]?[0-9])(\W+([0-5][0-9]?))?(\W+([0-5][0-9]))?(([^0-9]*))$/;
+    }
+
     var time = timeString.match(pattern);
     if (!time) {
       return null;
