@@ -45,9 +45,9 @@ class Timepicker {
     }
 
     this.list.find("li").each(function(i, obj) {
-      const parsed = Number.parseInt(obj.dataset.time);
+      const parsed = parseInt(obj.dataset.time);
 
-      if (Number.isNaN(parsed)) {
+      if (isNaN(parsed)) {
         return;
       }
 
@@ -81,12 +81,12 @@ class Timepicker {
       }
     }
 
-    const selectTimeEvent = new Event('selectTime');
+    const selectTimeEvent = new CustomEvent('selectTime');
 
     if (this.selectedValue != value) {
       this.selectedValue = value;
 
-      const changeTimeEvent = new Event('changeTime');
+      const changeTimeEvent = new CustomEvent('changeTime');
       const changeEvent = new CustomEvent('change', { detail: 'timepicker'});
 
       if (source == "select") {
@@ -135,7 +135,7 @@ class Timepicker {
 
     // selected value found
     if (timeValue) {
-      const parsedTimeValue = Number.parseInt(timeValue);
+      const parsedTimeValue = parseInt(timeValue);
       if (parsedTimeValue) {
         timeValue = parsedTimeValue;
       }
@@ -505,7 +505,7 @@ class Timepicker {
         list.scrollTop(newScroll);
       }
       
-      const parsed = Number.parseInt(selected.dataset.time);
+      const parsed = parseInt(selected.dataset.time);
 
       if (this.settings.forceRoundTime || parsed === timeValue) {
         selected.classList.add('ui-timepicker-selected');
@@ -541,5 +541,20 @@ class Timepicker {
     return el;
   }
 }
+
+// IE9-11 polyfill for CustomEvent
+(function () {
+
+  if ( typeof window.CustomEvent === "function" ) return false;
+
+  function CustomEvent ( event, params ) {
+    params = params || { bubbles: false, cancelable: false, detail: null };
+    var evt = document.createEvent( 'CustomEvent' );
+    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+    return evt;
+   }
+
+  window.CustomEvent = CustomEvent;
+})();
 
 export default Timepicker;

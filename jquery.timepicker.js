@@ -266,9 +266,9 @@
         }
 
         this.list.find("li").each(function (i, obj) {
-          var parsed = Number.parseInt(obj.dataset.time);
+          var parsed = parseInt(obj.dataset.time);
 
-          if (Number.isNaN(parsed)) {
+          if (isNaN(parsed)) {
             return;
           }
 
@@ -300,11 +300,11 @@
           }
         }
 
-        var selectTimeEvent = new Event('selectTime');
+        var selectTimeEvent = new CustomEvent('selectTime');
 
         if (this.selectedValue != value) {
           this.selectedValue = value;
-          var changeTimeEvent = new Event('changeTime');
+          var changeTimeEvent = new CustomEvent('changeTime');
           var changeEvent = new CustomEvent('change', {
             detail: 'timepicker'
           });
@@ -355,7 +355,7 @@
         var timeValue = cursor.get(0).dataset.time; // selected value found
 
         if (timeValue) {
-          var parsedTimeValue = Number.parseInt(timeValue);
+          var parsedTimeValue = parseInt(timeValue);
 
           if (parsedTimeValue) {
             timeValue = parsedTimeValue;
@@ -690,7 +690,7 @@
             list.scrollTop(newScroll);
           }
 
-          var parsed = Number.parseInt(selected.dataset.time);
+          var parsed = parseInt(selected.dataset.time);
 
           if (this.settings.forceRoundTime || parsed === timeValue) {
             selected.classList.add('ui-timepicker-selected');
@@ -760,7 +760,25 @@
     }]);
 
     return Timepicker;
-  }();
+  }(); // IE9-11 polyfill for CustomEvent
+
+
+  (function () {
+    if (typeof window.CustomEvent === "function") return false;
+
+    function CustomEvent(event, params) {
+      params = params || {
+        bubbles: false,
+        cancelable: false,
+        detail: null
+      };
+      var evt = document.createEvent('CustomEvent');
+      evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+      return evt;
+    }
+
+    window.CustomEvent = CustomEvent;
+  })();
 
   (function (factory) {
     if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) === "object" && exports && (typeof module === "undefined" ? "undefined" : _typeof(module)) === "object" && module && module.exports === exports) {
