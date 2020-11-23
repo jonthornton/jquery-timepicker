@@ -1108,7 +1108,7 @@
       }
 
       if (settings.useSelect) {
-        list = $("<select />", {
+        list = $("<select></select>", {
           "class": "ui-timepicker-select"
         });
 
@@ -1118,10 +1118,10 @@
 
         var wrapped_list = list;
       } else {
-        list = $("<ul />", {
+        list = $("<ul></ul>", {
           "class": "ui-timepicker-list"
         });
-        var wrapped_list = $("<div />", {
+        var wrapped_list = $("<div></div>", {
           "class": "ui-timepicker-wrapper",
           tabindex: -1
         });
@@ -1199,12 +1199,12 @@
         var timeString = tp._int2time(timeInt);
 
         if (settings.useSelect) {
-          var row = $("<option />", {
+          var row = $("<option></option>", {
             value: timeString
           });
           row.text(timeString);
         } else {
-          var row = $("<li />");
+          var row = $("<li></li>");
           row.addClass(timeInt % ONE_DAY < ONE_DAY / 2 ? "ui-timepicker-am" : "ui-timepicker-pm");
           row.attr("data-time", roundingFunction(timeInt, settings));
           row.text(timeString);
@@ -1216,7 +1216,7 @@
           if (settings.useSelect) {
             row.text(row.text() + " (" + durationString + ")");
           } else {
-            var duration = $("<span />", {
+            var duration = $("<span></span>", {
               "class": "ui-timepicker-duration"
             });
             duration.text(" (" + durationString + ")");
