@@ -570,7 +570,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         });
 
         if (!tp._hideKeyboard()) {
-          self[0].trigger('focus');
+          self[0].focus();
         }
 
         // make sure only the clicked row is selected
