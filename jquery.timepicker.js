@@ -821,13 +821,13 @@
         }
 
         if (settings.useSelect) {
-          tp.list.focus();
+          tp.list.trigger('focus');
           return;
         }
 
         if (tp._hideKeyboard()) {
           // block the keyboard on mobile devices
-          self.blur();
+          self.trigger('blur');
         }
 
         var list = tp.list; // check if input is readonly
@@ -948,7 +948,7 @@
         var tp = self.data("timepicker-obj");
 
         if (tp && tp.settings && tp.settings.useSelect) {
-          self.blur();
+          self.trigger('blur');
         }
 
         $(".ui-timepicker-wrapper").each(function () {
@@ -1286,7 +1286,7 @@
           });
 
           if (!tp._hideKeyboard()) {
-            self[0].focus();
+            self[0].trigger('focus');
           } // make sure only the clicked row is selected
 
 
@@ -1399,7 +1399,7 @@
           list = tp.list;
 
           if (!tp._hideKeyboard()) {
-            self.focus();
+            self.trigger('focus');
           }
         } else {
           return true;
