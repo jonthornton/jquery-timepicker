@@ -388,15 +388,15 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     }
 
     if (settings.useSelect) {
-      list = $("<select />", { class: "ui-timepicker-select" });
+      list = $("<select></select>", { class: "ui-timepicker-select" });
       if (self.attr("name")) {
         list.attr("name", "ui-timepicker-" + self.attr("name"));
       }
       var wrapped_list = list;
     } else {
-      list = $("<ul />", { class: "ui-timepicker-list" });
+      list = $("<ul></ul>", { class: "ui-timepicker-list" });
 
-      var wrapped_list = $("<div />", {
+      var wrapped_list = $("<div></div>", {
         class: "ui-timepicker-wrapper",
         tabindex: -1
       });
@@ -481,10 +481,10 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       var timeString = tp._int2time(timeInt);
 
       if (settings.useSelect) {
-        var row = $("<option />", { value: timeString });
+        var row = $("<option></option>", { value: timeString });
         row.text(timeString);
       } else {
-        var row = $("<li />");
+        var row = $("<li></li>");
         row.addClass(
           timeInt % ONE_DAY < ONE_DAY / 2
             ? "ui-timepicker-am"
@@ -502,7 +502,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         if (settings.useSelect) {
           row.text(row.text() + " (" + durationString + ")");
         } else {
-          var duration = $("<span />", { class: "ui-timepicker-duration" });
+          var duration = $("<span></span>", { class: "ui-timepicker-duration" });
           duration.text(" (" + durationString + ")");
           row.append(duration);
         }
