@@ -35,6 +35,21 @@ class Timepicker {
     return el.offsetWidth > 0 && el.offsetHeight > 0;
   }
 
+  hideMethod() {
+    if (this.settings.useSelect) {
+      this.targetEl.blur();
+    } else if (Timepicker.isVisible(this.list)) {
+      if (this.settings.selectOnBlur) {
+        this._selectValue();
+      }
+
+      this.list.hide();
+    }
+
+    const hideTimepickerEvent = new CustomEvent('hideTimepicker');
+    this.targetEl.dispatchEvent(hideTimepickerEvent);
+  }
+
   _findRow(value) {
     if (!value && value !== 0) {
       return false;

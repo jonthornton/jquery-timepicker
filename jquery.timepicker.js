@@ -254,6 +254,22 @@
     }
 
     _createClass(Timepicker, [{
+      key: "hideMethod",
+      value: function hideMethod() {
+        if (this.settings.useSelect) {
+          this.targetEl.blur();
+        } else if (Timepicker.isVisible(this.list)) {
+          if (this.settings.selectOnBlur) {
+            this._selectValue();
+          }
+
+          this.list.hide();
+        }
+
+        var hideTimepickerEvent = new CustomEvent('hideTimepicker');
+        this.targetEl.dispatchEvent(hideTimepickerEvent);
+      }
+    }, {
       key: "_findRow",
       value: function _findRow(value) {
         if (!value && value !== 0) {
@@ -1097,26 +1113,18 @@
         var self = $(this);
         var tp = self.data("timepicker-obj");
 
-        if (tp && tp.settings && tp.settings.useSelect) {
-          self.trigger('blur');
+        if (tp) {
+          tp.hideMethod();
         }
 
         $(".ui-timepicker-wrapper").each(function () {
           var list = $(this);
-
-          if (!Timepicker.isVisible(list)) {
-            return;
-          }
-
           var self = list.data("timepicker-input");
           var tp = self.data("timepicker-obj");
 
-          if (tp && tp.settings && tp.settings.selectOnBlur) {
-            tp._selectValue();
+          if (tp) {
+            tp.hideMethod();
           }
-
-          list.hide();
-          self.trigger("hideTimepicker");
         });
         return this;
       },

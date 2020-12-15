@@ -221,25 +221,18 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       var self = $(this);
       var tp = self.data("timepicker-obj");
 
-      if (tp && tp.settings && tp.settings.useSelect) {
-        self.trigger('blur');
+      if (tp){
+        tp.hideMethod();
       }
 
       $(".ui-timepicker-wrapper").each(function() {
         var list = $(this);
-        if (!Timepicker.isVisible(list)) {
-          return;
-        }
-
         var self = list.data("timepicker-input");
         var tp = self.data("timepicker-obj");
 
-        if (tp && tp.settings && tp.settings.selectOnBlur) {
-          tp._selectValue();
+        if (tp) {
+          tp.hideMethod();          
         }
-
-        list.hide();
-        self.trigger("hideTimepicker");
       });
 
       return this;
