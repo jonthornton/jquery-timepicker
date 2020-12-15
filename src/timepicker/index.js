@@ -4,6 +4,7 @@ import { ONE_DAY } from "./constants";
 class Timepicker {
   constructor(targetEl, options = {}) {
     this._handleFormatValue = this._handleFormatValue.bind(this);
+    this._handleKeyUp = this._handleKeyUp.bind(this);
 
     this.targetEl = targetEl;
 
@@ -610,6 +611,62 @@ class Timepicker {
     el.innerText = label;
     el.classList.add(className);
     return el;
+  }
+
+
+  /*
+   *  Time typeahead
+   */
+  _handleKeyUp(e) {
+    if (!this.list || !Timepicker.isVisible(this.list) || this.settings.disableTextInput) {
+      return true;
+    }
+
+    if (e.type === "paste" || e.type === "cut") {
+      setTimeout(function() {
+        if (this.settings.typeaheadHighlight) {
+          this._setSelected();
+        } else {
+          this.list.hide();
+        }
+      }, 0);
+      return;
+    }
+
+    switch (e.keyCode) {
+      case 96: // numpad numerals
+      case 97:
+      case 98:
+      case 99:
+      case 100:
+      case 101:
+      case 102:
+      case 103:
+      case 104:
+      case 105:
+      case 48: // numerals
+      case 49:
+      case 50:
+      case 51:
+      case 52:
+      case 53:
+      case 54:
+      case 55:
+      case 56:
+      case 57:
+      case 65: // a
+      case 77: // m
+      case 80: // p
+      case 186: // colon
+      case 8: // backspace
+      case 46: // delete
+        if (this.settings.typeaheadHighlight) {
+          this._setSelected();
+        } else {
+          this.list.hide();
+        }
+        break;
+    }
   }
 }
 

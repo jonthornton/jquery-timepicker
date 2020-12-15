@@ -46,12 +46,12 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
           }
           self.on("change.timepicker", tp._handleFormatValue);
           self.on("keydown.timepicker", _keydownhandler);
-          self.on("keyup.timepicker", _keyuphandler);
+          self.on("keyup.timepicker", tp._handleKeyUp);
           if (settings.disableTextInput) {
             self.on("keydown.timepicker", tp._disableTextInputHandler);
           }
-          self.on("cut.timepicker", _keyuphandler);
-          self.on("paste.timepicker", _keyuphandler);
+          self.on("cut.timepicker", tp._handleKeyUp);
+          self.on("paste.timepicker", tp._handleKeyUp);
 
           tp._formatValue(null, "initial");
         }
@@ -703,66 +703,6 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
       default:
         return true;
-    }
-  }
-
-  /*
-   *	Time typeahead
-   */
-  function _keyuphandler(e) {
-    var self = $(this);
-    var tp = self.data("timepicker-obj");
-    var list = tp.list;
-    var settings = tp.settings;
-
-    if (!list || !Timepicker.isVisible(list) || settings.disableTextInput) {
-      return true;
-    }
-
-    if (e.type === "paste" || e.type === "cut") {
-      setTimeout(function() {
-        if (settings.typeaheadHighlight) {
-          tp._setSelected();
-        } else {
-          list.hide();
-        }
-      }, 0);
-      return;
-    }
-
-    switch (e.keyCode) {
-      case 96: // numpad numerals
-      case 97:
-      case 98:
-      case 99:
-      case 100:
-      case 101:
-      case 102:
-      case 103:
-      case 104:
-      case 105:
-      case 48: // numerals
-      case 49:
-      case 50:
-      case 51:
-      case 52:
-      case 53:
-      case 54:
-      case 55:
-      case 56:
-      case 57:
-      case 65: // a
-      case 77: // m
-      case 80: // p
-      case 186: // colon
-      case 8: // backspace
-      case 46: // delete
-        if (settings.typeaheadHighlight) {
-          tp._setSelected();
-        } else {
-          list.hide();
-        }
-        break;
     }
   }
 
