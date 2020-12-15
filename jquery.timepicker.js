@@ -246,6 +246,7 @@
 
       _classCallCheck(this, Timepicker);
 
+      this._handleFormatValue = this._handleFormatValue.bind(this);
       this.targetEl = targetEl;
       var attrOptions = Timepicker.extractAttrOptions(targetEl, Object.keys(DEFAULT_SETTINGS));
       this.settings = this.parseSettings(_objectSpread2(_objectSpread2(_objectSpread2({}, DEFAULT_SETTINGS), options), attrOptions));
@@ -698,6 +699,88 @@
         }
       }
     }, {
+      key: "_isFocused",
+      value: function _isFocused(el) {
+        return el === document.activeElement;
+      }
+    }, {
+      key: "_handleFormatValue",
+      value: function _handleFormatValue(e) {
+        if (e && e.detail == "timepicker") {
+          return;
+        }
+
+        this._formatValue(e);
+      }
+    }, {
+      key: "_formatValue",
+      value: function _formatValue(e, origin) {
+        if (this.targetEl.value === "") {
+          this._setTimeValue(null, origin);
+
+          return;
+        } // IE fires change event before blur
+
+
+        if (this._isFocused(this.targetEl) && (!e || e.type != "change")) {
+          return;
+        }
+
+        var settings = this.settings;
+        var seconds = this.time2int(this.targetEl.value);
+
+        if (seconds === null) {
+          var timeFormatErrorEvent = new CustomEvent('timeFormatError');
+          this.targetEl.dispatchEvent(timeFormatErrorEvent);
+          return;
+        }
+
+        var rangeError = false; // check that the time in within bounds
+
+        if (settings.minTime !== null && settings.maxTime !== null && (seconds < settings.minTime || seconds > settings.maxTime)) {
+          rangeError = true;
+        } // check that time isn't within disabled time ranges
+
+
+        var _iterator = _createForOfIteratorHelper(settings.disableTimeRanges),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var range = _step.value;
+
+            if (seconds >= range[0] && seconds < range[1]) {
+              rangeError = true;
+              break;
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+
+        if (settings.forceRoundTime) {
+          var roundSeconds = settings.roundingFunction(seconds, settings);
+
+          if (roundSeconds != seconds) {
+            seconds = roundSeconds;
+            origin = null;
+          }
+        }
+
+        var prettyTime = this._int2time(seconds);
+
+        if (rangeError) {
+          this._setTimeValue(prettyTime);
+
+          var timeRangeErrorEvent = new CustomEvent('timeRangeError');
+          this.targetEl.dispatchEvent(timeRangeErrorEvent);
+        } else {
+          this._setTimeValue(prettyTime, origin);
+        }
+      }
+    }, {
       key: "_generateNoneElement",
       value: function _generateNoneElement(optionValue, useSelect) {
         var label, className, value;
@@ -732,21 +815,21 @@
       value: function extractAttrOptions(element, keys) {
         var output = {};
 
-        var _iterator = _createForOfIteratorHelper(keys),
-            _step;
+        var _iterator2 = _createForOfIteratorHelper(keys),
+            _step2;
 
         try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var key = _step.value;
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var key = _step2.value;
 
             if (key in element.dataset) {
               output[key] = element.dataset[key];
             }
           }
         } catch (err) {
-          _iterator.e(err);
+          _iterator2.e(err);
         } finally {
-          _iterator.f();
+          _iterator2.f();
         }
 
         return output;
@@ -796,7 +879,7 @@
               }
             }
 
-            self.on("change.timepicker", _formatValue);
+            self.on("change.timepicker", tp._handleFormatValue);
             self.on("keydown.timepicker", _keydownhandler);
             self.on("keyup.timepicker", _keyuphandler);
 
@@ -807,7 +890,7 @@
             self.on("cut.timepicker", _keyuphandler);
             self.on("paste.timepicker", _keyuphandler);
 
-            _formatValue.call(self.get(0), null, "initial");
+            tp._formatValue(null, "initial");
           }
         });
       },
@@ -991,7 +1074,7 @@
           settings = tp.parseSettings(settings);
           tp.settings = settings;
 
-          _formatValue.call(self.get(0), {
+          tp._formatValue({
             type: "change"
           }, "initial");
 
@@ -1060,7 +1143,7 @@
 
         tp._setTimeValue(prettyTime, "initial");
 
-        _formatValue.call(self.get(0), {
+        tp._formatValue({
           type: "change"
         }, "initial");
 
@@ -1322,66 +1405,6 @@
       $(document).unbind(".ui-timepicker");
       $(window).unbind(".ui-timepicker");
     }
-
-    function _formatValue(e, origin) {
-      if (e && e.detail == "timepicker") {
-        return;
-      }
-
-      var self = $(this);
-      var tp = self.data("timepicker-obj");
-
-      if (this.value === "") {
-        tp._setTimeValue(null, origin);
-
-        return;
-      }
-
-      if (self.is(":focus") && (!e || e.type != "change")) {
-        return;
-      }
-
-      var settings = tp.settings;
-      var seconds = tp.time2int(this.value);
-
-      if (seconds === null) {
-        self.trigger("timeFormatError");
-        return;
-      }
-
-      var rangeError = false; // check that the time in within bounds
-
-      if (settings.minTime !== null && settings.maxTime !== null && (seconds < settings.minTime || seconds > settings.maxTime)) {
-        rangeError = true;
-      } // check that time isn't within disabled time ranges
-
-
-      $.each(settings.disableTimeRanges, function () {
-        if (seconds >= this[0] && seconds < this[1]) {
-          rangeError = true;
-          return false;
-        }
-      });
-
-      if (settings.forceRoundTime) {
-        var roundSeconds = settings.roundingFunction(seconds, settings);
-
-        if (roundSeconds != seconds) {
-          seconds = roundSeconds;
-          origin = null;
-        }
-      }
-
-      var prettyTime = tp._int2time(seconds);
-
-      if (rangeError) {
-        if (tp._setTimeValue(prettyTime, "error") || e && e.type == "change") {
-          self.trigger("timeRangeError");
-        }
-      } else {
-        tp._setTimeValue(prettyTime, origin);
-      }
-    }
     /*
      *  Keyboard navigation via arrow keys
      */
@@ -1410,7 +1433,7 @@
         case 13:
           // return
           if (tp._selectValue()) {
-            _formatValue.call(self.get(0), {
+            tp._formatValue({
               type: "change"
             });
 

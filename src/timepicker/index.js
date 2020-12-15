@@ -3,6 +3,8 @@ import { ONE_DAY } from "./constants";
 
 class Timepicker {
   constructor(targetEl, options = {}) {
+    this._handleFormatValue = this._handleFormatValue.bind(this);
+
     this.targetEl = targetEl;
 
     const attrOptions = Timepicker.extractAttrOptions(
@@ -510,6 +512,75 @@ class Timepicker {
       if (this.settings.forceRoundTime || parsed === timeValue) {
         selected.classList.add('ui-timepicker-selected');
       }
+    }
+  }
+
+  _isFocused(el) {
+    return (el === document.activeElement);
+  }
+
+  _handleFormatValue(e) {
+    if (e && e.detail == "timepicker") {
+      return;
+    }
+
+    this._formatValue(e);
+  }
+
+  _formatValue(e, origin) {
+    if (this.targetEl.value === "") {
+      this._setTimeValue(null, origin);
+      return;
+    }
+
+    // IE fires change event before blur
+    if (this._isFocused(this.targetEl) && (!e || e.type != "change")) {
+      return;
+    }
+
+    var settings = this.settings;
+    var seconds = this.time2int(this.targetEl.value);
+
+    if (seconds === null) {
+      const timeFormatErrorEvent = new CustomEvent('timeFormatError');
+      this.targetEl.dispatchEvent(timeFormatErrorEvent);
+      return;
+    }
+
+    var rangeError = false;
+    // check that the time in within bounds
+    if (
+      settings.minTime !== null &&
+      settings.maxTime !== null &&
+      (seconds < settings.minTime || seconds > settings.maxTime)
+    ) {
+      rangeError = true;
+    }
+
+    // check that time isn't within disabled time ranges
+    for (const range of settings.disableTimeRanges) {
+      if (seconds >= range[0] && seconds < range[1]) {
+        rangeError = true;
+        break;
+      }
+    };
+
+    if (settings.forceRoundTime) {
+      var roundSeconds = settings.roundingFunction(seconds, settings);
+      if (roundSeconds != seconds) {
+        seconds = roundSeconds;
+        origin = null;
+      }
+    }
+
+    var prettyTime = this._int2time(seconds);
+
+    if (rangeError) {
+      this._setTimeValue(prettyTime);
+      const timeRangeErrorEvent = new CustomEvent('timeRangeError');
+      this.targetEl.dispatchEvent(timeRangeErrorEvent);
+    } else {
+      this._setTimeValue(prettyTime, origin);
     }
   }
 

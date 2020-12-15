@@ -59,3 +59,49 @@ test("_findRow works", () => {
   // todo: finish this test after moving show method
   // tp.show();
 });
+
+function _expectThrewEvent(dispatchEventMock, eventType) {
+  for (const call of dispatchEventMock.calls) {
+    if (call[0].type == eventType) {
+      return true;
+    }
+  }
+
+  throw `${eventType} not dispatched`;
+}
+
+test("_formatValue works", () => {
+  const el = createIntput();
+
+  const tp = new Timepicker(el, {
+    minTime: '1am',
+    maxTime: '23:00',
+    disableTimeRanges: [
+      ['3am', '4am']
+    ]
+  });
+
+  el.value = '1';
+  tp._formatValue();
+  expect(el.value).toEqual("1:00am");
+
+  el.value = '3am';
+  el.dispatchEvent = jest.fn();
+  tp._formatValue();
+  expect(el.value).toEqual("3:00am");
+  _expectThrewEvent(el.dispatchEvent.mock, 'timeRangeError');
+
+  el.value = '12:30am';
+  el.dispatchEvent = jest.fn();
+  tp._formatValue();
+  expect(el.value).toEqual("12:30am");
+  _expectThrewEvent(el.dispatchEvent.mock, 'timeRangeError');
+  // todo: learn how to check if timeRangeError event was thrown
+
+  el.value = 'abc';
+  el.dispatchEvent = jest.fn();
+  tp._formatValue();
+  expect(el.value).toEqual("abc");
+  _expectThrewEvent(el.dispatchEvent.mock, 'timeFormatError');
+  // todo: learn how to check if timeFormatError event was thrown
+});

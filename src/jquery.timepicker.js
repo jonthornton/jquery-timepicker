@@ -44,7 +44,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
               self.on(settings.showOn[i] + ".timepicker", methods.show);
             }
           }
-          self.on("change.timepicker", _formatValue);
+          self.on("change.timepicker", tp._handleFormatValue);
           self.on("keydown.timepicker", _keydownhandler);
           self.on("keyup.timepicker", _keyuphandler);
           if (settings.disableTextInput) {
@@ -53,7 +53,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
           self.on("cut.timepicker", _keyuphandler);
           self.on("paste.timepicker", _keyuphandler);
 
-          _formatValue.call(self.get(0), null, "initial");
+          tp._formatValue(null, "initial");
         }
       });
     },
@@ -266,7 +266,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         settings = tp.parseSettings(settings);
         tp.settings = settings;
 
-        _formatValue.call(self.get(0), { type: "change" }, "initial");
+        tp._formatValue({ type: "change" }, "initial");
 
         if (list) {
           list.remove();
@@ -335,7 +335,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       }
 
       tp._setTimeValue(prettyTime, "initial");
-      _formatValue.call(self.get(0), { type: "change" }, "initial");
+      tp._formatValue({ type: "change" }, "initial");
 
       if (tp && tp.list) {
         tp._setSelected();
@@ -611,70 +611,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     $(window).unbind(".ui-timepicker");
   }
 
-  function _formatValue(e, origin) {
-    if (e && e.detail == "timepicker") {
-      return;
-    }
-
-    var self = $(this);
-    var tp = self.data("timepicker-obj");
-
-    if (this.value === "") {
-      tp._setTimeValue(null, origin);
-      return;
-    }
-
-    if (self.is(":focus") && (!e || e.type != "change")) {
-      return;
-    }
-
-    var settings = tp.settings;
-    var seconds = tp.time2int(this.value);
-
-    if (seconds === null) {
-      self.trigger("timeFormatError");
-      return;
-    }
-
-    var rangeError = false;
-    // check that the time in within bounds
-    if (
-      settings.minTime !== null &&
-      settings.maxTime !== null &&
-      (seconds < settings.minTime || seconds > settings.maxTime)
-    ) {
-      rangeError = true;
-    }
-
-    // check that time isn't within disabled time ranges
-    $.each(settings.disableTimeRanges, function() {
-      if (seconds >= this[0] && seconds < this[1]) {
-        rangeError = true;
-        return false;
-      }
-    });
-
-    if (settings.forceRoundTime) {
-      var roundSeconds = settings.roundingFunction(seconds, settings);
-      if (roundSeconds != seconds) {
-        seconds = roundSeconds;
-        origin = null;
-      }
-    }
-
-    var prettyTime = tp._int2time(seconds);
-
-    if (rangeError) {
-      if (
-        tp._setTimeValue(prettyTime, "error") ||
-        (e && e.type == "change")
-      ) {
-        self.trigger("timeRangeError");
-      }
-    } else {
-      tp._setTimeValue(prettyTime, origin);
-    }
-  }
+  
 
   /*
    *  Keyboard navigation via arrow keys
@@ -700,7 +637,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     switch (e.keyCode) {
       case 13: // return
         if (tp._selectValue()) {
-          _formatValue.call(self.get(0), { type: "change" });
+          tp._formatValue({ type: "change" });
           methods.hide.apply(this);
         }
 
