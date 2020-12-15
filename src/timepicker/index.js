@@ -35,16 +35,30 @@ class Timepicker {
     return el.offsetWidth > 0 && el.offsetHeight > 0;
   }
 
-  hideMethod() {
+  static hideAll() {
+    for (const el of document.getElementsByClassName('ui-timepicker-input')) {
+      const tp = el.timepickerObj;
+      if (tp) {
+        tp.hideMe();
+      }
+    }
+  }
+
+  hideMe() {
     if (this.settings.useSelect) {
       this.targetEl.blur();
-    } else if (Timepicker.isVisible(this.list)) {
-      if (this.settings.selectOnBlur) {
-        this._selectValue();
-      }
+      return;
+    } 
 
-      this.list.hide();
+    if (!this.list || !Timepicker.isVisible(this.list)) {
+      return;
     }
+
+    if (this.settings.selectOnBlur) {
+      this._selectValue();
+    }
+
+    this.list.hide();
 
     const hideTimepickerEvent = new CustomEvent('hideTimepicker');
     this.targetEl.dispatchEvent(hideTimepickerEvent);

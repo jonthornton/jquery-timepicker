@@ -254,18 +254,22 @@
     }
 
     _createClass(Timepicker, [{
-      key: "hideMethod",
-      value: function hideMethod() {
+      key: "hideMe",
+      value: function hideMe() {
         if (this.settings.useSelect) {
           this.targetEl.blur();
-        } else if (Timepicker.isVisible(this.list)) {
-          if (this.settings.selectOnBlur) {
-            this._selectValue();
-          }
-
-          this.list.hide();
+          return;
         }
 
+        if (!this.list || !Timepicker.isVisible(this.list)) {
+          return;
+        }
+
+        if (this.settings.selectOnBlur) {
+          this._selectValue();
+        }
+
+        this.list.hide();
         var hideTimepickerEvent = new CustomEvent('hideTimepicker');
         this.targetEl.dispatchEvent(hideTimepickerEvent);
       }
@@ -923,6 +927,27 @@
         var el = elem[0];
         return el.offsetWidth > 0 && el.offsetHeight > 0;
       }
+    }, {
+      key: "hideAll",
+      value: function hideAll() {
+        var _iterator3 = _createForOfIteratorHelper(document.getElementsByClassName('ui-timepicker-input')),
+            _step3;
+
+        try {
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var el = _step3.value;
+            var tp = el.timepickerObj;
+
+            if (tp) {
+              tp.hideMe();
+            }
+          }
+        } catch (err) {
+          _iterator3.e(err);
+        } finally {
+          _iterator3.f();
+        }
+      }
     }]);
 
     return Timepicker;
@@ -948,7 +973,7 @@
           var tp = new Timepicker(this, options);
           var settings = tp.settings;
           _lang = settings.lang;
-          self.data("timepicker-obj", tp);
+          this.timepickerObj = tp;
           self.addClass("ui-timepicker-input");
 
           if (settings.useSelect) {
@@ -979,7 +1004,7 @@
       },
       show: function show(e) {
         var self = $(this);
-        var tp = self.data("timepicker-obj");
+        var tp = this.timepickerObj;
         var settings = tp.settings;
 
         if (e) {
@@ -1020,7 +1045,7 @@
         tp._setSelected(); // make sure other pickers are hidden
 
 
-        methods.hide();
+        Timepicker.hideAll();
 
         if (typeof settings.listWidth == "number") {
           list.width(self.outerWidth() * settings.listWidth);
@@ -1110,22 +1135,13 @@
         return this;
       },
       hide: function hide(e) {
-        var self = $(this);
-        var tp = self.data("timepicker-obj");
+        var tp = this.timepickerObj;
 
         if (tp) {
-          tp.hideMethod();
+          tp.hideMe();
         }
 
-        $(".ui-timepicker-wrapper").each(function () {
-          var list = $(this);
-          var self = list.data("timepicker-input");
-          var tp = self.data("timepicker-obj");
-
-          if (tp) {
-            tp.hideMethod();
-          }
-        });
+        Timepicker.hideAll();
         return this;
       },
       option: function option(key, value) {
@@ -1136,7 +1152,7 @@
 
         return this.each(function () {
           var self = $(this);
-          var tp = self.data("timepicker-obj");
+          var tp = this.timepickerObj;
           var settings = tp.settings;
           var list = tp.list;
 
@@ -1164,13 +1180,11 @@
         });
       },
       getSecondsFromMidnight: function getSecondsFromMidnight() {
-        var self = $(this);
-        var tp = self.data("timepicker-obj");
+        var tp = this.timepickerObj;
         return tp.time2int(tp._getTimeValue());
       },
       getTime: function getTime(relative_date) {
-        var self = $(this);
-        var tp = self.data("timepicker-obj");
+        var tp = this.timepickerObj;
 
         var time_string = tp._getTimeValue();
 
@@ -1197,13 +1211,11 @@
         return time;
       },
       isVisible: function isVisible() {
-        var self = this;
-        var tp = self.data("timepicker-obj");
+        var tp = this.timepickerObj;
         return !!(tp && tp.list && Timepicker.isVisible(tp.list));
       },
       setTime: function setTime(value) {
-        var self = this;
-        var tp = self.data("timepicker-obj");
+        var tp = this.timepickerObj;
         var settings = tp.settings;
 
         if (settings.forceRoundTime) {
@@ -1235,7 +1247,7 @@
           return;
         }
 
-        var tp = self.data("timepicker-obj");
+        var tp = self[0].timepickerObj;
         var settings = tp.settings;
         self.removeAttr("autocomplete", "off");
         self.removeClass("ui-timepicker-input");
@@ -1256,7 +1268,7 @@
     }; // private methods
 
     function _render(self) {
-      var tp = self.data("timepicker-obj");
+      var tp = self[0].timepickerObj;
       var list = tp.list;
       var settings = tp.settings;
 
@@ -1476,7 +1488,7 @@
         return;
       }
 
-      methods.hide();
+      Timepicker.hideAll();
       $(document).unbind(".ui-timepicker");
       $(window).unbind(".ui-timepicker");
     }
@@ -1487,7 +1499,7 @@
 
     function _keydownhandler(e) {
       var self = $(this);
-      var tp = self.data("timepicker-obj");
+      var tp = self[0].timepickerObj;
       var list = tp.list;
 
       if (!list || !Timepicker.isVisible(list)) {
@@ -1512,7 +1524,7 @@
               type: "change"
             });
 
-            methods.hide.apply(this);
+            tp.hideMe();
           }
 
           e.preventDefault();
@@ -1567,12 +1579,12 @@
         case 27:
           // escape
           list.find("li").removeClass("ui-timepicker-selected");
-          methods.hide();
+          tp.hideMe();
           break;
 
         case 9:
           //tab
-          methods.hide();
+          tp.hideMe();
           break;
 
         default:

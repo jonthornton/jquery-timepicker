@@ -32,7 +32,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         const settings = tp.settings;
         _lang = settings.lang;
 
-        self.data("timepicker-obj", tp);
+        this.timepickerObj = tp;
         self.addClass("ui-timepicker-input");
 
         if (settings.useSelect) {
@@ -60,7 +60,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     show: function(e) {
       var self = $(this);
-      var tp = self.data("timepicker-obj");
+      var tp = this.timepickerObj;
       var settings = tp.settings;
 
       if (e) {
@@ -105,7 +105,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       tp._setSelected();
 
       // make sure other pickers are hidden
-      methods.hide();
+      Timepicker.hideAll();
 
       if (typeof settings.listWidth == "number") {
         list.width(self.outerWidth() * settings.listWidth);
@@ -218,23 +218,13 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     },
 
     hide: function(e) {
-      var self = $(this);
-      var tp = self.data("timepicker-obj");
+      var tp = this.timepickerObj;
 
       if (tp){
-        tp.hideMethod();
+        tp.hideMe();
       }
 
-      $(".ui-timepicker-wrapper").each(function() {
-        var list = $(this);
-        var self = list.data("timepicker-input");
-        var tp = self.data("timepicker-obj");
-
-        if (tp) {
-          tp.hideMethod();          
-        }
-      });
-
+      Timepicker.hideAll();
       return this;
     },
 
@@ -246,7 +236,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
       return this.each(function() {
         var self = $(this);
-        var tp = self.data("timepicker-obj");
+        var tp = this.timepickerObj;
         var settings = tp.settings;
         var list = tp.list;
 
@@ -273,14 +263,12 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     },
 
     getSecondsFromMidnight: function() {
-      var self = $(this);
-      var tp = self.data("timepicker-obj");
+      var tp = this.timepickerObj;
       return tp.time2int(tp._getTimeValue());
     },
 
     getTime: function(relative_date) {
-      var self = $(this);
-      var tp = self.data("timepicker-obj");
+      var tp = this.timepickerObj;
 
       var time_string = tp._getTimeValue();
       if (!time_string) {
@@ -307,14 +295,12 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     },
 
     isVisible: function() {
-      var self = this;
-      var tp = self.data("timepicker-obj");
+      var tp = this.timepickerObj;
       return !!(tp && tp.list && Timepicker.isVisible(tp.list));
     },
 
     setTime: function(value) {
-      var self = this;
-      var tp = self.data("timepicker-obj");
+      var tp = this.timepickerObj;
       var settings = tp.settings;
 
       if (settings.forceRoundTime) {
@@ -345,7 +331,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         return;
       }
 
-      var tp = self.data("timepicker-obj");
+      var tp = self[0].timepickerObj;
       var settings = tp.settings;
 
       self.removeAttr("autocomplete", "off");
@@ -371,7 +357,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
   // private methods
 
   function _render(self) {
-    var tp = self.data("timepicker-obj");
+    var tp = self[0].timepickerObj;
     var list = tp.list;
     var settings = tp.settings;
 
@@ -599,7 +585,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       return;
     }
 
-    methods.hide();
+    Timepicker.hideAll();
     $(document).unbind(".ui-timepicker");
     $(window).unbind(".ui-timepicker");
   }
@@ -611,7 +597,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
    */
   function _keydownhandler(e) {
     var self = $(this);
-    var tp = self.data("timepicker-obj");
+    var tp = self[0].timepickerObj;
     var list = tp.list;
 
     if (!list || !Timepicker.isVisible(list)) {
@@ -631,7 +617,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       case 13: // return
         if (tp._selectValue()) {
           tp._formatValue({ type: "change" });
-          methods.hide.apply(this);
+          tp.hideMe();
         }
 
         e.preventDefault();
@@ -687,11 +673,11 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
       case 27: // escape
         list.find("li").removeClass("ui-timepicker-selected");
-        methods.hide();
+        tp.hideMe();
         break;
 
       case 9: //tab
-        methods.hide();
+        tp.hideMe();
         break;
 
       default:
