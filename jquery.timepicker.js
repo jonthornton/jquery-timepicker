@@ -377,11 +377,7 @@
         var timeValue = cursor.get(0).dataset.time; // selected value found
 
         if (timeValue) {
-          var parsedTimeValue = Number.parseInt(timeValue);
-
-          if (parsedTimeValue) {
-            timeValue = parsedTimeValue;
-          }
+          timeValue = Number.parseInt(timeValue);
         }
 
         if (timeValue !== null) {
