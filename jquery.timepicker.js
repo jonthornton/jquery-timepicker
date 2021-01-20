@@ -379,7 +379,7 @@
         if (timeValue) {
           var parsedTimeValue = Number.parseInt(timeValue);
 
-          if (parsedTimeValue) {
+          if (!Number.isNaN(parsedTimeValue)) {
             timeValue = parsedTimeValue;
           }
         }

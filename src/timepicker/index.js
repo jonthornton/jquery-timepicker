@@ -168,7 +168,7 @@ class Timepicker {
     // selected value found
     if (timeValue) {
       const parsedTimeValue = Number.parseInt(timeValue);
-      if (parsedTimeValue) {
+      if (!Number.isNaN(parsedTimeValue)) {
         timeValue = parsedTimeValue;
       }
 
