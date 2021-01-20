@@ -1,4 +1,5 @@
 import Timepicker from "../timepicker/index.js";
+import { _expectThrewEvent } from '../testHelpers.js'
 
 const TEST_INPUT = "testInput";
 
@@ -59,16 +60,6 @@ test("_findRow works", () => {
   // todo: finish this test after moving show method
   // tp.show();
 });
-
-function _expectThrewEvent(dispatchEventMock, eventType) {
-  for (const call of dispatchEventMock.calls) {
-    if (call[0].type == eventType) {
-      return true;
-    }
-  }
-
-  throw `${eventType} not dispatched`;
-}
 
 test("_formatValue works", () => {
   const el = createIntput();

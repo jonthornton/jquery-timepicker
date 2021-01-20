@@ -60,7 +60,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     show: function(e) {
       var self = $(this);
-      var tp = this.timepickerObj;
+      var tp = self[0].timepickerObj;
       var settings = tp.settings;
 
       if (e) {
@@ -218,7 +218,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     },
 
     hide: function(e) {
-      var tp = this.timepickerObj;
+      var tp = this[0].timepickerObj;
 
       if (tp){
         tp.hideMe();
@@ -230,13 +230,13 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     option: function(key, value) {
       if (typeof key == "string" && typeof value == "undefined") {
-        var tp = $(this).data("timepicker-obj");
+        var tp = this[0].timepickerObj
         return tp.settings[key];
       }
 
       return this.each(function() {
         var self = $(this);
-        var tp = this.timepickerObj;
+        var tp = self[0].timepickerObj;
         var settings = tp.settings;
         var list = tp.list;
 
@@ -263,12 +263,12 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     },
 
     getSecondsFromMidnight: function() {
-      var tp = this.timepickerObj;
+      var tp = this[0].timepickerObj;
       return tp.time2int(tp._getTimeValue());
     },
 
     getTime: function(relative_date) {
-      var tp = this.timepickerObj;
+      var tp = this[0].timepickerObj;
 
       var time_string = tp._getTimeValue();
       if (!time_string) {
@@ -295,12 +295,12 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     },
 
     isVisible: function() {
-      var tp = this.timepickerObj;
+      var tp = this[0].timepickerObj;
       return !!(tp && tp.list && Timepicker.isVisible(tp.list));
     },
 
     setTime: function(value) {
-      var tp = this.timepickerObj;
+      var tp = this[0].timepickerObj;
       var settings = tp.settings;
 
       if (settings.forceRoundTime) {

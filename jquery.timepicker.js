@@ -1004,7 +1004,7 @@
       },
       show: function show(e) {
         var self = $(this);
-        var tp = this.timepickerObj;
+        var tp = self[0].timepickerObj;
         var settings = tp.settings;
 
         if (e) {
@@ -1135,7 +1135,7 @@
         return this;
       },
       hide: function hide(e) {
-        var tp = this.timepickerObj;
+        var tp = this[0].timepickerObj;
 
         if (tp) {
           tp.hideMe();
@@ -1146,13 +1146,13 @@
       },
       option: function option(key, value) {
         if (typeof key == "string" && typeof value == "undefined") {
-          var tp = $(this).data("timepicker-obj");
+          var tp = this[0].timepickerObj;
           return tp.settings[key];
         }
 
         return this.each(function () {
           var self = $(this);
-          var tp = this.timepickerObj;
+          var tp = self[0].timepickerObj;
           var settings = tp.settings;
           var list = tp.list;
 
@@ -1180,11 +1180,11 @@
         });
       },
       getSecondsFromMidnight: function getSecondsFromMidnight() {
-        var tp = this.timepickerObj;
+        var tp = this[0].timepickerObj;
         return tp.time2int(tp._getTimeValue());
       },
       getTime: function getTime(relative_date) {
-        var tp = this.timepickerObj;
+        var tp = this[0].timepickerObj;
 
         var time_string = tp._getTimeValue();
 
@@ -1211,11 +1211,11 @@
         return time;
       },
       isVisible: function isVisible() {
-        var tp = this.timepickerObj;
+        var tp = this[0].timepickerObj;
         return !!(tp && tp.list && Timepicker.isVisible(tp.list));
       },
       setTime: function setTime(value) {
-        var tp = this.timepickerObj;
+        var tp = this[0].timepickerObj;
         var settings = tp.settings;
 
         if (settings.forceRoundTime) {
