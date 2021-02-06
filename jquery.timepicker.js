@@ -1126,7 +1126,7 @@
 
 
         $(document).on("mousedown.ui-timepicker", _closeHandler);
-        $(window).on("resize.ui-timepicker", _closeHandler);
+        window.addEventListener('resize', _closeHandler);
 
         if (settings.closeOnWindowScroll) {
           $(document).on("scroll.ui-timepicker", _closeHandler);
@@ -1477,7 +1477,7 @@
 
 
     function _closeHandler(e) {
-      if (e.target == window) {
+      if (e.type == 'focus' && e.target == window) {
         // mobile Chrome fires focus events against window for some reason
         return;
       }

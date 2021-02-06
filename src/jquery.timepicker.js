@@ -207,7 +207,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
       // attach close handlers
       $(document).on("mousedown.ui-timepicker", _closeHandler);
-      $(window).on("resize.ui-timepicker", _closeHandler);
+      window.addEventListener('resize', _closeHandler);
       if (settings.closeOnWindowScroll) {
         $(document).on("scroll.ui-timepicker", _closeHandler);
       }
@@ -570,11 +570,11 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
   // event handler to decide whether to close timepicker
   function _closeHandler(e) {
-    if (e.target == window) {
+    if (e.type == 'focus' && e.target == window) {
       // mobile Chrome fires focus events against window for some reason
       return;
     }
-
+    
     var target = $(e.target);
 
     if (
