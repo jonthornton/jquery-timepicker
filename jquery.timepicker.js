@@ -840,18 +840,22 @@
     }, {
       key: "_handleKeyUp",
       value: function _handleKeyUp(e) {
+        var _this2 = this;
+
         if (!this.list || !Timepicker.isVisible(this.list) || this.settings.disableTextInput) {
           return true;
         }
 
         if (e.type === "paste" || e.type === "cut") {
-          setTimeout(function () {
-            if (this.settings.typeaheadHighlight) {
-              this._setSelected();
+          var handler = function handler() {
+            if (_this2.settings.typeaheadHighlight) {
+              _this2._setSelected();
             } else {
-              this.list.hide();
+              _this2.list.hide();
             }
-          }, 0);
+          };
+
+          setTimeout(handler, 0);
           return;
         }
 

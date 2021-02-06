@@ -652,13 +652,15 @@ class Timepicker {
     }
 
     if (e.type === "paste" || e.type === "cut") {
-      setTimeout(function() {
+      const handler = () => {
         if (this.settings.typeaheadHighlight) {
           this._setSelected();
         } else {
           this.list.hide();
         }
-      }, 0);
+      }
+
+      setTimeout(handler, 0);
       return;
     }
 
