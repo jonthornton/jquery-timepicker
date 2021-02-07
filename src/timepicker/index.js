@@ -1,6 +1,12 @@
 import { DEFAULT_SETTINGS, DEFAULT_LANG } from "./defaults";
 import { ONE_DAY } from "./constants";
 
+const EVENT_DEFAULTS = {
+  bubbles: true,
+  cancelable: false,
+  detail: null
+};
+
 class Timepicker {
   constructor(targetEl, options = {}) {
     this._handleFormatValue = this._handleFormatValue.bind(this);
@@ -60,7 +66,7 @@ class Timepicker {
 
     this.list.hide();
 
-    const hideTimepickerEvent = new CustomEvent('hideTimepicker');
+    const hideTimepickerEvent = new CustomEvent('hideTimepicker', EVENT_DEFAULTS);
     this.targetEl.dispatchEvent(hideTimepickerEvent);
   }
 
@@ -113,13 +119,14 @@ class Timepicker {
       }
     }
 
-    const selectTimeEvent = new CustomEvent('selectTime');
+    const selectTimeEvent = new CustomEvent('selectTime', EVENT_DEFAULTS);
 
     if (this.selectedValue != value) {
       this.selectedValue = value;
 
-      const changeTimeEvent = new CustomEvent('changeTime');
-      const changeEvent = new CustomEvent('change', { detail: 'timepicker'});
+      const changeTimeEvent = new CustomEvent('changeTime', EVENT_DEFAULTS);
+      const changeEvent = new CustomEvent('change', 
+                                Object.assign(EVENT_DEFAULTS, { detail: 'timepicker'}));
 
       if (source == "select") {
         this.targetEl.dispatchEvent(selectTimeEvent);
@@ -572,7 +579,7 @@ class Timepicker {
     var seconds = this.time2int(this.targetEl.value);
 
     if (seconds === null) {
-      const timeFormatErrorEvent = new CustomEvent('timeFormatError');
+      const timeFormatErrorEvent = new CustomEvent('timeFormatError', EVENT_DEFAULTS);
       this.targetEl.dispatchEvent(timeFormatErrorEvent);
       return;
     }
@@ -607,7 +614,7 @@ class Timepicker {
 
     if (rangeError) {
       this._setTimeValue(prettyTime);
-      const timeRangeErrorEvent = new CustomEvent('timeRangeError');
+      const timeRangeErrorEvent = new CustomEvent('timeRangeError', EVENT_DEFAULTS);
       this.targetEl.dispatchEvent(timeRangeErrorEvent);
     } else {
       this._setTimeValue(prettyTime, origin);
@@ -707,7 +714,11 @@ class Timepicker {
   if ( typeof window.CustomEvent === "function" ) return false;
 
   function CustomEvent ( event, params ) {
-    params = params || { bubbles: false, cancelable: false, detail: null };
+    if (!params) {
+      params = {};
+    }
+
+    params = Object.assign(EVENT_DEFAULTS, params);
     var evt = document.createEvent( 'CustomEvent' );
     evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
     return evt;

@@ -1,7 +1,7 @@
 jest.dontMock("jquery").dontMock("../jquery.timepicker");
 
 import $ from "jquery";
-import { _expectThrewEvent } from '../testHelpers.js'
+import { _expectThrewEvent, _expectDidntThrowEvent } from '../testHelpers.js'
 require("../jquery.timepicker");
 
 
@@ -91,14 +91,27 @@ test("option works", () => {
   );
 });
 
-// test("setTime doesn't throw a change event", () => {
-//   el.dispatchEvent = jest.fn();
+test("selecting throws a change event", () => {
+  el.dispatchEvent = jest.fn();
 
-//   $(el).timepicker({});
-//   $(el).timepicker('setTime', '3pm');
-//   $(el).timepicker('setTime', '4pm');
-//   expect($(el).val()).toEqual('4:00pm');
+  $(el).timepicker({});
+  const initialValue = $(el).val();
 
+  $(el).timepicker("show");
+  $(".ui-timepicker-list li:first-child").trigger("click");
+  const afterValue = $(el).val();
 
-//   _expectThrewEvent(el.dispatchEvent.mock, 'change');
-// });
+  expect(initialValue).not.toEqual(afterValue);
+  _expectThrewEvent(el.dispatchEvent.mock, 'change');
+});
+
+test("setTime doesn't throw a change event", () => {
+  el.dispatchEvent = jest.fn();
+
+  $(el).timepicker({});
+  $(el).timepicker('setTime', '3pm');
+  $(el).timepicker('setTime', '4pm');
+  expect($(el).val()).toEqual('4:00pm');
+
+  _expectDidntThrowEvent(el.dispatchEvent.mock, 'change');
+});

@@ -242,6 +242,12 @@
     hrs: "hrs"
   };
 
+  var EVENT_DEFAULTS = {
+    bubbles: true,
+    cancelable: false,
+    detail: null
+  };
+
   var Timepicker = /*#__PURE__*/function () {
     function Timepicker(targetEl) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -272,7 +278,7 @@
         }
 
         this.list.hide();
-        var hideTimepickerEvent = new CustomEvent('hideTimepicker');
+        var hideTimepickerEvent = new CustomEvent('hideTimepicker', EVENT_DEFAULTS);
         this.targetEl.dispatchEvent(hideTimepickerEvent);
       }
     }, {
@@ -324,14 +330,14 @@
           }
         }
 
-        var selectTimeEvent = new CustomEvent('selectTime');
+        var selectTimeEvent = new CustomEvent('selectTime', EVENT_DEFAULTS);
 
         if (this.selectedValue != value) {
           this.selectedValue = value;
-          var changeTimeEvent = new CustomEvent('changeTime');
-          var changeEvent = new CustomEvent('change', {
+          var changeTimeEvent = new CustomEvent('changeTime', EVENT_DEFAULTS);
+          var changeEvent = new CustomEvent('change', Object.assign(EVENT_DEFAULTS, {
             detail: 'timepicker'
-          });
+          }));
 
           if (source == "select") {
             this.targetEl.dispatchEvent(selectTimeEvent);
@@ -753,7 +759,7 @@
         var seconds = this.time2int(this.targetEl.value);
 
         if (seconds === null) {
-          var timeFormatErrorEvent = new CustomEvent('timeFormatError');
+          var timeFormatErrorEvent = new CustomEvent('timeFormatError', EVENT_DEFAULTS);
           this.targetEl.dispatchEvent(timeFormatErrorEvent);
           return;
         }
@@ -797,7 +803,7 @@
         if (rangeError) {
           this._setTimeValue(prettyTime);
 
-          var timeRangeErrorEvent = new CustomEvent('timeRangeError');
+          var timeRangeErrorEvent = new CustomEvent('timeRangeError', EVENT_DEFAULTS);
           this.targetEl.dispatchEvent(timeRangeErrorEvent);
         } else {
           this._setTimeValue(prettyTime, origin);
@@ -964,11 +970,11 @@
     if (typeof window.CustomEvent === "function") return false;
 
     function CustomEvent(event, params) {
-      params = params || {
-        bubbles: false,
-        cancelable: false,
-        detail: null
-      };
+      if (!params) {
+        params = {};
+      }
+
+      params = Object.assign(EVENT_DEFAULTS, params);
       var evt = document.createEvent('CustomEvent');
       evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
       return evt;
