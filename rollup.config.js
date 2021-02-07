@@ -5,7 +5,7 @@ import babel from '@rollup/plugin-babel';
 
 const banner = `/*!
  * jquery-timepicker v${version} - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
- * Copyright (c) 2020 Jon Thornton - https://www.jonthornton.com/jquery-timepicker/
+ * Copyright (c) 2021 Jon Thornton - https://www.jonthornton.com/jquery-timepicker/
  * License: MIT
  */`;
 
