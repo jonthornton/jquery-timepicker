@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.13.17 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.13.18 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2021 Jon Thornton - https://www.jonthornton.com/jquery-timepicker/
  * License: MIT
  */
@@ -176,9 +176,11 @@
       // TODO: nearest fit irregular steps
       return seconds;
     } else {
+      var _settings$minTime;
+
       var offset = seconds % (settings.step * 60); // step is in minutes
 
-      var start = settings.minTime || 0; // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
+      var start = (_settings$minTime = settings.minTime()) !== null && _settings$minTime !== void 0 ? _settings$minTime : 0; // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
 
       offset -= start % (settings.step * 60);
 
@@ -326,7 +328,7 @@
           var settings = tp.settings;
 
           if (settings.useSelect && source != "select" && tp.list) {
-            tp.list.val(tp._roundAndFormatTime(tp.time2int(value)));
+            tp.list.val(tp._roundAndFormatTime(tp.anytime2int(value)));
           }
         }
 
@@ -403,12 +405,29 @@
         return true;
       }
     }, {
+      key: "anytime2int",
+      value: function anytime2int(input) {
+        if (typeof input === 'number') {
+          return input;
+        } else if (typeof input === 'string') {
+          return this.time2int(input);
+        } else if (_typeof(input) === 'object' && input instanceof Date) {
+          return input.getHours() * 3600 + input.getMinutes() * 60 + input.getSeconds();
+        } else if (typeof input == 'function') {
+          return input();
+        } else {
+          return null;
+        }
+      }
+    }, {
       key: "time2int",
       value: function time2int(timeString) {
-        if (timeString === "" || timeString === null || timeString === undefined) return null;
+        if (timeString === "" || timeString === null || timeString === undefined) {
+          return null;
+        }
 
-        if (timeString instanceof Date) {
-          return timeString.getHours() * 3600 + timeString.getMinutes() * 60 + timeString.getSeconds();
+        if (timeString === 'now') {
+          return this.anytime2int(new Date());
         }
 
         if (typeof timeString != "string") {
@@ -468,7 +487,7 @@
 
         var timeInt = hours * 3600 + minutes * 60 + seconds; // if no am/pm provided, intelligently guess based on the scrollDefault
 
-        if (hour < 12 && !ampm && this.settings._twelveHourTime && this.settings.scrollDefault) {
+        if (hour < 12 && !ampm && this.settings._twelveHourTime && this.settings.scrollDefault()) {
           var delta = timeInt - this.settings.scrollDefault();
 
           if (delta < 0 && delta >= ONE_DAY / -2) {
@@ -479,45 +498,44 @@
         return timeInt;
       }
     }, {
-      key: "parseSettings",
-      value: function parseSettings(settings) {
+      key: "intStringDateOrFunc2func",
+      value: function intStringDateOrFunc2func(input) {
         var _this = this;
 
+        if (input === null || input === undefined) {
+          return function () {
+            return null;
+          };
+        } else if (typeof input === 'function') {
+          return function () {
+            return _this.anytime2int(input());
+          };
+        } else {
+          return function () {
+            return _this.anytime2int(input);
+          };
+        }
+      }
+    }, {
+      key: "parseSettings",
+      value: function parseSettings(settings) {
         settings.lang = _objectSpread2(_objectSpread2({}, DEFAULT_LANG), settings.lang); // lang is used by other functions the rest of this depends on
         // todo: unwind circular dependency on lang
 
         this.settings = settings;
 
-        if (settings.minTime) {
-          settings.minTime = this.time2int(settings.minTime);
-        }
-
-        if (settings.maxTime) {
-          settings.maxTime = this.time2int(settings.maxTime);
-        }
-
         if (settings.listWidth) {
-          settings.listWidth = this.time2int(settings.listWidth);
+          settings.listWidth = this.anytime2int(settings.listWidth);
         }
 
-        if (settings.durationTime && typeof settings.durationTime !== "function") {
-          settings.durationTime = this.time2int(settings.durationTime);
-        }
+        settings.minTime = this.intStringDateOrFunc2func(settings.minTime);
+        settings.maxTime = this.intStringDateOrFunc2func(settings.maxTime);
+        settings.durationTime = this.intStringDateOrFunc2func(settings.durationTime);
 
-        if (settings.scrollDefault == "now") {
-          settings.scrollDefault = function () {
-            return settings.roundingFunction(_this.time2int(new Date()), settings);
-          };
-        } else if (settings.scrollDefault && typeof settings.scrollDefault != "function") {
-          var val = settings.scrollDefault;
-
-          settings.scrollDefault = function () {
-            return settings.roundingFunction(_this.time2int(val), settings);
-          };
-        } else if (settings.minTime) {
-          settings.scrollDefault = function () {
-            return settings.roundingFunction(settings.minTime, settings);
-          };
+        if (settings.scrollDefault) {
+          settings.scrollDefault = this.intStringDateOrFunc2func(settings.scrollDefault);
+        } else {
+          settings.scrollDefault = settings.minTime;
         }
 
         if (typeof settings.timeFormat === "string" && settings.timeFormat.match(/[gh]/)) {
@@ -535,7 +553,7 @@
         if (settings.disableTimeRanges.length > 0) {
           // convert string times to integers
           for (var i in settings.disableTimeRanges) {
-            settings.disableTimeRanges[i] = [this.time2int(settings.disableTimeRanges[i][0]), this.time2int(settings.disableTimeRanges[i][1])];
+            settings.disableTimeRanges[i] = [this.anytime2int(settings.disableTimeRanges[i][0]), this.anytime2int(settings.disableTimeRanges[i][1])];
           } // sort by starting time
 
 
@@ -702,7 +720,7 @@
       value: function _setSelected() {
         var list = this.list;
         list.find("li").removeClass("ui-timepicker-selected");
-        var timeValue = this.time2int(this._getTimeValue());
+        var timeValue = this.anytime2int(this._getTimeValue());
 
         if (timeValue === null) {
           return;
@@ -756,7 +774,7 @@
         }
 
         var settings = this.settings;
-        var seconds = this.time2int(this.targetEl.value);
+        var seconds = this.anytime2int(this.targetEl.value);
 
         if (seconds === null) {
           var timeFormatErrorEvent = new CustomEvent('timeFormatError', EVENT_DEFAULTS);
@@ -766,7 +784,7 @@
 
         var rangeError = false; // check that the time in within bounds
 
-        if (settings.minTime !== null && settings.maxTime !== null && (seconds < settings.minTime || seconds > settings.maxTime)) {
+        if (settings.minTime !== null && settings.maxTime !== null && (seconds < settings.minTime() || seconds > settings.maxTime())) {
           rangeError = true;
         } // check that time isn't within disabled time ranges
 
@@ -1057,11 +1075,9 @@
         } // check if list needs to be rendered
 
 
-        if (!list || list.length === 0 || typeof settings.durationTime === "function") {
-          _render(self);
+        _render(self);
 
-          list = tp.list;
-        }
+        list = tp.list;
 
         if (Timepicker.isVisible(list)) {
           return;
@@ -1122,11 +1138,11 @@
         var selected = list.find(".ui-timepicker-selected");
 
         if (!selected.length) {
-          var timeInt = tp.time2int(tp._getTimeValue());
+          var timeInt = tp.anytime2int(tp._getTimeValue());
 
           if (timeInt !== null) {
             selected = $(tp._findRow(timeInt));
-          } else if (settings.scrollDefault) {
+          } else if (settings.scrollDefault()) {
             selected = $(tp._findRow(settings.scrollDefault()));
           }
         } // if not found or disabled, intelligently find first selectable element
@@ -1210,7 +1226,7 @@
       },
       getSecondsFromMidnight: function getSecondsFromMidnight() {
         var tp = this[0].timepickerObj;
-        return tp.time2int(tp._getTimeValue());
+        return tp.anytime2int(tp._getTimeValue());
       },
       getTime: function getTime(relative_date) {
         var tp = this[0].timepickerObj;
@@ -1221,7 +1237,7 @@
           return null;
         }
 
-        var offset = tp.time2int(time_string);
+        var offset = tp.anytime2int(time_string);
 
         if (offset === null) {
           return null;
@@ -1248,9 +1264,9 @@
         var settings = tp.settings;
 
         if (settings.forceRoundTime) {
-          var prettyTime = tp._roundAndFormatTime(tp.time2int(value));
+          var prettyTime = tp._roundAndFormatTime(tp.anytime2int(value));
         } else {
-          var prettyTime = tp._int2time(tp.time2int(value));
+          var prettyTime = tp._int2time(tp.anytime2int(value));
         }
 
         if (value && prettyTime === null && settings.noneOption) {
@@ -1297,6 +1313,8 @@
     }; // private methods
 
     function _render(self) {
+      var _settings$durationTim, _settings$minTime, _settings$maxTime;
+
       var tp = self[0].timepickerObj;
       var list = tp.list;
       var settings = tp.settings;
@@ -1360,16 +1378,9 @@
         wrapped_list.addClass("ui-timepicker-step-" + settings.step);
       }
 
-      var durStart = settings.minTime;
-
-      if (typeof settings.durationTime === "function") {
-        durStart = tp.time2int(settings.durationTime());
-      } else if (settings.durationTime !== null) {
-        durStart = settings.durationTime;
-      }
-
-      var start = settings.minTime !== null ? settings.minTime : 0;
-      var end = settings.maxTime !== null ? settings.maxTime : start + ONE_DAY - 1;
+      var durStart = (_settings$durationTim = settings.durationTime()) !== null && _settings$durationTim !== void 0 ? _settings$durationTim : settings.minTime();
+      var start = (_settings$minTime = settings.minTime()) !== null && _settings$minTime !== void 0 ? _settings$minTime : 0;
+      var end = (_settings$maxTime = settings.maxTime()) !== null && _settings$maxTime !== void 0 ? _settings$maxTime : start + ONE_DAY - 1;
 
       if (end < start) {
         // make sure the end time is greater than start time, otherwise there will be no list to show
@@ -1409,7 +1420,7 @@
           row.text(timeString);
         }
 
-        if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
+        if ((settings.minTime() !== null || settings.durationTime() !== null) && settings.showDuration) {
           var durationString = tp._int2duration(i - durStart, settings.step);
 
           if (settings.useSelect) {
@@ -1445,7 +1456,7 @@
 
       if (settings.useSelect) {
         if (self.val()) {
-          list.val(tp._roundAndFormatTime(tp.time2int(self.val())));
+          list.val(tp._roundAndFormatTime(tp.anytime2int(self.val())));
         }
 
         list.on("focus", function () {

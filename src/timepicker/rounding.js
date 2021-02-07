@@ -9,7 +9,7 @@ const roundingFunction = (seconds, settings) => {
   } else {
     var offset = seconds % (settings.step * 60); // step is in minutes
 
-    var start = settings.minTime || 0;
+    var start = settings.minTime() ?? 0;
 
     // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
     offset -= start % (settings.step * 60);

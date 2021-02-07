@@ -85,14 +85,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       }
 
       // check if list needs to be rendered
-      if (
-        !list ||
-        list.length === 0 ||
-        typeof settings.durationTime === "function"
-      ) {
-        _render(self);
-        list = tp.list;
-      }
+      _render(self);
+      list = tp.list;
 
       if (Timepicker.isVisible(list)) {
         return;
@@ -171,10 +165,10 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       var selected = list.find(".ui-timepicker-selected");
 
       if (!selected.length) {
-        var timeInt = tp.time2int(tp._getTimeValue());
+        var timeInt = tp.anytime2int(tp._getTimeValue());
         if (timeInt !== null) {
           selected = $(tp._findRow(timeInt));
-        } else if (settings.scrollDefault) {
+        } else if (settings.scrollDefault()) {
           selected = $(tp._findRow(settings.scrollDefault()));
         }
       }
@@ -264,7 +258,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     getSecondsFromMidnight: function() {
       var tp = this[0].timepickerObj;
-      return tp.time2int(tp._getTimeValue());
+      return tp.anytime2int(tp._getTimeValue());
     },
 
     getTime: function(relative_date) {
@@ -275,7 +269,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
         return null;
       }
 
-      var offset = tp.time2int(time_string);
+      var offset = tp.anytime2int(time_string);
       if (offset === null) {
         return null;
       }
@@ -304,9 +298,9 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       var settings = tp.settings;
 
       if (settings.forceRoundTime) {
-        var prettyTime = tp._roundAndFormatTime(tp.time2int(value));
+        var prettyTime = tp._roundAndFormatTime(tp.anytime2int(value));
       } else {
-        var prettyTime = tp._int2time(tp.time2int(value));
+        var prettyTime = tp._int2time(tp.anytime2int(value));
       }
 
       if (value && prettyTime === null && settings.noneOption) {
@@ -420,15 +414,9 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       wrapped_list.addClass("ui-timepicker-step-" + settings.step);
     }
 
-    var durStart = settings.minTime;
-    if (typeof settings.durationTime === "function") {
-      durStart = tp.time2int(settings.durationTime());
-    } else if (settings.durationTime !== null) {
-      durStart = settings.durationTime;
-    }
-    var start = settings.minTime !== null ? settings.minTime : 0;
-    var end =
-      settings.maxTime !== null ? settings.maxTime : start + ONE_DAY - 1;
+    var durStart = settings.durationTime() ?? settings.minTime();
+    var start = settings.minTime() ?? 0;
+    var end = settings.maxTime() ?? start + ONE_DAY - 1;
 
     if (end < start) {
       // make sure the end time is greater than start time, otherwise there will be no list to show
@@ -474,7 +462,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       }
 
       if (
-        (settings.minTime !== null || settings.durationTime !== null) &&
+        (settings.minTime() !== null || settings.durationTime() !== null) &&
         settings.showDuration
       ) {
         var durationString = tp._int2duration(i - durStart, settings.step);
@@ -509,7 +497,7 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
     if (settings.useSelect) {
       if (self.val()) {
-        list.val(tp._roundAndFormatTime(tp.time2int(self.val())));
+        list.val(tp._roundAndFormatTime(tp.anytime2int(self.val())));
       }
 
       list.on("focus", function() {

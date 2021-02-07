@@ -115,7 +115,7 @@ class Timepicker {
       var settings = tp.settings;
 
       if (settings.useSelect && source != "select" && tp.list) {
-        tp.list.val(tp._roundAndFormatTime(tp.time2int(value)));
+        tp.list.val(tp._roundAndFormatTime(tp.anytime2int(value)));
       }
     }
 
@@ -192,16 +192,33 @@ class Timepicker {
     return true;
   }
 
-  time2int(timeString) {
-    if (timeString === "" || timeString === null || timeString === undefined)
-      return null;
-    if (timeString instanceof Date) {
+  anytime2int(input) {
+    if (typeof input === 'number') {
+      return input;
+    } else if (typeof input === 'string') {
+      return this.time2int(input);
+    } else if (typeof input === 'object' && input instanceof Date) {
       return (
-        timeString.getHours() * 3600 +
-        timeString.getMinutes() * 60 +
-        timeString.getSeconds()
+        input.getHours() * 3600 +
+        input.getMinutes() * 60 +
+        input.getSeconds()
       );
+    } else if (typeof input == 'function') {
+      return input();
+    } else {
+      return null;
     }
+  }
+
+  time2int(timeString) {
+    if (timeString === "" || timeString === null || timeString === undefined) {
+      return null;
+    }
+
+    if (timeString === 'now') {
+      return this.anytime2int(new Date());
+    }
+
     if (typeof timeString != "string") {
       return timeString;
     }
@@ -263,7 +280,7 @@ class Timepicker {
       hour < 12 &&
       !ampm &&
       this.settings._twelveHourTime &&
-      this.settings.scrollDefault
+      this.settings.scrollDefault()
     ) {
       var delta = timeInt - this.settings.scrollDefault();
       if (delta < 0 && delta >= ONE_DAY / -2) {
@@ -274,46 +291,37 @@ class Timepicker {
     return timeInt;
   }
 
+  intStringDateOrFunc2func(input) {
+    if (input === null || input === undefined) {
+      return () => null;
+    } else if (typeof input === 'function') {
+      return () => this.anytime2int(input());
+    } else {
+      return () => this.anytime2int(input);
+    }
+  }
+
   parseSettings(settings) {
     settings.lang = { ...DEFAULT_LANG, ...settings.lang };
 
     // lang is used by other functions the rest of this depends on
     // todo: unwind circular dependency on lang
     this.settings = settings;
-    if (settings.minTime) {
-      settings.minTime = this.time2int(settings.minTime);
-    }
-
-    if (settings.maxTime) {
-      settings.maxTime = this.time2int(settings.maxTime);
-    }
 
     if (settings.listWidth) {
-      settings.listWidth = this.time2int(settings.listWidth);
+      settings.listWidth = this.anytime2int(settings.listWidth);
     }
 
-    if (settings.durationTime && typeof settings.durationTime !== "function") {
-      settings.durationTime = this.time2int(settings.durationTime);
-    }
+    settings.minTime = this.intStringDateOrFunc2func(settings.minTime);
+    settings.maxTime = this.intStringDateOrFunc2func(settings.maxTime);
+    settings.durationTime = this.intStringDateOrFunc2func(settings.durationTime);
 
-    if (settings.scrollDefault == "now") {
-      settings.scrollDefault = () => {
-        return settings.roundingFunction(this.time2int(new Date()), settings);
-      };
-    } else if (
-      settings.scrollDefault &&
-      typeof settings.scrollDefault != "function"
-    ) {
-      var val = settings.scrollDefault;
-      settings.scrollDefault = () => {
-        return settings.roundingFunction(this.time2int(val), settings);
-      };
-    } else if (settings.minTime) {
-      settings.scrollDefault = function() {
-        return settings.roundingFunction(settings.minTime, settings);
-      };
+    if (settings.scrollDefault) {
+      settings.scrollDefault = this.intStringDateOrFunc2func(settings.scrollDefault);
+    } else {
+      settings.scrollDefault = settings.minTime;
     }
-
+    
     if (
       typeof settings.timeFormat === "string" &&
       settings.timeFormat.match(/[gh]/)
@@ -336,8 +344,8 @@ class Timepicker {
       // convert string times to integers
       for (var i in settings.disableTimeRanges) {
         settings.disableTimeRanges[i] = [
-          this.time2int(settings.disableTimeRanges[i][0]),
-          this.time2int(settings.disableTimeRanges[i][1])
+          this.anytime2int(settings.disableTimeRanges[i][0]),
+          this.anytime2int(settings.disableTimeRanges[i][1])
         ];
       }
 
@@ -523,7 +531,7 @@ class Timepicker {
 
     list.find("li").removeClass("ui-timepicker-selected");
 
-    const timeValue = this.time2int(this._getTimeValue());
+    const timeValue = this.anytime2int(this._getTimeValue());
   
     if (timeValue === null) {
       return;
@@ -576,7 +584,7 @@ class Timepicker {
     }
 
     var settings = this.settings;
-    var seconds = this.time2int(this.targetEl.value);
+    var seconds = this.anytime2int(this.targetEl.value);
 
     if (seconds === null) {
       const timeFormatErrorEvent = new CustomEvent('timeFormatError', EVENT_DEFAULTS);
@@ -589,7 +597,7 @@ class Timepicker {
     if (
       settings.minTime !== null &&
       settings.maxTime !== null &&
-      (seconds < settings.minTime || seconds > settings.maxTime)
+      (seconds < settings.minTime() || seconds > settings.maxTime())
     ) {
       rangeError = true;
     }

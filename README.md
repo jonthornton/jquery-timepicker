@@ -55,7 +55,7 @@ Disable the onscreen keyboard for touch devices. There can be instances where Fi
 *default: false*
 
 - **durationTime**  
-The time against which ```showDuration``` will compute relative times. If this is a function, its result will be used.  
+The time against which ```showDuration``` will compute relative times. Accepts a time string, Date object, integer seconds from midnight, or a function that returns one of those types.  
 *default: minTime*
 
 - **forceRoundTime**  
@@ -80,11 +80,11 @@ Set this to override CSS styling and set the list width to match the input eleme
 *default: null (CSS styling)*
 
 - **maxTime**  
-The time that should appear last in the dropdown list. Can be used to limit the range of time options.  
+The time that should appear last in the dropdown list. Can be used to limit the range of time options. Accepts a time string, Date object, integer seconds from midnight, or a function that returns one of those types.  
 *default: 24 hours after minTime*
 
 - **minTime**  
-The time that should appear first in the dropdown list.  
+The time that should appear first in the dropdown list. Accepts a time string, Date object, integer seconds from midnight, or a function that returns one of those types.  
 *default: 12:00am*
 
 - **noneOption**  
@@ -104,7 +104,7 @@ Function used to compute rounded times. The function will receive time in second
 *default: round to nearest step*
 
 - **scrollDefault**  
-If no time value is selected, set the dropdown scroll position to show the time provided, e.g. "09:00". A time string, Date object, or integer (seconds past midnight) is acceptible, as well as the string `'now'`.   
+If no time value is selected, set the dropdown scroll position to show the time provided, e.g. "09:00".  Accepts a time string, Date object, integer seconds from midnight, or a function that returns one of those types.   
 *default: null*
 
 - **selectOnBlur**  
