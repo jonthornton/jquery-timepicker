@@ -1,4 +1,4 @@
-import roundingFunction from "./rounding";
+import { roundingFunction } from "./rounding";
 
 const DEFAULT_SETTINGS = {
   appendTo: "body",

@@ -178,7 +178,7 @@
     } else {
       var _settings$minTime;
 
-      var offset = seconds % (settings.step * 60); // step is in minutes
+      var offset = seconds % (settings.step() * 60); // step is in minutes
 
       var start = (_settings$minTime = settings.minTime()) !== null && _settings$minTime !== void 0 ? _settings$minTime : 0; // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
 
@@ -192,11 +192,11 @@
         seconds -= offset;
       }
 
-      return _moduloSeconds(seconds, settings);
+      return moduloSeconds(seconds, settings);
     }
   };
 
-  function _moduloSeconds(seconds, settings) {
+  function moduloSeconds(seconds, settings) {
     if (seconds == ONE_DAY && settings.show2400) {
       return seconds;
     }
@@ -544,6 +544,14 @@
 
         if (settings.showOnFocus === false && settings.showOn.indexOf("focus") != -1) {
           settings.showOn.splice(settings.showOn.indexOf("focus"), 1);
+        }
+
+        if (typeof settings.step != 'function') {
+          var curryStep = settings.step;
+
+          settings.step = function () {
+            return curryStep;
+          };
         }
 
         if (!settings.disableTimeRanges) {
@@ -1001,6 +1009,229 @@
     window.CustomEvent = CustomEvent;
   })();
 
+  function _getNoneOptionItems(settings) {
+    if (!settings.noneOption) {
+      return [];
+    }
+
+    if (settings.noneOption === true) {
+      return [{
+        'label': 'None',
+        'value': ''
+      }];
+    }
+
+    if (Array.isArray(settings.noneOption)) {
+      var output = [];
+
+      var _iterator = _createForOfIteratorHelper(settings.noneOption),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var item = _step.value;
+          output.push({
+            'label': item,
+            'value': ''
+          });
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      return output;
+    }
+
+    if (_typeof(settings.noneOption) === 'object') {
+      return [settings.noneOption];
+    }
+
+    if (typeof settings.noneOption === 'string') {
+      return [{
+        'label': settings.noneOption,
+        'value': ''
+      }];
+    }
+  }
+
+  function _getDropdownTimes(tp) {
+    var _settings$minTime, _settings$maxTime;
+
+    var settings = tp.settings;
+    var start = (_settings$minTime = settings.minTime()) !== null && _settings$minTime !== void 0 ? _settings$minTime : 0;
+    var end = (_settings$maxTime = settings.maxTime()) !== null && _settings$maxTime !== void 0 ? _settings$maxTime : start + ONE_DAY - 1;
+
+    if (end < start) {
+      // make sure the end time is greater than start time, otherwise there will be no list to show
+      end += ONE_DAY;
+    }
+
+    if (end === ONE_DAY - 1 && typeof settings.timeFormat === 'string' && settings.show2400) {
+      // show a 24:00 option when using military time
+      end = ONE_DAY;
+    }
+
+    var dr = settings.disableTimeRanges;
+    var drCur = 0;
+    var output = [];
+
+    for (var i = start, j = 0; i <= end; j++, i += settings.step(j) * 60) {
+      var timeInt = i;
+
+      var timeString = tp._int2time(timeInt);
+
+      var className = timeInt % ONE_DAY < ONE_DAY / 2 ? 'ui-timepicker-am' : 'ui-timepicker-pm';
+      var item = {
+        'label': timeString,
+        'value': moduloSeconds(timeInt, settings),
+        'className': className
+      };
+
+      if ((settings.minTime() !== null || settings.durationTime() !== null) && settings.showDuration) {
+        var _settings$durationTim;
+
+        var durStart = (_settings$durationTim = settings.durationTime()) !== null && _settings$durationTim !== void 0 ? _settings$durationTim : settings.minTime();
+
+        var durationString = tp._int2duration(i - durStart, settings.step());
+
+        item.duration = durationString;
+      }
+
+      if (drCur < dr.length) {
+        if (timeInt >= dr[drCur][1]) {
+          drCur += 1;
+        }
+
+        if (dr[drCur] && timeInt >= dr[drCur][0] && timeInt < dr[drCur][1]) {
+          item.disabled = true;
+        }
+      }
+
+      output.push(item);
+    }
+
+    return output;
+  }
+
+  function _renderSelectItem(item) {
+    var el = document.createElement('option');
+    el.value = item.label;
+
+    if (item.duration) {
+      el.appendChild(document.createTextNode(item.label + ' (' + item.duration + ')'));
+    } else {
+      el.appendChild(document.createTextNode(item.label));
+    }
+
+    if (item.disabled) {
+      el.disabled = true;
+    }
+
+    return el;
+  }
+
+  function _renderStandardItem(item) {
+    var el = document.createElement('li');
+    el.dataset['time'] = item.value;
+    el.className = item.className;
+    el.appendChild(document.createTextNode(item.label));
+
+    if (item.duration) {
+      var durationEl = document.createElement('span');
+      durationEl.appendChild(document.createTextNode('(' + item.duration + ')'));
+      durationEl.classList.add('ui-timepicker-duration');
+      el.appendChild(durationEl);
+    }
+
+    if (item.disabled) {
+      el.classList.add('ui-timepicker-disabled');
+    }
+
+    return el;
+  }
+
+  function _renderStandardList(items) {
+    var list = document.createElement('ul');
+    list.classList.add('ui-timepicker-list');
+
+    var _iterator2 = _createForOfIteratorHelper(items),
+        _step2;
+
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var item = _step2.value;
+
+        var itemEl = _renderStandardItem(item);
+
+        list.appendChild(itemEl);
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
+
+    var wrapper = document.createElement('div');
+    wrapper.classList.add('ui-timepicker-wrapper');
+    wrapper.tabIndex = -1;
+    wrapper.style.display = 'none';
+    wrapper.style.position = 'absolute';
+    wrapper.appendChild(list);
+    return wrapper;
+  }
+
+  function _renderSelectList(items) {
+    var el = document.createElement('select');
+    el.classList.add('ui-timepicker-select');
+
+    if (el.target.name) {
+      el.name = 'ui-timepicker-' + el.target.name;
+    }
+
+    var _iterator3 = _createForOfIteratorHelper(items),
+        _step3;
+
+    try {
+      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+        var item = _step3.value;
+
+        var itemEl = _renderSelectItem(item);
+
+        el.appendChild(itemEl);
+      }
+    } catch (err) {
+      _iterator3.e(err);
+    } finally {
+      _iterator3.f();
+    }
+
+    return el;
+  }
+
+  function renderHtml(tp) {
+    var items = [].concat(_getNoneOptionItems(tp.settings), _getDropdownTimes(tp));
+    var el;
+
+    if (tp.settings.useSelect) {
+      el = _renderSelectList(items);
+    } else {
+      el = _renderStandardList(items);
+    }
+
+    if (tp.settings.className) {
+      el.classList.add(settings.className);
+    }
+
+    if (tp.settings.showDuration && (tp.settings.minTime !== null || tp.settings.durationTime !== null)) {
+      el.classList.add("ui-timepicker-with-duration");
+      el.classList.add("ui-timepicker-step-" + tp.settings.step());
+    }
+
+    return el;
+  }
+
   (function (factory) {
     if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) === "object" && exports && (typeof module === "undefined" ? "undefined" : _typeof(module)) === "object" && module && module.exports === exports) {
       // Browserify. Attach to jQuery module.
@@ -1313,8 +1544,6 @@
     }; // private methods
 
     function _render(self) {
-      var _settings$durationTim, _settings$minTime, _settings$maxTime;
-
       var tp = self[0].timepickerObj;
       var list = tp.list;
       var settings = tp.settings;
@@ -1324,131 +1553,12 @@
         tp.list = null;
       }
 
+      var wrapped_list = $(renderHtml(tp));
+
       if (settings.useSelect) {
-        list = $("<select></select>", {
-          "class": "ui-timepicker-select"
-        });
-
-        if (self.attr("name")) {
-          list.attr("name", "ui-timepicker-" + self.attr("name"));
-        }
-
-        var wrapped_list = list;
+        list = wrapped_list;
       } else {
-        list = $("<ul></ul>", {
-          "class": "ui-timepicker-list"
-        });
-        var wrapped_list = $("<div></div>", {
-          "class": "ui-timepicker-wrapper",
-          tabindex: -1
-        });
-        wrapped_list.css({
-          display: "none",
-          position: "absolute"
-        }).append(list);
-      }
-
-      if (settings.noneOption) {
-        if (settings.noneOption === true) {
-          settings.noneOption = settings.useSelect ? "Time..." : "None";
-        }
-
-        if ($.isArray(settings.noneOption)) {
-          for (var i in settings.noneOption) {
-            if (parseInt(i, 10) == i) {
-              var noneElement = tp._generateNoneElement(settings.noneOption[i], settings.useSelect);
-
-              list.append(noneElement);
-            }
-          }
-        } else {
-          var noneElement = tp._generateNoneElement(settings.noneOption, settings.useSelect);
-
-          list.append(noneElement);
-        }
-      }
-
-      if (settings.className) {
-        wrapped_list.addClass(settings.className);
-      }
-
-      if ((settings.minTime !== null || settings.durationTime !== null) && settings.showDuration) {
-        typeof settings.step == "function" ? "function" : settings.step;
-        wrapped_list.addClass("ui-timepicker-with-duration");
-        wrapped_list.addClass("ui-timepicker-step-" + settings.step);
-      }
-
-      var durStart = (_settings$durationTim = settings.durationTime()) !== null && _settings$durationTim !== void 0 ? _settings$durationTim : settings.minTime();
-      var start = (_settings$minTime = settings.minTime()) !== null && _settings$minTime !== void 0 ? _settings$minTime : 0;
-      var end = (_settings$maxTime = settings.maxTime()) !== null && _settings$maxTime !== void 0 ? _settings$maxTime : start + ONE_DAY - 1;
-
-      if (end < start) {
-        // make sure the end time is greater than start time, otherwise there will be no list to show
-        end += ONE_DAY;
-      }
-
-      if (end === ONE_DAY - 1 && $.type(settings.timeFormat) === "string" && settings.show2400) {
-        // show a 24:00 option when using military time
-        end = ONE_DAY;
-      }
-
-      var dr = settings.disableTimeRanges;
-      var drCur = 0;
-      var drLen = dr.length;
-      var stepFunc = settings.step;
-
-      if (typeof stepFunc != "function") {
-        stepFunc = function stepFunc() {
-          return settings.step;
-        };
-      }
-
-      for (var i = start, j = 0; i <= end; j++, i += stepFunc(j) * 60) {
-        var timeInt = i;
-
-        var timeString = tp._int2time(timeInt);
-
-        if (settings.useSelect) {
-          var row = $("<option></option>", {
-            value: timeString
-          });
-          row.text(timeString);
-        } else {
-          var row = $("<li></li>");
-          row.addClass(timeInt % ONE_DAY < ONE_DAY / 2 ? "ui-timepicker-am" : "ui-timepicker-pm");
-          row.attr("data-time", roundingFunction(timeInt, settings));
-          row.text(timeString);
-        }
-
-        if ((settings.minTime() !== null || settings.durationTime() !== null) && settings.showDuration) {
-          var durationString = tp._int2duration(i - durStart, settings.step);
-
-          if (settings.useSelect) {
-            row.text(row.text() + " (" + durationString + ")");
-          } else {
-            var duration = $("<span></span>", {
-              "class": "ui-timepicker-duration"
-            });
-            duration.text(" (" + durationString + ")");
-            row.append(duration);
-          }
-        }
-
-        if (drCur < drLen) {
-          if (timeInt >= dr[drCur][1]) {
-            drCur += 1;
-          }
-
-          if (dr[drCur] && timeInt >= dr[drCur][0] && timeInt < dr[drCur][1]) {
-            if (settings.useSelect) {
-              row.prop("disabled", true);
-            } else {
-              row.addClass("ui-timepicker-disabled");
-            }
-          }
-        }
-
-        list.append(row);
+        list = wrapped_list.children('ul');
       }
 
       wrapped_list.data("timepicker-input", self);

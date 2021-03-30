@@ -7,7 +7,7 @@ const roundingFunction = (seconds, settings) => {
     // TODO: nearest fit irregular steps
     return seconds;
   } else {
-    var offset = seconds % (settings.step * 60); // step is in minutes
+    var offset = seconds % (settings.step() * 60); // step is in minutes
 
     var start = settings.minTime() ?? 0;
 
@@ -22,11 +22,11 @@ const roundingFunction = (seconds, settings) => {
       seconds -= offset;
     }
 
-    return _moduloSeconds(seconds, settings);
+    return moduloSeconds(seconds, settings);
   }
 };
 
-function _moduloSeconds(seconds, settings) {
+function moduloSeconds(seconds, settings) {
   if (seconds == ONE_DAY && settings.show2400) {
     return seconds;
   }
@@ -34,4 +34,4 @@ function _moduloSeconds(seconds, settings) {
   return seconds % ONE_DAY;
 }
 
-export default roundingFunction;
+export { roundingFunction, moduloSeconds };

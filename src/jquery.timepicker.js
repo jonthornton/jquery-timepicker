@@ -1,6 +1,5 @@
 import Timepicker from "./timepicker/index.js";
-import moduloSeconds from "./timepicker/rounding.js";
-import { ONE_DAY } from "./timepicker/constants.js";
+import renderHtml from "./timepicker/render.js";
 import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 
 (function(factory) {
@@ -360,136 +359,11 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       tp.list = null;
     }
 
+    const wrapped_list = $(renderHtml(tp));
     if (settings.useSelect) {
-      list = $("<select></select>", { class: "ui-timepicker-select" });
-      if (self.attr("name")) {
-        list.attr("name", "ui-timepicker-" + self.attr("name"));
-      }
-      var wrapped_list = list;
+      list = wrapped_list;
     } else {
-      list = $("<ul></ul>", { class: "ui-timepicker-list" });
-
-      var wrapped_list = $("<div></div>", {
-        class: "ui-timepicker-wrapper",
-        tabindex: -1
-      });
-      wrapped_list.css({ display: "none", position: "absolute" }).append(list);
-    }
-
-    if (settings.noneOption) {
-      if (settings.noneOption === true) {
-        settings.noneOption = settings.useSelect ? "Time..." : "None";
-      }
-
-      if ($.isArray(settings.noneOption)) {
-        for (var i in settings.noneOption) {
-          if (parseInt(i, 10) == i) {
-            var noneElement = tp._generateNoneElement(
-              settings.noneOption[i],
-              settings.useSelect
-            );
-            list.append(noneElement);
-          }
-        }
-      } else {
-        var noneElement = tp._generateNoneElement(
-          settings.noneOption,
-          settings.useSelect
-        );
-        list.append(noneElement);
-      }
-    }
-
-    if (settings.className) {
-      wrapped_list.addClass(settings.className);
-    }
-
-    if (
-      (settings.minTime !== null || settings.durationTime !== null) &&
-      settings.showDuration
-    ) {
-      var stepval =
-        typeof settings.step == "function" ? "function" : settings.step;
-      wrapped_list.addClass("ui-timepicker-with-duration");
-      wrapped_list.addClass("ui-timepicker-step-" + settings.step);
-    }
-
-    var durStart = settings.durationTime() ?? settings.minTime();
-    var start = settings.minTime() ?? 0;
-    var end = settings.maxTime() ?? start + ONE_DAY - 1;
-
-    if (end < start) {
-      // make sure the end time is greater than start time, otherwise there will be no list to show
-      end += ONE_DAY;
-    }
-
-    if (
-      end === ONE_DAY - 1 &&
-      $.type(settings.timeFormat) === "string" &&
-      settings.show2400
-    ) {
-      // show a 24:00 option when using military time
-      end = ONE_DAY;
-    }
-
-    var dr = settings.disableTimeRanges;
-    var drCur = 0;
-    var drLen = dr.length;
-
-    var stepFunc = settings.step;
-    if (typeof stepFunc != "function") {
-      stepFunc = function() {
-        return settings.step;
-      };
-    }
-
-    for (var i = start, j = 0; i <= end; j++, i += stepFunc(j) * 60) {
-      var timeInt = i;
-      var timeString = tp._int2time(timeInt);
-
-      if (settings.useSelect) {
-        var row = $("<option></option>", { value: timeString });
-        row.text(timeString);
-      } else {
-        var row = $("<li></li>");
-        row.addClass(
-          timeInt % ONE_DAY < ONE_DAY / 2
-            ? "ui-timepicker-am"
-            : "ui-timepicker-pm"
-        );
-        row.attr("data-time", moduloSeconds(timeInt, settings));
-        row.text(timeString);
-      }
-
-      if (
-        (settings.minTime() !== null || settings.durationTime() !== null) &&
-        settings.showDuration
-      ) {
-        var durationString = tp._int2duration(i - durStart, settings.step);
-        if (settings.useSelect) {
-          row.text(row.text() + " (" + durationString + ")");
-        } else {
-          var duration = $("<span></span>", { class: "ui-timepicker-duration" });
-          duration.text(" (" + durationString + ")");
-          row.append(duration);
-        }
-      }
-
-      if (drCur < drLen) {
-        if (timeInt >= dr[drCur][1]) {
-          drCur += 1;
-        }
-
-        if (dr[drCur] && timeInt >= dr[drCur][0] && timeInt < dr[drCur][1]) {
-          if (settings.useSelect) {
-            row.prop("disabled", true);
-          } else {
-            row.addClass("ui-timepicker-disabled");
-          }
-        }
-      }
-
-      list.append(row);
+      list = wrapped_list.children('ul');
     }
 
     wrapped_list.data("timepicker-input", self);

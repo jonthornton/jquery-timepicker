@@ -336,6 +336,13 @@ class Timepicker {
       settings.showOn.splice(settings.showOn.indexOf("focus"), 1);
     }
 
+    if (typeof settings.step != 'function') {
+      const curryStep = settings.step;
+      settings.step = function() {
+        return curryStep;
+      };
+    }
+
     if (!settings.disableTimeRanges) {
       settings.disableTimeRanges = [];
     }
