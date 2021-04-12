@@ -438,6 +438,7 @@ class Timepicker {
   }
 
   _roundAndFormatTime(seconds) {
+    // console.log('_roundAndFormatTime')
     seconds = this.settings.roundingFunction(seconds, this.settings);
     if (seconds !== null) {
       return this._int2time(seconds);

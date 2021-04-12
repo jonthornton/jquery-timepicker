@@ -79,6 +79,11 @@ test("disableTextInput works", () => {
     .dispatchEvent(event);
 });
 
+test("useSelect doesn't crash", () => {
+  $(el).val("2:00pm");
+  $(el).timepicker({ useSelect: true });
+});
+
 test("option works", () => {
   $(el).timepicker({ disableTextInput: true });
   expect($(el).timepicker("option", "disableTextInput")).toEqual(

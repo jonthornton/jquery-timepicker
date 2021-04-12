@@ -6,35 +6,35 @@ function _getNoneOptionItems(settings) {
     return []
   }
 
-  if (settings.noneOption === true) {
-    return [{
-      'label': 'None',
-      'value': ''
-    }];
-  }
+  const noneOptions = _getNoneOptionItemsHelper(settings.noneOption);
 
   if (Array.isArray(settings.noneOption)) {
-    const output = [];
-    for (const item of settings.noneOption) {
-      output.push({
-        'label': item,
-        'value': ''
-      })
-    }
+    return noneOptions;
+  } else {
+    return [noneOptions];
+  }
+}
 
-    return output;
+function _getNoneOptionItemsHelper(noneOption) {
+  if (Array.isArray(noneOption)) {
+    return noneOption.map(_getNoneOptionItemsHelper);
   }
 
-  if (typeof settings.noneOption === 'object') {
-    return [settings.noneOption];
-  }
-
-  if (typeof settings.noneOption === 'string') {
-    return [{
-      'label': settings.noneOption,
+  if (noneOption === true) {
+    return {
+      'label': 'None',
       'value': ''
-    }]
+    };
   }
+
+  if (typeof noneOption === 'object') {
+    return noneOption;
+  }
+
+  return {
+    'label': noneOption,
+    'value': ''
+  };
 }
 
 function _getDropdownTimes(tp) {
@@ -121,6 +121,10 @@ function _renderSelectItem(item) {
 function _renderStandardItem(item) {
   const el = document.createElement('li');
   el.dataset['time'] = item.value;
+
+  if (item.className){
+    el.classList.add(item.className);
+  }
   el.className = item.className;
   el.appendChild(document.createTextNode(item.label));
 
@@ -158,12 +162,12 @@ function _renderStandardList(items) {
   return wrapper;
 }
 
-function _renderSelectList(items) {
+function _renderSelectList(items, targetName) {
   const el = document.createElement('select');
   el.classList.add('ui-timepicker-select');
 
-  if (el.target.name) {
-    el.name = 'ui-timepicker-' + el.target.name;
+  if (targetName) {
+    el.name = 'ui-timepicker-' + targetName;
   }
 
   for (const item of items) {
@@ -181,7 +185,7 @@ function renderHtml(tp) {
 
   let el;
   if (tp.settings.useSelect) {
-    el = _renderSelectList(items)
+    el = _renderSelectList(items, tp.targetEl.name)
   } else {
     el = _renderStandardList(items)
   }

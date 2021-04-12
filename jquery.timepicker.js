@@ -170,11 +170,9 @@
   var ONE_DAY = 86400;
 
   var roundingFunction = function roundingFunction(seconds, settings) {
+    // console.log(seconds, settings)
     if (seconds === null) {
       return null;
-    } else if (typeof settings.step !== "number") {
-      // TODO: nearest fit irregular steps
-      return seconds;
     } else {
       var _settings$minTime;
 
@@ -182,11 +180,11 @@
 
       var start = (_settings$minTime = settings.minTime()) !== null && _settings$minTime !== void 0 ? _settings$minTime : 0; // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
 
-      offset -= start % (settings.step * 60);
+      offset -= start % (settings.step() * 60);
 
-      if (offset >= settings.step * 30) {
+      if (offset >= settings.step() * 30) {
         // if offset is larger than a half step, round up
-        seconds += settings.step * 60 - offset;
+        seconds += settings.step() * 60 - offset;
       } else {
         // round down
         seconds -= offset;
@@ -632,6 +630,7 @@
     }, {
       key: "_roundAndFormatTime",
       value: function _roundAndFormatTime(seconds) {
+        // console.log('_roundAndFormatTime')
         seconds = this.settings.roundingFunction(seconds, this.settings);
 
         if (seconds !== null) {
@@ -1014,46 +1013,35 @@
       return [];
     }
 
-    if (settings.noneOption === true) {
-      return [{
-        'label': 'None',
-        'value': ''
-      }];
-    }
+    var noneOptions = _getNoneOptionItemsHelper(settings.noneOption);
 
     if (Array.isArray(settings.noneOption)) {
-      var output = [];
+      return noneOptions;
+    } else {
+      return [noneOptions];
+    }
+  }
 
-      var _iterator = _createForOfIteratorHelper(settings.noneOption),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var item = _step.value;
-          output.push({
-            'label': item,
-            'value': ''
-          });
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-
-      return output;
+  function _getNoneOptionItemsHelper(noneOption) {
+    if (Array.isArray(noneOption)) {
+      return noneOption.map(_getNoneOptionItemsHelper);
     }
 
-    if (_typeof(settings.noneOption) === 'object') {
-      return [settings.noneOption];
-    }
-
-    if (typeof settings.noneOption === 'string') {
-      return [{
-        'label': settings.noneOption,
+    if (noneOption === true) {
+      return {
+        'label': 'None',
         'value': ''
-      }];
+      };
     }
+
+    if (_typeof(noneOption) === 'object') {
+      return noneOption;
+    }
+
+    return {
+      'label': noneOption,
+      'value': ''
+    };
   }
 
   function _getDropdownTimes(tp) {
@@ -1135,6 +1123,11 @@
   function _renderStandardItem(item) {
     var el = document.createElement('li');
     el.dataset['time'] = item.value;
+
+    if (item.className) {
+      el.classList.add(item.className);
+    }
+
     el.className = item.className;
     el.appendChild(document.createTextNode(item.label));
 
@@ -1156,21 +1149,21 @@
     var list = document.createElement('ul');
     list.classList.add('ui-timepicker-list');
 
-    var _iterator2 = _createForOfIteratorHelper(items),
-        _step2;
+    var _iterator = _createForOfIteratorHelper(items),
+        _step;
 
     try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        var item = _step2.value;
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var item = _step.value;
 
         var itemEl = _renderStandardItem(item);
 
         list.appendChild(itemEl);
       }
     } catch (err) {
-      _iterator2.e(err);
+      _iterator.e(err);
     } finally {
-      _iterator2.f();
+      _iterator.f();
     }
 
     var wrapper = document.createElement('div');
@@ -1182,29 +1175,29 @@
     return wrapper;
   }
 
-  function _renderSelectList(items) {
+  function _renderSelectList(items, targetName) {
     var el = document.createElement('select');
     el.classList.add('ui-timepicker-select');
 
-    if (el.target.name) {
-      el.name = 'ui-timepicker-' + el.target.name;
+    if (targetName) {
+      el.name = 'ui-timepicker-' + targetName;
     }
 
-    var _iterator3 = _createForOfIteratorHelper(items),
-        _step3;
+    var _iterator2 = _createForOfIteratorHelper(items),
+        _step2;
 
     try {
-      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-        var item = _step3.value;
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var item = _step2.value;
 
         var itemEl = _renderSelectItem(item);
 
         el.appendChild(itemEl);
       }
     } catch (err) {
-      _iterator3.e(err);
+      _iterator2.e(err);
     } finally {
-      _iterator3.f();
+      _iterator2.f();
     }
 
     return el;
@@ -1215,7 +1208,7 @@
     var el;
 
     if (tp.settings.useSelect) {
-      el = _renderSelectList(items);
+      el = _renderSelectList(items, tp.targetEl.name);
     } else {
       el = _renderStandardList(items);
     }
