@@ -77,7 +77,6 @@ class Timepicker {
 
     var out = false;
     var value = this.settings.roundingFunction(value, this.settings);
-
     if (!this.list) {
       return false;
     }

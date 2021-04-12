@@ -170,27 +170,24 @@
   var ONE_DAY = 86400;
 
   var roundingFunction = function roundingFunction(seconds, settings) {
-    // console.log(seconds, settings)
     if (seconds === null) {
       return null;
+    }
+
+    var i = 0;
+    var nextVal = 0;
+
+    while (nextVal < seconds) {
+      i++;
+      nextVal += settings.step(i) * 60;
+    }
+
+    var prevVal = nextVal - settings.step(i - 1) * 60;
+
+    if (seconds - prevVal < nextVal - seconds) {
+      return moduloSeconds(prevVal, settings);
     } else {
-      var _settings$minTime;
-
-      var offset = seconds % (settings.step() * 60); // step is in minutes
-
-      var start = (_settings$minTime = settings.minTime()) !== null && _settings$minTime !== void 0 ? _settings$minTime : 0; // adjust offset by start mod step so that the offset is aligned not to 00:00 but to the start
-
-      offset -= start % (settings.step() * 60);
-
-      if (offset >= settings.step() * 30) {
-        // if offset is larger than a half step, round up
-        seconds += settings.step() * 60 - offset;
-      } else {
-        // round down
-        seconds -= offset;
-      }
-
-      return moduloSeconds(seconds, settings);
+      return moduloSeconds(nextVal, settings);
     }
   };
 

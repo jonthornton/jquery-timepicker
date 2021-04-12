@@ -38,7 +38,6 @@ test('noneOption works', () => {
 
   const firstNoneOption = list.children[0].children[0];
   const secondNoneOption = list.children[0].children[1];
-  // console.log(firstNoneOption.outerHTML)
 
   expect(firstNoneOption.innerHTML).toEqual('Foobar');
   expect(firstNoneOption.dataset['time']).toEqual('oh hai');
