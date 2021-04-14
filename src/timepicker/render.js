@@ -191,7 +191,8 @@ function renderHtml(tp) {
   }
 
   if (tp.settings.className) {
-    el.classList.add(settings.className);
+    var classes = tp.settings.className.split(" ");
+    for (var i in classes) el.classList.add(classes[i]);
   }
 
   if (tp.settings.showDuration
