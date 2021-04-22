@@ -1211,7 +1211,19 @@
     }
 
     if (tp.settings.className) {
-      el.classList.add(settings.className);
+      var _iterator3 = _createForOfIteratorHelper(tp.settings.className.split(' ')),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var token = _step3.value;
+          el.classList.add(token);
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
     }
 
     if (tp.settings.showDuration && (tp.settings.minTime !== null || tp.settings.durationTime !== null)) {

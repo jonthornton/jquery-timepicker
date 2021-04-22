@@ -191,8 +191,9 @@ function renderHtml(tp) {
   }
 
   if (tp.settings.className) {
-    var classes = tp.settings.className.split(" ");
-    for (var i in classes) el.classList.add(classes[i]);
+    for (const token of tp.settings.className.split(' ')) {
+      el.classList.add(token);
+    }
   }
 
   if (tp.settings.showDuration

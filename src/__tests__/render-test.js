@@ -19,6 +19,23 @@ test('render doesn\'t crash', () => {
   const list = renderHtml(tp);
 });
 
+test('className works', () => {
+  const el = createIntput();
+  const tp = new Timepicker(el, {
+    className: 'foo'
+  });
+
+  const list = renderHtml(tp);
+  expect(list.className).toEqual('ui-timepicker-wrapper foo');
+
+  const el2 = createIntput();
+  const tp2 = new Timepicker(el2, {
+    className: 'foo bar'
+  });
+
+  const list2 = renderHtml(tp2);
+  expect(list2.className).toEqual('ui-timepicker-wrapper foo bar');
+});
 
 
 test('noneOption works', () => {
