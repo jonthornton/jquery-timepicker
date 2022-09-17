@@ -448,8 +448,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     }
 
     Timepicker.hideAll();
-    $(document).unbind(".ui-timepicker");
-    $(window).unbind(".ui-timepicker");
+    $(document).off(".ui-timepicker");
+    $(window).off(".ui-timepicker");
   }
 
   
