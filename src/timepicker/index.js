@@ -244,7 +244,7 @@ class Timepicker {
     var hour = parseInt(time[3] * 1, 10);
     var ampm = time[2] || time[9];
     var hours = hour;
-    var minutes = time[5] * 1 || 0;
+    var minutes = this.parseMinuteString(time[5]);
     var seconds = time[7] * 1 || 0;
 
     if (!ampm && time[3].length == 2 && time[3][0] == "0") {
@@ -288,6 +288,20 @@ class Timepicker {
     }
 
     return timeInt;
+  }
+
+  parseMinuteString(minutesString) {
+    if (!minutesString) {
+      minutesString = 0;
+    }
+
+    let multiplier = 1;
+
+    if (minutesString.length == 1) {
+      multiplier = 10;
+    }
+
+    return parseInt(minutesString) * multiplier || 0;
   }
 
   intStringDateOrFunc2func(input) {
