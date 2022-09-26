@@ -237,13 +237,13 @@ class Timepicker {
     }
 
     var time = timeString.match(pattern);
+
     if (!time) {
       return null;
     }
 
     var hour = parseInt(time[3] * 1, 10);
     var ampm = time[2] || time[9];
-    var hours = hour;
     var minutes = this.parseMinuteString(time[5]);
     var seconds = time[7] * 1 || 0;
 
@@ -251,6 +251,14 @@ class Timepicker {
       // preceding '0' implies AM
       ampm = "am";
     }
+
+    if (hour > 24 && !minutes) {
+      // if someone types in something like "83", turn it into "8h 30m"
+      hour = time[3][0] * 1;
+      minutes = this.parseMinuteString(time[3][1]);
+    }
+
+    var hours = hour;
 
     if (hour <= 12 && ampm) {
       ampm = ampm.trim();
