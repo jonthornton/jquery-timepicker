@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.13.18 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.13.19 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2021 Jon Thornton - https://www.jonthornton.com/jquery-timepicker/
  * License: MIT
  */
@@ -571,30 +571,34 @@
           };
         }
 
-        if (!settings.disableTimeRanges) {
-          settings.disableTimeRanges = [];
-        }
+        settings.disableTimeRanges = this._parseDisableTimeRanges(settings.disableTimeRanges);
+        return settings;
+      }
+    }, {
+      key: "_parseDisableTimeRanges",
+      value: function _parseDisableTimeRanges(disableTimeRanges) {
+        if (!disableTimeRanges || disableTimeRanges.length == 0) {
+          return [];
+        } // convert string times to integers
 
-        if (settings.disableTimeRanges.length > 0) {
-          // convert string times to integers
-          for (var i in settings.disableTimeRanges) {
-            settings.disableTimeRanges[i] = [this.anytime2int(settings.disableTimeRanges[i][0]), this.anytime2int(settings.disableTimeRanges[i][1])];
-          } // sort by starting time
+
+        for (var i in disableTimeRanges) {
+          disableTimeRanges[i] = [this.anytime2int(disableTimeRanges[i][0]), this.anytime2int(disableTimeRanges[i][1])];
+        } // sort by starting time
 
 
-          settings.disableTimeRanges = settings.disableTimeRanges.sort(function (a, b) {
-            return a[0] - b[0];
-          }); // merge any overlapping ranges
+        disableTimeRanges = disableTimeRanges.sort(function (a, b) {
+          return a[0] - b[0];
+        }); // merge any overlapping ranges
 
-          for (var i = settings.disableTimeRanges.length - 1; i > 0; i--) {
-            if (settings.disableTimeRanges[i][0] <= settings.disableTimeRanges[i - 1][1]) {
-              settings.disableTimeRanges[i - 1] = [Math.min(settings.disableTimeRanges[i][0], settings.disableTimeRanges[i - 1][0]), Math.max(settings.disableTimeRanges[i][1], settings.disableTimeRanges[i - 1][1])];
-              settings.disableTimeRanges.splice(i, 1);
-            }
+        for (var i = disableTimeRanges.length - 1; i > 0; i--) {
+          if (disableTimeRanges[i][0] <= disableTimeRanges[i - 1][1]) {
+            disableTimeRanges[i - 1] = [Math.min(disableTimeRanges[i][0], disableTimeRanges[i - 1][0]), Math.max(disableTimeRanges[i][1], disableTimeRanges[i - 1][1])];
+            disableTimeRanges.splice(i, 1);
           }
         }
 
-        return settings;
+        return disableTimeRanges;
       }
       /*
        *  Filter freeform input
@@ -1080,8 +1084,6 @@
       end = ONE_DAY;
     }
 
-    var dr = settings.disableTimeRanges;
-    var drCur = 0;
     var output = [];
 
     for (var i = start, j = 0; i <= end; j++, i += settings.step(j) * 60) {
@@ -1106,14 +1108,22 @@
         item.duration = durationString;
       }
 
-      if (drCur < dr.length) {
-        if (timeInt >= dr[drCur][1]) {
-          drCur += 1;
-        }
+      var _iterator = _createForOfIteratorHelper(settings.disableTimeRanges),
+          _step;
 
-        if (dr[drCur] && timeInt >= dr[drCur][0] && timeInt < dr[drCur][1]) {
-          item.disabled = true;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var range = _step.value;
+
+          if (timeInt % ONE_DAY >= range[0] && timeInt % ONE_DAY < range[1]) {
+            item.disabled = true;
+            break;
+          }
         }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
       }
 
       output.push(item);
@@ -1168,21 +1178,21 @@
     var list = document.createElement('ul');
     list.classList.add('ui-timepicker-list');
 
-    var _iterator = _createForOfIteratorHelper(items),
-        _step;
+    var _iterator2 = _createForOfIteratorHelper(items),
+        _step2;
 
     try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var item = _step.value;
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var item = _step2.value;
 
         var itemEl = _renderStandardItem(item);
 
         list.appendChild(itemEl);
       }
     } catch (err) {
-      _iterator.e(err);
+      _iterator2.e(err);
     } finally {
-      _iterator.f();
+      _iterator2.f();
     }
 
     var wrapper = document.createElement('div');
@@ -1202,21 +1212,21 @@
       el.name = 'ui-timepicker-' + targetName;
     }
 
-    var _iterator2 = _createForOfIteratorHelper(items),
-        _step2;
+    var _iterator3 = _createForOfIteratorHelper(items),
+        _step3;
 
     try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        var item = _step2.value;
+      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+        var item = _step3.value;
 
         var itemEl = _renderSelectItem(item);
 
         el.appendChild(itemEl);
       }
     } catch (err) {
-      _iterator2.e(err);
+      _iterator3.e(err);
     } finally {
-      _iterator2.f();
+      _iterator3.f();
     }
 
     return el;
@@ -1233,18 +1243,18 @@
     }
 
     if (tp.settings.className) {
-      var _iterator3 = _createForOfIteratorHelper(tp.settings.className.split(' ')),
-          _step3;
+      var _iterator4 = _createForOfIteratorHelper(tp.settings.className.split(' ')),
+          _step4;
 
       try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var token = _step3.value;
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var token = _step4.value;
           el.classList.add(token);
         }
       } catch (err) {
-        _iterator3.e(err);
+        _iterator4.e(err);
       } finally {
-        _iterator3.f();
+        _iterator4.f();
       }
     }
 
