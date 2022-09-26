@@ -364,49 +364,48 @@ class Timepicker {
       };
     }
 
-    if (!settings.disableTimeRanges) {
-      settings.disableTimeRanges = [];
-    }
-
-    if (settings.disableTimeRanges.length > 0) {
-      // convert string times to integers
-      for (var i in settings.disableTimeRanges) {
-        settings.disableTimeRanges[i] = [
-          this.anytime2int(settings.disableTimeRanges[i][0]),
-          this.anytime2int(settings.disableTimeRanges[i][1])
-        ];
-      }
-
-      // sort by starting time
-      settings.disableTimeRanges = settings.disableTimeRanges.sort(function(
-        a,
-        b
-      ) {
-        return a[0] - b[0];
-      });
-
-      // merge any overlapping ranges
-      for (var i = settings.disableTimeRanges.length - 1; i > 0; i--) {
-        if (
-          settings.disableTimeRanges[i][0] <=
-          settings.disableTimeRanges[i - 1][1]
-        ) {
-          settings.disableTimeRanges[i - 1] = [
-            Math.min(
-              settings.disableTimeRanges[i][0],
-              settings.disableTimeRanges[i - 1][0]
-            ),
-            Math.max(
-              settings.disableTimeRanges[i][1],
-              settings.disableTimeRanges[i - 1][1]
-            )
-          ];
-          settings.disableTimeRanges.splice(i, 1);
-        }
-      }
-    }
+    settings.disableTimeRanges = this._parseDisableTimeRanges(settings.disableTimeRanges);
 
     return settings;
+  }
+
+  _parseDisableTimeRanges(disableTimeRanges) {
+    if (!disableTimeRanges || disableTimeRanges.length == 0) {
+      return [];
+    }
+
+    // convert string times to integers
+    for (var i in disableTimeRanges) {
+      disableTimeRanges[i] = [
+        this.anytime2int(disableTimeRanges[i][0]),
+        this.anytime2int(disableTimeRanges[i][1])
+      ];
+    }
+
+    // sort by starting time
+    disableTimeRanges = disableTimeRanges.sort((a, b) => a[0] - b[0]);
+
+    // merge any overlapping ranges
+    for (var i = disableTimeRanges.length - 1; i > 0; i--) {
+      if (
+        disableTimeRanges[i][0] <=
+        disableTimeRanges[i - 1][1]
+      ) {
+        disableTimeRanges[i - 1] = [
+          Math.min(
+            disableTimeRanges[i][0],
+            disableTimeRanges[i - 1][0]
+          ),
+          Math.max(
+            disableTimeRanges[i][1],
+            disableTimeRanges[i - 1][1]
+          )
+        ];
+        disableTimeRanges.splice(i, 1);
+      }
+    }
+
+    return disableTimeRanges;
   }
 
   /*
@@ -637,7 +636,7 @@ class Timepicker {
         rangeError = true;
         break;
       }
-    };
+    }
 
     if (settings.forceRoundTime) {
       var roundSeconds = settings.roundingFunction(seconds, settings);

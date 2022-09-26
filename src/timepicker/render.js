@@ -57,8 +57,6 @@ function _getDropdownTimes(tp) {
     end = ONE_DAY;
   }
 
-  const dr = settings.disableTimeRanges;
-  let drCur = 0;
   const output = [];
 
   for (var i = start, j = 0; i <= end; j++, i += settings.step(j) * 60) {
@@ -84,16 +82,13 @@ function _getDropdownTimes(tp) {
       item.duration = durationString;
     }
 
-    if (drCur < dr.length) {
-      if (timeInt >= dr[drCur][1]) {
-        drCur += 1;
-      }
-
-      if (dr[drCur] && timeInt >= dr[drCur][0] && timeInt < dr[drCur][1]) {
+    for (const range of settings.disableTimeRanges) {
+      if (timeInt % ONE_DAY >= range[0] && timeInt % ONE_DAY < range[1]) {
         item.disabled = true;
+        break;
       }
     }
-
+    
     output.push(item);
   }
 
