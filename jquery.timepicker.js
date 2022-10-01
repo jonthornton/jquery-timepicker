@@ -1,5 +1,5 @@
 /*!
- * jquery-timepicker v1.13.19 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
+ * jquery-timepicker v1.14.0 - A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.
  * Copyright (c) 2021 Jon Thornton - https://www.jonthornton.com/jquery-timepicker/
  * License: MIT
  */
@@ -202,7 +202,8 @@
   var DEFAULT_SETTINGS = {
     appendTo: "body",
     className: null,
-    closeOnWindowScroll: false,
+    closeOnWindow: false,
+    closeOnScroll: false,
     disableTextInput: false,
     disableTimeRanges: [],
     disableTouchKeyboard: false,
@@ -220,7 +221,6 @@
     show2400: false,
     showDuration: false,
     showOn: ["click", "focus"],
-    showOnFocus: true,
     step: 30,
     stopScrollPropagation: false,
     timeFormat: "g:ia",
@@ -559,10 +559,6 @@
           settings._twelveHourTime = true;
         }
 
-        if (settings.showOnFocus === false && settings.showOn.indexOf("focus") != -1) {
-          settings.showOn.splice(settings.showOn.indexOf("focus"), 1);
-        }
-
         if (typeof settings.step != 'function') {
           var curryStep = settings.step;
 
@@ -572,6 +568,15 @@
         }
 
         settings.disableTimeRanges = this._parseDisableTimeRanges(settings.disableTimeRanges);
+
+        if (settings.closeOnWindowScroll && !settings.closeOnScroll) {
+          settings.closeOnScroll = settings.closeOnWindowScroll;
+        }
+
+        if (settings.closeOnScroll === true) {
+          settings.closeOnScroll = window.document;
+        }
+
         return settings;
       }
     }, {
@@ -1103,6 +1108,10 @@
 
         var durStart = (_settings$durationTim = settings.durationTime()) !== null && _settings$durationTim !== void 0 ? _settings$durationTim : settings.minTime();
 
+        if (durStart > i) {
+          durStart -= ONE_DAY;
+        }
+
         var durationString = tp._int2duration(i - durStart, settings.step());
 
         item.duration = durationString;
@@ -1437,8 +1446,8 @@
         $(document).on("mousedown.ui-timepicker", _closeHandler);
         window.addEventListener('resize', _closeHandler);
 
-        if (settings.closeOnWindowScroll) {
-          $(document).on("scroll.ui-timepicker", _closeHandler);
+        if (settings.closeOnScroll) {
+          $(settings.closeOnScroll).on("scroll.ui-timepicker", _closeHandler);
         }
 
         self.trigger("showTimepicker");
