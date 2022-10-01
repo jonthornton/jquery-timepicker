@@ -366,6 +366,14 @@ class Timepicker {
 
     settings.disableTimeRanges = this._parseDisableTimeRanges(settings.disableTimeRanges);
 
+    if (settings.closeOnWindowScroll && !settings.closeOnScroll) {
+      settings.closeOnScroll = settings.closeOnWindowScroll;
+    }
+
+    if (settings.closeOnScroll === true) {
+      settings.closeOnScroll = window.document;
+    }
+
     return settings;
   }
 

@@ -201,8 +201,8 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
       // attach close handlers
       $(document).on("mousedown.ui-timepicker", _closeHandler);
       window.addEventListener('resize', _closeHandler);
-      if (settings.closeOnWindowScroll) {
-        $(document).on("scroll.ui-timepicker", _closeHandler);
+      if (settings.closeOnScroll) {
+        $(settings.closeOnScroll).on("scroll.ui-timepicker", _closeHandler);
       }
 
       self.trigger("showTimepicker");

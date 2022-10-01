@@ -23,6 +23,12 @@ declare namespace Jt.Timepicker {
         className?: string;
         /**
          * Default: false
+         * Close the timepicker when the chosen element is scrolled. (Replicates <select> behavior.) Takes either a string to use as a selector, an HTMLelemtn, or a boolean (true binds to ```document``` scrolling).  
+         */
+        closeOnScroll?: boolean | string | HTMLelement;
+        /**
+         * Default: false
+         * DEPRECATED.
          * Close the timepicker when the window is scrolled. (Replicates <select> behavior.)
          */
         closeOnWindowScroll?: boolean;

@@ -38,7 +38,11 @@ Takes either a `string` to use as a selector, a `function` that gets passed the 
 A class name to apply to the HTML element that contains the timepicker dropdown.  
 *default: null*
 
-- **closeOnWindowScroll**  
+- **closeOnScroll**  
+Close the timepicker when the chosen element is scrolled. (Replicates ```<select>``` behavior.) Takes either a string to use as a selector, an HTMLelemtn, or a boolean (true binds to ```document``` scrolling).  
+*default: false*
+
+- **closeOnWindowScroll DEPRECATED**  
 Close the timepicker when the window is scrolled. (Replicates ```<select>``` behavior.)  
 *default: false*
 
@@ -144,7 +148,7 @@ Highlight the nearest corresponding time option as a value is typed into the for
 *default: true*
 
 - **useSelect**  
-Convert the input to an HTML `<SELECT>` control. This is ideal for small screen devices, or if you want to prevent the user from entering arbitrary values. This option is not compatible with the following options: ```appendTo```, ```closeOnWindowScroll```, ```disableTouchKeyboard```, ```forceRoundTime```, ```scrollDefault```, ```selectOnBlur```, ```typeAheadHighlight```.  
+Convert the input to an HTML `<SELECT>` control. This is ideal for small screen devices, or if you want to prevent the user from entering arbitrary values. This option is not compatible with the following options: ```appendTo```, ```closeOnScroll```, ```closeOnWindowScroll```, ```disableTouchKeyboard```, ```forceRoundTime```, ```scrollDefault```, ```selectOnBlur```, ```typeAheadHighlight```.  
 *default: false*
 
 - **wrapHours**  

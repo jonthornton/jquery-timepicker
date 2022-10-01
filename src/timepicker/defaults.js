@@ -3,7 +3,8 @@ import { roundingFunction } from "./rounding";
 const DEFAULT_SETTINGS = {
   appendTo: "body",
   className: null,
-  closeOnWindowScroll: false,
+  closeOnWindow: false,
+  closeOnScroll: false,
   disableTextInput: false,
   disableTimeRanges: [],
   disableTouchKeyboard: false,
