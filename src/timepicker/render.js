@@ -77,7 +77,11 @@ function _getDropdownTimes(tp) {
       (settings.minTime() !== null || settings.durationTime() !== null) &&
       settings.showDuration
     ) {
-      const durStart = settings.durationTime() ?? settings.minTime();
+      let durStart = settings.durationTime() ?? settings.minTime();
+      if (durStart > i) {
+        durStart -= ONE_DAY;
+      }
+
       const durationString = tp._int2duration(i - durStart, settings.step());
       item.duration = durationString;
     }
