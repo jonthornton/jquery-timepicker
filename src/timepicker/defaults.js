@@ -22,7 +22,6 @@ const DEFAULT_SETTINGS = {
   show2400: false,
   showDuration: false,
   showOn: ["click", "focus"],
-  showOnFocus: true,
   step: 30,
   stopScrollPropagation: false,
   timeFormat: "g:ia",

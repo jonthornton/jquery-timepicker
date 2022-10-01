@@ -125,11 +125,7 @@ Shows the relative time for each item in the dropdown. ```minTime``` or ```durat
 
 - **showOn**  
 Display a timepicker dropdown when the input fires a particular event. Set to null or an empty array to disable automatic display. Setting should be an array of strings.
-*default: ['focus']*
-
-- **showOnFocus**  
-DEPRECATED: Display a timepicker dropdown when the input gains focus.  
-*default: true*
+*default: ['click', 'focus']*
 
 - **step**  
 The amount of time, in minutes, between each item in the dropdown. Alternately, you can specify a function to generate steps dynamically. The function will receive a count integer (0, 1, 2...) and is expected to return a step integer.  

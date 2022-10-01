@@ -122,11 +122,6 @@ declare namespace Jt.Timepicker {
          */
         showOn?: string[];
         /**
-         * @deprecated Display a timepicker dropdown when the input gains focus.
-         * Default: true
-         */
-        showOnFocus?: boolean;
-        /**
          * Default: 30
          * The amount of time, in minutes, between each item in the dropdown. Alternately, you can specify a function to generate steps dynamically. The function will receive a count integer (0, 1, 2...) and is expected to return a step integer.
          */
