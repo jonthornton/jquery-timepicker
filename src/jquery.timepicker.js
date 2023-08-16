@@ -1,6 +1,6 @@
 import Timepicker from "./timepicker/index.js";
 import renderHtml from "./timepicker/render.js";
-import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
+import { DEFAULT_SETTINGS, EVENT_DEFAULTS } from "./timepicker/defaults.js";
 
 (function(factory) {
   if (
@@ -295,11 +295,17 @@ import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
     setTime: function(value) {
       var tp = this[0].timepickerObj;
       var settings = tp.settings;
+      var seconds = tp.anytime2int(value);
+
+      if (tp._isTimeRangeError(seconds, settings)) {
+        const timeRangeErrorEvent = new CustomEvent('timeRangeError', EVENT_DEFAULTS);
+        tp.targetEl.dispatchEvent(timeRangeErrorEvent);
+      }
 
       if (settings.forceRoundTime) {
-        var prettyTime = tp._roundAndFormatTime(tp.anytime2int(value));
+        var prettyTime = tp._roundAndFormatTime(seconds);
       } else {
-        var prettyTime = tp._int2time(tp.anytime2int(value));
+        var prettyTime = tp._int2time(seconds);
       }
 
       if (value && prettyTime === null && settings.noneOption) {

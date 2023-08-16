@@ -120,3 +120,12 @@ test("setTime doesn't throw a change event", () => {
 
   _expectDidntThrowEvent(el.dispatchEvent.mock, 'change');
 });
+
+test("setTime can't set a disabled time", () => {
+  el.dispatchEvent = jest.fn();
+  
+  $(el).timepicker({ disableTimeRanges: [['1:00pm','5:00pm']] });
+  $(el).timepicker('setTime', '2pm');
+
+  _expectThrewEvent(el.dispatchEvent.mock, 'timeRangeError');
+});
