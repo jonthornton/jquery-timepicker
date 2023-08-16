@@ -102,7 +102,7 @@ function _getDropdownTimes(tp) {
 function _renderSelectItem(item) {
   const el = document.createElement('option');
   
-  el.value = item.label;
+  el.value = item.value || item.label;
 
   if (item.duration) {
     el.appendChild(document.createTextNode(item.label + ' (' + item.duration + ')'));
