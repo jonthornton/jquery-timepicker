@@ -219,7 +219,8 @@ class Timepicker {
     timeString = timeString.toLowerCase().replace(/[\s\.]/g, "");
 
     // if the last character is an "a" or "p", add the "m"
-    if (timeString.slice(-1) == "a" || timeString.slice(-1) == "p") {
+    if (this.settings.lang.am === "am"
+      && (timeString.slice(-1) == "a" || timeString.slice(-1) == "p")) {
       timeString += "m";
     }
 

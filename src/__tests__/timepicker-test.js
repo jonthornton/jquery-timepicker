@@ -29,6 +29,18 @@ test("time2int works", () => {
 
 });
 
+test("time2int supports localization", () => {
+  const el = createIntput();
+  const tp = new Timepicker(el, { lang: {
+    am: 'pap',
+    AM: 'pap',
+    pm: 'pop',
+    PM: 'pop'
+  }});
+
+  expect(tp.time2int("1pop")).toEqual(46800);
+});
+
 test("int2duration works", () => {
   const el = createIntput();
   const tp = new Timepicker(el);
