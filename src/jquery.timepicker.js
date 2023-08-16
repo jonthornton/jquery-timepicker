@@ -1,6 +1,7 @@
 import Timepicker from "./timepicker/index.js";
 import renderHtml from "./timepicker/render.js";
-import { DEFAULT_SETTINGS, EVENT_DEFAULTS } from "./timepicker/defaults.js";
+import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
+import { EVENT_DEFAULTS } from "./timepicker/constants.js";
 
 (function(factory) {
   if (
