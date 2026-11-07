@@ -1,5 +1,5 @@
 import Timepicker from "../timepicker/index.js";
-import { _expectThrewEvent } from '../testHelpers.js'
+import { _expectThrewEvent } from "../testHelpers.js";
 
 const TEST_INPUT = "testInput";
 
@@ -26,17 +26,18 @@ test("time2int works", () => {
   expect(tp.time2int("12:0")).toEqual(43200);
   expect(tp.time2int("130")).toEqual(5400);
   expect(tp.time2int("2430")).toEqual(1800);
-
 });
 
 test("time2int supports localization", () => {
   const el = createIntput();
-  const tp = new Timepicker(el, { lang: {
-    am: 'pap',
-    AM: 'pap',
-    pm: 'pop',
-    PM: 'pop'
-  }});
+  const tp = new Timepicker(el, {
+    lang: {
+      am: "pap",
+      AM: "pap",
+      pm: "pop",
+      PM: "pop"
+    }
+  });
 
   expect(tp.time2int("1pop")).toEqual(46800);
 });
@@ -77,34 +78,32 @@ test("_formatValue works", () => {
   const el = createIntput();
 
   const tp = new Timepicker(el, {
-    minTime: '1am',
-    maxTime: '23:00',
-    disableTimeRanges: [
-      ['3am', '4am']
-    ]
+    minTime: "1am",
+    maxTime: "23:00",
+    disableTimeRanges: [["3am", "4am"]]
   });
 
-  el.value = '1';
+  el.value = "1";
   tp._formatValue();
   expect(el.value).toEqual("1:00am");
 
-  el.value = '3am';
+  el.value = "3am";
   el.dispatchEvent = jest.fn();
   tp._formatValue();
   expect(el.value).toEqual("3:00am");
-  _expectThrewEvent(el.dispatchEvent.mock, 'timeRangeError');
+  _expectThrewEvent(el.dispatchEvent.mock, "timeRangeError");
 
-  el.value = '12:30am';
+  el.value = "12:30am";
   el.dispatchEvent = jest.fn();
   tp._formatValue();
   expect(el.value).toEqual("12:30am");
-  _expectThrewEvent(el.dispatchEvent.mock, 'timeRangeError');
+  _expectThrewEvent(el.dispatchEvent.mock, "timeRangeError");
   // todo: learn how to check if timeRangeError event was thrown
 
-  el.value = 'abc';
+  el.value = "abc";
   el.dispatchEvent = jest.fn();
   tp._formatValue();
   expect(el.value).toEqual("abc");
-  _expectThrewEvent(el.dispatchEvent.mock, 'timeFormatError');
+  _expectThrewEvent(el.dispatchEvent.mock, "timeFormatError");
   // todo: learn how to check if timeFormatError event was thrown
 });

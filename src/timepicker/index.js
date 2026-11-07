@@ -36,7 +36,7 @@ class Timepicker {
   }
 
   static hideAll() {
-    for (const el of document.getElementsByClassName('ui-timepicker-input')) {
+    for (const el of document.getElementsByClassName("ui-timepicker-input")) {
       const tp = el.timepickerObj;
       if (tp) {
         tp.hideMe();
@@ -48,7 +48,7 @@ class Timepicker {
     if (this.settings.useSelect) {
       this.targetEl.blur();
       return;
-    } 
+    }
 
     if (!this.list || !Timepicker.isVisible(this.list)) {
       return;
@@ -60,7 +60,10 @@ class Timepicker {
 
     this.list.hide();
 
-    const hideTimepickerEvent = new CustomEvent('hideTimepicker', EVENT_DEFAULTS);
+    const hideTimepickerEvent = new CustomEvent(
+      "hideTimepicker",
+      EVENT_DEFAULTS
+    );
     this.targetEl.dispatchEvent(hideTimepickerEvent);
   }
 
@@ -75,7 +78,7 @@ class Timepicker {
       return false;
     }
 
-    this.list.find("li").each(function(i, obj) {
+    this.list.find("li").each(function (i, obj) {
       const parsed = parseInt(obj.dataset.time);
 
       if (isNaN(parsed)) {
@@ -112,20 +115,21 @@ class Timepicker {
       }
     }
 
-    const selectTimeEvent = new CustomEvent('selectTime', EVENT_DEFAULTS);
+    const selectTimeEvent = new CustomEvent("selectTime", EVENT_DEFAULTS);
 
     if (this.selectedValue != value) {
       this.selectedValue = value;
 
-      const changeTimeEvent = new CustomEvent('changeTime', EVENT_DEFAULTS);
-      const changeEvent = new CustomEvent('change', 
-                                Object.assign(EVENT_DEFAULTS, { detail: 'timepicker'}));
+      const changeTimeEvent = new CustomEvent("changeTime", EVENT_DEFAULTS);
+      const changeEvent = new CustomEvent(
+        "change",
+        Object.assign(EVENT_DEFAULTS, { detail: "timepicker" })
+      );
 
       if (source == "select") {
         this.targetEl.dispatchEvent(selectTimeEvent);
         this.targetEl.dispatchEvent(changeTimeEvent);
         this.targetEl.dispatchEvent(changeEvent);
-
       } else if (["error", "initial"].indexOf(source) == -1) {
         this.targetEl.dispatchEvent(changeTimeEvent);
       }
@@ -162,7 +166,7 @@ class Timepicker {
     if (!cursor.length) {
       return true;
     }
-      
+
     var timeValue = cursor.get(0).dataset.time;
 
     // selected value found
@@ -171,9 +175,8 @@ class Timepicker {
       if (!isNaN(parsedTimeValue)) {
         timeValue = parsedTimeValue;
       }
-
     }
-    
+
     if (timeValue !== null) {
       if (typeof timeValue != "string") {
         timeValue = tp._int2time(timeValue);
@@ -186,17 +189,15 @@ class Timepicker {
   }
 
   anytime2int(input) {
-    if (typeof input === 'number') {
+    if (typeof input === "number") {
       return input;
-    } else if (typeof input === 'string') {
+    } else if (typeof input === "string") {
       return this.time2int(input);
-    } else if (typeof input === 'object' && input instanceof Date) {
+    } else if (typeof input === "object" && input instanceof Date) {
       return (
-        input.getHours() * 3600 +
-        input.getMinutes() * 60 +
-        input.getSeconds()
+        input.getHours() * 3600 + input.getMinutes() * 60 + input.getSeconds()
       );
-    } else if (typeof input == 'function') {
+    } else if (typeof input == "function") {
       return input();
     } else {
       return null;
@@ -208,7 +209,7 @@ class Timepicker {
       return null;
     }
 
-    if (timeString === 'now') {
+    if (timeString === "now") {
       return this.anytime2int(new Date());
     }
 
@@ -219,16 +220,20 @@ class Timepicker {
     timeString = timeString.toLowerCase().replace(/[\s\.]/g, "");
 
     // if the last character is an "a" or "p", add the "m"
-    if (this.settings.lang.am === "am"
-      && (timeString.slice(-1) == "a" || timeString.slice(-1) == "p")) {
+    if (
+      this.settings.lang.am === "am" &&
+      (timeString.slice(-1) == "a" || timeString.slice(-1) == "p")
+    ) {
       timeString += "m";
     }
 
-    let pattern = /^(([^0-9]*))?([0-9]?[0-9])(([0-5][0-9]))?(([0-5][0-9]))?(([^0-9]*))$/;
+    let pattern =
+      /^(([^0-9]*))?([0-9]?[0-9])(([0-5][0-9]))?(([0-5][0-9]))?(([^0-9]*))$/;
 
     const hasDelimetersMatch = timeString.match(/\W/);
     if (hasDelimetersMatch) {
-      pattern = /^(([^0-9]*))?([0-9]?[0-9])(\W+([0-5][0-9]?))?(\W+([0-5][0-9]))?(([^0-9]*))$/;
+      pattern =
+        /^(([^0-9]*))?([0-9]?[0-9])(\W+([0-5][0-9]?))?(\W+([0-5][0-9]))?(([^0-9]*))$/;
     }
 
     var time = timeString.match(pattern);
@@ -310,7 +315,7 @@ class Timepicker {
   intStringDateOrFunc2func(input) {
     if (input === null || input === undefined) {
       return () => null;
-    } else if (typeof input === 'function') {
+    } else if (typeof input === "function") {
       return () => this.anytime2int(input());
     } else {
       return () => this.anytime2int(input);
@@ -330,14 +335,18 @@ class Timepicker {
 
     settings.minTime = this.intStringDateOrFunc2func(settings.minTime);
     settings.maxTime = this.intStringDateOrFunc2func(settings.maxTime);
-    settings.durationTime = this.intStringDateOrFunc2func(settings.durationTime);
+    settings.durationTime = this.intStringDateOrFunc2func(
+      settings.durationTime
+    );
 
     if (settings.scrollDefault) {
-      settings.scrollDefault = this.intStringDateOrFunc2func(settings.scrollDefault);
+      settings.scrollDefault = this.intStringDateOrFunc2func(
+        settings.scrollDefault
+      );
     } else {
       settings.scrollDefault = settings.minTime;
     }
-    
+
     if (
       typeof settings.timeFormat === "string" &&
       settings.timeFormat.match(/[gh]/)
@@ -345,14 +354,16 @@ class Timepicker {
       settings._twelveHourTime = true;
     }
 
-    if (typeof settings.step != 'function') {
+    if (typeof settings.step != "function") {
       const curryStep = settings.step;
-      settings.step = function() {
+      settings.step = function () {
         return curryStep;
       };
     }
 
-    settings.disableTimeRanges = this._parseDisableTimeRanges(settings.disableTimeRanges);
+    settings.disableTimeRanges = this._parseDisableTimeRanges(
+      settings.disableTimeRanges
+    );
 
     if (settings.closeOnWindowScroll && !settings.closeOnScroll) {
       settings.closeOnScroll = settings.closeOnWindowScroll;
@@ -383,19 +394,10 @@ class Timepicker {
 
     // merge any overlapping ranges
     for (var i = disableTimeRanges.length - 1; i > 0; i--) {
-      if (
-        disableTimeRanges[i][0] <=
-        disableTimeRanges[i - 1][1]
-      ) {
+      if (disableTimeRanges[i][0] <= disableTimeRanges[i - 1][1]) {
         disableTimeRanges[i - 1] = [
-          Math.min(
-            disableTimeRanges[i][0],
-            disableTimeRanges[i - 1][0]
-          ),
-          Math.max(
-            disableTimeRanges[i][1],
-            disableTimeRanges[i - 1][1]
-          )
+          Math.min(disableTimeRanges[i][0], disableTimeRanges[i - 1][0]),
+          Math.max(disableTimeRanges[i][1], disableTimeRanges[i - 1][1])
         ];
         disableTimeRanges.splice(i, 1);
       }
@@ -556,36 +558,36 @@ class Timepicker {
     list.find("li").removeClass("ui-timepicker-selected");
 
     const timeValue = this.anytime2int(this._getTimeValue());
-  
+
     if (timeValue === null) {
       return;
     }
 
     const selected = this._findRow(timeValue);
     if (selected) {
-
       const selectedRect = selected.getBoundingClientRect();
       const listRect = list.get(0).getBoundingClientRect();
       const topDelta = selectedRect.top - listRect.top;
 
       if (topDelta + selectedRect.height > listRect.height || topDelta < 0) {
-        const newScroll = list.scrollTop() 
-                          + (selectedRect.top - listRect.top) 
-                          - selectedRect.height;
+        const newScroll =
+          list.scrollTop() +
+          (selectedRect.top - listRect.top) -
+          selectedRect.height;
 
         list.scrollTop(newScroll);
       }
-      
+
       const parsed = parseInt(selected.dataset.time);
 
       if (this.settings.forceRoundTime || parsed === timeValue) {
-        selected.classList.add('ui-timepicker-selected');
+        selected.classList.add("ui-timepicker-selected");
       }
     }
   }
 
   _isFocused(el) {
-    return (el === document.activeElement);
+    return el === document.activeElement;
   }
 
   _handleFormatValue(e) {
@@ -611,7 +613,10 @@ class Timepicker {
     var seconds = this.anytime2int(this.targetEl.value);
 
     if (seconds === null) {
-      const timeFormatErrorEvent = new CustomEvent('timeFormatError', EVENT_DEFAULTS);
+      const timeFormatErrorEvent = new CustomEvent(
+        "timeFormatError",
+        EVENT_DEFAULTS
+      );
       this.targetEl.dispatchEvent(timeFormatErrorEvent);
       return;
     }
@@ -630,7 +635,10 @@ class Timepicker {
 
     if (rangeError) {
       this._setTimeValue(prettyTime);
-      const timeRangeErrorEvent = new CustomEvent('timeRangeError', EVENT_DEFAULTS);
+      const timeRangeErrorEvent = new CustomEvent(
+        "timeRangeError",
+        EVENT_DEFAULTS
+      );
       this.targetEl.dispatchEvent(timeRangeErrorEvent);
     } else {
       this._setTimeValue(prettyTime, origin);
@@ -685,12 +693,15 @@ class Timepicker {
     return el;
   }
 
-
   /*
    *  Time typeahead
    */
   _handleKeyUp(e) {
-    if (!this.list || !Timepicker.isVisible(this.list) || this.settings.disableTextInput) {
+    if (
+      !this.list ||
+      !Timepicker.isVisible(this.list) ||
+      this.settings.disableTextInput
+    ) {
       return true;
     }
 
@@ -701,7 +712,7 @@ class Timepicker {
         } else {
           this.list.hide();
         }
-      }
+      };
 
       setTimeout(handler, 0);
       return;
@@ -746,19 +757,23 @@ class Timepicker {
 
 // IE9-11 polyfill for CustomEvent
 (function () {
+  if (typeof window.CustomEvent === "function") return false;
 
-  if ( typeof window.CustomEvent === "function" ) return false;
-
-  function CustomEvent ( event, params ) {
+  function CustomEvent(event, params) {
     if (!params) {
       params = {};
     }
 
     params = Object.assign(EVENT_DEFAULTS, params);
-    var evt = document.createEvent( 'CustomEvent' );
-    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+    var evt = document.createEvent("CustomEvent");
+    evt.initCustomEvent(
+      event,
+      params.bubbles,
+      params.cancelable,
+      params.detail
+    );
     return evt;
-   }
+  }
 
   window.CustomEvent = CustomEvent;
 })();

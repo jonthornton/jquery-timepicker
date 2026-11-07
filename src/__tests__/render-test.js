@@ -1,8 +1,8 @@
-import Timepicker from '../timepicker/index.js';
-import renderHtml from '../timepicker/render.js';
-import { _expectThrewEvent } from '../testHelpers.js'
+import Timepicker from "../timepicker/index.js";
+import renderHtml from "../timepicker/render.js";
+import { _expectThrewEvent } from "../testHelpers.js";
 
-const TEST_INPUT = 'testInput';
+const TEST_INPUT = "testInput";
 
 function createIntput() {
   document.body.innerHTML = `<div>
@@ -12,42 +12,41 @@ function createIntput() {
   return document.getElementById(TEST_INPUT);
 }
 
-test('render doesn\'t crash', () => {
+test("render doesn't crash", () => {
   const el = createIntput();
   const tp = new Timepicker(el);
 
   const list = renderHtml(tp);
 });
 
-test('className works', () => {
+test("className works", () => {
   const el = createIntput();
   const tp = new Timepicker(el, {
-    className: 'foo'
+    className: "foo"
   });
 
   const list = renderHtml(tp);
-  expect(list.className).toEqual('ui-timepicker-wrapper foo');
+  expect(list.className).toEqual("ui-timepicker-wrapper foo");
 
   const el2 = createIntput();
   const tp2 = new Timepicker(el2, {
-    className: 'foo bar'
+    className: "foo bar"
   });
 
   const list2 = renderHtml(tp2);
-  expect(list2.className).toEqual('ui-timepicker-wrapper foo bar');
+  expect(list2.className).toEqual("ui-timepicker-wrapper foo bar");
 });
 
-
-test('noneOption works', () => {
+test("noneOption works", () => {
   const el = createIntput();
   const tp = new Timepicker(el, {
-    'noneOption': [
+    noneOption: [
       {
-        'label': 'Foobar',
-        'className': 'shibby',
-        'value': 'oh hai'
+        label: "Foobar",
+        className: "shibby",
+        value: "oh hai"
       },
-      'Foobar2'
+      "Foobar2"
     ]
   });
 
@@ -56,11 +55,11 @@ test('noneOption works', () => {
   const firstNoneOption = list.children[0].children[0];
   const secondNoneOption = list.children[0].children[1];
 
-  expect(firstNoneOption.innerHTML).toEqual('Foobar');
-  expect(firstNoneOption.dataset['time']).toEqual('oh hai');
-  expect(firstNoneOption.classList.contains('shibby')).toEqual(true);
+  expect(firstNoneOption.innerHTML).toEqual("Foobar");
+  expect(firstNoneOption.dataset["time"]).toEqual("oh hai");
+  expect(firstNoneOption.classList.contains("shibby")).toEqual(true);
 
-  expect(secondNoneOption.innerHTML).toEqual('Foobar2');
-  expect(secondNoneOption.dataset['time']).toEqual('');
-  expect(secondNoneOption.classList.contains('shibby')).toEqual(false);
+  expect(secondNoneOption.innerHTML).toEqual("Foobar2");
+  expect(secondNoneOption.dataset["time"]).toEqual("");
+  expect(secondNoneOption.classList.contains("shibby")).toEqual(false);
 });

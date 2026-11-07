@@ -1,19 +1,18 @@
 jest.dontMock("jquery").dontMock("../jquery.timepicker");
 
 import $ from "jquery";
-import { _expectThrewEvent, _expectDidntThrowEvent } from '../testHelpers.js'
+import { _expectThrewEvent, _expectDidntThrowEvent } from "../testHelpers.js";
 require("../jquery.timepicker");
 
-
 const TEST_INPUT = "testInput";
-let el = ''
+let el = "";
 
 beforeEach(() => {
   document.body.innerHTML = `<div>
       <input type="text" id="${TEST_INPUT}" />
     </div>`;
 
-  el = document.getElementById(TEST_INPUT)
+  el = document.getElementById(TEST_INPUT);
 });
 
 test("timepicker initializes", () => {
@@ -54,10 +53,7 @@ test("setTime works", () => {
   $(el).timepicker("setTime", "11pm");
   expect($(el).val()).toEqual("11:00pm");
 
-  $(el).timepicker(
-    "setTime",
-    new Date("December 17, 1995 03:24:00")
-  );
+  $(el).timepicker("setTime", new Date("December 17, 1995 03:24:00"));
   expect($(el).val()).toEqual("3:24am");
 });
 
@@ -74,9 +70,7 @@ test("disableTextInput works", () => {
   $(el).val("2:00pm");
   $(el).timepicker({ disableTextInput: true });
   const event = new KeyboardEvent("keydown", { keyCode: 37 });
-  $(el)
-    .get(0)
-    .dispatchEvent(event);
+  $(el).get(0).dispatchEvent(event);
 });
 
 test("useSelect doesn't crash", () => {
@@ -86,14 +80,10 @@ test("useSelect doesn't crash", () => {
 
 test("option works", () => {
   $(el).timepicker({ disableTextInput: true });
-  expect($(el).timepicker("option", "disableTextInput")).toEqual(
-    true
-  );
+  expect($(el).timepicker("option", "disableTextInput")).toEqual(true);
 
   $(el).timepicker("option", { disableTextInput: false });
-  expect($(el).timepicker("option", "disableTextInput")).toEqual(
-    false
-  );
+  expect($(el).timepicker("option", "disableTextInput")).toEqual(false);
 });
 
 test("selecting throws a change event", () => {
@@ -107,25 +97,25 @@ test("selecting throws a change event", () => {
   const afterValue = $(el).val();
 
   expect(initialValue).not.toEqual(afterValue);
-  _expectThrewEvent(el.dispatchEvent.mock, 'change');
+  _expectThrewEvent(el.dispatchEvent.mock, "change");
 });
 
 test("setTime doesn't throw a change event", () => {
   el.dispatchEvent = jest.fn();
 
   $(el).timepicker({});
-  $(el).timepicker('setTime', '3pm');
-  $(el).timepicker('setTime', '4pm');
-  expect($(el).val()).toEqual('4:00pm');
+  $(el).timepicker("setTime", "3pm");
+  $(el).timepicker("setTime", "4pm");
+  expect($(el).val()).toEqual("4:00pm");
 
-  _expectDidntThrowEvent(el.dispatchEvent.mock, 'change');
+  _expectDidntThrowEvent(el.dispatchEvent.mock, "change");
 });
 
 test("setTime can't set a disabled time", () => {
   el.dispatchEvent = jest.fn();
-  
-  $(el).timepicker({ disableTimeRanges: [['1:00pm','5:00pm']] });
-  $(el).timepicker('setTime', '2pm');
 
-  _expectThrewEvent(el.dispatchEvent.mock, 'timeRangeError');
+  $(el).timepicker({ disableTimeRanges: [["1:00pm", "5:00pm"]] });
+  $(el).timepicker("setTime", "2pm");
+
+  _expectThrewEvent(el.dispatchEvent.mock, "timeRangeError");
 });

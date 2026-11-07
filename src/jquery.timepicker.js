@@ -3,7 +3,7 @@ import renderHtml from "./timepicker/render.js";
 import { DEFAULT_SETTINGS } from "./timepicker/defaults.js";
 import { EVENT_DEFAULTS } from "./timepicker/constants.js";
 
-(function(factory) {
+(function (factory) {
   if (
     typeof exports === "object" &&
     exports &&
@@ -20,12 +20,12 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
     // Browser globals
     factory(jQuery);
   }
-})(function($) {
+})(function ($) {
   var _lang = {};
 
   var methods = {
-    init: function(options) {
-      return this.each(function() {
+    init: function (options) {
+      return this.each(function () {
         var self = $(this);
 
         const tp = new Timepicker(this, options);
@@ -58,7 +58,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       });
     },
 
-    show: function(e) {
+    show: function (e) {
       var self = $(this);
       var tp = self[0].timepickerObj;
       var settings = tp.settings;
@@ -68,13 +68,13 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       }
 
       if (settings.useSelect) {
-        tp.list.trigger('focus');
+        tp.list.trigger("focus");
         return;
       }
 
       if (tp._hideKeyboard()) {
         // block the keyboard on mobile devices
-        self.trigger('blur');
+        self.trigger("blur");
       }
 
       var list = tp.list;
@@ -92,7 +92,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         return;
       }
 
-      if (self.is('input')) {
+      if (self.is("input")) {
         tp.selectedValue = self.val();
       }
 
@@ -191,7 +191,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         $(document).on(
           "wheel.ui-timepicker",
           ".ui-timepicker-wrapper",
-          function(e) {
+          function (e) {
             e.preventDefault();
             var currentScroll = $(this).scrollTop();
             $(this).scrollTop(currentScroll + e.originalEvent.deltaY);
@@ -201,7 +201,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
 
       // attach close handlers
       $(document).on("mousedown.ui-timepicker", _closeHandler);
-      window.addEventListener('resize', _closeHandler);
+      window.addEventListener("resize", _closeHandler);
       if (settings.closeOnScroll) {
         $(settings.closeOnScroll).on("scroll.ui-timepicker", _closeHandler);
       }
@@ -211,10 +211,10 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       return this;
     },
 
-    hide: function(e) {
+    hide: function (e) {
       var tp = this[0].timepickerObj;
 
-      if (tp){
+      if (tp) {
         tp.hideMe();
       }
 
@@ -222,13 +222,13 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       return this;
     },
 
-    option: function(key, value) {
+    option: function (key, value) {
       if (typeof key == "string" && typeof value == "undefined") {
-        var tp = this[0].timepickerObj
+        var tp = this[0].timepickerObj;
         return tp.settings[key];
       }
 
-      return this.each(function() {
+      return this.each(function () {
         var self = $(this);
         var tp = self[0].timepickerObj;
         var settings = tp.settings;
@@ -256,12 +256,12 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       });
     },
 
-    getSecondsFromMidnight: function() {
+    getSecondsFromMidnight: function () {
       var tp = this[0].timepickerObj;
       return tp.anytime2int(tp._getTimeValue());
     },
 
-    getTime: function(relative_date) {
+    getTime: function (relative_date) {
       var tp = this[0].timepickerObj;
 
       var time_string = tp._getTimeValue();
@@ -288,18 +288,21 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       return time;
     },
 
-    isVisible: function() {
+    isVisible: function () {
       var tp = this[0].timepickerObj;
       return !!(tp && tp.list && Timepicker.isVisible(tp.list));
     },
 
-    setTime: function(value) {
+    setTime: function (value) {
       var tp = this[0].timepickerObj;
       var settings = tp.settings;
       var seconds = tp.anytime2int(value);
 
       if (tp._isTimeRangeError(seconds, settings)) {
-        const timeRangeErrorEvent = new CustomEvent('timeRangeError', EVENT_DEFAULTS);
+        const timeRangeErrorEvent = new CustomEvent(
+          "timeRangeError",
+          EVENT_DEFAULTS
+        );
         tp.targetEl.dispatchEvent(timeRangeErrorEvent);
       }
 
@@ -323,7 +326,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       return this;
     },
 
-    remove: function() {
+    remove: function () {
       var self = this;
 
       // check if this element is a timepicker
@@ -370,7 +373,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
     if (settings.useSelect) {
       list = wrapped_list;
     } else {
-      list = wrapped_list.children('ul');
+      list = wrapped_list.children("ul");
     }
 
     wrapped_list.data("timepicker-input", self);
@@ -381,17 +384,13 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         list.val(tp._roundAndFormatTime(tp.anytime2int(self.val())));
       }
 
-      list.on("focus", function() {
-        $(this)
-          .data("timepicker-input")
-          .trigger("showTimepicker");
+      list.on("focus", function () {
+        $(this).data("timepicker-input").trigger("showTimepicker");
       });
-      list.on("blur", function() {
-        $(this)
-          .data("timepicker-input")
-          .trigger("hideTimepicker");
+      list.on("blur", function () {
+        $(this).data("timepicker-input").trigger("hideTimepicker");
       });
-      list.on("change", function() {
+      list.on("change", function () {
         tp._setTimeValue($(this).val(), "select");
       });
 
@@ -407,12 +406,12 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       appendTo.append(wrapped_list);
       tp._setSelected();
 
-      list.on("mousedown click", "li", function(e) {
+      list.on("mousedown click", "li", function (e) {
         // hack: temporarily disable the focus handler
         // to deal with the fact that IE fires 'focus'
         // events asynchronously
         self.off("focus.timepicker");
-        self.on("focus.timepicker-ie-hack", function() {
+        self.on("focus.timepicker-ie-hack", function () {
           self.off("focus.timepicker-ie-hack");
           self.on("focus.timepicker", methods.show);
         });
@@ -428,7 +427,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         if (tp._selectValue()) {
           self.trigger("hideTimepicker");
 
-          list.on("mouseup.timepicker click.timepicker", "li", function(e) {
+          list.on("mouseup.timepicker click.timepicker", "li", function (e) {
             list.off("mouseup.timepicker click.timepicker");
             wrapped_list.hide();
           });
@@ -439,11 +438,11 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
 
   // event handler to decide whether to close timepicker
   function _closeHandler(e) {
-    if (e.type == 'focus' && e.target == window) {
+    if (e.type == "focus" && e.target == window) {
       // mobile Chrome fires focus events against window for some reason
       return;
     }
-    
+
     var target = $(e.target);
 
     if (
@@ -459,8 +458,6 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
     $(window).off(".ui-timepicker");
   }
 
-  
-
   /*
    *  Keyboard navigation via arrow keys
    */
@@ -475,7 +472,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         methods.show.call(self.get(0));
         list = tp.list;
         if (!tp._hideKeyboard()) {
-          self.trigger('focus');
+          self.trigger("focus");
         }
       } else {
         return true;
@@ -496,7 +493,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         var selected = list.find(".ui-timepicker-selected");
 
         if (!selected.length) {
-          list.find("li").each(function(i, obj) {
+          list.find("li").each(function (i, obj) {
             if ($(obj).position().top > 0) {
               selected = $(obj);
               return false;
@@ -518,7 +515,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         selected = list.find(".ui-timepicker-selected");
 
         if (selected.length === 0) {
-          list.find("li").each(function(i, obj) {
+          list.find("li").each(function (i, obj) {
             if ($(obj).position().top > 0) {
               selected = $(obj);
               return false;
@@ -555,7 +552,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
   }
 
   // Plugin entry
-  $.fn.timepicker = function(method) {
+  $.fn.timepicker = function (method) {
     if (!this.length) return this;
     if (methods[method]) {
       // check if this element is a timepicker

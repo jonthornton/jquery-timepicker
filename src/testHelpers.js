@@ -18,4 +18,4 @@ function _expectDidntThrowEvent(dispatchEventMock, eventType) {
   return true;
 }
 
-export { _expectThrewEvent, _expectDidntThrowEvent }
+export { _expectThrewEvent, _expectDidntThrowEvent };
