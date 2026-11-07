@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rollup --config rollup.config.js",
     "watch": "rollup -w --config rollup.config.js",
-    "format": "prettier-eslint --write \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.js\"",
     "test": "jest"
   },
   "license": "MIT",
@@ -23,8 +23,7 @@
     "@rollup/plugin-terser": "^1.0.2",
     "babel-jest": "^25.5.1",
     "jest": "^26.6.3",
-    "prettier-eslint": "^9.0.2",
-    "prettier-eslint-cli": "^5.0.0",
+    "prettier": "^3.9.10",
     "rollup": "^2.80.0",
     "rollup-plugin-copy": "^3.5.0"
   },

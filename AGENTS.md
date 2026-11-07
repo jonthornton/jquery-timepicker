@@ -22,7 +22,7 @@ jquery-timepicker: a jQuery plugin rendering a Google Calendar-style time dropdo
 4. `npm run build` and commit the regenerated root bundles so they stay in sync with `src/`.
 5. For anything that changes the dropdown's appearance or interaction, say so and ask the user to check `index.html` in a browser — jsdom tests don't cover that.
 
-`npm run format` runs prettier-eslint over `src/`. ESLint config is empty; match surrounding style instead.
+`npm run format` runs prettier over `src/`, configured by `.prettierrc`. There is no linter; match surrounding style instead.
 
 ## Conventions
 
