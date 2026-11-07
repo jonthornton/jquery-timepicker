@@ -23,9 +23,9 @@ declare namespace Jt.Timepicker {
         className?: string;
         /**
          * Default: false
-         * Close the timepicker when the chosen element is scrolled. (Replicates <select> behavior.) Takes either a string to use as a selector, an HTMLelemtn, or a boolean (true binds to ```document``` scrolling).  
+         * Close the timepicker when the chosen element is scrolled. (Replicates <select> behavior.) Takes either a string to use as a selector, an HTMLElement, or a boolean (true binds to ```document``` scrolling).  
          */
-        closeOnScroll?: boolean | string | HTMLelement;
+        closeOnScroll?: boolean | string | HTMLElement;
         /**
          * Default: false
          * DEPRECATED.
@@ -150,9 +150,53 @@ declare namespace Jt.Timepicker {
         useSelect?: boolean;
     }
 
+    /**
+     * Any value accepted as a time: a formatted string, seconds from midnight, or a Date.
+     */
+    export type TimeValue = string | number | Date;
+
+    /**
+     * The $.fn.timepicker method. Called with an options object (or nothing) to
+     * initialize; called with a method name to operate on an existing instance.
+     */
+    export interface TimepickerMethod {
+        (options?: Options): JQuery;
+
+        /** Display the dropdown. */
+        (method: "show"): JQuery;
+        /** Close the dropdown. */
+        (method: "hide"): JQuery;
+        /** Unbind the timepicker and restore the original input. */
+        (method: "remove"): JQuery;
+        /** Whether the dropdown is currently shown. */
+        (method: "isVisible"): boolean;
+        /** The selected time as seconds from midnight, or null if unset or unparseable. */
+        (method: "getSecondsFromMidnight"): number | null;
+        /** The selected time as a Date, or null if unset or unparseable. Defaults to today. */
+        (method: "getTime", relativeDate?: Date): Date | null;
+        /** Set the selected time. */
+        (method: "setTime", value: TimeValue): JQuery;
+        /** Read one setting off an existing instance. */
+        (method: "option", key: keyof Options): any;
+        /** Change one setting on an existing instance. */
+        (method: "option", key: keyof Options, value: any): JQuery;
+        /** Change several settings on an existing instance. */
+        (method: "option", options: Options): JQuery;
+
+        /**
+         * Defaults for every instance created after they are changed.
+         * Reachable as $.fn.timepicker.defaults.
+         */
+        defaults: Options;
+    }
+
     export interface NoneObject {
         label: string;
         value: string;
         className: string;
     }
+}
+
+interface JQuery {
+    timepicker: Jt.Timepicker.TimepickerMethod;
 }

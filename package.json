@@ -29,11 +29,13 @@
     "rollup-plugin-terser": "^7.0.2"
   },
   "main": "jquery.timepicker.min.js",
+  "types": "src/jquery.timepicker.d.ts",
   "files": [
     "jquery.timepicker.min.js",
     "jquery.timepicker.js",
     "jquery.timepicker.css",
-    "jquery.timepicker.min.css"
+    "jquery.timepicker.min.css",
+    "src/jquery.timepicker.d.ts"
   ],
   "description": "A jQuery timepicker plugin inspired by Google Calendar. It supports both mouse and keyboard navigation.",
   "keywords": [

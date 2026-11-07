@@ -5,7 +5,7 @@ jquery-timepicker: a jQuery plugin rendering a Google Calendar-style time dropdo
 ## Layout
 
 - `src/jquery.timepicker.js` — entry point: UMD wrapper, `$.fn.timepicker` method dispatch, event wiring.
-- `src/timepicker/index.js` — `Timepicker` class; most logic lives here (parsing, settings, show/hide, time math).
+- `src/timepicker/index.js` — `Timepicker` class; most logic lives here.
 - `src/timepicker/render.js` — dropdown/`<select>` HTML generation.
 - `src/timepicker/defaults.js` — `DEFAULT_SETTINGS` and `DEFAULT_LANG`. Option names here double as the `data-*` attribute API.
 - `src/timepicker/rounding.js`, `constants.js` — helpers.
@@ -27,4 +27,5 @@ jquery-timepicker: a jQuery plugin rendering a Google Calendar-style time dropdo
 ## Conventions
 
 - Adding, renaming, or removing an option means updating three places: `defaults.js`, the options list in `README.md`, and `src/jquery.timepicker.d.ts`.
-- `package.json` is the only place a version number is written. `rollup.config.js` imports it for the build banner, so a release is just the bump plus `npm run build`. Don't reintroduce a hardcoded version anywhere else. Only bump when the user explicitly asks for a release.
+- The `.d.ts` is published (`types` in `package.json`) and augments the global `JQuery` interface, so it must keep compiling. `npm test` does not check it — run `tsc --noEmit --strict` against `@types/jquery` when you touch it.
+- `package.json` is the only place a version is written; `rollup.config.js` imports it for the build banner. A release is the bump plus `npm run build`. Never hardcode a version elsewhere, and only bump when the user asks for a release.
