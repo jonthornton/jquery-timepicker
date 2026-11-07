@@ -228,7 +228,7 @@
           this._selectValue();
         }
         this.list.hide();
-        var hideTimepickerEvent = new CustomEvent('hideTimepicker', EVENT_DEFAULTS);
+        var hideTimepickerEvent = new CustomEvent("hideTimepicker", EVENT_DEFAULTS);
         this.targetEl.dispatchEvent(hideTimepickerEvent);
       }
     }, {
@@ -272,12 +272,12 @@
             tp.list.val(tp._roundAndFormatTime(tp.anytime2int(value)));
           }
         }
-        var selectTimeEvent = new CustomEvent('selectTime', EVENT_DEFAULTS);
+        var selectTimeEvent = new CustomEvent("selectTime", EVENT_DEFAULTS);
         if (this.selectedValue != value) {
           this.selectedValue = value;
-          var changeTimeEvent = new CustomEvent('changeTime', EVENT_DEFAULTS);
-          var changeEvent = new CustomEvent('change', Object.assign(EVENT_DEFAULTS, {
-            detail: 'timepicker'
+          var changeTimeEvent = new CustomEvent("changeTime", EVENT_DEFAULTS);
+          var changeEvent = new CustomEvent("change", Object.assign(EVENT_DEFAULTS, {
+            detail: "timepicker"
           }));
           if (source == "select") {
             this.targetEl.dispatchEvent(selectTimeEvent);
@@ -337,13 +337,13 @@
     }, {
       key: "anytime2int",
       value: function anytime2int(input) {
-        if (typeof input === 'number') {
+        if (typeof input === "number") {
           return input;
-        } else if (typeof input === 'string') {
+        } else if (typeof input === "string") {
           return this.time2int(input);
-        } else if (_typeof(input) === 'object' && input instanceof Date) {
+        } else if (_typeof(input) === "object" && input instanceof Date) {
           return input.getHours() * 3600 + input.getMinutes() * 60 + input.getSeconds();
-        } else if (typeof input == 'function') {
+        } else if (typeof input == "function") {
           return input();
         } else {
           return null;
@@ -355,7 +355,7 @@
         if (timeString === "" || timeString === null || timeString === undefined) {
           return null;
         }
-        if (timeString === 'now') {
+        if (timeString === "now") {
           return this.anytime2int(new Date());
         }
         if (typeof timeString != "string") {
@@ -438,7 +438,7 @@
           return function () {
             return null;
           };
-        } else if (typeof input === 'function') {
+        } else if (typeof input === "function") {
           return function () {
             return _this.anytime2int(input());
           };
@@ -470,7 +470,7 @@
         if (typeof settings.timeFormat === "string" && settings.timeFormat.match(/[gh]/)) {
           settings._twelveHourTime = true;
         }
-        if (typeof settings.step != 'function') {
+        if (typeof settings.step != "function") {
           var curryStep = settings.step;
           settings.step = function () {
             return curryStep;
@@ -654,7 +654,7 @@
           }
           var parsed = parseInt(selected.dataset.time);
           if (this.settings.forceRoundTime || parsed === timeValue) {
-            selected.classList.add('ui-timepicker-selected');
+            selected.classList.add("ui-timepicker-selected");
           }
         }
       }
@@ -686,7 +686,7 @@
         var settings = this.settings;
         var seconds = this.anytime2int(this.targetEl.value);
         if (seconds === null) {
-          var timeFormatErrorEvent = new CustomEvent('timeFormatError', EVENT_DEFAULTS);
+          var timeFormatErrorEvent = new CustomEvent("timeFormatError", EVENT_DEFAULTS);
           this.targetEl.dispatchEvent(timeFormatErrorEvent);
           return;
         }
@@ -701,7 +701,7 @@
         var prettyTime = this._int2time(seconds);
         if (rangeError) {
           this._setTimeValue(prettyTime);
-          var timeRangeErrorEvent = new CustomEvent('timeRangeError', EVENT_DEFAULTS);
+          var timeRangeErrorEvent = new CustomEvent("timeRangeError", EVENT_DEFAULTS);
           this.targetEl.dispatchEvent(timeRangeErrorEvent);
         } else {
           this._setTimeValue(prettyTime, origin);
@@ -845,7 +845,7 @@
     }, {
       key: "hideAll",
       value: function hideAll() {
-        var _iterator3 = _createForOfIteratorHelper(document.getElementsByClassName('ui-timepicker-input')),
+        var _iterator3 = _createForOfIteratorHelper(document.getElementsByClassName("ui-timepicker-input")),
           _step3;
         try {
           for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
@@ -870,7 +870,7 @@
         params = {};
       }
       params = Object.assign(EVENT_DEFAULTS, params);
-      var evt = document.createEvent('CustomEvent');
+      var evt = document.createEvent("CustomEvent");
       evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
       return evt;
     }
@@ -894,16 +894,16 @@
     }
     if (noneOption === true) {
       return {
-        'label': 'None',
-        'value': ''
+        label: "None",
+        value: ""
       };
     }
-    if (_typeof(noneOption) === 'object') {
+    if (_typeof(noneOption) === "object") {
       return noneOption;
     }
     return {
-      'label': noneOption,
-      'value': ''
+      label: noneOption,
+      value: ""
     };
   }
   function _getDropdownTimes(tp) {
@@ -915,7 +915,7 @@
       // make sure the end time is greater than start time, otherwise there will be no list to show
       end += ONE_DAY;
     }
-    if (end === ONE_DAY - 1 && typeof settings.timeFormat === 'string' && settings.show2400) {
+    if (end === ONE_DAY - 1 && typeof settings.timeFormat === "string" && settings.show2400) {
       // show a 24:00 option when using military time
       end = ONE_DAY;
     }
@@ -923,11 +923,11 @@
     for (var i = start, j = 0; i <= end; j++, i += settings.step(j) * 60) {
       var timeInt = i;
       var timeString = tp._int2time(timeInt);
-      var className = timeInt % ONE_DAY < ONE_DAY / 2 ? 'ui-timepicker-am' : 'ui-timepicker-pm';
+      var className = timeInt % ONE_DAY < ONE_DAY / 2 ? "ui-timepicker-am" : "ui-timepicker-pm";
       var item = {
-        'label': timeString,
-        'value': moduloSeconds(timeInt, settings),
-        'className': className
+        label: timeString,
+        value: moduloSeconds(timeInt, settings),
+        className: className
       };
       if ((settings.minTime() !== null || settings.durationTime() !== null) && settings.showDuration) {
         var _settings$durationTim;
@@ -958,10 +958,10 @@
     return output;
   }
   function _renderSelectItem(item) {
-    var el = document.createElement('option');
+    var el = document.createElement("option");
     el.value = item.value || item.label;
     if (item.duration) {
-      el.appendChild(document.createTextNode(item.label + ' (' + item.duration + ')'));
+      el.appendChild(document.createTextNode(item.label + " (" + item.duration + ")"));
     } else {
       el.appendChild(document.createTextNode(item.label));
     }
@@ -971,27 +971,27 @@
     return el;
   }
   function _renderStandardItem(item) {
-    var el = document.createElement('li');
-    el.dataset['time'] = item.value;
+    var el = document.createElement("li");
+    el.dataset["time"] = item.value;
     if (item.className) {
       el.classList.add(item.className);
     }
     el.className = item.className;
     el.appendChild(document.createTextNode(item.label));
     if (item.duration) {
-      var durationEl = document.createElement('span');
-      durationEl.appendChild(document.createTextNode('(' + item.duration + ')'));
-      durationEl.classList.add('ui-timepicker-duration');
+      var durationEl = document.createElement("span");
+      durationEl.appendChild(document.createTextNode("(" + item.duration + ")"));
+      durationEl.classList.add("ui-timepicker-duration");
       el.appendChild(durationEl);
     }
     if (item.disabled) {
-      el.classList.add('ui-timepicker-disabled');
+      el.classList.add("ui-timepicker-disabled");
     }
     return el;
   }
   function _renderStandardList(items) {
-    var list = document.createElement('ul');
-    list.classList.add('ui-timepicker-list');
+    var list = document.createElement("ul");
+    list.classList.add("ui-timepicker-list");
     var _iterator2 = _createForOfIteratorHelper(items),
       _step2;
     try {
@@ -1005,19 +1005,19 @@
     } finally {
       _iterator2.f();
     }
-    var wrapper = document.createElement('div');
-    wrapper.classList.add('ui-timepicker-wrapper');
+    var wrapper = document.createElement("div");
+    wrapper.classList.add("ui-timepicker-wrapper");
     wrapper.tabIndex = -1;
-    wrapper.style.display = 'none';
-    wrapper.style.position = 'absolute';
+    wrapper.style.display = "none";
+    wrapper.style.position = "absolute";
     wrapper.appendChild(list);
     return wrapper;
   }
   function _renderSelectList(items, targetName) {
-    var el = document.createElement('select');
-    el.classList.add('ui-timepicker-select');
+    var el = document.createElement("select");
+    el.classList.add("ui-timepicker-select");
     if (targetName) {
-      el.name = 'ui-timepicker-' + targetName;
+      el.name = "ui-timepicker-" + targetName;
     }
     var _iterator3 = _createForOfIteratorHelper(items),
       _step3;
@@ -1043,7 +1043,7 @@
       el = _renderStandardList(items);
     }
     if (tp.settings.className) {
-      var _iterator4 = _createForOfIteratorHelper(tp.settings.className.split(' ')),
+      var _iterator4 = _createForOfIteratorHelper(tp.settings.className.split(" ")),
         _step4;
       try {
         for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
@@ -1113,12 +1113,12 @@
           e.preventDefault();
         }
         if (settings.useSelect) {
-          tp.list.trigger('focus');
+          tp.list.trigger("focus");
           return;
         }
         if (tp._hideKeyboard()) {
           // block the keyboard on mobile devices
-          self.trigger('blur');
+          self.trigger("blur");
         }
         var list = tp.list;
 
@@ -1133,7 +1133,7 @@
         if (Timepicker.isVisible(list)) {
           return;
         }
-        if (self.is('input')) {
+        if (self.is("input")) {
           tp.selectedValue = self.val();
         }
         tp._setSelected();
@@ -1211,7 +1211,7 @@
 
         // attach close handlers
         $(document).on("mousedown.ui-timepicker", _closeHandler);
-        window.addEventListener('resize', _closeHandler);
+        window.addEventListener("resize", _closeHandler);
         if (settings.closeOnScroll) {
           $(settings.closeOnScroll).on("scroll.ui-timepicker", _closeHandler);
         }
@@ -1290,7 +1290,7 @@
         var settings = tp.settings;
         var seconds = tp.anytime2int(value);
         if (tp._isTimeRangeError(seconds, settings)) {
-          var timeRangeErrorEvent = new CustomEvent('timeRangeError', EVENT_DEFAULTS);
+          var timeRangeErrorEvent = new CustomEvent("timeRangeError", EVENT_DEFAULTS);
           tp.targetEl.dispatchEvent(timeRangeErrorEvent);
         }
         if (settings.forceRoundTime) {
@@ -1350,7 +1350,7 @@
       if (settings.useSelect) {
         list = wrapped_list;
       } else {
-        list = wrapped_list.children('ul');
+        list = wrapped_list.children("ul");
       }
       wrapped_list.data("timepicker-input", self);
       tp.list = wrapped_list;
@@ -1407,7 +1407,7 @@
 
     // event handler to decide whether to close timepicker
     function _closeHandler(e) {
-      if (e.type == 'focus' && e.target == window) {
+      if (e.type == "focus" && e.target == window) {
         // mobile Chrome fires focus events against window for some reason
         return;
       }
@@ -1434,7 +1434,7 @@
           methods.show.call(self.get(0));
           list = tp.list;
           if (!tp._hideKeyboard()) {
-            self.trigger('focus');
+            self.trigger("focus");
           }
         } else {
           return true;
