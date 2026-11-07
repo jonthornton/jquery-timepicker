@@ -1,4 +1,4 @@
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import copy from 'rollup-plugin-copy'
 import { version } from './package.json';
 import babel from '@rollup/plugin-babel';
