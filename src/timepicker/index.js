@@ -111,7 +111,7 @@ class Timepicker {
       var settings = tp.settings;
 
       if (settings.useSelect && source != "select" && tp.list) {
-        tp.list.val(tp._roundAndFormatTime(tp.anytime2int(value)));
+        tp.list.val(settings.roundingFunction(tp.anytime2int(value), settings));
       }
     }
 

@@ -381,7 +381,9 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
 
     if (settings.useSelect) {
       if (self.val()) {
-        list.val(tp._roundAndFormatTime(tp.anytime2int(self.val())));
+        list.val(
+          settings.roundingFunction(tp.anytime2int(self.val()), settings)
+        );
       }
 
       list.on("focus", function () {
@@ -390,11 +392,18 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       list.on("blur", function () {
         $(this).data("timepicker-input").trigger("hideTimepicker");
       });
+      // time options hold seconds; noneOption values pass through as-is
+      const selectedTime = function () {
+        const value = list.val();
+        const seconds = parseInt(value);
+        return isNaN(seconds) ? value : tp._int2time(seconds);
+      };
+
       list.on("change", function () {
-        tp._setTimeValue($(this).val(), "select");
+        tp._setTimeValue(selectedTime(), "select");
       });
 
-      tp._setTimeValue(list.val(), "initial");
+      tp._setTimeValue(selectedTime(), "initial");
       self.hide().after(list);
     } else {
       var appendTo = settings.appendTo;

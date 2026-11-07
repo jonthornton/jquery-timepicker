@@ -269,7 +269,7 @@
           var tp = this;
           var settings = tp.settings;
           if (settings.useSelect && source != "select" && tp.list) {
-            tp.list.val(tp._roundAndFormatTime(tp.anytime2int(value)));
+            tp.list.val(settings.roundingFunction(tp.anytime2int(value), settings));
           }
         }
         var selectTimeEvent = new CustomEvent("selectTime", EVENT_DEFAULTS);
@@ -970,8 +970,9 @@
     return output;
   }
   function _renderSelectItem(item) {
+    var _item$value;
     var el = document.createElement("option");
-    el.value = item.value || item.label;
+    el.value = (_item$value = item.value) !== null && _item$value !== void 0 ? _item$value : item.label;
     if (item.duration) {
       el.appendChild(document.createTextNode(item.label + " (" + item.duration + ")"));
     } else {
@@ -1368,7 +1369,7 @@
       tp.list = wrapped_list;
       if (settings.useSelect) {
         if (self.val()) {
-          list.val(tp._roundAndFormatTime(tp.anytime2int(self.val())));
+          list.val(settings.roundingFunction(tp.anytime2int(self.val()), settings));
         }
         list.on("focus", function () {
           $(this).data("timepicker-input").trigger("showTimepicker");
@@ -1376,10 +1377,16 @@
         list.on("blur", function () {
           $(this).data("timepicker-input").trigger("hideTimepicker");
         });
+        // time options hold seconds; noneOption values pass through as-is
+        var selectedTime = function selectedTime() {
+          var value = list.val();
+          var seconds = parseInt(value);
+          return isNaN(seconds) ? value : tp._int2time(seconds);
+        };
         list.on("change", function () {
-          tp._setTimeValue($(this).val(), "select");
+          tp._setTimeValue(selectedTime(), "select");
         });
-        tp._setTimeValue(list.val(), "initial");
+        tp._setTimeValue(selectedTime(), "initial");
         self.hide().after(list);
       } else {
         var appendTo = settings.appendTo;

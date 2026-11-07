@@ -78,6 +78,32 @@ test("useSelect doesn't crash", () => {
   $(el).timepicker({ useSelect: true });
 });
 
+// GH-794
+test("useSelect keeps the initial value", () => {
+  $(el).val("2:30pm");
+  $(el).timepicker({ useSelect: true });
+
+  expect($(el).val()).toEqual("2:30pm");
+  expect($(".ui-timepicker-select option:selected").text()).toEqual("2:30pm");
+});
+
+test("useSelect setTime updates the select", () => {
+  $(el).timepicker({ useSelect: true });
+  $(el).timepicker("setTime", "3:00pm");
+
+  expect($(el).val()).toEqual("3:00pm");
+  expect($(".ui-timepicker-select option:selected").text()).toEqual("3:00pm");
+});
+
+test("useSelect picking an option sets a formatted time", () => {
+  $(el).timepicker({ useSelect: true });
+
+  const select = $(".ui-timepicker-select");
+  select.val(select.find("option:contains('3:00pm')").val()).trigger("change");
+
+  expect($(el).val()).toEqual("3:00pm");
+});
+
 test("option works", () => {
   $(el).timepicker({ disableTextInput: true });
   expect($(el).timepicker("option", "disableTextInput")).toEqual(true);
