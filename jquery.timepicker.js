@@ -141,11 +141,20 @@
   };
 
   var roundingFunction = function roundingFunction(seconds, settings) {
+    var _settings$minTime;
     if (seconds === null) {
       return null;
     }
+
+    // Steps are counted from minTime, the same way the dropdown is built.
+    // Times before minTime belong to the next day when the list wraps past
+    // midnight.
+    var start = (_settings$minTime = settings.minTime()) !== null && _settings$minTime !== void 0 ? _settings$minTime : 0;
+    if (seconds < start) {
+      seconds += ONE_DAY;
+    }
     var i = 0;
-    var nextVal = 0;
+    var nextVal = start;
     while (nextVal < seconds) {
       i++;
       nextVal += settings.step(i) * 60;

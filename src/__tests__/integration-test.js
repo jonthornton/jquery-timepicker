@@ -247,3 +247,19 @@ test("12-hour format with an am/pm-less minTime renders a list", () => {
   expect($(".ui-timepicker-list li:first-child").text()).toEqual("10:30 AM");
   expect($(".ui-timepicker-list li:last-child").text()).toEqual("5:00 PM");
 });
+
+// https://github.com/jonthornton/jquery-timepicker/issues/796
+test("selected time is highlighted when minTime is offset from the step", () => {
+  $(el).timepicker({ minTime: "00:04", maxTime: "23:59", step: 5 });
+  $(el).timepicker("show");
+
+  const option = $(".ui-timepicker-list li").eq(1);
+  expect(option.text()).toEqual("12:09am");
+  option.trigger("click");
+  expect($(el).val()).toEqual("12:09am");
+
+  $(el).timepicker("show");
+  expect($(".ui-timepicker-list li.ui-timepicker-selected").text()).toEqual(
+    "12:09am"
+  );
+});
