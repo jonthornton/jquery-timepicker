@@ -28,4 +28,4 @@ jquery-timepicker: a jQuery plugin rendering a Google Calendar-style time dropdo
 
 - Adding, renaming, or removing an option means updating three places: `defaults.js`, the options list in `README.md`, and `src/jquery.timepicker.d.ts`.
 - The `.d.ts` is published (`types` in `package.json`) and augments the global `JQuery` interface, so it must keep compiling. `npm test` does not check it — run `tsc --noEmit --strict` against `@types/jquery` when you touch it.
-- `package.json` is the only place a version is written; `rollup.config.js` imports it for the build banner. A release is the bump plus `npm run build`. Never hardcode a version elsewhere, and only bump when the user asks for a release.
+- `package.json` is the only place a version is written; `rollup.config.mjs` reads it for the build banner. A release is the bump plus `npm run build`. Never hardcode a version elsewhere, and only bump when the user asks for a release.
