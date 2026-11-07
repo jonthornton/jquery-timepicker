@@ -6,143 +6,131 @@
 (function () {
   'use strict';
 
-  function _typeof(obj) {
-    "@babel/helpers - typeof";
-
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function (obj) {
-        return typeof obj;
-      };
-    } else {
-      _typeof = function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
-    }
-    return _typeof(obj);
+  function _arrayLikeToArray(r, a) {
+    (null == a || a > r.length) && (a = r.length);
+    for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+    return n;
   }
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
+  function _classCallCheck(a, n) {
+    if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
+  }
+  function _defineProperties(e, r) {
+    for (var t = 0; t < r.length; t++) {
+      var o = r[t];
+      o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);
     }
   }
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
+  function _createClass(e, r, t) {
+    return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", {
+      writable: !1
+    }), e;
   }
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
-    return obj;
-  }
-  function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly) symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-      keys.push.apply(keys, symbols);
-    }
-    return keys;
-  }
-  function _objectSpread2(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-      if (i % 2) {
-        ownKeys(Object(source), true).forEach(function (key) {
-          _defineProperty(target, key, source[key]);
-        });
-      } else if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-      } else {
-        ownKeys(Object(source)).forEach(function (key) {
-          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
-      }
-    }
-    return target;
-  }
-  function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-  }
-  function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-    return arr2;
-  }
-  function _createForOfIteratorHelper(o, allowArrayLike) {
-    var it;
-    if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
-      if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
-        if (it) o = it;
-        var i = 0;
-        var F = function () {};
+  function _createForOfIteratorHelper(r, e) {
+    var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+    if (!t) {
+      if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) {
+        t && (r = t);
+        var n = 0,
+          F = function () {};
         return {
           s: F,
           n: function () {
-            if (i >= o.length) return {
-              done: true
-            };
-            return {
-              done: false,
-              value: o[i++]
+            return n >= r.length ? {
+              done: !0
+            } : {
+              done: !1,
+              value: r[n++]
             };
           },
-          e: function (e) {
-            throw e;
+          e: function (r) {
+            throw r;
           },
           f: F
         };
       }
       throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     }
-    var normalCompletion = true,
-      didErr = false,
-      err;
+    var o,
+      a = !0,
+      u = !1;
     return {
       s: function () {
-        it = o[Symbol.iterator]();
+        t = t.call(r);
       },
       n: function () {
-        var step = it.next();
-        normalCompletion = step.done;
-        return step;
+        var r = t.next();
+        return a = r.done, r;
       },
-      e: function (e) {
-        didErr = true;
-        err = e;
+      e: function (r) {
+        u = !0, o = r;
       },
       f: function () {
         try {
-          if (!normalCompletion && it.return != null) it.return();
+          a || null == t.return || t.return();
         } finally {
-          if (didErr) throw err;
+          if (u) throw o;
         }
       }
     };
+  }
+  function _defineProperty(e, r, t) {
+    return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+      value: t,
+      enumerable: !0,
+      configurable: !0,
+      writable: !0
+    }) : e[r] = t, e;
+  }
+  function ownKeys(e, r) {
+    var t = Object.keys(e);
+    if (Object.getOwnPropertySymbols) {
+      var o = Object.getOwnPropertySymbols(e);
+      r && (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable;
+      })), t.push.apply(t, o);
+    }
+    return t;
+  }
+  function _objectSpread2(e) {
+    for (var r = 1; r < arguments.length; r++) {
+      var t = null != arguments[r] ? arguments[r] : {};
+      r % 2 ? ownKeys(Object(t), !0).forEach(function (r) {
+        _defineProperty(e, r, t[r]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) {
+        Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+      });
+    }
+    return e;
+  }
+  function _toPrimitive(t, e) {
+    if ("object" != typeof t || !t) return t;
+    var r;
+    if ("undefined" != typeof Symbol && void 0 !== (r = t[Symbol.toPrimitive])) {
+      var i = r.call(t, e || "default");
+      if ("object" != typeof i) return i;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === e ? String : Number)(t);
+  }
+  function _toPropertyKey(t) {
+    var i = _toPrimitive(t, "string");
+    return "symbol" == typeof i ? i : i + "";
+  }
+  function _typeof(o) {
+    "@babel/helpers - typeof";
+
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+      return typeof o;
+    } : function (o) {
+      return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+    }, _typeof(o);
+  }
+  function _unsupportedIterableToArray(r, a) {
+    if (r) {
+      if ("string" == typeof r) return _arrayLikeToArray(r, a);
+      var t = {}.toString.call(r).slice(8, -1);
+      return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+    }
   }
 
   var ONE_DAY = 86400;
@@ -226,7 +214,7 @@
       var attrOptions = Timepicker.extractAttrOptions(targetEl, Object.keys(DEFAULT_SETTINGS));
       this.settings = this.parseSettings(_objectSpread2(_objectSpread2(_objectSpread2({}, DEFAULT_SETTINGS), options), attrOptions));
     }
-    _createClass(Timepicker, [{
+    return _createClass(Timepicker, [{
       key: "hideMe",
       value: function hideMe() {
         if (this.settings.useSelect) {
@@ -874,7 +862,6 @@
         }
       }
     }]);
-    return Timepicker;
   }(); // IE9-11 polyfill for CustomEvent
   (function () {
     if (typeof window.CustomEvent === "function") return false;
@@ -1536,4 +1523,4 @@
     $.fn.timepicker.defaults = DEFAULT_SETTINGS;
   });
 
-}());
+})();
