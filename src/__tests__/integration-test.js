@@ -208,3 +208,16 @@ test("remove tears down plugin state", () => {
   $(el).timepicker("remove");
   expect($(el).data("timepicker-obj")).toBeFalsy();
 });
+
+test("12-hour format with an am/pm-less minTime renders a list", () => {
+  $(el).timepicker({
+    timeFormat: "g:i A",
+    minTime: "10:30:00",
+    maxTime: "17:00:00",
+    step: 30
+  });
+  $(el).timepicker("show");
+
+  expect($(".ui-timepicker-list li:first-child").text()).toEqual("10:30 AM");
+  expect($(".ui-timepicker-list li:last-child").text()).toEqual("5:00 PM");
+});

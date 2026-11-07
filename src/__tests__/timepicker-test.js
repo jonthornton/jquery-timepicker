@@ -107,3 +107,39 @@ test("_formatValue works", () => {
   _expectThrewEvent(el.dispatchEvent.mock, "timeFormatError");
   // todo: learn how to check if timeFormatError event was thrown
 });
+
+test("12-hour time with an am/pm-less minTime doesn't recurse", () => {
+  const el = createIntput();
+
+  const tp = new Timepicker(el, {
+    timeFormat: "g:i A",
+    minTime: "10:30:00",
+    maxTime: "17:00:00",
+    step: 30
+  });
+
+  // minTime doubles as the default scrollDefault, so parsing it used to ask
+  // scrollDefault for an am/pm hint and loop forever
+  expect(tp.settings.minTime()).toEqual(37800);
+  expect(tp.settings.scrollDefault()).toEqual(37800);
+
+  // an explicit scrollDefault is just as self-referential
+  const tp2 = new Timepicker(el, {
+    timeFormat: "g:i A",
+    scrollDefault: "11:00"
+  });
+
+  expect(tp2.settings.scrollDefault()).toEqual(39600);
+});
+
+test("12-hour time still guesses am/pm from the scrollDefault", () => {
+  const el = createIntput();
+
+  const tp = new Timepicker(el, {
+    timeFormat: "g:i A",
+    minTime: "10:30:00"
+  });
+
+  expect(tp.time2int("11")).toEqual(39600); // 11am, after the scrollDefault
+  expect(tp.time2int("9:00")).toEqual(75600); // 9pm, before it
+});

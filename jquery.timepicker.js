@@ -410,10 +410,22 @@
         var timeInt = hours * 3600 + minutes * 60 + seconds;
 
         // if no am/pm provided, intelligently guess based on the scrollDefault
-        if (hour < 12 && !ampm && this.settings._twelveHourTime && this.settings.scrollDefault()) {
-          var delta = timeInt - this.settings.scrollDefault();
-          if (delta < 0 && delta >= ONE_DAY / -2) {
-            timeInt = (timeInt + ONE_DAY / 2) % ONE_DAY;
+        if (hour < 12 && !ampm && this.settings._twelveHourTime &&
+        // scrollDefault can itself be an am/pm-less string, which would send us
+        // back into time2int; parse it literally rather than recursing forever
+        !this._resolvingScrollDefault) {
+          this._resolvingScrollDefault = true;
+          var scrollDefault;
+          try {
+            scrollDefault = this.settings.scrollDefault();
+          } finally {
+            this._resolvingScrollDefault = false;
+          }
+          if (scrollDefault) {
+            var delta = timeInt - scrollDefault;
+            if (delta < 0 && delta >= ONE_DAY / -2) {
+              timeInt = (timeInt + ONE_DAY / 2) % ONE_DAY;
+            }
           }
         }
         return timeInt;
