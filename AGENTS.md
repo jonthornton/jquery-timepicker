@@ -10,7 +10,7 @@ jquery-timepicker: a jQuery plugin rendering a Google Calendar-style time dropdo
 - `src/timepicker/defaults.js` — `DEFAULT_SETTINGS` and `DEFAULT_LANG`. Option names here double as the `data-*` attribute API.
 - `src/timepicker/rounding.js`, `constants.js` — helpers.
 - `src/static/jquery.timepicker.css` — the real stylesheet; root CSS files are copies made by the build.
-- `src/__tests__/` — jest tests (jsdom). No config file; defaults only.
+- `src/__tests__/` — jest tests. `jest.config.js` sets `testEnvironment: "jsdom"`, which jest stopped defaulting to in v27; the tests need it for `document`.
 - Root `jquery.timepicker*.js|css` are **build output, committed to the repo**. Never hand-edit them.
 - `index.html` + `documentation-assets/` are the demo site. No CI.
 
