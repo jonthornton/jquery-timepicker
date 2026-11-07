@@ -1,6 +1,6 @@
 # AGENTS.md
 
-jquery-timepicker: a jQuery plugin rendering a Google Calendar-style time dropdown. Only runtime dependency is jQuery >= 3.0.
+jquery-timepicker: a jQuery plugin rendering a Google Calendar-style time dropdown. Only runtime dependency is jQuery; the supported range is `>=3.5.1 <5`, so both jQuery 3 and 4 must keep working.
 
 ## Layout
 

@@ -119,3 +119,92 @@ test("setTime can't set a disabled time", () => {
 
   _expectThrewEvent(el.dispatchEvent.mock, "timeRangeError");
 });
+
+// jQuery 4 reimplemented focus/blur on top of the native events, and the
+// plugin opens on focus by default (showOn: ["click", "focus"]), so these
+// cover the paths most likely to break across jQuery majors.
+//
+// Timepicker.isVisible reads offsetWidth/offsetHeight, which jsdom always
+// reports as 0. Without this shim every assertion below passes vacuously.
+function withLayout(fn) {
+  const props = ["offsetWidth", "offsetHeight"];
+  const saved = props.map(p =>
+    Object.getOwnPropertyDescriptor(window.HTMLElement.prototype, p)
+  );
+
+  props.forEach(p =>
+    Object.defineProperty(window.HTMLElement.prototype, p, {
+      configurable: true,
+      get() {
+        if (!this.isConnected) return 0;
+        for (let n = this; n && n.style; n = n.parentElement) {
+          if (n.style.display === "none") return 0;
+        }
+        return 100;
+      }
+    })
+  );
+
+  try {
+    fn();
+  } finally {
+    props.forEach((p, i) =>
+      saved[i]
+        ? Object.defineProperty(window.HTMLElement.prototype, p, saved[i])
+        : delete window.HTMLElement.prototype[p]
+    );
+  }
+}
+
+test("layout shim makes isVisible observable", () => {
+  $(el).timepicker();
+  withLayout(() => {
+    $(el).timepicker("show");
+    expect($(el).timepicker("isVisible")).toEqual(true);
+  });
+});
+
+test("opens on native focus", () => {
+  withLayout(() => {
+    $(el).timepicker({ step: 60 });
+    el.focus();
+    expect($(el).timepicker("isVisible")).toEqual(true);
+  });
+});
+
+test("opens on click", () => {
+  withLayout(() => {
+    $(el).timepicker({ step: 60 });
+    $(el).trigger("click");
+    expect($(el).timepicker("isVisible")).toEqual(true);
+  });
+});
+
+test("escape and enter close the dropdown", () => {
+  withLayout(() => {
+    $(el).timepicker({ step: 60 });
+
+    $(el).timepicker("show");
+    $(el).trigger($.Event("keydown", { keyCode: 27, which: 27 }));
+    expect($(el).timepicker("isVisible")).toEqual(false);
+
+    $(el).timepicker("show");
+    $(el).trigger($.Event("keydown", { keyCode: 13, which: 13 }));
+    expect($(el).timepicker("isVisible")).toEqual(false);
+  });
+});
+
+test("hide closes an open dropdown", () => {
+  withLayout(() => {
+    $(el).timepicker({ step: 60 });
+    $(el).timepicker("show");
+    $(el).timepicker("hide");
+    expect($(el).timepicker("isVisible")).toEqual(false);
+  });
+});
+
+test("remove tears down plugin state", () => {
+  $(el).timepicker();
+  $(el).timepicker("remove");
+  expect($(el).data("timepicker-obj")).toBeFalsy();
+});
