@@ -104,6 +104,42 @@ test("useSelect picking an option sets a formatted time", () => {
   expect($(el).val()).toEqual("3:00pm");
 });
 
+// GH-795
+test("useSelect moves required validation to the visible select", () => {
+  document.body.innerHTML = `<form>
+      <input type="text" id="${TEST_INPUT}" required />
+    </form>`;
+  el = document.getElementById(TEST_INPUT);
+
+  $(el).timepicker({ useSelect: true, noneOption: true });
+
+  // the hidden input can't show a validation message, so it must not be
+  // what blocks the form
+  const form = el.form;
+  const invalid = Array.from(form.querySelectorAll(":invalid"));
+  expect(form.checkValidity()).toBe(false);
+  expect(invalid.map(e => e.className)).toEqual(["ui-timepicker-select"]);
+
+  // re-rendering must not lose track of it
+  $(el).timepicker("option", "step", 15);
+  expect($(".ui-timepicker-select").prop("required")).toBe(true);
+});
+
+test("remove restores required on a useSelect input", () => {
+  el.required = true;
+  $(el).timepicker({ useSelect: true });
+  $(el).timepicker("remove");
+
+  expect(el.required).toBe(true);
+});
+
+test("useSelect doesn't add required to an optional input", () => {
+  $(el).timepicker({ useSelect: true });
+
+  expect($(".ui-timepicker-select").prop("required")).toBe(false);
+  expect(el.required).toBe(false);
+});
+
 test("option works", () => {
   $(el).timepicker({ disableTextInput: true });
   expect($(el).timepicker("option", "disableTextInput")).toEqual(true);

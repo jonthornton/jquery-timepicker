@@ -351,6 +351,10 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         self.show();
       }
 
+      if (tp.requiredMoved) {
+        self.prop("required", true);
+      }
+
       tp.list = null;
 
       return this;
@@ -402,6 +406,14 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       list.on("change", function () {
         tp._setTimeValue(selectedTime(), "select");
       });
+
+      // the input gets hidden, and a hidden required field blocks
+      // submission without showing an error, so the select takes it over
+      if (self.prop("required")) {
+        tp.requiredMoved = true;
+        self.prop("required", false);
+      }
+      list.prop("required", !!tp.requiredMoved);
 
       tp._setTimeValue(selectedTime(), "initial");
       self.hide().after(list);
