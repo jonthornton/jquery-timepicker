@@ -388,6 +388,10 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         list.val(
           settings.roundingFunction(tp.anytime2int(self.val()), settings)
         );
+      } else {
+        // don't let the browser default to the first time; this selects a
+        // noneOption with an empty value, or nothing if there isn't one
+        list.val("");
       }
 
       list.on("focus", function () {
