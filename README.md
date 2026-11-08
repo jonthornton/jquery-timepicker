@@ -207,10 +207,12 @@ Unbind an existing timepicker element.
 	```
 
 - **setTime**  
-Set the time using a Javascript Date object.
+Set the time using a Javascript Date object, a time string, or an integer number of seconds from midnight.
 
 	```javascript
 	$('#setTimeExample').timepicker('setTime', new Date());
+	$('#setTimeExample').timepicker('setTime', '1:30pm');
+	$('#setTimeExample').timepicker('setTime', 48600); // 1:30pm
 	```
 
 - **show**  
