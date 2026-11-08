@@ -1,5 +1,6 @@
 import { DEFAULT_SETTINGS, DEFAULT_LANG } from "./defaults";
 import { ONE_DAY, EVENT_DEFAULTS } from "./constants";
+import { timeWindow } from "./rounding";
 
 class Timepicker {
   constructor(targetEl, options = {}) {
@@ -658,12 +659,11 @@ class Timepicker {
   }
 
   _isTimeRangeError(seconds, settings) {
-    // check that the time in within bounds
-    if (
-      settings.minTime !== null &&
-      settings.maxTime !== null &&
-      (seconds < settings.minTime() || seconds > settings.maxTime())
-    ) {
+    // check that the time is within the span the dropdown covers. Times
+    // before the start belong to the next day.
+    const { start, end } = timeWindow(settings);
+    const offset = seconds < start ? seconds + ONE_DAY : seconds;
+    if (offset > end) {
       return true;
     }
 

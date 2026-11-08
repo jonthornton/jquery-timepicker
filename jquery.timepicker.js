@@ -173,6 +173,26 @@
     return seconds % ONE_DAY;
   }
 
+  // The span of times the dropdown covers. minTime defaults to midnight and
+  // maxTime to 24 hours after minTime; end is pushed into the next day when the
+  // range wraps past midnight.
+  function timeWindow(settings) {
+    var _settings$minTime2, _settings$maxTime;
+    var start = (_settings$minTime2 = settings.minTime()) !== null && _settings$minTime2 !== void 0 ? _settings$minTime2 : 0;
+    var end = (_settings$maxTime = settings.maxTime()) !== null && _settings$maxTime !== void 0 ? _settings$maxTime : start + ONE_DAY - 1;
+    if (end < start) {
+      end += ONE_DAY;
+    }
+    if (end === ONE_DAY - 1 && typeof settings.timeFormat === "string" && settings.show2400) {
+      // include a 24:00 option when using military time
+      end = ONE_DAY;
+    }
+    return {
+      start: start,
+      end: end
+    };
+  }
+
   var DEFAULT_SETTINGS = {
     appendTo: "body",
     className: null,
@@ -731,8 +751,13 @@
     }, {
       key: "_isTimeRangeError",
       value: function _isTimeRangeError(seconds, settings) {
-        // check that the time in within bounds
-        if (settings.minTime !== null && settings.maxTime !== null && (seconds < settings.minTime() || seconds > settings.maxTime())) {
+        // check that the time is within the span the dropdown covers. Times
+        // before the start belong to the next day.
+        var _timeWindow = timeWindow(settings),
+          start = _timeWindow.start,
+          end = _timeWindow.end;
+        var offset = seconds < start ? seconds + ONE_DAY : seconds;
+        if (offset > end) {
           return true;
         }
 
@@ -928,18 +953,10 @@
     };
   }
   function _getDropdownTimes(tp) {
-    var _settings$minTime, _settings$maxTime;
     var settings = tp.settings;
-    var start = (_settings$minTime = settings.minTime()) !== null && _settings$minTime !== void 0 ? _settings$minTime : 0;
-    var end = (_settings$maxTime = settings.maxTime()) !== null && _settings$maxTime !== void 0 ? _settings$maxTime : start + ONE_DAY - 1;
-    if (end < start) {
-      // make sure the end time is greater than start time, otherwise there will be no list to show
-      end += ONE_DAY;
-    }
-    if (end === ONE_DAY - 1 && typeof settings.timeFormat === "string" && settings.show2400) {
-      // show a 24:00 option when using military time
-      end = ONE_DAY;
-    }
+    var _timeWindow = timeWindow(settings),
+      start = _timeWindow.start,
+      end = _timeWindow.end;
     var output = [];
     for (var i = start, j = 0; i <= end; j++, i += settings.step(j) * 60) {
       var timeInt = i;

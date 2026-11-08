@@ -1,5 +1,5 @@
 import Timepicker from "../timepicker/index.js";
-import { _expectThrewEvent } from "../testHelpers.js";
+import { _expectThrewEvent, _expectDidntThrowEvent } from "../testHelpers.js";
 
 const TEST_INPUT = "testInput";
 
@@ -106,6 +106,78 @@ test("_formatValue works", () => {
   expect(el.value).toEqual("abc");
   _expectThrewEvent(el.dispatchEvent.mock, "timeFormatError");
   // todo: learn how to check if timeFormatError event was thrown
+});
+
+function _expectRangeError(tp, value, expected) {
+  tp.targetEl.value = value;
+  tp.targetEl.dispatchEvent = jest.fn();
+  tp._formatValue();
+
+  if (expected) {
+    _expectThrewEvent(tp.targetEl.dispatchEvent.mock, "timeRangeError");
+  } else {
+    _expectDidntThrowEvent(tp.targetEl.dispatchEvent.mock, "timeRangeError");
+  }
+}
+
+test("timeRangeError doesn't fire without minTime or maxTime", () => {
+  const tp = new Timepicker(createIntput());
+
+  _expectRangeError(tp, "12:00am", false);
+  _expectRangeError(tp, "12:01am", false);
+  _expectRangeError(tp, "3pm", false);
+  _expectRangeError(tp, "11:59pm", false);
+});
+
+test("timeRangeError includes the minTime and maxTime boundaries", () => {
+  const tp = new Timepicker(createIntput(), {
+    minTime: "9am",
+    maxTime: "5pm"
+  });
+
+  _expectRangeError(tp, "9am", false);
+  _expectRangeError(tp, "5pm", false);
+  _expectRangeError(tp, "8:59am", true);
+  _expectRangeError(tp, "5:01pm", true);
+});
+
+test("timeRangeError with only maxTime set uses the default minTime", () => {
+  const tp = new Timepicker(createIntput(), { maxTime: "5pm" });
+
+  _expectRangeError(tp, "12:00am", false);
+  _expectRangeError(tp, "4pm", false);
+  _expectRangeError(tp, "6pm", true);
+});
+
+test("timeRangeError with only minTime set allows the following 24 hours", () => {
+  const tp = new Timepicker(createIntput(), { minTime: "2pm" });
+
+  _expectRangeError(tp, "2pm", false);
+  _expectRangeError(tp, "11pm", false);
+  _expectRangeError(tp, "1pm", false);
+});
+
+test("timeRangeError allows ranges that wrap past midnight", () => {
+  const tp = new Timepicker(createIntput(), {
+    minTime: "10pm",
+    maxTime: "2am"
+  });
+
+  _expectRangeError(tp, "10pm", false);
+  _expectRangeError(tp, "11:30pm", false);
+  _expectRangeError(tp, "1am", false);
+  _expectRangeError(tp, "2am", false);
+  _expectRangeError(tp, "3am", true);
+  _expectRangeError(tp, "9pm", true);
+});
+
+test("timeRangeError allows 24:00 with show2400", () => {
+  const tp = new Timepicker(createIntput(), {
+    timeFormat: "H:i",
+    show2400: true
+  });
+
+  _expectRangeError(tp, "24:00", false);
 });
 
 test("12-hour time with an am/pm-less minTime doesn't recurse", () => {

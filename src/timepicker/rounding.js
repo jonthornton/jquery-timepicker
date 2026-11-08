@@ -37,4 +37,27 @@ function moduloSeconds(seconds, settings) {
   return seconds % ONE_DAY;
 }
 
-export { roundingFunction, moduloSeconds };
+// The span of times the dropdown covers. minTime defaults to midnight and
+// maxTime to 24 hours after minTime; end is pushed into the next day when the
+// range wraps past midnight.
+function timeWindow(settings) {
+  const start = settings.minTime() ?? 0;
+  let end = settings.maxTime() ?? start + ONE_DAY - 1;
+
+  if (end < start) {
+    end += ONE_DAY;
+  }
+
+  if (
+    end === ONE_DAY - 1 &&
+    typeof settings.timeFormat === "string" &&
+    settings.show2400
+  ) {
+    // include a 24:00 option when using military time
+    end = ONE_DAY;
+  }
+
+  return { start, end };
+}
+
+export { roundingFunction, moduloSeconds, timeWindow };

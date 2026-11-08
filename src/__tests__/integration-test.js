@@ -222,6 +222,15 @@ test("setTime doesn't throw a change event", () => {
   _expectDidntThrowEvent(el.dispatchEvent.mock, "change");
 });
 
+test("setTime without minTime or maxTime doesn't fire timeRangeError", () => {
+  el.dispatchEvent = jest.fn();
+
+  $(el).timepicker({});
+  $(el).timepicker("setTime", "3pm");
+
+  _expectDidntThrowEvent(el.dispatchEvent.mock, "timeRangeError");
+});
+
 test("setTime can't set a disabled time", () => {
   el.dispatchEvent = jest.fn();
 

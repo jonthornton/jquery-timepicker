@@ -1,5 +1,5 @@
 import { ONE_DAY } from "./constants";
-import { moduloSeconds } from "./rounding";
+import { moduloSeconds, timeWindow } from "./rounding";
 
 function _getNoneOptionItems(settings) {
   if (!settings.noneOption) {
@@ -40,22 +40,7 @@ function _getNoneOptionItemsHelper(noneOption) {
 function _getDropdownTimes(tp) {
   const settings = tp.settings;
 
-  const start = settings.minTime() ?? 0;
-  let end = settings.maxTime() ?? start + ONE_DAY - 1;
-
-  if (end < start) {
-    // make sure the end time is greater than start time, otherwise there will be no list to show
-    end += ONE_DAY;
-  }
-
-  if (
-    end === ONE_DAY - 1 &&
-    typeof settings.timeFormat === "string" &&
-    settings.show2400
-  ) {
-    // show a 24:00 option when using military time
-    end = ONE_DAY;
-  }
+  const { start, end } = timeWindow(settings);
 
   const output = [];
 
