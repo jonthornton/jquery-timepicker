@@ -116,7 +116,7 @@ Update the input with the currently highlighted time value when the timepicker l
 *default: false*
 
 - **show2400**  
-Show "24:00" as an option when using 24-hour time format. You must also set `timeFormat` for this option to work.  
+Show "24:00" as an option when using 24-hour time format. You must also set `timeFormat` for this option to work. To select it with `setTime`, pass the string `'24:00'`; a Date object can't represent 24:00.  
 *default: false*
 
 - **showDuration**  

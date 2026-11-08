@@ -57,6 +57,22 @@ test("setTime works", () => {
   expect($(el).val()).toEqual("3:24am");
 });
 
+test("setTime selects 24:00 from a string with show2400", () => {
+  $(el).timepicker({
+    timeFormat: "H:i",
+    minTime: "00:30",
+    maxTime: "24:00",
+    step: 30,
+    show2400: true
+  });
+  $(el).timepicker("show");
+
+  $(el).timepicker("setTime", "24:00");
+
+  expect($(el).val()).toEqual("24:00");
+  expect($(".ui-timepicker-selected").text()).toEqual("24:00");
+});
+
 test("showDuration works", () => {
   $(el).val("2:00pm");
   $(el).timepicker({
