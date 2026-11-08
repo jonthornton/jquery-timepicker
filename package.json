@@ -48,7 +48,7 @@
   "homepage": "http://jonthornton.github.com/jquery-timepicker/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jonthornton/jquery-timepicker.git"
+    "url": "git+https://github.com/jonthornton/jquery-timepicker.git"
   },
   "bugs": {
     "url": "https://github.com/jonthornton/jquery-timepicker/issues"
