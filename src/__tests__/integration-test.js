@@ -125,6 +125,19 @@ test("useSelect moves required validation to the visible select", () => {
   expect($(".ui-timepicker-select").prop("required")).toBe(true);
 });
 
+// GH-795
+test("useSelect keeps an initial value that isn't in the list", () => {
+  $(el).val("8:00am");
+  $(el).timepicker({ useSelect: true, minTime: "9am", maxTime: "5pm" });
+
+  expect($(el).val()).toEqual("8:00am");
+  expect($(".ui-timepicker-select").val()).toBeNull();
+
+  // re-rendering must not drop it either
+  $(el).timepicker("option", "step", 15);
+  expect($(el).val()).toEqual("8:00am");
+});
+
 test("remove restores required on a useSelect input", () => {
   el.required = true;
   $(el).timepicker({ useSelect: true });

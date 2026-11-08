@@ -415,7 +415,10 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       }
       list.prop("required", !!tp.requiredMoved);
 
-      tp._setTimeValue(selectedTime(), "initial");
+      // a value that isn't in the list leaves the select blank; keep the
+      // input's value instead of overwriting it with nothing
+      const initialTime = list.val() === null ? self.val() : selectedTime();
+      tp._setTimeValue(initialTime, "initial");
       self.hide().after(list);
     } else {
       var appendTo = settings.appendTo;
