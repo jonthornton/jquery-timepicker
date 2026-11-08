@@ -138,6 +138,42 @@ test("useSelect keeps an initial value that isn't in the list", () => {
   expect($(el).val()).toEqual("8:00am");
 });
 
+// GH-795
+test.each([
+  ["without minTime", {}],
+  ["with minTime", { minTime: "9am" }]
+])("useSelect leaves an empty initial value empty %s", (_, options) => {
+  $(el).timepicker({ useSelect: true, ...options });
+
+  expect($(el).val()).toEqual("");
+  expect($(".ui-timepicker-select").prop("selectedIndex")).toEqual(-1);
+
+  // re-rendering must not pick a time either
+  $(el).timepicker("option", "step", 15);
+  expect($(el).val()).toEqual("");
+  expect($(".ui-timepicker-select").prop("selectedIndex")).toEqual(-1);
+});
+
+// GH-795
+test("useSelect selects the noneOption for an empty initial value", () => {
+  $(el).timepicker({ useSelect: true, noneOption: "----" });
+
+  expect($(el).val()).toEqual("");
+  expect($(".ui-timepicker-select option:selected").text()).toEqual("----");
+});
+
+// GH-795
+test("useSelect with no selection blocks a required form", () => {
+  document.body.innerHTML = `<form>
+      <input type="text" id="${TEST_INPUT}" required />
+    </form>`;
+  el = document.getElementById(TEST_INPUT);
+
+  $(el).timepicker({ useSelect: true });
+
+  expect(el.form.checkValidity()).toBe(false);
+});
+
 test("remove restores required on a useSelect input", () => {
   el.required = true;
   $(el).timepicker({ useSelect: true });
