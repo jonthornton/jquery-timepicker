@@ -103,7 +103,7 @@ image {
 }
 
 .body-text {
-    width: 700px;
+    max-width: 700px;
 }
 
 #examples article {
@@ -127,6 +127,57 @@ image {
 
 footer {
     font-size: 12px;
+}
+
+@media (max-width: 960px) {
+    header h1 a {
+        font-size: 36px;
+    }
+
+    header p {
+        font-size: 18px;
+    }
+
+    #header-links {
+        position: static;
+        text-align: left;
+        margin-top: 10px;
+    }
+
+    h2 {
+        font-size: 26px;
+    }
+
+    #examples article {
+        padding-top: 50px;
+    }
+
+    #examples .demo {
+        float: none;
+        width: auto;
+    }
+
+    #examples .code {
+        margin: 15px 0 0 0;
+    }
+
+    /* iOS Safari zooms the page when focusing inputs under 16px */
+    input {
+        font-size: 16px;
+    }
+
+    input.time {
+        width: 100px;
+    }
+
+    input.date {
+        width: 110px;
+    }
+
+    pre {
+        overflow-x: auto;
+        word-wrap: normal;
+    }
 }
 
 /**
