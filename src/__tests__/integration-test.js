@@ -373,3 +373,63 @@ test("selected time is highlighted when minTime is offset from the step", () => 
     "12:09am"
   );
 });
+
+// a real click is mousedown, mouseup, then click
+function realClick(target) {
+  target.trigger("mousedown");
+  target.trigger("mouseup");
+  target.trigger("click");
+}
+
+function recordEvents(names) {
+  const log = [];
+  names.forEach(name => $(el).on(name, () => log.push(name)));
+  return log;
+}
+
+// https://github.com/jonthornton/jquery-timepicker/issues/677
+test("clicking a time fires each event once", () => {
+  withLayout(() => {
+    $(el).timepicker({ step: 60 });
+    const log = recordEvents(["selectTime", "changeTime", "hideTimepicker"]);
+
+    $(el).timepicker("show");
+    realClick($(".ui-timepicker-list li").eq(3));
+
+    expect(log).toEqual(["selectTime", "changeTime", "hideTimepicker"]);
+  });
+});
+
+// https://github.com/jonthornton/jquery-timepicker/issues/650
+test("hideTimepicker fires after the dropdown is hidden", () => {
+  withLayout(() => {
+    $(el).timepicker({ step: 60 });
+    const visibleOnHide = [];
+    $(el).on("hideTimepicker", () =>
+      visibleOnHide.push($(el).timepicker("isVisible"))
+    );
+
+    $(el).timepicker("show");
+    realClick($(".ui-timepicker-list li").eq(3));
+
+    expect(visibleOnHide).toEqual([false]);
+  });
+});
+
+// https://github.com/jonthornton/jquery-timepicker/issues/650
+test("pressing on a time and releasing elsewhere doesn't select it", () => {
+  withLayout(() => {
+    $(el).timepicker({ step: 60 });
+    const visibleOnHide = [];
+    $(el).on("hideTimepicker", () =>
+      visibleOnHide.push($(el).timepicker("isVisible"))
+    );
+
+    $(el).timepicker("show");
+    $(".ui-timepicker-list li").eq(3).trigger("mousedown");
+
+    expect($(el).val()).toEqual("");
+    expect($(el).timepicker("isVisible")).toEqual(true);
+    expect(visibleOnHide).toEqual([]);
+  });
+});

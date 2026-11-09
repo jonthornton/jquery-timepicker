@@ -434,7 +434,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       appendTo.append(wrapped_list);
       tp._setSelected();
 
-      list.on("mousedown click", "li", function (e) {
+      list.on("click", "li", function (e) {
         // hack: temporarily disable the focus handler
         // to deal with the fact that IE fires 'focus'
         // events asynchronously
@@ -453,12 +453,8 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         $(this).addClass("ui-timepicker-selected");
 
         if (tp._selectValue()) {
+          wrapped_list.hide();
           self.trigger("hideTimepicker");
-
-          list.on("mouseup.timepicker click.timepicker", "li", function (e) {
-            list.off("mouseup.timepicker click.timepicker");
-            wrapped_list.hide();
-          });
         }
       });
     }
