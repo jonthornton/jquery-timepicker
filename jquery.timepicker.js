@@ -976,12 +976,14 @@
         var durationString = tp._int2duration(i - durStart, settings.step());
         item.duration = durationString;
       }
+
+      // item.value keeps 24:00 as 86400 rather than wrapping it to midnight
       var _iterator = _createForOfIteratorHelper(settings.disableTimeRanges),
         _step;
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var range = _step.value;
-          if (timeInt % ONE_DAY >= range[0] && timeInt % ONE_DAY < range[1]) {
+          if (item.value >= range[0] && item.value < range[1]) {
             item.disabled = true;
             break;
           }

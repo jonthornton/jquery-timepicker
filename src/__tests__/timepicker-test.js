@@ -215,3 +215,14 @@ test("12-hour time still guesses am/pm from the scrollDefault", () => {
   expect(tp.time2int("11")).toEqual(39600); // 11am, after the scrollDefault
   expect(tp.time2int("9:00")).toEqual(75600); // 9pm, before it
 });
+
+test("timeRangeError covers 24:00 with a range ending past it", () => {
+  const tp = new Timepicker(createIntput(), {
+    timeFormat: "H:i",
+    show2400: true,
+    disableTimeRanges: [["23:00", 86401]]
+  });
+
+  _expectRangeError(tp, "24:00", true);
+  _expectRangeError(tp, "0:00", false);
+});

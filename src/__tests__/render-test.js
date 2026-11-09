@@ -63,3 +63,34 @@ test("noneOption works", () => {
   expect(secondNoneOption.dataset["time"]).toEqual("");
   expect(secondNoneOption.classList.contains("shibby")).toEqual(false);
 });
+
+test("disableTimeRanges treats 24:00 apart from midnight", () => {
+  const disabledTimes = options => {
+    const tp = new Timepicker(createIntput(), {
+      timeFormat: "H:i",
+      step: 60,
+      ...options
+    });
+    const items = renderHtml(tp).querySelectorAll("li.ui-timepicker-disabled");
+    return Array.from(items, li => li.textContent);
+  };
+
+  // a range starting at midnight leaves 24:00 enabled
+  expect(
+    disabledTimes({ show2400: true, disableTimeRanges: [["0:00", "1:00"]] })
+  ).toEqual(["00:00"]);
+
+  // ends are exclusive, so a range has to end past 24:00 to cover it
+  expect(
+    disabledTimes({ show2400: true, disableTimeRanges: [["23:00", 86401]] })
+  ).toEqual(["23:00", "24:00"]);
+
+  // rows past midnight in a wrapping list still match next-day ranges
+  expect(
+    disabledTimes({
+      minTime: "22:00",
+      maxTime: "3:00",
+      disableTimeRanges: [["1:00", "2:00"]]
+    })
+  ).toEqual(["01:00"]);
+});

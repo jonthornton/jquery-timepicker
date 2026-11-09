@@ -70,8 +70,9 @@ function _getDropdownTimes(tp) {
       item.duration = durationString;
     }
 
+    // item.value keeps 24:00 as 86400 rather than wrapping it to midnight
     for (const range of settings.disableTimeRanges) {
-      if (timeInt % ONE_DAY >= range[0] && timeInt % ONE_DAY < range[1]) {
+      if (item.value >= range[0] && item.value < range[1]) {
         item.disabled = true;
         break;
       }
