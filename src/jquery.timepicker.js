@@ -46,12 +46,10 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
           }
           self.on("change.timepicker", tp._handleFormatValue);
           self.on("keydown.timepicker", _keydownhandler);
-          self.on("keyup.timepicker", tp._handleKeyUp);
+          self.on("input.timepicker", tp._handleInput);
           if (settings.disableTextInput) {
             self.on("keydown.timepicker", tp._disableTextInputHandler);
           }
-          self.on("cut.timepicker", tp._handleKeyUp);
-          self.on("paste.timepicker", tp._handleKeyUp);
 
           tp._formatValue(null, "initial");
         }

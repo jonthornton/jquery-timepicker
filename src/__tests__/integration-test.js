@@ -433,3 +433,51 @@ test("pressing on a time and releasing elsewhere doesn't select it", () => {
     expect(visibleOnHide).toEqual([]);
   });
 });
+
+// Android keyboards report keyCode 229 for every key, so the value change is
+// the only reliable signal: keydown, value update, input, keyup
+function androidType(value) {
+  $(el).trigger($.Event("keydown", { keyCode: 229, which: 229 }));
+  el.value = value;
+  el.dispatchEvent(new window.Event("input", { bubbles: true }));
+  $(el).trigger($.Event("keyup", { keyCode: 229, which: 229 }));
+}
+
+// https://github.com/jonthornton/jquery-timepicker/issues/665
+test("typeahead highlights a time typed on an Android keyboard", () => {
+  withLayout(() => {
+    $(el).timepicker({ step: 60 });
+    $(el).timepicker("show");
+
+    androidType("1pm");
+
+    expect($(".ui-timepicker-list li.ui-timepicker-selected").text()).toEqual(
+      "1:00pm"
+    );
+  });
+});
+
+test("typing hides the list when typeaheadHighlight is off", () => {
+  withLayout(() => {
+    $(el).timepicker({ step: 60, typeaheadHighlight: false });
+    $(el).timepicker("show");
+
+    androidType("1pm");
+
+    expect($(el).timepicker("isVisible")).toEqual(false);
+  });
+});
+
+test("pasting a time highlights it", () => {
+  withLayout(() => {
+    $(el).timepicker({ step: 60 });
+    $(el).timepicker("show");
+
+    el.value = "3pm";
+    el.dispatchEvent(new window.Event("input", { bubbles: true }));
+
+    expect($(".ui-timepicker-list li.ui-timepicker-selected").text()).toEqual(
+      "3:00pm"
+    );
+  });
+});

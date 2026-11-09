@@ -238,7 +238,7 @@
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       _classCallCheck(this, Timepicker);
       this._handleFormatValue = this._handleFormatValue.bind(this);
-      this._handleKeyUp = this._handleKeyUp.bind(this);
+      this._handleInput = this._handleInput.bind(this);
       this.targetEl = targetEl;
       var attrOptions = Timepicker.extractAttrOptions(targetEl, Object.keys(DEFAULT_SETTINGS));
       this.settings = this.parseSettings(_objectSpread2(_objectSpread2(_objectSpread2({}, DEFAULT_SETTINGS), options), attrOptions));
@@ -806,60 +806,19 @@
       }
 
       /*
-       *  Time typeahead
+       *  Time typeahead. Listens for input rather than keyup because some
+       *  keyboards (e.g. Android) send keyCode 229 for every key.
        */
     }, {
-      key: "_handleKeyUp",
-      value: function _handleKeyUp(e) {
-        var _this2 = this;
+      key: "_handleInput",
+      value: function _handleInput() {
         if (!this.list || !Timepicker.isVisible(this.list) || this.settings.disableTextInput) {
-          return true;
-        }
-        if (e.type === "paste" || e.type === "cut") {
-          var handler = function handler() {
-            if (_this2.settings.typeaheadHighlight) {
-              _this2._setSelected();
-            } else {
-              _this2.list.hide();
-            }
-          };
-          setTimeout(handler, 0);
           return;
         }
-        switch (e.keyCode) {
-          case 96: // numpad numerals
-          case 97:
-          case 98:
-          case 99:
-          case 100:
-          case 101:
-          case 102:
-          case 103:
-          case 104:
-          case 105:
-          case 48: // numerals
-          case 49:
-          case 50:
-          case 51:
-          case 52:
-          case 53:
-          case 54:
-          case 55:
-          case 56:
-          case 57:
-          case 65: // a
-          case 77: // m
-          case 80: // p
-          case 186: // colon
-          case 8: // backspace
-          case 46:
-            // delete
-            if (this.settings.typeaheadHighlight) {
-              this._setSelected();
-            } else {
-              this.list.hide();
-            }
-            break;
+        if (this.settings.typeaheadHighlight) {
+          this._setSelected();
+        } else {
+          this.list.hide();
         }
       }
     }], [{
@@ -1136,12 +1095,10 @@
             }
             self.on("change.timepicker", tp._handleFormatValue);
             self.on("keydown.timepicker", _keydownhandler);
-            self.on("keyup.timepicker", tp._handleKeyUp);
+            self.on("input.timepicker", tp._handleInput);
             if (settings.disableTextInput) {
               self.on("keydown.timepicker", tp._disableTextInputHandler);
             }
-            self.on("cut.timepicker", tp._handleKeyUp);
-            self.on("paste.timepicker", tp._handleKeyUp);
             tp._formatValue(null, "initial");
           }
         });

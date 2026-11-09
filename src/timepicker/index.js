@@ -5,7 +5,7 @@ import { timeWindow } from "./rounding";
 class Timepicker {
   constructor(targetEl, options = {}) {
     this._handleFormatValue = this._handleFormatValue.bind(this);
-    this._handleKeyUp = this._handleKeyUp.bind(this);
+    this._handleInput = this._handleInput.bind(this);
 
     this.targetEl = targetEl;
 
@@ -706,63 +706,22 @@ class Timepicker {
   }
 
   /*
-   *  Time typeahead
+   *  Time typeahead. Listens for input rather than keyup because some
+   *  keyboards (e.g. Android) send keyCode 229 for every key.
    */
-  _handleKeyUp(e) {
+  _handleInput() {
     if (
       !this.list ||
       !Timepicker.isVisible(this.list) ||
       this.settings.disableTextInput
     ) {
-      return true;
-    }
-
-    if (e.type === "paste" || e.type === "cut") {
-      const handler = () => {
-        if (this.settings.typeaheadHighlight) {
-          this._setSelected();
-        } else {
-          this.list.hide();
-        }
-      };
-
-      setTimeout(handler, 0);
       return;
     }
 
-    switch (e.keyCode) {
-      case 96: // numpad numerals
-      case 97:
-      case 98:
-      case 99:
-      case 100:
-      case 101:
-      case 102:
-      case 103:
-      case 104:
-      case 105:
-      case 48: // numerals
-      case 49:
-      case 50:
-      case 51:
-      case 52:
-      case 53:
-      case 54:
-      case 55:
-      case 56:
-      case 57:
-      case 65: // a
-      case 77: // m
-      case 80: // p
-      case 186: // colon
-      case 8: // backspace
-      case 46: // delete
-        if (this.settings.typeaheadHighlight) {
-          this._setSelected();
-        } else {
-          this.list.hide();
-        }
-        break;
+    if (this.settings.typeaheadHighlight) {
+      this._setSelected();
+    } else {
+      this.list.hide();
     }
   }
 }
