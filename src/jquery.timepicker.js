@@ -39,6 +39,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
           _render(self);
         } else {
           self.prop("autocomplete", "off");
+          self.attr({ role: "combobox", "aria-expanded": "false" });
           if (settings.showOn) {
             for (var i in settings.showOn) {
               self.on(settings.showOn[i] + ".timepicker", methods.show);
@@ -105,6 +106,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
 
       // position the dropdown relative to the input
       list.show();
+      tp._setExpanded(true);
       var listOffset = {};
 
       if (settings.orientation.match(/r/)) {
@@ -163,20 +165,10 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       var selected = list.find(".ui-timepicker-selected");
 
       if (!selected.length) {
-        var timeInt = tp.anytime2int(tp._getTimeValue());
-        if (timeInt !== null) {
-          selected = $(tp._findRow(timeInt));
-        } else if (settings.scrollDefault()) {
-          selected = $(tp._findRow(settings.scrollDefault()));
-        }
+        selected = _defaultRow(tp);
       }
 
-      // if not found or disabled, intelligently find first selectable element
-      if (!selected.length || selected.hasClass("ui-timepicker-disabled")) {
-        selected = list.find("li:not(.ui-timepicker-disabled):first");
-      }
-
-      if (selected && selected.length) {
+      if (selected.length) {
         var topOffset =
           list.scrollTop() + selected.position().top - selected.outerHeight();
         list.scrollTop(topOffset);
@@ -246,6 +238,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         if (list) {
           list.remove();
           tp.list = null;
+          tp._setExpanded(false);
         }
 
         if (settings.useSelect) {
@@ -336,6 +329,10 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
       var settings = tp.settings;
 
       self.removeAttr("autocomplete", "off");
+      self.removeAttr("role aria-expanded aria-controls aria-activedescendant");
+      for (const label of tp.addedLabelIds || []) {
+        label.removeAttribute("id");
+      }
       self.removeClass("ui-timepicker-input");
       self.removeData("timepicker-obj");
       self.off(".timepicker");
@@ -430,6 +427,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         appendTo = appendTo(self);
       }
       appendTo.append(wrapped_list);
+      self.attr("aria-controls", tp.listId);
       tp._setSelected();
 
       list.on("click", "li", function (e) {
@@ -447,15 +445,38 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         }
 
         // make sure only the clicked row is selected
-        list.find("li").removeClass("ui-timepicker-selected");
-        $(this).addClass("ui-timepicker-selected");
+        tp._markSelected(this);
 
         if (tp._selectValue()) {
           wrapped_list.hide();
+          tp._setExpanded(false);
           self.trigger("hideTimepicker");
         }
       });
     }
+  }
+
+  /*
+   *  The row to scroll to, or to highlight on the first arrow press, when
+   *  none is selected: the input's time, else scrollDefault, else the first
+   *  enabled row
+   */
+  function _defaultRow(tp) {
+    var settings = tp.settings;
+    var row = $();
+
+    var timeInt = tp.anytime2int(tp._getTimeValue());
+    if (timeInt !== null) {
+      row = $(tp._findRow(timeInt));
+    } else if (settings.scrollDefault()) {
+      row = $(tp._findRow(settings.scrollDefault()));
+    }
+
+    if (!row.length || row.hasClass("ui-timepicker-disabled")) {
+      row = tp.list.find("li:not(.ui-timepicker-disabled)").first();
+    }
+
+    return row;
   }
 
   // event handler to decide whether to close timepicker
@@ -515,16 +536,9 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         var selected = list.find(".ui-timepicker-selected");
 
         if (!selected.length) {
-          list.find("li").each(function (i, obj) {
-            if ($(obj).position().top > 0) {
-              selected = $(obj);
-              return false;
-            }
-          });
-          selected.addClass("ui-timepicker-selected");
+          tp._markSelected(_defaultRow(tp).get(0));
         } else if (!selected.is(":first-child")) {
-          selected.removeClass("ui-timepicker-selected");
-          selected.prev().addClass("ui-timepicker-selected");
+          tp._markSelected(selected.prev().get(0));
 
           if (selected.prev().position().top < selected.outerHeight()) {
             list.scrollTop(list.scrollTop() - selected.outerHeight());
@@ -537,17 +551,9 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         selected = list.find(".ui-timepicker-selected");
 
         if (selected.length === 0) {
-          list.find("li").each(function (i, obj) {
-            if ($(obj).position().top > 0) {
-              selected = $(obj);
-              return false;
-            }
-          });
-
-          selected.addClass("ui-timepicker-selected");
+          tp._markSelected(_defaultRow(tp).get(0));
         } else if (!selected.is(":last-child")) {
-          selected.removeClass("ui-timepicker-selected");
-          selected.next().addClass("ui-timepicker-selected");
+          tp._markSelected(selected.next().get(0));
 
           if (
             selected.next().position().top + 2 * selected.outerHeight() >
@@ -560,7 +566,7 @@ import { EVENT_DEFAULTS } from "./timepicker/constants.js";
         return false;
 
       case 27: // escape
-        list.find("li").removeClass("ui-timepicker-selected");
+        tp._markSelected(null);
         tp.hideMe();
         break;
 

@@ -481,3 +481,156 @@ test("pasting a time highlights it", () => {
     );
   });
 });
+
+// https://github.com/jonthornton/jquery-timepicker/issues/763
+describe("accessibility", () => {
+  const activeRow = () =>
+    document.getElementById(el.getAttribute("aria-activedescendant"));
+  const key = keyCode =>
+    $(el).trigger($.Event("keydown", { keyCode: keyCode, which: keyCode }));
+
+  test("renders the combobox pattern", () => {
+    $(el).timepicker({ step: 60, disableTimeRanges: [["1am", "2am"]] });
+    expect(el.getAttribute("role")).toEqual("combobox");
+    expect(el.getAttribute("aria-expanded")).toEqual("false");
+
+    $(el).timepicker("show");
+    const list = $(".ui-timepicker-list");
+    expect(list.attr("role")).toEqual("listbox");
+    expect(el.getAttribute("aria-controls")).toEqual(list.attr("id"));
+
+    const rows = list.find("li");
+    expect(rows.eq(0).attr("role")).toEqual("option");
+    expect(rows.eq(0).attr("id")).toEqual(list.attr("id") + "-0");
+    expect(rows.eq(1).attr("aria-disabled")).toEqual("true");
+    expect(rows.eq(0).attr("aria-disabled")).toBeUndefined();
+  });
+
+  test("each timepicker gets its own ids", () => {
+    document.body.innerHTML = `<input id="a" /><input id="b" />`;
+    $("#a, #b").timepicker();
+    $("#a").timepicker("show");
+    $("#b").timepicker("show");
+
+    const ids = $(".ui-timepicker-list")
+      .map((i, list) => list.id)
+      .get();
+    expect(ids.length).toEqual(2);
+    expect(ids[0]).not.toEqual(ids[1]);
+  });
+
+  test("aria-expanded follows the dropdown", () => {
+    withLayout(() => {
+      $(el).timepicker({ step: 60 });
+
+      $(el).timepicker("show");
+      expect(el.getAttribute("aria-expanded")).toEqual("true");
+      key(27);
+      expect(el.getAttribute("aria-expanded")).toEqual("false");
+
+      $(el).timepicker("show");
+      realClick($(".ui-timepicker-list li").eq(3));
+      expect(el.getAttribute("aria-expanded")).toEqual("false");
+
+      $(el).timepicker("option", "typeaheadHighlight", false);
+      $(el).timepicker("show");
+      androidType("1pm");
+      expect(el.getAttribute("aria-expanded")).toEqual("false");
+    });
+  });
+
+  test("aria-activedescendant points at the highlighted row", () => {
+    withLayout(() => {
+      $(el).timepicker({ step: 60 });
+      $(el).timepicker("show");
+      expect(el.hasAttribute("aria-activedescendant")).toBe(false);
+
+      androidType("3pm");
+      expect(activeRow().textContent).toEqual("3:00pm");
+      expect(activeRow().getAttribute("aria-selected")).toEqual("true");
+
+      key(40);
+      expect(activeRow().textContent).toEqual("4:00pm");
+      expect($("[aria-selected]").length).toEqual(1);
+
+      key(27);
+      expect(el.hasAttribute("aria-activedescendant")).toBe(false);
+      expect($("[aria-selected]").length).toEqual(0);
+    });
+  });
+
+  test("first arrow press highlights the input's time", () => {
+    withLayout(() => {
+      $(el).val("2:30pm");
+      $(el).timepicker({ step: 60 });
+      $(el).timepicker("show");
+      expect(el.hasAttribute("aria-activedescendant")).toBe(false);
+
+      key(40);
+      expect(activeRow().textContent).toEqual("3:00pm");
+    });
+  });
+
+  test("first arrow press falls back to scrollDefault", () => {
+    withLayout(() => {
+      $(el).timepicker({ step: 60, scrollDefault: "9am" });
+      $(el).timepicker("show");
+
+      key(38);
+      expect(activeRow().textContent).toEqual("9:00am");
+    });
+  });
+
+  test("the listbox is named by the input's label", () => {
+    document.body.innerHTML = `
+      <label id="start-label" for="start">Start</label><input id="start" />
+      <label for="end">End</label><input id="end" />`;
+    $("#start, #end").timepicker();
+
+    $("#start").timepicker("show");
+    expect($(".ui-timepicker-list").attr("aria-labelledby")).toEqual(
+      "start-label"
+    );
+
+    $("#end").timepicker("show");
+    const endLabel = $("label[for=end]");
+    expect(endLabel.attr("id")).toBeTruthy();
+    expect(
+      $("#" + $("#end").attr("aria-controls")).attr("aria-labelledby")
+    ).toEqual(endLabel.attr("id"));
+
+    $("#start").timepicker("remove");
+    $("#end").timepicker("remove");
+    expect($("#start-label").length).toEqual(1);
+    expect(endLabel.attr("id")).toBeUndefined();
+  });
+
+  test("an unlabelled input leaves the listbox unnamed", () => {
+    $(el).timepicker();
+    $(el).timepicker("show");
+    expect($(".ui-timepicker-list").attr("aria-labelledby")).toBeUndefined();
+  });
+
+  test("remove strips the ARIA attributes", () => {
+    withLayout(() => {
+      $(el).timepicker({ step: 60 });
+      $(el).timepicker("show");
+      androidType("3pm");
+      $(el).timepicker("remove");
+
+      for (const attr of [
+        "role",
+        "aria-expanded",
+        "aria-controls",
+        "aria-activedescendant"
+      ]) {
+        expect(el.hasAttribute(attr)).toBe(false);
+      }
+    });
+  });
+
+  test("useSelect gets no combobox attributes", () => {
+    $(el).timepicker({ useSelect: true });
+    expect(el.hasAttribute("role")).toBe(false);
+  });
+});

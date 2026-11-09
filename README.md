@@ -248,6 +248,15 @@ Called if a time outside the ```minTime```/```maxTime``` range, or inside ```dis
 
 The `selectTime` and `hideTimepicker` events fire slightly differently when using the `useSelect` option. See https://github.com/jonthornton/jquery-timepicker/issues/427 for more information.
 
+Accessibility
+-------------
+
+The input and dropdown follow the [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/). The input gets `role="combobox"` with `aria-expanded`, `aria-controls` and `aria-activedescendant`, and the list is a `role="listbox"` of `role="option"` rows, so screen readers announce the highlighted time as it changes. Focus stays in the input: the arrow keys move through the list, Enter picks a time, and Escape or Tab closes the list without picking one.
+
+The list is named by the input's `<label>`, so give the input one. A label without an `id` gets a generated one while the timepicker is active.
+
+`useSelect` renders a native `<select>` instead, which browsers already make accessible.
+
 Theming
 -------
 

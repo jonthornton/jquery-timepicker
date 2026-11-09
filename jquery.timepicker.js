@@ -233,6 +233,7 @@
     hrs: "hrs"
   };
 
+  var instanceCount = 0;
   var Timepicker = /*#__PURE__*/function () {
     function Timepicker(targetEl) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -240,6 +241,8 @@
       this._handleFormatValue = this._handleFormatValue.bind(this);
       this._handleInput = this._handleInput.bind(this);
       this.targetEl = targetEl;
+      this.listId = "ui-timepicker-list-" + ++instanceCount;
+      this.expanded = false;
       var attrOptions = Timepicker.extractAttrOptions(targetEl, Object.keys(DEFAULT_SETTINGS));
       this.settings = this.parseSettings(_objectSpread2(_objectSpread2(_objectSpread2({}, DEFAULT_SETTINGS), options), attrOptions));
     }
@@ -257,8 +260,74 @@
           this._selectValue();
         }
         this.list.hide();
+        this._setExpanded(false);
         var hideTimepickerEvent = new CustomEvent("hideTimepicker", EVENT_DEFAULTS);
         this.targetEl.dispatchEvent(hideTimepickerEvent);
+      }
+
+      /*
+       *  Highlight a row, or clear the highlight when row is null. The input's
+       *  aria-activedescendant follows it so screen readers announce the row.
+       */
+    }, {
+      key: "_markSelected",
+      value: function _markSelected(row) {
+        var _iterator = _createForOfIteratorHelper(this.list.find(".ui-timepicker-selected")),
+          _step;
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var el = _step.value;
+            el.classList.remove("ui-timepicker-selected");
+            el.removeAttribute("aria-selected");
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+        if (row) {
+          row.classList.add("ui-timepicker-selected");
+          row.setAttribute("aria-selected", "true");
+        }
+        this._updateActiveDescendant();
+      }
+    }, {
+      key: "_setExpanded",
+      value: function _setExpanded(expanded) {
+        this.expanded = expanded;
+        this.targetEl.setAttribute("aria-expanded", String(expanded));
+        this._updateActiveDescendant();
+      }
+
+      // only an open list has an active option
+    }, {
+      key: "_updateActiveDescendant",
+      value: function _updateActiveDescendant() {
+        var row = this.expanded && this.list && this.list.find(".ui-timepicker-selected").get(0);
+        if (row) {
+          this.targetEl.setAttribute("aria-activedescendant", row.id);
+        } else {
+          this.targetEl.removeAttribute("aria-activedescendant");
+        }
+      }
+
+      /*
+       *  ids of the input's <label> elements, to name the listbox. Labels
+       *  without an id get one, which remove() takes off again.
+       */
+    }, {
+      key: "_labelIds",
+      value: function _labelIds() {
+        var _this = this;
+        var labels = Array.from(this.targetEl.labels || []);
+        this.addedLabelIds = this.addedLabelIds || [];
+        return labels.map(function (label, i) {
+          if (!label.id) {
+            label.id = _this.listId + "-label-" + i;
+            _this.addedLabelIds.push(label);
+          }
+          return label.id;
+        });
       }
     }, {
       key: "_findRow",
@@ -474,18 +543,18 @@
     }, {
       key: "intStringDateOrFunc2func",
       value: function intStringDateOrFunc2func(input) {
-        var _this = this;
+        var _this2 = this;
         if (input === null || input === undefined) {
           return function () {
             return null;
           };
         } else if (typeof input === "function") {
           return function () {
-            return _this.anytime2int(input());
+            return _this2.anytime2int(input());
           };
         } else {
           return function () {
-            return _this.anytime2int(input);
+            return _this2.anytime2int(input);
           };
         }
       }
@@ -679,7 +748,7 @@
       key: "_setSelected",
       value: function _setSelected() {
         var list = this.list;
-        list.find("li").removeClass("ui-timepicker-selected");
+        this._markSelected(null);
         var timeValue = this.anytime2int(this._getTimeValue());
         if (timeValue === null) {
           return;
@@ -695,7 +764,7 @@
           }
           var parsed = parseInt(selected.dataset.time);
           if (this.settings.forceRoundTime || parsed === timeValue) {
-            selected.classList.add("ui-timepicker-selected");
+            this._markSelected(selected);
           }
         }
       }
@@ -762,19 +831,19 @@
         }
 
         // check that time isn't within disabled time ranges
-        var _iterator = _createForOfIteratorHelper(settings.disableTimeRanges),
-          _step;
+        var _iterator2 = _createForOfIteratorHelper(settings.disableTimeRanges),
+          _step2;
         try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var range = _step.value;
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var range = _step2.value;
             if (seconds >= range[0] && seconds < range[1]) {
               return true;
             }
           }
         } catch (err) {
-          _iterator.e(err);
+          _iterator2.e(err);
         } finally {
-          _iterator.f();
+          _iterator2.f();
         }
         return false;
       }
@@ -819,25 +888,26 @@
           this._setSelected();
         } else {
           this.list.hide();
+          this._setExpanded(false);
         }
       }
     }], [{
       key: "extractAttrOptions",
       value: function extractAttrOptions(element, keys) {
         var output = {};
-        var _iterator2 = _createForOfIteratorHelper(keys),
-          _step2;
+        var _iterator3 = _createForOfIteratorHelper(keys),
+          _step3;
         try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-            var key = _step2.value;
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var key = _step3.value;
             if (key in element.dataset) {
               output[key] = element.dataset[key];
             }
           }
         } catch (err) {
-          _iterator2.e(err);
+          _iterator3.e(err);
         } finally {
-          _iterator2.f();
+          _iterator3.f();
         }
         return output;
       }
@@ -850,20 +920,20 @@
     }, {
       key: "hideAll",
       value: function hideAll() {
-        var _iterator3 = _createForOfIteratorHelper(document.getElementsByClassName("ui-timepicker-input")),
-          _step3;
+        var _iterator4 = _createForOfIteratorHelper(document.getElementsByClassName("ui-timepicker-input")),
+          _step4;
         try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var el = _step3.value;
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var el = _step4.value;
             var tp = el.timepickerObj;
             if (tp) {
               tp.hideMe();
             }
           }
         } catch (err) {
-          _iterator3.e(err);
+          _iterator4.e(err);
         } finally {
-          _iterator3.f();
+          _iterator4.f();
         }
       }
     }]);
@@ -970,8 +1040,10 @@
     }
     return el;
   }
-  function _renderStandardItem(item) {
+  function _renderStandardItem(item, id) {
     var el = document.createElement("li");
+    el.id = id;
+    el.setAttribute("role", "option");
     el.dataset["time"] = item.value;
     if (item.className) {
       el.classList.add(item.className);
@@ -986,25 +1058,23 @@
     }
     if (item.disabled) {
       el.classList.add("ui-timepicker-disabled");
+      el.setAttribute("aria-disabled", "true");
     }
     return el;
   }
-  function _renderStandardList(items) {
+  function _renderStandardList(items, tp) {
     var list = document.createElement("ul");
     list.classList.add("ui-timepicker-list");
-    var _iterator2 = _createForOfIteratorHelper(items),
-      _step2;
-    try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        var item = _step2.value;
-        var itemEl = _renderStandardItem(item);
-        list.appendChild(itemEl);
-      }
-    } catch (err) {
-      _iterator2.e(err);
-    } finally {
-      _iterator2.f();
+    list.id = tp.listId;
+    list.setAttribute("role", "listbox");
+    var labelIds = tp._labelIds();
+    if (labelIds.length) {
+      list.setAttribute("aria-labelledby", labelIds.join(" "));
     }
+    items.forEach(function (item, i) {
+      var itemEl = _renderStandardItem(item, tp.listId + "-" + i);
+      list.appendChild(itemEl);
+    });
     var wrapper = document.createElement("div");
     wrapper.classList.add("ui-timepicker-wrapper");
     wrapper.tabIndex = -1;
@@ -1019,18 +1089,18 @@
     if (targetName) {
       el.name = "ui-timepicker-" + targetName;
     }
-    var _iterator3 = _createForOfIteratorHelper(items),
-      _step3;
+    var _iterator2 = _createForOfIteratorHelper(items),
+      _step2;
     try {
-      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-        var item = _step3.value;
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var item = _step2.value;
         var itemEl = _renderSelectItem(item);
         el.appendChild(itemEl);
       }
     } catch (err) {
-      _iterator3.e(err);
+      _iterator2.e(err);
     } finally {
-      _iterator3.f();
+      _iterator2.f();
     }
     return el;
   }
@@ -1040,20 +1110,20 @@
     if (tp.settings.useSelect) {
       el = _renderSelectList(items, tp.targetEl.name);
     } else {
-      el = _renderStandardList(items);
+      el = _renderStandardList(items, tp);
     }
     if (tp.settings.className) {
-      var _iterator4 = _createForOfIteratorHelper(tp.settings.className.split(" ")),
-        _step4;
+      var _iterator3 = _createForOfIteratorHelper(tp.settings.className.split(" ")),
+        _step3;
       try {
-        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-          var token = _step4.value;
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var token = _step3.value;
           el.classList.add(token);
         }
       } catch (err) {
-        _iterator4.e(err);
+        _iterator3.e(err);
       } finally {
-        _iterator4.f();
+        _iterator3.f();
       }
     }
     if (tp.settings.showDuration && (tp.settings.minTime !== null || tp.settings.durationTime !== null)) {
@@ -1088,6 +1158,10 @@
             _render(self);
           } else {
             self.prop("autocomplete", "off");
+            self.attr({
+              role: "combobox",
+              "aria-expanded": "false"
+            });
             if (settings.showOn) {
               for (var i in settings.showOn) {
                 self.on(settings.showOn[i] + ".timepicker", methods.show);
@@ -1144,6 +1218,7 @@
 
         // position the dropdown relative to the input
         list.show();
+        tp._setExpanded(true);
         var listOffset = {};
         if (settings.orientation.match(/r/)) {
           // right-align the dropdown
@@ -1179,19 +1254,9 @@
         // position scrolling
         var selected = list.find(".ui-timepicker-selected");
         if (!selected.length) {
-          var timeInt = tp.anytime2int(tp._getTimeValue());
-          if (timeInt !== null) {
-            selected = $(tp._findRow(timeInt));
-          } else if (settings.scrollDefault()) {
-            selected = $(tp._findRow(settings.scrollDefault()));
-          }
+          selected = _defaultRow(tp);
         }
-
-        // if not found or disabled, intelligently find first selectable element
-        if (!selected.length || selected.hasClass("ui-timepicker-disabled")) {
-          selected = list.find("li:not(.ui-timepicker-disabled):first");
-        }
-        if (selected && selected.length) {
+        if (selected.length) {
           var topOffset = list.scrollTop() + selected.position().top - selected.outerHeight();
           list.scrollTop(topOffset);
         } else {
@@ -1247,6 +1312,7 @@
           if (list) {
             list.remove();
             tp.list = null;
+            tp._setExpanded(false);
           }
           if (settings.useSelect) {
             _render(self);
@@ -1318,6 +1384,19 @@
         var tp = self[0].timepickerObj;
         var settings = tp.settings;
         self.removeAttr("autocomplete", "off");
+        self.removeAttr("role aria-expanded aria-controls aria-activedescendant");
+        var _iterator = _createForOfIteratorHelper(tp.addedLabelIds || []),
+          _step;
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var label = _step.value;
+            label.removeAttribute("id");
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
         self.removeClass("ui-timepicker-input");
         self.removeData("timepicker-obj");
         self.off(".timepicker");
@@ -1400,6 +1479,7 @@
           appendTo = appendTo(self);
         }
         appendTo.append(wrapped_list);
+        self.attr("aria-controls", tp.listId);
         tp._setSelected();
         list.on("click", "li", function (e) {
           // hack: temporarily disable the focus handler
@@ -1415,14 +1495,34 @@
           }
 
           // make sure only the clicked row is selected
-          list.find("li").removeClass("ui-timepicker-selected");
-          $(this).addClass("ui-timepicker-selected");
+          tp._markSelected(this);
           if (tp._selectValue()) {
             wrapped_list.hide();
+            tp._setExpanded(false);
             self.trigger("hideTimepicker");
           }
         });
       }
+    }
+
+    /*
+     *  The row to scroll to, or to highlight on the first arrow press, when
+     *  none is selected: the input's time, else scrollDefault, else the first
+     *  enabled row
+     */
+    function _defaultRow(tp) {
+      var settings = tp.settings;
+      var row = $();
+      var timeInt = tp.anytime2int(tp._getTimeValue());
+      if (timeInt !== null) {
+        row = $(tp._findRow(timeInt));
+      } else if (settings.scrollDefault()) {
+        row = $(tp._findRow(settings.scrollDefault()));
+      }
+      if (!row.length || row.hasClass("ui-timepicker-disabled")) {
+        row = tp.list.find("li:not(.ui-timepicker-disabled)").first();
+      }
+      return row;
     }
 
     // event handler to decide whether to close timepicker
@@ -1475,16 +1575,9 @@
           // up
           var selected = list.find(".ui-timepicker-selected");
           if (!selected.length) {
-            list.find("li").each(function (i, obj) {
-              if ($(obj).position().top > 0) {
-                selected = $(obj);
-                return false;
-              }
-            });
-            selected.addClass("ui-timepicker-selected");
+            tp._markSelected(_defaultRow(tp).get(0));
           } else if (!selected.is(":first-child")) {
-            selected.removeClass("ui-timepicker-selected");
-            selected.prev().addClass("ui-timepicker-selected");
+            tp._markSelected(selected.prev().get(0));
             if (selected.prev().position().top < selected.outerHeight()) {
               list.scrollTop(list.scrollTop() - selected.outerHeight());
             }
@@ -1494,16 +1587,9 @@
           // down
           selected = list.find(".ui-timepicker-selected");
           if (selected.length === 0) {
-            list.find("li").each(function (i, obj) {
-              if ($(obj).position().top > 0) {
-                selected = $(obj);
-                return false;
-              }
-            });
-            selected.addClass("ui-timepicker-selected");
+            tp._markSelected(_defaultRow(tp).get(0));
           } else if (!selected.is(":last-child")) {
-            selected.removeClass("ui-timepicker-selected");
-            selected.next().addClass("ui-timepicker-selected");
+            tp._markSelected(selected.next().get(0));
             if (selected.next().position().top + 2 * selected.outerHeight() > list.outerHeight()) {
               list.scrollTop(list.scrollTop() + selected.outerHeight());
             }
@@ -1511,7 +1597,7 @@
           return false;
         case 27:
           // escape
-          list.find("li").removeClass("ui-timepicker-selected");
+          tp._markSelected(null);
           tp.hideMe();
           break;
         case 9:

@@ -104,8 +104,10 @@ function _renderSelectItem(item) {
   return el;
 }
 
-function _renderStandardItem(item) {
+function _renderStandardItem(item, id) {
   const el = document.createElement("li");
+  el.id = id;
+  el.setAttribute("role", "option");
   el.dataset["time"] = item.value;
 
   if (item.className) {
@@ -123,19 +125,27 @@ function _renderStandardItem(item) {
 
   if (item.disabled) {
     el.classList.add("ui-timepicker-disabled");
+    el.setAttribute("aria-disabled", "true");
   }
 
   return el;
 }
 
-function _renderStandardList(items) {
+function _renderStandardList(items, tp) {
   const list = document.createElement("ul");
   list.classList.add("ui-timepicker-list");
+  list.id = tp.listId;
+  list.setAttribute("role", "listbox");
 
-  for (const item of items) {
-    const itemEl = _renderStandardItem(item);
-    list.appendChild(itemEl);
+  const labelIds = tp._labelIds();
+  if (labelIds.length) {
+    list.setAttribute("aria-labelledby", labelIds.join(" "));
   }
+
+  items.forEach((item, i) => {
+    const itemEl = _renderStandardItem(item, tp.listId + "-" + i);
+    list.appendChild(itemEl);
+  });
 
   const wrapper = document.createElement("div");
   wrapper.classList.add("ui-timepicker-wrapper");
@@ -174,7 +184,7 @@ function renderHtml(tp) {
   if (tp.settings.useSelect) {
     el = _renderSelectList(items, tp.targetEl.name);
   } else {
-    el = _renderStandardList(items);
+    el = _renderStandardList(items, tp);
   }
 
   if (tp.settings.className) {

@@ -2,12 +2,16 @@ import { DEFAULT_SETTINGS, DEFAULT_LANG } from "./defaults";
 import { ONE_DAY, EVENT_DEFAULTS } from "./constants";
 import { timeWindow } from "./rounding";
 
+let instanceCount = 0;
+
 class Timepicker {
   constructor(targetEl, options = {}) {
     this._handleFormatValue = this._handleFormatValue.bind(this);
     this._handleInput = this._handleInput.bind(this);
 
     this.targetEl = targetEl;
+    this.listId = "ui-timepicker-list-" + ++instanceCount;
+    this.expanded = false;
 
     const attrOptions = Timepicker.extractAttrOptions(
       targetEl,
@@ -60,12 +64,68 @@ class Timepicker {
     }
 
     this.list.hide();
+    this._setExpanded(false);
 
     const hideTimepickerEvent = new CustomEvent(
       "hideTimepicker",
       EVENT_DEFAULTS
     );
     this.targetEl.dispatchEvent(hideTimepickerEvent);
+  }
+
+  /*
+   *  Highlight a row, or clear the highlight when row is null. The input's
+   *  aria-activedescendant follows it so screen readers announce the row.
+   */
+  _markSelected(row) {
+    for (const el of this.list.find(".ui-timepicker-selected")) {
+      el.classList.remove("ui-timepicker-selected");
+      el.removeAttribute("aria-selected");
+    }
+
+    if (row) {
+      row.classList.add("ui-timepicker-selected");
+      row.setAttribute("aria-selected", "true");
+    }
+
+    this._updateActiveDescendant();
+  }
+
+  _setExpanded(expanded) {
+    this.expanded = expanded;
+    this.targetEl.setAttribute("aria-expanded", String(expanded));
+    this._updateActiveDescendant();
+  }
+
+  // only an open list has an active option
+  _updateActiveDescendant() {
+    const row =
+      this.expanded &&
+      this.list &&
+      this.list.find(".ui-timepicker-selected").get(0);
+
+    if (row) {
+      this.targetEl.setAttribute("aria-activedescendant", row.id);
+    } else {
+      this.targetEl.removeAttribute("aria-activedescendant");
+    }
+  }
+
+  /*
+   *  ids of the input's <label> elements, to name the listbox. Labels
+   *  without an id get one, which remove() takes off again.
+   */
+  _labelIds() {
+    const labels = Array.from(this.targetEl.labels || []);
+    this.addedLabelIds = this.addedLabelIds || [];
+
+    return labels.map((label, i) => {
+      if (!label.id) {
+        label.id = this.listId + "-label-" + i;
+        this.addedLabelIds.push(label);
+      }
+      return label.id;
+    });
   }
 
   _findRow(value) {
@@ -568,7 +628,7 @@ class Timepicker {
   _setSelected() {
     const list = this.list;
 
-    list.find("li").removeClass("ui-timepicker-selected");
+    this._markSelected(null);
 
     const timeValue = this.anytime2int(this._getTimeValue());
 
@@ -594,7 +654,7 @@ class Timepicker {
       const parsed = parseInt(selected.dataset.time);
 
       if (this.settings.forceRoundTime || parsed === timeValue) {
-        selected.classList.add("ui-timepicker-selected");
+        this._markSelected(selected);
       }
     }
   }
@@ -722,6 +782,7 @@ class Timepicker {
       this._setSelected();
     } else {
       this.list.hide();
+      this._setExpanded(false);
     }
   }
 }
