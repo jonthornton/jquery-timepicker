@@ -154,6 +154,10 @@ class Timepicker {
   }
 
   _selectValue() {
+    if (this.targetEl.matches(":disabled")) {
+      return false;
+    }
+
     var tp = this;
     var settings = tp.settings;
     var list = tp.list;
