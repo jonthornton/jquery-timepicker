@@ -336,6 +336,9 @@
     }, {
       key: "_selectValue",
       value: function _selectValue() {
+        if (this.targetEl.matches(":disabled")) {
+          return false;
+        }
         var tp = this;
         tp.settings;
         var list = tp.list;

@@ -27,6 +27,25 @@ test("show single string noneOption correctly", () => {
   expect($(el).val()).toEqual("");
 });
 
+test("preserves the time when an open picker input becomes disabled", () => {
+  el.value = "09:00";
+  $(el).timepicker({ timeFormat: "H:i", minTime: "09:00", maxTime: "12:00" });
+  $(el).timepicker("show");
+  const option = $('.ui-timepicker-list li[data-time="34200"]');
+  const onChangeTime = jest.fn();
+  el.addEventListener("changeTime", onChangeTime);
+
+  el.disabled = true;
+  option.trigger("click");
+  expect(el.value).toBe("09:00");
+  expect(onChangeTime).not.toHaveBeenCalled();
+
+  el.disabled = false;
+  option.trigger("click");
+  expect(el.value).toBe("09:30");
+  expect(onChangeTime).toHaveBeenCalledTimes(1);
+});
+
 test("timepicker can parse time value", () => {
   $(el).val("2:37pm");
   $(el).timepicker();
